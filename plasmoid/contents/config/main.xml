@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+  <kcfgfile name="qalculate"/>
+
+    <group name="Evalutation">
+        <entry name="convertToBestUnits" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="copyResultToClipboard" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="writeResultsInInputLineEdit" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="liveEvaluation" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="enableReversePolishNotation" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="structuringMode" type="Int">
+            <default>0</default>
+        </entry>
+        <entry name="angleUnit" type="Int">
+            <default>0</default>
+        </entry>
+        <entry name="expressionBase" type="Int">
+            <default>10</default>
+        </entry>
+        <entry name="resultBase" type="Int">
+            <default>10</default>
+        </entry>
+    </group>
+
+    <group name="Print">
+        <entry name="numberFractionFormat" type="Int">
+            <default>0</default>
+        </entry>
+        <entry name="numericalDisplay" type="Int">
+            <default>0</default>
+        </entry>
+        <entry name="indicateInfiniteSeries" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="useAllPrefixes" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="useDenominatorPrefix" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="negativeExponents" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="binary" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="octal" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="decimal" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="hexadecimal" type="Bool">
+            <default>false</default>
+        </entry>
+    </group>
+
+    <group name="Currency">
+        <entry name="UpdateExchangeRatesAtStartup" type="Bool">
+            <default>false</default>
+        </entry>
+    </group>
+</kcfg>
