@@ -21,14 +21,32 @@
 import QtQuick 2.2
 import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.1
+import org.kde.plasma.plasmoid 2.0
 
 Item {
 
-  property alias cfg_UpdateExchangeRatesAtStartup: cbUpdateExchangeRatesAtStartup.checked
+  property alias cfg_updateExchangeRatesAtStartup: cbUpdateExchangeRatesAtStartup.checked
+  property alias cfg_exchangeRatesTime: lLastUpdateValue.text
 
-  CheckBox {
-    id: cbUpdateExchangeRatesAtStartup
-    text: i18n("Update exchange rates at startup")
+  GridLayout {
+    anchors.left: parent.left
+    anchors.right: parent.right
+    columns: 2
+
+    CheckBox {
+      id: cbUpdateExchangeRatesAtStartup
+      text: i18n("Update exchange rates at startup")
+      Layout.columnSpan: 2
+    }
+
+    Label {
+      id: lLastUpdateLabel
+      text: i18nc("Exchange rates", "Last update") + ":"
+    }
+
+    Label {
+      id: lLastUpdateValue
+      text: cfg_updateExchangeRatesAtStartup
+    }
   }
-
 }

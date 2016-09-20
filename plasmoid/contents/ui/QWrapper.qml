@@ -21,6 +21,7 @@
 import QtQuick 2.2
 
 Item {
+    id: qwinstance
     property var qwr: null
     property bool initFailed: false
 
@@ -31,7 +32,7 @@ Item {
         if (!initFailed) {
             dbgprint('initializing QWrapper ...')
             try {
-                qwr = Qt.createQmlObject('import org.kde.private.qalculate 1.0 as QWR; QWR.QWrapper {}', qwrapper, 'QWrapper')
+                qwr = Qt.createQmlObject('import org.kde.private.qalculate 1.0 as QWR; QWR.QWrapper {}', qwinstance, 'QWrapper')
             } catch (e) {
                 print('QWrapper failed to initialize' + e)
                 initFailed = true
@@ -44,7 +45,10 @@ Item {
     function evaluate(expr) {
         var q = getInstance()
         if (q) {
-            return q.eval(expr)
+            var sep = plasmoid.configuration.decimalSeparator
+            if (plasmoid.configuration.useKDESeparator)
+              sep = Qt.locale().decimalPoint
+            return q.eval(expr, sep)
         } else {
             dbgprint('QWrapper is not available')
             return "Error"
@@ -71,20 +75,10 @@ Item {
         }
     }
 
-    function set_convert_to_best_units(value) {
+    function set_auto_post_conversion(value) {
         var q = getInstance()
         if (q) {
-            return q.set_convert_to_best_units(value)
-        } else {
-            dbgprint('QWrapper is not available')
-            return "Error"
-        }
-    }
-
-    function set_rpn_notation(value) {
-        var q = getInstance()
-        if (q) {
-            return q.set_rpn_notation(value)
+            return q.set_auto_post_conversion(value)
         } else {
             dbgprint('QWrapper is not available')
             return "Error"
@@ -185,6 +179,26 @@ Item {
         var q = getInstance()
         if (q) {
             return q.set_negative_exponents(value)
+        } else {
+            dbgprint('QWrapper is not available')
+            return "Error"
+        }
+    }
+
+    function update_exchange_rates() {
+        var q = getInstance()
+        if (q) {
+            return q.update_exchange_rates()
+        } else {
+            dbgprint('QWrapper is not available')
+            return "Error"
+        }
+    }
+
+    function get_exchange_rates_time() {
+        var q = getInstance()
+        if (q) {
+            return q.get_exchange_rates_time()
         } else {
             dbgprint('QWrapper is not available')
             return "Error"

@@ -1,0 +1,9 @@
+1. Copy the file po/plasma_applet_org.kde.plasma.qalculate_en.po
+   to po/plasma_applet_org.kde.plasma.qalculate_$LANG.po
+   where $LANG is the new language, e.g. "es" (or locale, e.g. "es_MX")
+
+2. In the copied file:
+   - change Language accordingly
+   - be sure to write your name :-) (as Last-Translator and Language-Team)
+
+Thank You for your translations!

@@ -20,6 +20,7 @@ find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED Quick)
 find_package(KF5Plasma ${KF5_MIN_VERSION} REQUIRED)
 
 add_subdirectory(plugin)
+add_subdirectory(translations)
 
 # Add installatation target ("make install").
 plasma_install_package(plasmoid org.kde.plasma.qalculate)

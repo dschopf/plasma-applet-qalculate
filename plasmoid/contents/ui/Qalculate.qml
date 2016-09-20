@@ -18,21 +18,18 @@
     License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.1
+import QtQuick 2.0
 import QtQuick.Controls 1.3
-import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.2
 import org.kde.plasma.plasmoid 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
 
 Item {
     id:main
 
     property bool fromCompact: false
-    property bool debugLogging: false
+    property bool debugLogging: true
 
-    property bool convertToBestUnits: plasmoid.configuration.convertToBestUnits
-    property bool enableReversePolishNotation: plasmoid.configuration.enableReversePolishNotation
+    property int unitConversion: plasmoid.configuration.unitConversion
     property int structuringMode: plasmoid.configuration.structuringMode
     property int angleUnit: plasmoid.configuration.angleUnit
     property int expressionBase: plasmoid.configuration.expressionBase
@@ -49,25 +46,30 @@ Item {
         if (!debugLogging) {
             return
         }
-        print('[qualculate] ' + msg)
+        print('[Qalculate!] ' + msg)
     }
 
     Plasmoid.compactRepresentation: CompactRepresentation {}
     Plasmoid.fullRepresentation: FullRepresentation {}
 
-    QWrapper {
-        id: qwrapper
-    }
-
     Plasmoid.toolTipMainText: i18n("Qalculate!")
     Plasmoid.icon: Qt.resolvedUrl('../images/Qalculate.svg')
 
-    onConvertToBestUnitsChanged: {
-      qwrapper.set_convert_to_best_units(convertToBestUnits)
+    QWrapper {
+      id: qwrapper
     }
 
-    onEnableReversePolishNotationChanged: {
-      qwrapper.set_rpn_notation(enableReversePolishNotation)
+    Component.onCompleted: {
+      if (plasmoid.configuration.updateExchangeRatesAtStartup) {
+        qwrapper.update_exchange_rates()
+        plasmoid.configuration.exchangeRatesTime = new Date().toLocaleString(Qt.locale())
+      } else {
+        plasmoid.configuration.exchangeRatesTime = qwrapper.get_exchange_rates_time()
+      }
+    }
+
+    onUnitConversionChanged: {
+      qwrapper.set_auto_post_conversion(unitConversion)
     }
 
     onStructuringModeChanged: {

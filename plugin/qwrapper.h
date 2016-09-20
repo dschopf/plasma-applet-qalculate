@@ -2,6 +2,7 @@
 #define QWRAPPER_H
 
 #include <memory>
+#include <QNetworkAccessManager>
 #include <QObject>
 
 #include <libqalculate/qalculate.h>
@@ -17,13 +18,13 @@ class QWrapper : public QObject
     ~QWrapper();
 
   public Q_SLOTS:
-    QString eval(QString const& expr);
+    QString eval(QString const& expr, QString const& decimal_separator);
     bool last_result_is_integer();
     QString get_last_result_as(int const base);
+    QString get_exchange_rates_time();
 
     // evaluation settings
-    void set_convert_to_best_units(bool const value);
-    void set_rpn_notation(bool const value);
+    void set_auto_post_conversion(int const value);
     void set_structuring_mode(int const mode);
     void set_angle_unit(int const unit);
     void set_expression_base(int const base);
@@ -37,11 +38,17 @@ class QWrapper : public QObject
     void set_use_denominator_prefix(bool const value);
     void set_negative_exponents(bool const value);
 
+    void update_exchange_rates();
+
   private:
     std::unique_ptr<Calculator> m_pcalc;
     MathStructure m_result;
     EvaluationOptions m_eval_options;
     PrintOptions m_print_options;
+    QNetworkAccessManager m_netmgr;
+
+  private slots:
+    void fileDownloaded(QNetworkReply* pReply);
 };
 
 #endif // QWRAPPER_H

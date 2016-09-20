@@ -1,7 +1,10 @@
 #include "qwrapper.h"
 
 #include <QDebug>
+#include <QFile>
 #include <QLocale>
+#include <QNetworkReply>
+#include <QNetworkRequest>
 
 QWrapper::QWrapper(QObject *parent)
   : QObject(parent)
@@ -9,10 +12,12 @@ QWrapper::QWrapper(QObject *parent)
   , m_result()
   , m_eval_options()
   , m_print_options()
+  , m_netmgr()
 {
   m_pcalc.reset(new Calculator());
   m_pcalc->loadGlobalDefinitions();
   m_pcalc->loadLocalDefinitions();
+  m_pcalc->loadExchangeRates();
 
   m_eval_options.auto_post_conversion = POST_CONVERSION_NONE;
   m_eval_options.keep_zero_units = false;
@@ -30,7 +35,7 @@ QWrapper::QWrapper(QObject *parent)
   m_print_options.negative_exponents = false;
   m_print_options.lower_case_e = true;
   m_print_options.base = 10;
-  m_print_options.decimalpoint_sign = QLocale().decimalPoint().toLatin1();
+  m_print_options.decimalpoint_sign = ".";
   m_print_options.min_exp = EXP_NONE;
 }
 
@@ -38,19 +43,26 @@ QWrapper::~QWrapper()
 {
 }
 
-QString QWrapper::eval(QString const& expr)
+QString QWrapper::eval(QString const& expr, QString const& decimal_separator)
 {
   if (expr.isEmpty())
     return QString();
 
-  QString input = expr;
-  QByteArray ba = input.replace(QChar(0xA3), "GBP").replace(QChar(0xA5), "JPY").replace("$", "USD").replace(QChar(0x20AC), "EUR").toLatin1();
+  QString temp = expr;
+  if (!decimal_separator.isEmpty() && decimal_separator.compare(".") != 0)
+    temp.replace(decimal_separator, ".");
+  QByteArray ba = temp.replace(QChar(0xA3), "GBP").replace(QChar(0xA5), "JPY").replace("$", "USD").replace(QChar(0x20AC), "EUR").toLatin1();
   char const* ctext = ba.data();
 
   m_result = m_pcalc->calculate(ctext, m_eval_options);
   m_result.format(m_print_options);
 
-  return m_result.print(m_print_options).c_str();
+  temp = m_result.print(m_print_options).c_str();
+
+  if (!decimal_separator.isEmpty() && decimal_separator.compare(".") != 0)
+    temp.replace(".", decimal_separator);
+
+  return temp;
 }
 
 bool QWrapper::last_result_is_integer()
@@ -72,14 +84,26 @@ QString QWrapper::get_last_result_as(int const base)
   return m_result.print(po).c_str();
 }
 
-void QWrapper::set_convert_to_best_units(const bool value)
+QString QWrapper::get_exchange_rates_time()
 {
-  m_eval_options.auto_post_conversion = value ? POST_CONVERSION_BEST : POST_CONVERSION_NONE;
+  QDateTime dt;
+  dt.setTime_t(m_pcalc->getExchangeRatesTime());
+  return QLocale().toString(dt);
 }
 
-void QWrapper::set_rpn_notation(bool const value)
+void QWrapper::set_auto_post_conversion(int const value)
 {
-  m_eval_options.parse_options.rpn = value;
+  switch (value) {
+    case 0:
+      m_eval_options.auto_post_conversion = POST_CONVERSION_NONE;
+      break;
+    case 1:
+      m_eval_options.auto_post_conversion = POST_CONVERSION_BEST;
+      break;
+    case 2:
+      m_eval_options.auto_post_conversion = POST_CONVERSION_BASE;
+      break;
+  }
 }
 
 void QWrapper::set_structuring_mode(int const mode)
@@ -184,4 +208,40 @@ void QWrapper::set_use_denominator_prefix(const bool value)
 void QWrapper::set_negative_exponents(const bool value)
 {
   m_print_options.negative_exponents = value;
+}
+
+void QWrapper::update_exchange_rates()
+{
+  connect(&m_netmgr, SIGNAL (finished(QNetworkReply*)), SLOT (fileDownloaded(QNetworkReply*)));
+
+  QNetworkRequest req(QUrl(m_pcalc->getExchangeRatesUrl().c_str()));
+
+  req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+
+  m_netmgr.get(req);
+}
+
+void QWrapper::fileDownloaded(QNetworkReply* pReply)
+{
+  if (pReply->error() != QNetworkReply::NoError) {
+    qDebug() << "[Qalculate!] Error downloading exchange rates (" << pReply->error() << "): " << pReply->errorString();
+  }
+
+  QByteArray data = pReply->readAll();
+
+  pReply->deleteLater();
+
+  QFile file(m_pcalc->getExchangeRatesFileName().c_str());
+
+  if (!file.open(QIODevice::WriteOnly)) {
+    qDebug() << "[Qalculate!] Error opening echange rates file";
+    return;
+  }
+
+  QTextStream stream(&file);
+  stream << data;
+  stream.flush();
+  file.close();
+
+  m_pcalc->loadExchangeRates();
 }

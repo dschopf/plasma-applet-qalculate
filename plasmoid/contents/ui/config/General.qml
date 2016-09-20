@@ -18,28 +18,39 @@
     License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.2
-import org.kde.plasma.configuration 2.0
+import QtQuick 2.1
+import QtQuick.Controls 1.3
+import QtQuick.Layouts 1.1
 
-ConfigModel {
-    ConfigCategory {
-         name: i18n('General')
-         icon: Qt.resolvedUrl('../images/Qalculate.svg').replace('file://', '')
-         source: 'config/General.qml'
+Item {
+
+  property alias cfg_copyResultToClipboard:         chbCopyResultToClipboard.checked
+  property alias cfg_writeResultsInInputLineEdit:   chbWriteResultsInInputLineEdit.checked
+  property alias cfg_liveEvaluation:                chbLiveEvaluation.checked
+
+  GridLayout {
+    anchors.left: parent.left
+    anchors.right: parent.right
+    columns: 2
+
+    CheckBox {
+      id: chbCopyResultToClipboard
+      text: i18n("Copy result to clipboard")
+      tooltip: i18n("Only works when pressing Return")
+      Layout.columnSpan: 2
     }
-    ConfigCategory {
-         name: i18n('Input')
-         icon: Qt.resolvedUrl('../images/Qalculate.svg').replace('file://', '')
-         source: 'config/Input.qml'
+
+    CheckBox {
+      id: chbWriteResultsInInputLineEdit
+      text: i18n("Write results in input line edit")
+      tooltip: i18n("Only works when pressing Return")
+      Layout.columnSpan: 2
     }
-    ConfigCategory {
-         name: i18n('Output')
-         icon: Qt.resolvedUrl('../images/Qalculate.svg').replace('file://', '')
-         source: 'config/Output.qml'
+
+    CheckBox {
+      id: chbLiveEvaluation
+      text: i18n("Live evaluation")
+      Layout.columnSpan: 2
     }
-    ConfigCategory {
-         name: i18n('Currency')
-         icon: Qt.resolvedUrl('../images/Qalculate.svg').replace('file://', '')
-         source: 'config/Currency.qml'
-    }
+  }
 }

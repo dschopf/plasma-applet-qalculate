@@ -59,6 +59,14 @@ Item {
       inputMethodHints: Qt.ImhNoPredictiveText
       onAccepted: {
         onNewInput(inputQuery.text)
+        if (plasmoid.configuration.copyResultToClipboard) {
+          clipcopy.text = lResult.text
+          clipcopy.selectAll()
+          clipcopy.copy()
+        }
+        if (plasmoid.configuration.writeResultsInInputLineEdit) {
+          text = lResult.text
+        }
       }
       onTextChanged: {
         if (plasmoid.configuration.liveEvaluation)
@@ -74,6 +82,13 @@ Item {
         }
       }
     }
+  }
+
+  // invisible TextEdit for copying the result
+  // to the clipboard
+  TextEdit {
+    id: clipcopy
+    visible: false
   }
 
   ColumnLayout{
@@ -103,7 +118,7 @@ Item {
 
     Label {
       id: lResult
-      text: "Result"
+      text: i18n("Result")
       visible: false
       anchors.horizontalCenter: parent.horizontalCenter
       font.bold: true

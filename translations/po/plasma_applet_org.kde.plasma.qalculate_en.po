@@ -1,0 +1,268 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
+"POT-Creation-Date: 2016-09-20 19:32+0200\n"
+"PO-Revision-Date: 2016-09-12 19:18+0200\n"
+"Last-Translator: Daniel Schopf <schopf.dan@gmail.com>\n"
+"Language-Team: Daniel Schopf <schopf.dan@gmail.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../plasmoid/contents/config/config.qml:26
+msgid "General"
+msgstr ""
+
+#: ../plasmoid/contents/config/config.qml:31
+msgid "Input"
+msgstr ""
+
+#: ../plasmoid/contents/config/config.qml:36
+msgid "Output"
+msgstr ""
+
+#: ../plasmoid/contents/config/config.qml:41
+msgid "Currency"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Currency.qml:38
+msgid "Update exchange rates at startup"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Currency.qml:44
+msgctxt "Exchange rates"
+msgid "Last update"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/General.qml:38
+msgid "Copy result to clipboard"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/General.qml:39
+#: ../plasmoid/contents/ui/config/General.qml:46
+msgid "Only works when pressing Return"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/General.qml:45
+msgid "Write results in input line edit"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/General.qml:52
+msgid "Live evaluation"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:86
+msgid "Unit conversion"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:105
+msgctxt "Unit conversion"
+msgid "None"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:109
+msgctxt "Unit conversion"
+msgid "Do not do any conversion of units in addition to syncing."
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:115
+msgctxt "Unit conversion"
+msgid "Best"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:119
+msgctxt "Unit conversion"
+msgid "Convert to the best suited SI units (the least amount of units)."
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:125
+msgctxt "Unit conversion"
+msgid "Base"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:129
+msgctxt "Unit conversion"
+msgid "Convert to base units."
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:135
+msgid "Structuring mode"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:154
+msgctxt "Structuring mode"
+msgid "None"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:158
+msgctxt "Structuring mode"
+msgid "Do not do any factorization or additional simplifications."
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:164
+msgctxt "Structuring mode"
+msgid "Simplify"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:168
+msgctxt "Structuring mode"
+msgid "Simplify the result as much as possible."
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:174
+msgctxt "Structuring mode"
+msgid "Factorize"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:178
+msgctxt "Structuring mode"
+msgid "Factorize the result."
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:189
+msgid "Decimal separator"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:204
+msgid "Use KDE setting"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:209
+msgid "Angle unit:"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:218
+msgctxt "Angle Unit"
+msgid "None"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:219
+msgctxt "Angle Unit"
+msgid "Radians"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:220
+msgctxt "Angle Unit"
+msgid "Degrees"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:221
+msgctxt "Angle Unit"
+msgid "Gradians"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:228
+msgid "Expression base:"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:45
+msgid "Number fraction format:"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:54
+msgctxt "FractionFormat"
+msgid "Decimal"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:55
+msgctxt "FractionFormat"
+msgid "Exact"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:56
+msgctxt "FractionFormat"
+msgid "Fractional"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:57
+msgctxt "FractionFormat"
+msgid "Combined"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:64
+msgid "Numerical display:"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:73
+msgctxt "NumericalDisplay"
+msgid "None"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:74
+msgctxt "NumericalDisplay"
+msgid "Pure"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:75
+msgctxt "NumericalDisplay"
+msgid "Scientific"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:76
+msgctxt "NumericalDisplay"
+msgid "Precision"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:77
+msgctxt "NumericalDisplay"
+msgid "Engineering"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:85
+msgid "Indicate infinite series"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:91
+msgid "Use all prefixes"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:97
+msgid "Use denominator prefix"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:103
+msgid "Negative exponents"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:108
+msgid "Show integers also in base:"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:117
+msgid "Binary"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:122
+msgid "Octal"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:127
+msgid "Decimal"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:132
+msgid "Hexadecimal"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:138
+msgid "Result base:"
+msgstr ""
+
+#: ../plasmoid/contents/ui/FullRepresentation.qml:58
+msgid "Enter an expression"
+msgstr ""
+
+#: ../plasmoid/contents/ui/FullRepresentation.qml:121
+msgid "Result"
+msgstr ""
+
+#: ../plasmoid/contents/ui/Qalculate.qml:55
+msgid "Qalculate!"
+msgstr ""

@@ -5,10 +5,7 @@
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
   <kcfgfile name="qalculate"/>
 
-    <group name="Evalutation">
-        <entry name="convertToBestUnits" type="Bool">
-            <default>false</default>
-        </entry>
+    <group name="General">
         <entry name="copyResultToClipboard" type="Bool">
             <default>false</default>
         </entry>
@@ -18,11 +15,20 @@
         <entry name="liveEvaluation" type="Bool">
             <default>false</default>
         </entry>
-        <entry name="enableReversePolishNotation" type="Bool">
-            <default>false</default>
+    </group>
+
+    <group name="Input">
+        <entry name="unitConversion" type="Int">
+            <default>0</default>
         </entry>
         <entry name="structuringMode" type="Int">
             <default>0</default>
+        </entry>
+        <entry name="decimalSeparator" type="String">
+            <default></default>
+        </entry>
+        <entry name="useKDESeparator" type="Bool">
+            <default>true</default>
         </entry>
         <entry name="angleUnit" type="Int">
             <default>0</default>
@@ -30,12 +36,9 @@
         <entry name="expressionBase" type="Int">
             <default>10</default>
         </entry>
-        <entry name="resultBase" type="Int">
-            <default>10</default>
-        </entry>
     </group>
 
-    <group name="Print">
+    <group name="Output">
         <entry name="numberFractionFormat" type="Int">
             <default>0</default>
         </entry>
@@ -66,11 +69,17 @@
         <entry name="hexadecimal" type="Bool">
             <default>false</default>
         </entry>
+        <entry name="resultBase" type="Int">
+            <default>10</default>
+        </entry>
     </group>
 
     <group name="Currency">
-        <entry name="UpdateExchangeRatesAtStartup" type="Bool">
+        <entry name="updateExchangeRatesAtStartup" type="Bool">
             <default>false</default>
+        </entry>
+        <entry name="exchangeRatesTime" type="String">
+            <default>123</default>
         </entry>
     </group>
 </kcfg>

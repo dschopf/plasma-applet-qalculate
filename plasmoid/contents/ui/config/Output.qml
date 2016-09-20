@@ -34,9 +34,9 @@ Item {
   property alias cfg_octal: chbOctal.checked
   property alias cfg_decimal: chbDecimal.checked
   property alias cfg_hexadecimal: chbHexadecimal.checked
+  property alias cfg_resultBase: sbResultBase.value
 
   GridLayout {
-
     anchors.left: parent.left
     anchors.right: parent.right
     columns: 2
@@ -49,10 +49,14 @@ Item {
     ComboBox {
       id: cobNumberFractionFormat
       model: ListModel {
-        ListElement { text: "Decimal" }
-        ListElement { text: "Exact" }
-        ListElement { text: "Fractional" }
-        ListElement { text: "Combined" }
+        Component.onCompleted: {
+            var arr = [] // use temp array to avoid constant binding stuff
+            arr.push({text: i18nc("FractionFormat", "Decimal")})
+            arr.push({text: i18nc("FractionFormat", "Exact")})
+            arr.push({text: i18nc("FractionFormat", "Fractional")})
+            arr.push({text: i18nc("FractionFormat", "Combined")})
+            append(arr)
+        }
       }
     }
 
@@ -64,11 +68,15 @@ Item {
     ComboBox {
       id: cobNumericalDisplay
       model: ListModel {
-        ListElement { text: "None" }
-        ListElement { text: "Pure" }
-        ListElement { text: "Scientific" }
-        ListElement { text: "Precision" }
-        ListElement { text: "Engineering" }
+        Component.onCompleted: {
+            var arr = [] // use temp array to avoid constant binding stuff
+            arr.push({text: i18nc("NumericalDisplay", "None")})
+            arr.push({text: i18nc("NumericalDisplay", "Pure")})
+            arr.push({text: i18nc("NumericalDisplay", "Scientific")})
+            arr.push({text: i18nc("NumericalDisplay", "Precision")})
+            arr.push({text: i18nc("NumericalDisplay", "Engineering")})
+            append(arr)
+        }
       }
     }
 
@@ -124,6 +132,19 @@ Item {
           text: i18n("Hexadecimal")
         }
       }
+    }
+
+    Label {
+      text: i18n('Result base:')
+      Layout.alignment: Qt.AlignVCenter|Qt.AlignRight
+    }
+
+    SpinBox {
+      id: sbResultBase
+      decimals: 0
+      stepSize: 1
+      minimumValue: 1
+      maximumValue: 64
     }
   }
 }
