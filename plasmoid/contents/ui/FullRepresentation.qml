@@ -120,6 +120,7 @@ Item {
       id: lResult
       text: i18n("Result")
       visible: false
+      color: theme.textColor
       anchors.horizontalCenter: parent.horizontalCenter
       font.bold: true
       font.pixelSize: 40
@@ -129,6 +130,7 @@ Item {
       id: loutputBase
       text: plasmoid.configuration.resultBase
       visible: false
+      color: theme.textColor
       anchors.left: lResult.right
       anchors.top: lResult.verticalCenter
       font.bold: true
@@ -139,6 +141,7 @@ Item {
       id: outputBinary
       text: "ResultBinary"
       visible: false
+      color: theme.textColor
       anchors.horizontalCenter: parent.horizontalCenter
       font.pixelSize: 18
     }
@@ -147,6 +150,7 @@ Item {
       id: outputOctal
       text: "ResultOctal"
       visible: false
+      color: theme.textColor
       anchors.horizontalCenter: parent.horizontalCenter
       font.pixelSize: 18
     }
@@ -155,6 +159,7 @@ Item {
       id: outputDecimal
       text: "ResultDecimal"
       visible: false
+      color: theme.textColor
       anchors.horizontalCenter: parent.horizontalCenter
       font.pixelSize: 18
     }
@@ -163,6 +168,7 @@ Item {
       id: outputHex
       text: "ResultHex"
       visible: false
+      color: theme.textColor
       anchors.horizontalCenter: parent.horizontalCenter
       font.pixelSize: 18
     }
