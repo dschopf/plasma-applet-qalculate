@@ -29,6 +29,8 @@ Item {
     property bool fromCompact: false
     property bool debugLogging: false
 
+    property int timeout: plasmoid.configuration.timeout
+
     property int unitConversion: plasmoid.configuration.unitConversion
     property int structuringMode: plasmoid.configuration.structuringMode
     property string decimalSeparator: plasmoid.configuration.decimalSeparator
@@ -115,5 +117,9 @@ Item {
 
     onDecimalSeparatorChanged: {
       qwrapper.set_decimal_separator(decimalSeparator)
+    }
+
+    onTimeoutChanged: {
+      qwrapper.set_timeout(timeout)
     }
 }

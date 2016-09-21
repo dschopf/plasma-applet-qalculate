@@ -221,4 +221,14 @@ Item {
             return "Error"
         }
     }
+
+    function set_timeout(timeout) {
+        var q = getInstance()
+        if (q) {
+            return q.set_timeout(timeout)
+        } else {
+            dbgprint('QWrapper is not available')
+            return "Error"
+        }
+    }
 }

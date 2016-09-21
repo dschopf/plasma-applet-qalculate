@@ -40,7 +40,7 @@ Item {
 
     Label {
       id: lLastUpdateLabel
-      text: i18nc("Exchange rates", "Last update") + ":"
+      text: i18nc("Exchange rates", "Last update") + ':'
     }
 
     Label {

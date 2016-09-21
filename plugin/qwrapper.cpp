@@ -13,6 +13,7 @@ QWrapper::QWrapper(QObject *parent)
   , m_eval_options()
   , m_print_options()
   , m_netmgr()
+  , m_timeout(10000)
 {
   m_pcalc.reset(new Calculator());
   m_pcalc->loadGlobalDefinitions();
@@ -50,10 +51,22 @@ QString QWrapper::eval(QString const& input)
 
   auto expr = m_pcalc->unlocalizeExpression(input.toStdString(), m_eval_options.parse_options);
 
-  m_result = m_pcalc->calculate(expr.c_str(), m_eval_options);
-  m_result.format(m_print_options);
+  auto ret = m_pcalc->calculate(&m_result, expr, m_timeout, m_eval_options);
+  if (!ret)
+#if defined(HAVE_QALCULATE_0_9_8)
+    return m_pcalc->timedOutString().c_str();
+#else
+    return QString("timed out");
+#endif // HAVE_QALCULATE_0_9_8
 
-  return QString(m_result.print(m_print_options).c_str());
+  QString res = m_pcalc->printMathStructureTimeOut(m_result, m_timeout, m_print_options).c_str();
+
+#if defined(HAVE_QALCULATE_0_9_8)
+  if (m_pcalc->printingAborted())
+    return m_pcalc->timedOutString().c_str();
+#endif // HAVE_QALCULATE_0_9_8
+
+  return res;
 }
 
 bool QWrapper::last_result_is_integer()
@@ -95,6 +108,11 @@ void QWrapper::set_decimal_separator(QString const& separator)
     m_print_options.decimalpoint_sign = '.';
     m_pcalc->useDecimalPoint();
   }
+}
+
+void QWrapper::set_timeout(int const timeout)
+{
+  m_timeout = timeout;
 }
 
 void QWrapper::set_auto_post_conversion(int const value)

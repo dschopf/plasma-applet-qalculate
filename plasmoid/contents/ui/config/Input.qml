@@ -210,7 +210,7 @@ Item {
     }
 
     Label {
-      text: i18n('Angle unit:')
+      text: i18n("Angle unit") + ':'
       Layout.alignment: Qt.AlignVCenter|Qt.AlignRight
     }
 
@@ -229,7 +229,7 @@ Item {
     }
 
     Label {
-      text: i18n('Expression base:')
+      text: i18n("Expression base") + ':'
       Layout.alignment: Qt.AlignVCenter|Qt.AlignRight
     }
 

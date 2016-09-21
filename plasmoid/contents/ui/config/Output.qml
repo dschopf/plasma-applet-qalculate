@@ -42,7 +42,7 @@ Item {
     columns: 2
 
     Label {
-      text: i18n('Number fraction format:')
+      text: i18n("Number fraction format") + ':'
       Layout.alignment: Qt.AlignVCenter|Qt.AlignRight
     }
 
@@ -61,7 +61,7 @@ Item {
     }
 
     Label {
-      text: i18n('Numerical display:')
+      text: i18n("Numerical display") + ':'
       Layout.alignment: Qt.AlignVCenter|Qt.AlignRight
     }
 
@@ -105,7 +105,7 @@ Item {
     }
 
     GroupBox {
-      title: i18n("Show integers also in base:")
+      title: i18n("Show integers also in base") + ':'
       flat: false
       checkable: false
       Layout.fillWidth: true
@@ -135,7 +135,7 @@ Item {
     }
 
     Label {
-      text: i18n('Result base:')
+      text: i18n("Result base") + ':'
       Layout.alignment: Qt.AlignVCenter|Qt.AlignRight
     }
 

@@ -23,6 +23,7 @@ class QWrapper : public QObject
     QString get_last_result_as(int const base);
     QString get_exchange_rates_time();
     void set_decimal_separator(QString const& separator);
+    void set_timeout(int const timeout);
 
     // evaluation settings
     void set_auto_post_conversion(int const value);
@@ -49,6 +50,7 @@ class QWrapper : public QObject
     EvaluationOptions m_eval_options;
     PrintOptions m_print_options;
     QNetworkAccessManager m_netmgr;
+    int m_timeout;
 
   private slots:
     void fileDownloaded(QNetworkReply* pReply);
