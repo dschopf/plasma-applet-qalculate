@@ -63,7 +63,7 @@ Item {
       if (plasmoid.configuration.updateExchangeRatesAtStartup) {
         qwrapper.update_exchange_rates()
         plasmoid.configuration.exchangeRatesTime = new Date().toLocaleString(Qt.locale())
-      } else {
+      } else if (qwrapper.supports_exchange_rates_time()) {
         plasmoid.configuration.exchangeRatesTime = qwrapper.get_exchange_rates_time()
       }
     }

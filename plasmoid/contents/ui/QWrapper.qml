@@ -195,6 +195,16 @@ Item {
         }
     }
 
+    function supports_exchange_rates_time() {
+        var q = getInstance()
+        if (q) {
+            return q.supports_exchange_rates_time()
+        } else {
+            dbgprint('QWrapper is not available')
+            return "Error"
+        }
+    }
+
     function get_exchange_rates_time() {
         var q = getInstance()
         if (q) {

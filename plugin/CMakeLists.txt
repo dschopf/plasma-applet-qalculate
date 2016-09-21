@@ -1,3 +1,11 @@
+find_package(PkgConfig)
+pkg_check_modules (QALCULATE REQUIRED libqalculate)
+pkg_check_modules (QALCULATE_NEW QUIET libqalculate>=0.9.8)
+
+IF (${QALCULATE_NEW_FOUND})
+    add_definitions(-DHAVE_QALCULATE_0_9_8)
+ENDIF (${QALCULATE_NEW_FOUND})
+
 kde_enable_exceptions()
 
 set(plasmoidplugin_SRCS plasmoidplugin.cpp qwrapper.cpp)

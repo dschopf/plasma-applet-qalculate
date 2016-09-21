@@ -38,6 +38,8 @@ class QWrapper : public QObject
     void set_use_denominator_prefix(bool const value);
     void set_negative_exponents(bool const value);
 
+    // currency settings
+    bool supports_exchange_rates_time();
     void update_exchange_rates();
 
   private:

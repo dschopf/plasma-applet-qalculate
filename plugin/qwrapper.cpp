@@ -86,9 +86,13 @@ QString QWrapper::get_last_result_as(int const base)
 
 QString QWrapper::get_exchange_rates_time()
 {
+#if defined(HAVE_QALCULATE_0_9_8)
   QDateTime dt;
   dt.setTime_t(m_pcalc->getExchangeRatesTime());
   return QLocale().toString(dt);
+#else
+  return QString();
+#endif // HAVE_QALCULATE_0_9_8
 }
 
 void QWrapper::set_auto_post_conversion(int const value)
@@ -208,6 +212,15 @@ void QWrapper::set_use_denominator_prefix(const bool value)
 void QWrapper::set_negative_exponents(const bool value)
 {
   m_print_options.negative_exponents = value;
+}
+
+bool QWrapper::supports_exchange_rates_time()
+{
+#if defined(HAVE_QALCULATE_0_9_8)
+  return true;
+#else
+  return false;
+#endif // HAVE_QALCULATE_0_9_8
 }
 
 void QWrapper::update_exchange_rates()
