@@ -27,10 +27,11 @@ Item {
     id:main
 
     property bool fromCompact: false
-    property bool debugLogging: true
+    property bool debugLogging: false
 
     property int unitConversion: plasmoid.configuration.unitConversion
     property int structuringMode: plasmoid.configuration.structuringMode
+    property string decimalSeparator: plasmoid.configuration.decimalSeparator
     property int angleUnit: plasmoid.configuration.angleUnit
     property int expressionBase: plasmoid.configuration.expressionBase
     property int resultBase: plasmoid.configuration.resultBase
@@ -110,5 +111,9 @@ Item {
 
     onNegativeExponentsChanged: {
       qwrapper.set_negative_exponents(negativeExponents)
+    }
+
+    onDecimalSeparatorChanged: {
+      qwrapper.set_decimal_separator(decimalSeparator)
     }
 }

@@ -25,7 +25,7 @@
             <default>0</default>
         </entry>
         <entry name="decimalSeparator" type="String">
-            <default></default>
+            <default>.</default>
         </entry>
         <entry name="useKDESeparator" type="Bool">
             <default>true</default>

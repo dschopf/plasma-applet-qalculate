@@ -45,10 +45,7 @@ Item {
     function evaluate(expr) {
         var q = getInstance()
         if (q) {
-            var sep = plasmoid.configuration.decimalSeparator
-            if (plasmoid.configuration.useKDESeparator)
-              sep = Qt.locale().decimalPoint
-            return q.eval(expr, sep)
+            return q.eval(expr)
         } else {
             dbgprint('QWrapper is not available')
             return "Error"
@@ -209,6 +206,16 @@ Item {
         var q = getInstance()
         if (q) {
             return q.get_exchange_rates_time()
+        } else {
+            dbgprint('QWrapper is not available')
+            return "Error"
+        }
+    }
+
+    function set_decimal_separator(separator) {
+        var q = getInstance()
+        if (q) {
+            return q.set_decimal_separator(separator)
         } else {
             dbgprint('QWrapper is not available')
             return "Error"

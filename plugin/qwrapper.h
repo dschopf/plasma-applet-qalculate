@@ -18,10 +18,11 @@ class QWrapper : public QObject
     ~QWrapper();
 
   public Q_SLOTS:
-    QString eval(QString const& expr, QString const& decimal_separator);
+    QString eval(QString const& input);
     bool last_result_is_integer();
     QString get_last_result_as(int const base);
     QString get_exchange_rates_time();
+    void set_decimal_separator(QString const& separator);
 
     // evaluation settings
     void set_auto_post_conversion(int const value);

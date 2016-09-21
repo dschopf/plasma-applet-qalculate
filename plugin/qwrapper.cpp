@@ -18,6 +18,7 @@ QWrapper::QWrapper(QObject *parent)
   m_pcalc->loadGlobalDefinitions();
   m_pcalc->loadLocalDefinitions();
   m_pcalc->loadExchangeRates();
+  m_pcalc->useDecimalPoint();
 
   m_eval_options.auto_post_conversion = POST_CONVERSION_NONE;
   m_eval_options.keep_zero_units = false;
@@ -35,7 +36,6 @@ QWrapper::QWrapper(QObject *parent)
   m_print_options.negative_exponents = false;
   m_print_options.lower_case_e = true;
   m_print_options.base = 10;
-  m_print_options.decimalpoint_sign = ".";
   m_print_options.min_exp = EXP_NONE;
 }
 
@@ -43,26 +43,17 @@ QWrapper::~QWrapper()
 {
 }
 
-QString QWrapper::eval(QString const& expr, QString const& decimal_separator)
+QString QWrapper::eval(QString const& input)
 {
-  if (expr.isEmpty())
+  if (input.isEmpty())
     return QString();
 
-  QString temp = expr;
-  if (!decimal_separator.isEmpty() && decimal_separator.compare(".") != 0)
-    temp.replace(decimal_separator, ".");
-  QByteArray ba = temp.replace(QChar(0xA3), "GBP").replace(QChar(0xA5), "JPY").replace("$", "USD").replace(QChar(0x20AC), "EUR").toLatin1();
-  char const* ctext = ba.data();
+  auto expr = m_pcalc->unlocalizeExpression(input.toStdString(), m_eval_options.parse_options);
 
-  m_result = m_pcalc->calculate(ctext, m_eval_options);
+  m_result = m_pcalc->calculate(expr.c_str(), m_eval_options);
   m_result.format(m_print_options);
 
-  temp = m_result.print(m_print_options).c_str();
-
-  if (!decimal_separator.isEmpty() && decimal_separator.compare(".") != 0)
-    temp.replace(".", decimal_separator);
-
-  return temp;
+  return QString(m_result.print(m_print_options).c_str());
 }
 
 bool QWrapper::last_result_is_integer()
@@ -93,6 +84,17 @@ QString QWrapper::get_exchange_rates_time()
 #else
   return QString();
 #endif // HAVE_QALCULATE_0_9_8
+}
+
+void QWrapper::set_decimal_separator(QString const& separator)
+{
+  if (separator.compare(",") == 0) {
+    m_print_options.decimalpoint_sign = ',';
+    m_pcalc->useDecimalComma();
+  } else {
+    m_print_options.decimalpoint_sign = '.';
+    m_pcalc->useDecimalPoint();
+  }
 }
 
 void QWrapper::set_auto_post_conversion(int const value)

@@ -65,8 +65,6 @@ Item {
   Component.onCompleted: {
     cfg_unitConversionChanged()
     cfg_structuringModeChanged()
-    if (!cfg_useKDESeparator)
-      tfDecimalSeparator.text  = cfg_decimalSeparator
   }
 
   ExclusiveGroup {
@@ -202,6 +200,12 @@ Item {
       CheckBox {
         id: cbUseKDESetting
         text: i18n("Use KDE setting") + ": \"" + Qt.locale().decimalPoint + "\""
+        onCheckedChanged: {
+          if (checked)
+            cfg_decimalSeparator = Qt.locale().decimalPoint
+          else
+            cfg_decimalSeparator = tfDecimalSeparator.text
+        }
       }
     }
 
