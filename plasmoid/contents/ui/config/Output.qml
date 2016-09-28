@@ -24,7 +24,7 @@ import QtQuick.Layouts 1.0
 
 Item {
 
-  property alias cfg_numberFractionFormat: cobNumberFractionFormat.currentIndex
+  property int cfg_numberFractionFormat
   property alias cfg_numericalDisplay: cobNumericalDisplay.currentIndex
   property alias cfg_indicateInfiniteSeries: chbIndicateInfiniteSeries.checked
   property alias cfg_useAllPrefixes: chbUseAllPrefixes.checked
@@ -36,26 +36,92 @@ Item {
   property alias cfg_hexadecimal: chbHexadecimal.checked
   property alias cfg_resultBase: sbResultBase.value
 
+  onCfg_numberFractionFormatChanged: {
+    switch (cfg_numberFractionFormat) {
+      case 0:
+        numberFractionFormatGroup.current = numberFractionFormatDecimal;
+        break;
+      case 1:
+        numberFractionFormatGroup.current = numberFractionFormatExact;
+        break;
+      case 2:
+        numberFractionFormatGroup.current = numberFractionFormatFractional;
+        break;
+      case 3:
+        numberFractionFormatGroup.current = numberFractionFormatCombined;
+        break;
+      default:
+    }
+  }
+
+  ExclusiveGroup {
+    id: numberFractionFormatGroup
+  }
+
+  Component.onCompleted: {
+    cfg_numberFractionFormatChanged()
+  }
+
   GridLayout {
     anchors.left: parent.left
     anchors.right: parent.right
     columns: 2
 
-    Label {
-      text: i18n("Number fraction format") + ':'
-      Layout.alignment: Qt.AlignVCenter|Qt.AlignRight
-    }
+    GroupBox {
+      title: i18n("Number fraction format")
+      flat: false
+      checkable: false
+      Layout.fillWidth: true
+      Layout.columnSpan: 2
 
-    ComboBox {
-      id: cobNumberFractionFormat
-      model: ListModel {
-        Component.onCompleted: {
-            var arr = [] // use temp array to avoid constant binding stuff
-            arr.push({text: i18nc("FractionFormat", "Decimal")})
-            arr.push({text: i18nc("FractionFormat", "Exact")})
-            arr.push({text: i18nc("FractionFormat", "Fractional")})
-            arr.push({text: i18nc("FractionFormat", "Combined")})
-            append(arr)
+      GridLayout {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        columns: 2
+
+        Item {
+          Layout.columnSpan: 2
+          height: 5
+        }
+
+        RadioButton {
+          id: numberFractionFormatDecimal
+          exclusiveGroup: numberFractionFormatGroup
+          text: i18nc("FractionFormat", "Decimal")
+          onCheckedChanged: if (checked) cfg_numberFractionFormat = 0;
+        }
+        Label {
+          text: i18nc("FractionFormat", "Display numbers in decimal, not fractional, format (ex. 0.333333).")
+        }
+
+        RadioButton {
+          id: numberFractionFormatExact
+          exclusiveGroup: numberFractionFormatGroup
+          text: i18nc("FractionFormat", "Exact")
+          onCheckedChanged: if (checked) cfg_numberFractionFormat = 1;
+        }
+        Label {
+          text: i18nc("FractionFormat", "Display as fraction if necessary to get an exact display of the result (ex. 1/3, but 0.25).")
+        }
+
+        RadioButton {
+          id: numberFractionFormatFractional
+          exclusiveGroup: numberFractionFormatGroup
+          text: i18nc("FractionFormat", "Fractional")
+          onCheckedChanged: if (checked) cfg_numberFractionFormat = 2;
+        }
+        Label {
+          text: i18nc("FractionFormat", "Display as fraction (ex. 4/3).")
+        }
+
+        RadioButton {
+          id: numberFractionFormatCombined
+          exclusiveGroup: numberFractionFormatGroup
+          text: i18nc("FractionFormat", "Combined")
+          onCheckedChanged: if (checked) cfg_numberFractionFormat = 3;
+        }
+        Label {
+          text: i18nc("FractionFormat", "Display as an integer and a fraction (ex. 3 + 1/2).")
         }
       }
     }
