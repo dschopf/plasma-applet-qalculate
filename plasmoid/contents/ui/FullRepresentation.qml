@@ -36,8 +36,8 @@ Item {
 
   anchors.fill: parent
 
-  Layout.minimumHeight: 150
-  Layout.minimumWidth: 200
+  Layout.minimumHeight: units.gridUnit * 12 // 150
+  Layout.minimumWidth: units.gridUnit * 15 // 200
 
   RowLayout {
     id: topRowLayout
