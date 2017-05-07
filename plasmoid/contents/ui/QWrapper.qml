@@ -44,6 +44,9 @@ Item {
 
     function evaluate(expr) {
         var q = getInstance()
+        for (var prop in q) {
+          print(prop += " (" + typeof(q[prop]) + ") = " + q[prop]);
+        }
         if (q) {
             return q.eval(expr)
         } else {

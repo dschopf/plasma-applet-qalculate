@@ -1,15 +1,25 @@
-#ifndef QWRAPPER_H
-#define QWRAPPER_H
+#ifndef QWRAPPER_H_INCLUDED
+#define QWRAPPER_H_INCLUDED
 
+#include <condition_variable>
 #include <memory>
+#include <mutex>
+#include <thread>
+
 #include <QNetworkAccessManager>
 #include <QObject>
 
 #include <libqalculate/qalculate.h>
 
-class Calculator;
+enum class State {
+  Calculating,
+  Idle,
+  Printing,
+  Stop
+};
 
-class QWrapper : public QObject
+class QWrapper
+  : public QObject
 {
   Q_OBJECT
 
@@ -18,42 +28,60 @@ class QWrapper : public QObject
     ~QWrapper();
 
   public Q_SLOTS:
-    QString eval(QString const& input);
-    bool last_result_is_integer();
-    QString get_last_result_as(int const base);
-    QString get_exchange_rates_time();
-    void set_decimal_separator(QString const& separator);
-    void set_timeout(int const timeout);
+    void evaluate(QString const& input);
+
+    bool lastResultIsInteger();
+    QString getLastResultInBase(int const base);
+
+    // general settings
+    void setTimeout(int const timeout);
 
     // evaluation settings
-    void set_auto_post_conversion(int const value);
-    void set_structuring_mode(int const mode);
-    void set_angle_unit(int const unit);
-    void set_expression_base(int const base);
-    void set_result_base(int const base);
+    void setAutoPostConversion(int const value);
+    void setStructuringMode(int const mode);
+    void setDecimalSeparator(QString const& separator);
+    void setAngleUnit(int const unit);
+    void setExpressionBase(int const base);
+    void setResultBase(int const base);
 
     // print settings
-    void set_number_fraction_format(int const format);
-    void set_numerical_display(int const value);
-    void set_indicate_infinite_series(bool const value);
-    void set_use_all_prefixes(bool const value);
-    void set_use_denominator_prefix(bool const value);
-    void set_negative_exponents(bool const value);
+    void setNumberFractionFormat(int const format);
+    void setNumericalDisplay(int const value);
+    void setIndicateInfiniteSeries(bool const value);
+    void setUseAllPrefixes(bool const value);
+    void setUseDenominatorPrefix(bool const value);
+    void setNegativeExponents(bool const value);
 
     // currency settings
-    bool supports_exchange_rates_time();
-    void update_exchange_rates();
+    void updateExchangeRates();
+    QString getExchangeRatesUpdateTime();
+
+  signals:
+    void resultText(QString result);
+    void calculationTimeout();
+    void exchangeRatesUpdated(QString date);
 
   private:
+    void worker();
+
+    // threading
+    std::thread m_thread;
+    std::mutex m_mutex;
+    std::condition_variable m_cond;
+    State m_state;
+
     std::unique_ptr<Calculator> m_pcalc;
-    MathStructure m_result;
     EvaluationOptions m_eval_options;
     PrintOptions m_print_options;
+
+    MathStructure m_latest_result;
+
     QNetworkAccessManager m_netmgr;
     int m_timeout;
+    QString m_input;
 
   private slots:
     void fileDownloaded(QNetworkReply* pReply);
 };
 
-#endif // QWRAPPER_H
+#endif // QWRAPPER_H_INCLUDED

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2016-09-28 17:41+0200\n"
+"POT-Creation-Date: 2017-05-07 19:27+0200\n"
 "PO-Revision-Date: 2016-09-12 19:18+0200\n"
 "Last-Translator: Obed González <obedlink@gmail.com>\n"
 "Language-Team: Obed González <obedlink@gmail.com>\n"
@@ -16,19 +16,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../plasmoid/contents/config/config.qml:26
+#: ../plasmoid/contents/config/config.qml:27
 msgid "General"
 msgstr "General"
 
-#: ../plasmoid/contents/config/config.qml:31
+#: ../plasmoid/contents/config/config.qml:32
 msgid "Input"
 msgstr "Entrada"
 
-#: ../plasmoid/contents/config/config.qml:36
+#: ../plasmoid/contents/config/config.qml:37
 msgid "Output"
 msgstr "Salida"
 
-#: ../plasmoid/contents/config/config.qml:41
+#: ../plasmoid/contents/config/config.qml:42
 msgid "Currency"
 msgstr "Moneda"
 
@@ -41,26 +41,40 @@ msgctxt "Exchange rates"
 msgid "Last update"
 msgstr "Ultima actualización"
 
-#: ../plasmoid/contents/ui/config/General.qml:40
+#: ../plasmoid/contents/ui/config/General.qml:45
 msgid "Copy result to clipboard"
 msgstr "Copiar el resultado al portapapeles"
 
-#: ../plasmoid/contents/ui/config/General.qml:41
-#: ../plasmoid/contents/ui/config/General.qml:48
+#: ../plasmoid/contents/ui/config/General.qml:46
+#: ../plasmoid/contents/ui/config/General.qml:53
 msgid "Only works when pressing Return"
 msgstr "Sólo funciona cuando se pulsa Intro"
 
-#: ../plasmoid/contents/ui/config/General.qml:47
+#: ../plasmoid/contents/ui/config/General.qml:52
 msgid "Write results in input line edit"
 msgstr "Escribir los resultados en una linea de entrada de edición"
 
-#: ../plasmoid/contents/ui/config/General.qml:54
+#: ../plasmoid/contents/ui/config/General.qml:59
 msgid "Live evaluation"
 msgstr "Cálculo en tiempo real"
 
-#: ../plasmoid/contents/ui/config/General.qml:59
+#: ../plasmoid/contents/ui/config/General.qml:64
 msgid "Calculation timeout"
 msgstr "Timepo de espera para el cálculo"
+
+#: ../plasmoid/contents/ui/config/General.qml:78
+msgid "Icon"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/General.qml:126
+msgctxt "Open icon chooser dialog"
+msgid "Choose Icon"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/General.qml:131
+msgctxt "Reset icon to default"
+msgid "Clear Icon"
+msgstr ""
 
 #: ../plasmoid/contents/ui/config/Input.qml:84
 msgid "Unit conversion"
@@ -286,14 +300,24 @@ msgstr "Hexadecimal"
 msgid "Result base"
 msgstr "Resultado base"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:57
+#: ../plasmoid/contents/ui/FullRepresentation.qml:61
 msgid "Enter an expression"
 msgstr "Ingrese una expresión"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:120
+#: ../plasmoid/contents/ui/FullRepresentation.qml:129
 msgid "Result"
 msgstr "Resultado"
 
-#: ../plasmoid/contents/ui/Qalculate.qml:58
-msgid "Qalculate!"
-msgstr "Qalculate"
+#: ../plasmoid/contents/ui/FullRepresentation.qml:190
+#, fuzzy
+msgid "Calculation timed out"
+msgstr "Timepo de espera para el cálculo"
+
+#: ../plasmoid/contents/ui/FullRepresentationFailed.qml:35
+msgid ""
+"Failed loading\n"
+"native plugin!"
+msgstr ""
+
+#~ msgid "Qalculate!"
+#~ msgstr "Qalculate"

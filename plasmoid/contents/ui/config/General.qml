@@ -21,10 +21,15 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.0
+
 import org.kde.plasma.components 2.0 as PlasmaComponents
+import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.kquickcontrolsaddons 2.0 as KQuickAddons
+
+import "../../code/tools.js" as Tools
 
 Item {
-
+  property string cfg_qalculateIcon:                plasmoid.configuration.qalculateIcon
   property alias cfg_copyResultToClipboard:         chbCopyResultToClipboard.checked
   property alias cfg_writeResultsInInputLineEdit:   chbWriteResultsInInputLineEdit.checked
   property alias cfg_liveEvaluation:                chbLiveEvaluation.checked
@@ -63,6 +68,71 @@ Item {
     PlasmaComponents.TextField {
       id: tfTimeout
       validator: IntValidator { bottom: 0; top: 9999999; }
+    }
+
+    RowLayout {
+      spacing: units.smallSpacing
+      Layout.alignment: Qt.AlignVCenter|Qt.AlignRight
+
+      Label {
+        text: i18n("Icon") + ":"
+      }
+
+      Button {
+        id: iconButton
+        Layout.minimumWidth: previewFrame.width + units.smallSpacing * 2
+        Layout.maximumWidth: Layout.minimumWidth
+        Layout.minimumHeight: previewFrame.height + units.smallSpacing * 2
+        Layout.maximumHeight: Layout.minimumWidth
+
+        KQuickAddons.IconDialog {
+          id: iconDialog
+          onIconNameChanged: cfg_qalculateIcon = iconName
+        }
+
+        // just to provide some visual feedback, cannot have checked without checkable enabled
+        checkable: true
+        onClicked: {
+          checked = Qt.binding(function() { // never actually allow it being checked
+            return iconMenu.status === PlasmaComponents.DialogStatus.Open
+          })
+
+          iconMenu.open(0, height)
+        }
+
+        PlasmaCore.FrameSvgItem {
+          id: previewFrame
+          anchors.centerIn: parent
+          imagePath: plasmoid.location === PlasmaCore.Types.Vertical || plasmoid.location === PlasmaCore.Types.Horizontal
+            ? "widgets/panel-background" : "widgets/background"
+          width: units.iconSizes.large + fixedMargins.left + fixedMargins.right
+          height: units.iconSizes.large + fixedMargins.top + fixedMargins.bottom
+
+          PlasmaCore.IconItem {
+            anchors.centerIn: parent
+            width: units.iconSizes.large
+            height: width
+            source: cfg_qalculateIcon
+          }
+        }
+      }
+
+      // QQC Menu can only be opened at cursor position, not a random one
+      PlasmaComponents.ContextMenu {
+        id: iconMenu
+        visualParent: iconButton
+
+        PlasmaComponents.MenuItem {
+          text: i18nc("Open icon chooser dialog", "Choose Icon")
+          icon: "document-open-folder"
+          onClicked: iconDialog.open()
+        }
+        PlasmaComponents.MenuItem {
+          text: i18nc("Reset icon to default", "Clear Icon")
+          icon: "edit-clear"
+          onClicked: cfg_qalculateIcon = Tools.stripProtocol(Qt.resolvedUrl('../../images/Qalculate.svg'))
+        }
+      }
     }
   }
 }

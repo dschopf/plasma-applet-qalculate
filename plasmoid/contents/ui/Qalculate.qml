@@ -19,12 +19,15 @@
 */
 
 import QtQuick 2.0
-import QtQuick.Controls 1.0
-import QtQuick.Layouts 1.0
+
 import org.kde.plasma.plasmoid 2.0
+
+import "../code/tools.js" as Tools
 
 Item {
     id:main
+
+    property var qwr: Qt.createQmlObject('import org.kde.private.qalculate 1.0 as QWR; QWR.QWrapper {}', main, 'QWrapper')
 
     property bool fromCompact: false
     property bool debugLogging: false
@@ -45,6 +48,10 @@ Item {
     property bool useDenominatorPrefix: plasmoid.configuration.useDenominatorPrefix
     property bool negativeExponents: plasmoid.configuration.negativeExponents
 
+    property Component cr: CompactRepresentation { }
+    property Component fr: FullRepresentation { }
+    property Component frFailed: FullRepresentationFailed { }
+
     function dbgprint(msg) {
         if (!debugLogging) {
             return
@@ -52,74 +59,87 @@ Item {
         print('[Qalculate!] ' + msg)
     }
 
-    Plasmoid.compactRepresentation: CompactRepresentation {}
-    Plasmoid.fullRepresentation: FullRepresentation {}
+    Plasmoid.icon: plasmoid.configuration.qalculateIcon
+    Plasmoid.toolTipMainText: "Qalculate!"
 
-    Plasmoid.toolTipMainText: i18n("Qalculate!")
-    Plasmoid.icon: Qt.resolvedUrl('../images/Qalculate.svg')
-
-    QWrapper {
-      id: qwrapper
-    }
+    Plasmoid.compactRepresentation: cr
+    Plasmoid.fullRepresentation: fr
 
     Component.onCompleted: {
+      if (qwr == null) {
+        Plasmoid.fullRepresentation = frFailed
+        return
+      }
+      if (!plasmoid.configuration.qalculateIcon)
+        plasmoid.configuration.qalculateIcon = Tools.stripProtocol(Qt.resolvedUrl('../images/Qalculate.svg'))
       if (plasmoid.configuration.updateExchangeRatesAtStartup) {
-        qwrapper.update_exchange_rates()
-        plasmoid.configuration.exchangeRatesTime = new Date().toLocaleString(Qt.locale())
-      } else if (qwrapper.supports_exchange_rates_time()) {
-        plasmoid.configuration.exchangeRatesTime = qwrapper.get_exchange_rates_time()
+        qwr.updateExchangeRates()
+      } else {
+        plasmoid.configuration.exchangeRatesTime = qwr.getExchangeRatesUpdateTime()
       }
     }
 
+    Component.onDestruction: {
+      if (qwr !== null)
+        qwr.destroy()
+    }
+
     onUnitConversionChanged: {
-      qwrapper.set_auto_post_conversion(unitConversion)
+      qwr.setAutoPostConversion(unitConversion)
     }
 
     onStructuringModeChanged: {
-      qwrapper.set_structuring_mode(structuringMode)
+      qwr.setStructuringMode(structuringMode)
     }
 
     onAngleUnitChanged: {
-      qwrapper.set_angle_unit(angleUnit)
+      qwr.setAngleUnit(angleUnit)
     }
 
     onExpressionBaseChanged: {
-      qwrapper.set_expression_base(expressionBase)
+      qwr.setExpressionBase(expressionBase)
     }
 
     onResultBaseChanged: {
-      qwrapper.set_result_base(resultBase)
+      qwr.setResultBase(resultBase)
     }
 
     onNumberFractionFormatChanged: {
-      qwrapper.set_number_fraction_format(numberFractionFormat)
+      qwr.setNumberFractionFormat(numberFractionFormat)
     }
 
     onNumericalDisplayChanged: {
-      qwrapper.set_numerical_display(numericalDisplay)
+      qwr.setNumericalDisplay(numericalDisplay)
     }
 
     onIndicateInfiniteSeriesChanged: {
-      qwrapper.set_indicate_infinite_series(indicateInfiniteSeries)
+      qwr.setIndicateInfiniteSeries(indicateInfiniteSeries)
     }
 
     onUseAllPrefixesChanged: {
-      qwrapper.set_use_all_prefixes(useAllPrefixes)
+      qwr.setUseAllPrefixes(useAllPrefixes)
     }
 
     onUseDenominatorPrefixChanged: {
-      qwrapper.set_use_denominator_prefix(useDenominatorPrefix)
+      qwr.setUseDenominatorPrefix(useDenominatorPrefix)
     }
 
     onNegativeExponentsChanged: {
-      qwrapper.set_negative_exponents(negativeExponents)
+      qwr.setNegativeExponents(negativeExponents)
     }
 
     onDecimalSeparatorChanged: {
-      qwrapper.set_decimal_separator(decimalSeparator)
+      qwr.setDecimalSeparator(decimalSeparator)
     }
 
     onTimeoutChanged: {
-      qwrapper.set_timeout(timeout)
+      qwr.setTimeout(timeout)
+    }
+
+    Connections {
+      target: qwr
+      onExchangeRatesUpdated: {
+        plasmoid.configuration.exchangeRatesTime = date
+      }
     }
 }

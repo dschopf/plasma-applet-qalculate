@@ -18,25 +18,13 @@
     License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.0
-
-import org.kde.plasma.core 2.0
-
-Item {
-  id: compactRepresentation
-
-  IconItem {
-    anchors.fill: parent
-    source: plasmoid.icon
+function stripProtocol(path) {
+  function startsWith(txt, needle) {
+    return txt.substr(0, needle.length) === needle;
   }
 
-  MouseArea {
-    id: mouseArea
-    anchors.fill: parent
-    hoverEnabled: true
-    onClicked: {
-      main.fromCompact = true
-      plasmoid.expanded = !plasmoid.expanded;
-    }
-  }
+  if (startsWith(path, "file://"))
+    return path.slice(7);
+
+  return path;
 }

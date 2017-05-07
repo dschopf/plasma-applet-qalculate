@@ -19,12 +19,14 @@
 */
 
 import QtQuick 2.0
-import QtQuick.Controls 1.0
+import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.0
 
 import org.kde.plasma.plasmoid 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.plasma.core 2.0
 import org.kde.plasma.components 2.0 as PlasmaComponents
+
+import "../code/tools.js" as Tools
 
 Item {
   id: fullRepresentation
@@ -34,9 +36,11 @@ Item {
   property bool decimal_enabled: plasmoid.configuration.decimal && plasmoid.configuration.resultBase !== 10
   property bool hex_enabled: plasmoid.configuration.hexadecimal && plasmoid.configuration.resultBase !== 16
 
+  property string last_input: ""
+
   anchors.fill: parent
 
-  Layout.minimumHeight: units.gridUnit * 12 // 150
+  Layout.minimumHeight: units.gridUnit * 10 // 150
   Layout.minimumWidth: units.gridUnit * 15 // 200
 
   RowLayout {
@@ -91,89 +95,158 @@ Item {
   }
 
   ColumnLayout{
-    id: clmain
+    id: clMain
     spacing: 0
     anchors.top: topRowLayout.bottom
     anchors.horizontalCenter: parent.horizontalCenter
     width: parent.width
-    height: parent.height - topRowLayout.height
+    height: (parent.height - topRowLayout.height)
 
-    PlasmaCore.SvgItem {
+    IconItem {
       id: qalculateIcon
       visible: true
-      anchors {
-        horizontalCenter: parent.horizontalCenter
-        verticalCenter: parent.verticalCenter
+      anchors.fill: parent
+      anchors.margins: units.largeSpacing
+      source: Tools.stripProtocol(Qt.resolvedUrl('../images/Qalculate.svg'))
+    }
+
+    BusyIndicator {
+      id: busy
+      visible: false
+      running: true
+      anchors.fill: parent
+      anchors.margins: 3 * units.largeSpacing
+    }
+
+    ColumnLayout{
+      id: clResult
+      spacing: 0
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.verticalCenter: parent.verticalCenter
+
+      Label {
+        id: lResult
+        text: i18n("Result")
+        visible: false
+        color: theme.textColor
+        anchors.horizontalCenter: parent.horizontalCenter
+        font.bold: true
+        font.pixelSize: 40
+
+        Connections {
+          target: qwr
+
+          onResultText: {
+            lResult.text = result
+            lResult.visible = result.length
+            busy.visible = !result.length
+
+            if (plasmoid.configuration.resultBase !== 10) {
+              loutputBase.visible = true
+              loutputBase.anchors.left = lResult.right
+              loutputBase.anchors.top = lResult.verticalCenter
+            } else {
+              loutputBase.visible = false
+            }
+            if (!result.length || !qwr.lastResultIsInteger()) {
+              loutputBase.visible = false
+              outputBinary.visible = false
+              outputBinary.text = ""
+              outputOctal.visible = false
+              outputOctal.text = ""
+              outputDecimal.visible = false
+              outputDecimal.text = ""
+              outputHex.visible = false
+              outputHex.text = ""
+            } else if (qwr.lastResultIsInteger()) {
+              if (binary_enabled) {
+                outputBinary.visible = result.length
+                outputBinary.text = "0b" + qwr.getLastResultInBase(2)
+              } else {
+                outputBinary.visible = false
+              }
+              if (octal_enabled) {
+                outputOctal.visible = result.length
+                outputOctal.text = "0o" + qwr.getLastResultInBase(8)
+              } else {
+                outputOctal.visible = false
+              }
+              if (decimal_enabled) {
+                outputDecimal.visible = result.length
+                outputDecimal.text = qwr.getLastResultInBase(10)
+              } else {
+                outputDecimal.visible = false
+              }
+              if (hex_enabled) {
+                outputHex.visible = result.length
+                outputHex.text = "0x" + qwr.getLastResultInBase(16)
+              } else {
+                outputHex.visible = false
+              }
+            }
+          }
+
+          onCalculationTimeout: {
+            lResult.text = i18n("Calculation timed out")
+            lResult.visible = true
+            busy.visible = false
+          }
+        }
       }
-      Layout.minimumHeight: 64
-      Layout.minimumWidth: 64
-      Layout.maximumHeight: 64
-      Layout.maximumWidth: 64
-      svg: PlasmaCore.Svg {
-        id: qalculateSVGIcon
-        imagePath: Qt.resolvedUrl('../images/Qalculate.svg')
+
+      Label {
+        id: loutputBase
+        text: plasmoid.configuration.resultBase
+        visible: false
+        color: theme.textColor
+        anchors.left: lResult.right
+        anchors.verticalCenter: lResult.bottom
+        Layout.minimumHeight: 0
+        Layout.maximumHeight: 0
+        font.bold: true
+        font.pixelSize: Math.round(0.9 * units.gridUnit)
       }
-    }
 
-    Label {
-      id: lResult
-      text: i18n("Result")
-      visible: false
-      color: theme.textColor
-      anchors.horizontalCenter: parent.horizontalCenter
-      font.bold: true
-      font.pixelSize: 40
-    }
+      Label {
+        id: outputBinary
+        text: "ResultBinary"
+        visible: false
+        color: theme.textColor
+        anchors.horizontalCenter: parent.horizontalCenter
+        font.pixelSize: units.gridUnit
+      }
 
-    Label {
-      id: loutputBase
-      text: plasmoid.configuration.resultBase
-      visible: false
-      color: theme.textColor
-      anchors.left: lResult.right
-      anchors.top: lResult.verticalCenter
-      font.bold: true
-      font.pixelSize: 25
-    }
+      Label {
+        id: outputOctal
+        text: "ResultOctal"
+        visible: false
+        color: theme.textColor
+        anchors.horizontalCenter: parent.horizontalCenter
+        font.pixelSize: units.gridUnit
+      }
 
-    Label {
-      id: outputBinary
-      text: "ResultBinary"
-      visible: false
-      color: theme.textColor
-      anchors.horizontalCenter: parent.horizontalCenter
-      font.pixelSize: 18
-    }
+      Label {
+        id: outputDecimal
+        text: "ResultDecimal"
+        visible: false
+        color: theme.textColor
+        anchors.horizontalCenter: parent.horizontalCenter
+        font.pixelSize: units.gridUnit
+      }
 
-    Label {
-      id: outputOctal
-      text: "ResultOctal"
-      visible: false
-      color: theme.textColor
-      anchors.horizontalCenter: parent.horizontalCenter
-      font.pixelSize: 18
-    }
-
-    Label {
-      id: outputDecimal
-      text: "ResultDecimal"
-      visible: false
-      color: theme.textColor
-      anchors.horizontalCenter: parent.horizontalCenter
-      font.pixelSize: 18
-    }
-
-    Label {
-      id: outputHex
-      text: "ResultHex"
-      visible: false
-      color: theme.textColor
-      anchors.horizontalCenter: parent.horizontalCenter
-      font.pixelSize: 18
+      Label {
+        id: outputHex
+        text: "ResultHex"
+        visible: false
+        color: theme.textColor
+        anchors.horizontalCenter: parent.horizontalCenter
+        font.pixelSize: units.gridUnit
+      }
     }
   }
 
   PlasmaComponents.ToolButton {
+    id: keepOpen
     anchors.right: parent.right
     anchors.bottom: parent.bottom
     width: Math.round(units.gridUnit * 1.25)
@@ -185,17 +258,10 @@ Item {
   }
 
   function onNewInput(input) {
-    qalculateIcon.visible = !input.length
-    lResult.text = qwrapper.evaluate(input)
-    lResult.visible = input.length
-    if (plasmoid.configuration.resultBase !== 10) {
-      loutputBase.visible = true
-      loutputBase.anchors.left = lResult.right
-      loutputBase.anchors.top = lResult.verticalCenter
-    } else {
-      loutputBase.visible = false
-    }
-    if (!input.length || !qwrapper.last_result_is_integer()) {
+    if (input !== last_input) {
+      qalculateIcon.visible = !input.length
+      busy.visible = input.length
+      lResult.visible = false
       loutputBase.visible = false
       outputBinary.visible = false
       outputBinary.text = ""
@@ -205,31 +271,8 @@ Item {
       outputDecimal.text = ""
       outputHex.visible = false
       outputHex.text = ""
-    } else if (qwrapper.last_result_is_integer()) {
-      if (binary_enabled) {
-        outputBinary.visible = input.length
-        outputBinary.text = "0b" + qwrapper.get_last_result_as(2)
-      } else {
-        outputBinary.visible = false
-      }
-      if (octal_enabled) {
-        outputOctal.visible = input.length
-        outputOctal.text = "0o" + qwrapper.get_last_result_as(8)
-      } else {
-        outputOctal.visible = false
-      }
-      if (decimal_enabled) {
-        outputDecimal.visible = input.length
-        outputDecimal.text = qwrapper.get_last_result_as(10)
-      } else {
-        outputDecimal.visible = false
-      }
-      if (hex_enabled) {
-        outputHex.visible = input.length
-        outputHex.text = "0x" + qwrapper.get_last_result_as(16)
-      } else {
-        outputHex.visible = false
-      }
+      qwr.evaluate(input)
+      last_input = input
     }
   }
 }

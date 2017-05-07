@@ -1,6 +1,12 @@
 Qalculate changelog:
 --------------------
 
+master:
+- make icon configurable
+- add busy indicator
+- make calculations run in background
+- require at least libqalculate-0.9.8
+
 v0.1.1:
 - add spanish translation by Obed González
 

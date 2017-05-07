@@ -1,19 +1,23 @@
-#include "qwrapper.h"
-
-#include <QDebug>
 #include <QFile>
 #include <QLocale>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 
+#include "qwrapper.h"
+
 QWrapper::QWrapper(QObject *parent)
   : QObject(parent)
+  , m_thread()
+  , m_mutex()
+  , m_cond()
+  , m_state(State::Idle)
   , m_pcalc()
-  , m_result()
   , m_eval_options()
   , m_print_options()
+  , m_latest_result()
   , m_netmgr()
   , m_timeout(10000)
+  , m_input()
 {
   m_pcalc.reset(new Calculator());
   m_pcalc->loadGlobalDefinitions();
@@ -38,43 +42,51 @@ QWrapper::QWrapper(QObject *parent)
   m_print_options.lower_case_e = true;
   m_print_options.base = 10;
   m_print_options.min_exp = EXP_NONE;
+
+  m_thread = std::thread(std::bind(&QWrapper::worker, this));
 }
 
 QWrapper::~QWrapper()
 {
+  {
+    std::unique_lock<std::mutex> _(m_mutex);
+    m_state = State::Stop;
+  }
+
+  m_cond.notify_one();
+  m_thread.join();
 }
 
-QString QWrapper::eval(QString const& input)
+void QWrapper::evaluate(QString const& input)
 {
-  if (input.isEmpty())
-    return QString();
+  {
+    std::unique_lock<std::mutex> _(m_mutex);
 
-  auto expr = m_pcalc->unlocalizeExpression(input.toStdString(), m_eval_options.parse_options);
+    switch (m_state) {
+      case State::Idle:
+      case State::Stop:
+        break;
+      case State::Calculating:
+        if (m_pcalc->busy())
+          m_pcalc->abort();
+        break;
+      case State::Printing:
+        m_pcalc->abortPrint();
+        break;
+    }
 
-  auto ret = m_pcalc->calculate(&m_result, expr, m_timeout, m_eval_options);
-  if (!ret)
-#if defined(HAVE_QALCULATE_0_9_8)
-    return m_pcalc->timedOutString().c_str();
-#else
-    return QString("timed out");
-#endif // HAVE_QALCULATE_0_9_8
+    m_input = input;
+  }
 
-  QString res = m_pcalc->printMathStructureTimeOut(m_result, m_timeout, m_print_options).c_str();
-
-#if defined(HAVE_QALCULATE_0_9_8)
-  if (m_pcalc->printingAborted())
-    return m_pcalc->timedOutString().c_str();
-#endif // HAVE_QALCULATE_0_9_8
-
-  return res;
+  m_cond.notify_all();
 }
 
-bool QWrapper::last_result_is_integer()
+bool QWrapper::lastResultIsInteger()
 {
-  return m_result.representsInteger(false);
+  return m_latest_result.representsInteger(false);
 }
 
-QString QWrapper::get_last_result_as(int const base)
+QString QWrapper::getLastResultInBase(int const base)
 {
   if (base < 2 || base > 64)
     return QString();
@@ -83,39 +95,17 @@ QString QWrapper::get_last_result_as(int const base)
 
   po.base = base;
 
-  m_result.format(po);
+  m_latest_result.format(po);
 
-  return m_result.print(po).c_str();
+  return m_latest_result.print(po).c_str();
 }
 
-QString QWrapper::get_exchange_rates_time()
-{
-#if defined(HAVE_QALCULATE_0_9_8)
-  QDateTime dt;
-  dt.setTime_t(m_pcalc->getExchangeRatesTime());
-  return QLocale().toString(dt);
-#else
-  return QString();
-#endif // HAVE_QALCULATE_0_9_8
-}
-
-void QWrapper::set_decimal_separator(QString const& separator)
-{
-  if (separator.compare(",") == 0) {
-    m_print_options.decimalpoint_sign = ',';
-    m_pcalc->useDecimalComma();
-  } else {
-    m_print_options.decimalpoint_sign = '.';
-    m_pcalc->useDecimalPoint();
-  }
-}
-
-void QWrapper::set_timeout(int const timeout)
+void QWrapper::setTimeout(int const timeout)
 {
   m_timeout = timeout;
 }
 
-void QWrapper::set_auto_post_conversion(int const value)
+void QWrapper::setAutoPostConversion(int const value)
 {
   switch (value) {
     case 0:
@@ -130,7 +120,7 @@ void QWrapper::set_auto_post_conversion(int const value)
   }
 }
 
-void QWrapper::set_structuring_mode(int const mode)
+void QWrapper::setStructuringMode(int const mode)
 {
   switch (mode) {
     case 0:
@@ -145,7 +135,18 @@ void QWrapper::set_structuring_mode(int const mode)
   }
 }
 
-void QWrapper::set_angle_unit(int const unit)
+void QWrapper::setDecimalSeparator(QString const& separator)
+{
+  if (separator.compare(",") == 0) {
+    m_print_options.decimalpoint_sign = ',';
+    m_pcalc->useDecimalComma();
+  } else {
+    m_print_options.decimalpoint_sign = '.';
+    m_pcalc->useDecimalPoint();
+  }
+}
+
+void QWrapper::setAngleUnit(int const unit)
 {
   switch (unit) {
     case 0:
@@ -163,19 +164,19 @@ void QWrapper::set_angle_unit(int const unit)
   }
 }
 
-void QWrapper::set_expression_base(int const base)
+void QWrapper::setExpressionBase(int const base)
 {
   if (base > 1 && base < 65)
     m_eval_options.parse_options.base = base;
 }
 
-void QWrapper::set_result_base(int const base)
+void QWrapper::setResultBase(int const base)
 {
   if (base > 1 && base < 65)
     m_print_options.base = base;
 }
 
-void QWrapper::set_number_fraction_format(const int format)
+void QWrapper::setNumberFractionFormat(const int format)
 {
   switch (format) {
     case 0:
@@ -193,7 +194,7 @@ void QWrapper::set_number_fraction_format(const int format)
   }
 }
 
-void QWrapper::set_numerical_display(const int value)
+void QWrapper::setNumericalDisplay(const int value)
 {
   switch (value) {
     case 0:
@@ -214,51 +215,92 @@ void QWrapper::set_numerical_display(const int value)
   }
 }
 
-void QWrapper::set_indicate_infinite_series(const bool value)
+void QWrapper::setIndicateInfiniteSeries(const bool value)
 {
   m_print_options.indicate_infinite_series = value;
 }
 
-void QWrapper::set_use_all_prefixes(const bool value)
+void QWrapper::setUseAllPrefixes(const bool value)
 {
   m_print_options.use_all_prefixes = value;
 }
 
-void QWrapper::set_use_denominator_prefix(const bool value)
+void QWrapper::setUseDenominatorPrefix(const bool value)
 {
   m_print_options.use_denominator_prefix = value;
 }
 
-void QWrapper::set_negative_exponents(const bool value)
+void QWrapper::setNegativeExponents(const bool value)
 {
   m_print_options.negative_exponents = value;
 }
 
-bool QWrapper::supports_exchange_rates_time()
-{
-#if defined(HAVE_QALCULATE_0_9_8)
-  return true;
-#else
-  return false;
-#endif // HAVE_QALCULATE_0_9_8
-}
-
-void QWrapper::update_exchange_rates()
+void QWrapper::updateExchangeRates()
 {
   connect(&m_netmgr, SIGNAL (finished(QNetworkReply*)), SLOT (fileDownloaded(QNetworkReply*)));
-
   QNetworkRequest req(QUrl(m_pcalc->getExchangeRatesUrl().c_str()));
-
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-
   m_netmgr.get(req);
+}
+
+QString QWrapper::getExchangeRatesUpdateTime()
+{
+  QDateTime dt;
+  dt.setTime_t(m_pcalc->getExchangeRatesTime());
+  return QLocale().toString(dt);
+}
+
+void QWrapper::worker()
+{
+  std::unique_lock<std::mutex> _(m_mutex);
+  while (m_state != State::Stop)
+  {
+    if (!m_input.isEmpty())
+    {
+      m_state = State::Calculating;
+      auto expr = m_pcalc->unlocalizeExpression(m_input.toStdString(), m_eval_options.parse_options);
+      m_input.clear();
+
+      _.unlock();
+
+      QString result;
+
+      if (m_pcalc->calculate(&m_latest_result, expr, m_timeout, m_eval_options))
+      {
+        if (!m_latest_result.isAborted())
+        {
+          _.lock();
+          m_state = State::Printing;
+          _.unlock();
+
+          m_pcalc->startPrintControl(m_timeout);
+          m_latest_result.format(m_print_options);
+          result = m_latest_result.print(m_print_options).c_str();
+          if (m_pcalc->printingAborted())
+            emit calculationTimeout();
+          else
+            emit resultText(result);
+          m_pcalc->stopPrintControl();
+        }
+      }
+      else
+      {
+        emit calculationTimeout();
+      }
+
+      _.lock();
+    }
+
+    m_state = State::Idle;
+    if (m_input.isEmpty())
+      m_cond.wait(_);
+  }
 }
 
 void QWrapper::fileDownloaded(QNetworkReply* pReply)
 {
-  if (pReply->error() != QNetworkReply::NoError) {
+  if (pReply->error() != QNetworkReply::NoError)
     qDebug() << "[Qalculate!] Error downloading exchange rates (" << pReply->error() << "): " << pReply->errorString();
-  }
 
   QByteArray data = pReply->readAll();
 
@@ -267,7 +309,7 @@ void QWrapper::fileDownloaded(QNetworkReply* pReply)
   QFile file(m_pcalc->getExchangeRatesFileName().c_str());
 
   if (!file.open(QIODevice::WriteOnly)) {
-    qDebug() << "[Qalculate!] Error opening echange rates file";
+    qDebug() << "[Qalculate!] Error opening exchange rates file";
     return;
   }
 
@@ -277,4 +319,8 @@ void QWrapper::fileDownloaded(QNetworkReply* pReply)
   file.close();
 
   m_pcalc->loadExchangeRates();
+
+  QDateTime dt;
+  dt.setTime_t(m_pcalc->getExchangeRatesTime());
+  emit exchangeRatesUpdated(QLocale().toString(dt));
 }

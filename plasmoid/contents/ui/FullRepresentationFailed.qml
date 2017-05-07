@@ -18,25 +18,26 @@
     License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.0
-
-import org.kde.plasma.core 2.0
+import QtQuick 2.1
+import QtQuick.Controls 1.4
+import QtQuick.Layouts 1.0
 
 Item {
-  id: compactRepresentation
+  id: fullRepresentationLoading
 
-  IconItem {
-    anchors.fill: parent
-    source: plasmoid.icon
-  }
+  anchors.fill: parent
 
-  MouseArea {
-    id: mouseArea
-    anchors.fill: parent
-    hoverEnabled: true
-    onClicked: {
-      main.fromCompact = true
-      plasmoid.expanded = !plasmoid.expanded;
-    }
+  Layout.minimumHeight: units.gridUnit * 12
+  Layout.minimumWidth: units.gridUnit * 15
+
+  Label {
+    id: lResult
+    text: i18n("Failed loading\nnative plugin!")
+    visible: true
+    color: theme.textColor
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter: parent.verticalCenter
+    font.bold: true
+    font.pointSize: units.gridUnit
   }
 }
