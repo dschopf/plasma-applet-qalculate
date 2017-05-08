@@ -1,7 +1,7 @@
 Qalculate changelog:
 --------------------
 
-master:
+v0.2:
 - make icon configurable
 - add busy indicator
 - make calculations run in background
