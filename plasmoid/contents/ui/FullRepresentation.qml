@@ -115,7 +115,7 @@ Item {
       visible: false
       running: true
       anchors.fill: parent
-      anchors.margins: 3 * units.largeSpacing
+      anchors.margins: 5 * units.largeSpacing
     }
 
     ColumnLayout{
