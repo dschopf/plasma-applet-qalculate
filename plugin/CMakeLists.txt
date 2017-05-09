@@ -4,6 +4,7 @@ pkg_check_modules (QALCULATE REQUIRED libqalculate>=0.9.8)
 kde_enable_exceptions()
 
 set(plasmoidplugin_SRCS plasmoidplugin.cpp qwrapper.cpp)
+set (CMAKE_CXX_STANDARD 11)
 
 add_library(plasmoidplugin SHARED ${plasmoidplugin_SRCS})
 

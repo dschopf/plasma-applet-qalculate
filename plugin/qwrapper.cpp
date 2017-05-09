@@ -1,3 +1,5 @@
+#include <functional>
+
 #include <QFile>
 #include <QLocale>
 #include <QNetworkReply>
