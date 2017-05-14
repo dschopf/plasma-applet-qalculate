@@ -60,26 +60,21 @@ Item {
       clearButtonShown: true
       placeholderText: i18n("Enter an expression")
       inputMethodHints: Qt.ImhNoPredictiveText
+
       onAccepted: {
         onNewInput(inputQuery.text)
-        if (plasmoid.configuration.copyResultToClipboard) {
-          clipcopy.text = lResult.text
-          clipcopy.selectAll()
-          clipcopy.copy()
-        }
-        if (plasmoid.configuration.writeResultsInInputLineEdit) {
-          text = lResult.text
-        }
       }
+
       onTextChanged: {
         if (plasmoid.configuration.liveEvaluation)
           onNewInput(inputQuery.text)
       }
+
       Keys.onPressed: {
         if (event.key == Qt.Key_Escape) {
-          event.accepted = true;
+          event.accepted = true
           if (main.fromCompact) {
-            plasmoid.expanded = !plasmoid.expanded;
+            plasmoid.expanded = !plasmoid.expanded
             keepOpen.checked = false
           }
         }
@@ -183,6 +178,17 @@ Item {
               } else {
                 outputHex.visible = false
               }
+            }
+
+            if (!plasmoid.configuration.liveEvaluation) {
+              if (plasmoid.configuration.copyResultToClipboard) {
+                clipcopy.text = result
+                clipcopy.selectAll()
+                clipcopy.copy()
+              }
+
+              if (plasmoid.configuration.writeResultsInInputLineEdit)
+                text = lResult.text
             }
           }
 
