@@ -27,7 +27,15 @@ import "../code/tools.js" as Tools
 Item {
     id:main
 
-    property var qwr: Qt.createQmlObject('import org.kde.private.qalculate 1.0 as QWR; QWR.QWrapper {}', main, 'QWrapper')
+    Connections {
+      id: myConnection
+      target: Qt.createQmlObject('import org.kde.private.qalculate 1.0 as QWR; QWR.QWrapper {}', main, 'QWrapper')
+      onExchangeRatesUpdated: {
+        plasmoid.configuration.exchangeRatesTime = date
+      }
+    }
+
+    property alias qwr: myConnection.target
 
     property bool fromCompact: false
     property bool debugLogging: false
@@ -134,12 +142,5 @@ Item {
 
     onTimeoutChanged: {
       qwr.setTimeout(timeout)
-    }
-
-    Connections {
-      target: qwr
-      onExchangeRatesUpdated: {
-        plasmoid.configuration.exchangeRatesTime = date
-      }
     }
 }
