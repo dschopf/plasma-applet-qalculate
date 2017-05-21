@@ -35,8 +35,10 @@ Item {
   property bool octal_enabled: plasmoid.configuration.octal && plasmoid.configuration.resultBase !== 8
   property bool decimal_enabled: plasmoid.configuration.decimal && plasmoid.configuration.resultBase !== 10
   property bool hex_enabled: plasmoid.configuration.hexadecimal && plasmoid.configuration.resultBase !== 16
+  property bool is_current_line: true
 
   property string last_input: ""
+  property string current_line: ""
 
   anchors.fill: parent
 
@@ -62,12 +64,16 @@ Item {
       inputMethodHints: Qt.ImhNoPredictiveText
 
       onAccepted: {
-        onNewInput(inputQuery.text)
+        onNewInput(text, true)
+        is_current_line = true
+        current_line = text
       }
 
       onTextChanged: {
+        if (is_current_line)
+          current_line = text
         if (plasmoid.configuration.liveEvaluation)
-          onNewInput(inputQuery.text)
+          onNewInput(text, false)
       }
 
       Keys.onPressed: {
@@ -77,13 +83,67 @@ Item {
             plasmoid.expanded = !plasmoid.expanded
             keepOpen.checked = false
           }
+          return
+        }
+
+        if ((event.key == Qt.Key_C) && (event.modifiers & Qt.ControlModifier)) {
+          event.accepted = true
+          is_current_line = true
+          current_line = ""
+          text = ""
+          qwr.getLastHistoryLine()
+          return
+        }
+
+        if (event.key == Qt.Key_Up) {
+          event.accepted = true
+          if (qwr.historyAvailable()) {
+            var temp = qwr.getPrevHistoryLine()
+            if (is_current_line) {
+              is_current_line = false
+              temp = qwr.getPrevHistoryLine()
+            }
+            if (temp !== "FIRST_ENTRY")
+              text = temp
+          }
+          return
+        }
+
+        if (event.key == Qt.Key_Down) {
+          event.accepted = true
+          if (qwr.historyAvailable()) {
+            var temp = qwr.getNextHistoryLine()
+            if (temp !== "LAST_ENTRY")
+              text = temp
+            else {
+              is_current_line = true
+              text = current_line
+            }
+          }
+          return
+        }
+
+        if (event.key == Qt.Key_PageUp) {
+          event.accepted = true
+          if (qwr.historyAvailable()) {
+            is_current_line = false
+            text = qwr.getFirstHistoryLine()
+          }
+          return
+        }
+
+        if (event.key == Qt.Key_PageDown) {
+          event.accepted = true
+          is_current_line = true
+          text = current_line
+          qwr.getLastHistoryLine()
+          return
         }
       }
     }
   }
 
-  // invisible TextEdit for copying the result
-  // to the clipboard
+  // invisible TextEdit for copying the result to the clipboard
   TextEdit {
     id: clipcopy
     visible: false
@@ -263,7 +323,7 @@ Item {
     onCheckedChanged: plasmoid.hideOnWindowDeactivate = !checked
   }
 
-  function onNewInput(input) {
+  function onNewInput(input, enter) {
     if (input !== last_input) {
       qalculateIcon.visible = !input.length
       busy.visible = input.length
@@ -277,7 +337,7 @@ Item {
       outputDecimal.text = ""
       outputHex.visible = false
       outputHex.text = ""
-      qwr.evaluate(input)
+      qwr.evaluate(input, enter)
       last_input = input
     }
   }

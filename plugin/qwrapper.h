@@ -28,13 +28,15 @@ class QWrapper
     ~QWrapper();
 
   public Q_SLOTS:
-    void evaluate(QString const& input);
+    void evaluate(QString const& input, bool const enter_pressed);
 
     bool lastResultIsInteger();
     QString getLastResultInBase(int const base);
 
     // general settings
     void setTimeout(int const timeout);
+    void setDisableHistory(bool disabled);
+    void setHistorySize(int const size);
 
     // evaluation settings
     void setAutoPostConversion(int const value);
@@ -56,6 +58,13 @@ class QWrapper
     void updateExchangeRates();
     QString getExchangeRatesUpdateTime();
 
+    // history management
+    bool historyAvailable();
+    QString getPrevHistoryLine();
+    QString getNextHistoryLine();
+    QString getFirstHistoryLine();
+    void getLastHistoryLine();
+
   signals:
     void resultText(QString result);
     void calculationTimeout();
@@ -63,6 +72,9 @@ class QWrapper
 
   private:
     void worker();
+
+    // history file handling
+    void initHistoryFile();
 
     // threading
     std::thread m_thread;
@@ -79,6 +91,13 @@ class QWrapper
     QNetworkAccessManager m_netmgr;
     int m_timeout;
     QString m_input;
+
+    // history
+    struct {
+      bool enabled;
+      std::string filename;
+      QString last_entry;
+    } m_history;
 
   private slots:
     void fileDownloaded(QNetworkReply* pReply);

@@ -1,13 +1,15 @@
 #include <functional>
 
+#include <readline/history.h>
+#include <sys/stat.h>
+
 #include <QFile>
-#include <QLocale>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 
 #include "qwrapper.h"
 
-QWrapper::QWrapper(QObject *parent)
+QWrapper::QWrapper(QObject* parent)
   : QObject(parent)
   , m_thread()
   , m_mutex()
@@ -20,6 +22,7 @@ QWrapper::QWrapper(QObject *parent)
   , m_netmgr()
   , m_timeout(10000)
   , m_input()
+  , m_history()
 {
   m_pcalc.reset(new Calculator());
   m_pcalc->loadGlobalDefinitions();
@@ -45,6 +48,12 @@ QWrapper::QWrapper(QObject *parent)
   m_print_options.base = 10;
   m_print_options.min_exp = EXP_NONE;
 
+  m_history.enabled = true;
+
+  initHistoryFile();
+
+  using_history();
+
   m_thread = std::thread(std::bind(&QWrapper::worker, this));
 }
 
@@ -59,7 +68,7 @@ QWrapper::~QWrapper()
   m_thread.join();
 }
 
-void QWrapper::evaluate(QString const& input)
+void QWrapper::evaluate(QString const& input, bool const enter_pressed)
 {
   {
     std::unique_lock<std::mutex> _(m_mutex);
@@ -81,6 +90,13 @@ void QWrapper::evaluate(QString const& input)
   }
 
   m_cond.notify_all();
+
+  if (enter_pressed && !input.isEmpty() && (input != m_history.last_entry)) {
+    m_history.last_entry = input;
+    add_history(m_history.last_entry.toStdString().c_str());
+    history_set_pos(history_length);
+    append_history(1, m_history.filename.c_str());
+  }
 }
 
 bool QWrapper::lastResultIsInteger()
@@ -105,6 +121,35 @@ QString QWrapper::getLastResultInBase(int const base)
 void QWrapper::setTimeout(int const timeout)
 {
   m_timeout = timeout;
+}
+
+void QWrapper::setDisableHistory(bool disabled)
+{
+  if (disabled) {
+    m_history.enabled = false;
+    return;
+  }
+
+  m_history.enabled = true;
+
+  auto ret = read_history(m_history.filename.c_str());
+  if (ret < 0) {
+    m_history.enabled = false;
+  } else {
+    ret = history_set_pos(history_length);
+    auto h = history_get(history_length);
+    if (h && h->line) {
+      m_history.last_entry = h->line;
+    } else {
+      m_history.last_entry.clear();
+    }
+  }
+}
+
+void QWrapper::setHistorySize(int const size)
+{
+  if (size > 0 && size < 1e7)
+    stifle_history(size);
 }
 
 void QWrapper::setAutoPostConversion(int const value)
@@ -252,6 +297,42 @@ QString QWrapper::getExchangeRatesUpdateTime()
   return QLocale().toString(dt);
 }
 
+bool QWrapper::historyAvailable()
+{
+  return m_history.enabled;
+}
+
+QString QWrapper::getPrevHistoryLine()
+{
+  auto h = previous_history();
+  if (h)
+    return h->line;
+  return "FIRST_ENTRY";
+}
+
+QString QWrapper::getNextHistoryLine()
+{
+  auto h = next_history();
+  if (h)
+    return h->line;
+  return "LAST_ENTRY";
+}
+
+QString QWrapper::getFirstHistoryLine()
+{
+  history_set_pos(0);
+  auto h = current_history();
+  if (h)
+    return h->line;
+  return QString("???");
+}
+
+void QWrapper::getLastHistoryLine()
+{
+  history_set_pos(history_length);
+  return;
+}
+
 void QWrapper::worker()
 {
   std::unique_lock<std::mutex> _(m_mutex);
@@ -297,6 +378,25 @@ void QWrapper::worker()
     if (m_input.isEmpty())
       m_cond.wait(_);
   }
+}
+
+void QWrapper::initHistoryFile()
+{
+  std::string file_path(getenv("HOME"));
+
+  file_path.append("/.local/share/plasma");
+
+  struct stat st;
+
+  auto ret = stat(file_path.c_str(), &st);
+  if (ret < 0 || !S_ISDIR(st.st_mode)) {
+    m_history.enabled = false;
+    return;
+  }
+
+  file_path.append("/qalculate_history");
+
+  m_history.filename.swap(file_path);
 }
 
 void QWrapper::fileDownloaded(QNetworkReply* pReply)

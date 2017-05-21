@@ -1,6 +1,18 @@
 Qalculate changelog:
 --------------------
 
+v0.3:
+New features:
+- Add support for history, which can be disabled in the options
+  The following keys are available:
+  <UP> - Previous history entry
+  <DOWN> -  Next history entry
+  <PAGE UP> - First history entry
+  <PAGE DOWN> - Last history entry
+  <CTRL + C> - Clear input
+Bug fixes:
+- create only a single C++ wrapper object
+
 v0.2:
 - make icon configurable
 - add busy indicator

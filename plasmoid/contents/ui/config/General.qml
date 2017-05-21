@@ -34,6 +34,8 @@ Item {
   property alias cfg_writeResultsInInputLineEdit:   chbWriteResultsInInputLineEdit.checked
   property alias cfg_liveEvaluation:                chbLiveEvaluation.checked
   property alias cfg_timeout:                       tfTimeout.text
+  property alias cfg_historyDisabled:               chbHistoryDisabled.checked
+  property alias cfg_historySize:                   sbHistorySize.value
 
   GridLayout {
     anchors.left: parent.left
@@ -131,6 +133,47 @@ Item {
           text: i18nc("Reset icon to default", "Clear Icon")
           icon: "edit-clear"
           onClicked: cfg_qalculateIcon = Tools.stripProtocol(Qt.resolvedUrl('../../images/Qalculate.svg'))
+        }
+      }
+    }
+
+    GroupBox {
+      title: i18n("Input history")
+      flat: false
+      checkable: false
+      Layout.fillWidth: true
+      Layout.columnSpan: 2
+
+      GridLayout {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        columns: 2
+
+        Item {
+          Layout.columnSpan: 2
+          height: 5
+        }
+
+        CheckBox {
+          id: chbHistoryDisabled
+          text: i18n("Disable input history")
+          tooltip: i18n("Only works when pressing Return")
+          Layout.columnSpan: 2
+        }
+
+        Label {
+          text: i18n("History size") + ':'
+          Layout.alignment: Qt.AlignVCenter|Qt.AlignRight
+          enabled: !chbHistoryDisabled.checked
+        }
+
+        SpinBox {
+          id: sbHistorySize
+          decimals: 0
+          stepSize: 1
+          minimumValue: 1
+          maximumValue: 1e7
+          enabled: !chbHistoryDisabled.checked
         }
       }
     }

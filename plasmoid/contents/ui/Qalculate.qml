@@ -41,6 +41,8 @@ Item {
     property bool debugLogging: false
 
     property int timeout: plasmoid.configuration.timeout
+    property bool historyDisabled: plasmoid.configuration.historyDisabled
+    property int historySize: plasmoid.configuration.historySize
 
     property int unitConversion: plasmoid.configuration.unitConversion
     property int structuringMode: plasmoid.configuration.structuringMode
@@ -142,5 +144,13 @@ Item {
 
     onTimeoutChanged: {
       qwr.setTimeout(timeout)
+    }
+
+    onHistoryDisabledChanged: {
+      qwr.setDisableHistory(historyDisabled)
+    }
+
+    onHistorySizeChanged: {
+      qwr.setHistorySize(historySize)
     }
 }
