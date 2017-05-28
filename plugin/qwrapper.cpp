@@ -324,7 +324,7 @@ QString QWrapper::getFirstHistoryLine()
   auto h = current_history();
   if (h)
     return h->line;
-  return QString("???");
+  return QString("NOT_FOUND");
 }
 
 void QWrapper::getLastHistoryLine()

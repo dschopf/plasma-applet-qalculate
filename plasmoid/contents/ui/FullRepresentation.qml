@@ -127,7 +127,13 @@ Item {
           event.accepted = true
           if (qwr.historyAvailable()) {
             is_current_line = false
-            text = qwr.getFirstHistoryLine()
+            var temp = qwr.getFirstHistoryLine()
+            if (temp !== "NOT_FOUND")
+              text = temp
+            else {
+              is_current_line = true
+              text = current_line
+            }
           }
           return
         }

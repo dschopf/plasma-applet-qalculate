@@ -87,6 +87,7 @@ Item {
       } else {
         plasmoid.configuration.exchangeRatesTime = qwr.getExchangeRatesUpdateTime()
       }
+      qwr.setDisableHistory(historyDisabled)
     }
 
     Component.onDestruction: {
