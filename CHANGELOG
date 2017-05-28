@@ -1,6 +1,9 @@
 Qalculate changelog:
 --------------------
 
+v0.3.1:
+- history is now always initialized properly
+
 v0.3:
 New features:
 - Add support for history, which can be disabled in the options
