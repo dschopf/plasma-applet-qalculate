@@ -179,6 +179,17 @@ Item {
       anchors.margins: 5 * units.largeSpacing
     }
 
+    Timer {
+      id: busyTimer
+      interval: 50
+      running: false
+      repeat: false
+      onTriggered: {
+        busy.visible = true
+        clearOutput()
+      }
+    }
+
     ColumnLayout{
       id: clResult
       spacing: 0
@@ -198,6 +209,7 @@ Item {
           target: qwr
 
           onResultText: {
+            busyTimer.stop()
             lResult.text = result
             lResult.visible = result.length
             busy.visible = !result.length
@@ -209,7 +221,7 @@ Item {
             } else {
               loutputBase.visible = false
             }
-            if (!result.length || !qwr.lastResultIsInteger()) {
+            if (!result.length || !resultIsInteger) {
               loutputBase.visible = false
               outputBinary.visible = false
               outputBinary.text = ""
@@ -219,28 +231,28 @@ Item {
               outputDecimal.text = ""
               outputHex.visible = false
               outputHex.text = ""
-            } else if (qwr.lastResultIsInteger()) {
-              if (binary_enabled) {
-                outputBinary.visible = result.length
-                outputBinary.text = "0b" + qwr.getLastResultInBase(2)
+            } else if (resultIsInteger) {
+              if (binary_enabled && resultBase2.length) {
+                outputBinary.visible = resultBase2.length
+                outputBinary.text = "0b" + resultBase2
               } else {
                 outputBinary.visible = false
               }
-              if (octal_enabled) {
-                outputOctal.visible = result.length
-                outputOctal.text = "0o" + qwr.getLastResultInBase(8)
+              if (octal_enabled && resultBase8.length) {
+                outputOctal.visible = resultBase8.length
+                outputOctal.text = "0o" + resultBase8
               } else {
                 outputOctal.visible = false
               }
-              if (decimal_enabled) {
-                outputDecimal.visible = result.length
-                outputDecimal.text = qwr.getLastResultInBase(10)
+              if (decimal_enabled && resultBase10.length) {
+                outputDecimal.visible = resultBase10.length
+                outputDecimal.text = resultBase10
               } else {
                 outputDecimal.visible = false
               }
-              if (hex_enabled) {
-                outputHex.visible = result.length
-                outputHex.text = "0x" + qwr.getLastResultInBase(16)
+              if (hex_enabled && resultBase16.length) {
+                outputHex.visible = resultBase16.length
+                outputHex.text = "0x" + resultBase16
               } else {
                 outputHex.visible = false
               }
@@ -330,21 +342,31 @@ Item {
   }
 
   function onNewInput(input, enter) {
-    if (input !== last_input) {
-      qalculateIcon.visible = !input.length
-      busy.visible = input.length
-      lResult.visible = false
-      loutputBase.visible = false
-      outputBinary.visible = false
-      outputBinary.text = ""
-      outputOctal.visible = false
-      outputOctal.text = ""
-      outputDecimal.visible = false
-      outputDecimal.text = ""
-      outputHex.visible = false
-      outputHex.text = ""
-      qwr.evaluate(input, enter)
-      last_input = input
+    if (!input.length) {
+      busyTimer.stop()
+      qalculateIcon.visible = true
+      busy.visible = false
+      clearOutput()
+      return
     }
+    if (input !== last_input) {
+      qalculateIcon.visible = false
+      last_input = input
+      qwr.evaluate(input, enter)
+      busyTimer.start()
+    }
+  }
+
+  function clearOutput() {
+    lResult.visible = false
+    loutputBase.visible = false
+    outputBinary.visible = false
+    outputBinary.text = ""
+    outputOctal.visible = false
+    outputOctal.text = ""
+    outputDecimal.visible = false
+    outputDecimal.text = ""
+    outputHex.visible = false
+    outputHex.text = ""
   }
 }

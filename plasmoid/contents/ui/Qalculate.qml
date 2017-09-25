@@ -49,7 +49,6 @@ Item {
     property string decimalSeparator: plasmoid.configuration.decimalSeparator
     property int angleUnit: plasmoid.configuration.angleUnit
     property int expressionBase: plasmoid.configuration.expressionBase
-    property int resultBase: plasmoid.configuration.resultBase
 
     property int numberFractionFormat: plasmoid.configuration.numberFractionFormat
     property int numericalDisplay: plasmoid.configuration.numericalDisplay
@@ -57,6 +56,11 @@ Item {
     property bool useAllPrefixes: plasmoid.configuration.useAllPrefixes
     property bool useDenominatorPrefix: plasmoid.configuration.useDenominatorPrefix
     property bool negativeExponents: plasmoid.configuration.negativeExponents
+    property bool resultInBase2: plasmoid.configuration.binary
+    property bool resultInBase8: plasmoid.configuration.octal
+    property bool resultInBase10: plasmoid.configuration.decimal
+    property bool resultInBase16: plasmoid.configuration.hexadecimal
+    property int resultBase: plasmoid.configuration.resultBase
 
     property Component cr: CompactRepresentation { }
     property Component fr: FullRepresentation { }
@@ -111,10 +115,6 @@ Item {
       qwr.setExpressionBase(expressionBase)
     }
 
-    onResultBaseChanged: {
-      qwr.setResultBase(resultBase)
-    }
-
     onNumberFractionFormatChanged: {
       qwr.setNumberFractionFormat(numberFractionFormat)
     }
@@ -137,6 +137,26 @@ Item {
 
     onNegativeExponentsChanged: {
       qwr.setNegativeExponents(negativeExponents)
+    }
+
+    onResultInBase2Changed: {
+      qwr.setEnableBase2(resultInBase2)
+    }
+
+    onResultInBase8Changed: {
+      qwr.setEnableBase8(resultInBase8)
+    }
+
+    onResultInBase10Changed: {
+      qwr.setEnableBase10(resultInBase10)
+    }
+
+    onResultInBase16Changed: {
+      qwr.setEnableBase16(resultInBase16)
+    }
+
+    onResultBaseChanged: {
+      qwr.setResultBase(resultBase)
     }
 
     onDecimalSeparatorChanged: {

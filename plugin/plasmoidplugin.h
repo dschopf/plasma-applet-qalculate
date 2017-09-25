@@ -4,7 +4,9 @@
 #include <QQmlExtensionPlugin>
 
 class QQmlEngine;
-class PlasmoidPlugin : public QQmlExtensionPlugin
+
+class PlasmoidPlugin
+  : public QQmlExtensionPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")

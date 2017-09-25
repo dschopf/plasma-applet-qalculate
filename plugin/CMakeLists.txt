@@ -2,6 +2,8 @@ find_package(PkgConfig)
 find_package(Readline)
 
 pkg_check_modules(QALCULATE REQUIRED libqalculate>=0.9.8)
+pkg_check_modules(QALCULATE_2_0 QUIET libqalculate>=2.0.0)
+
 kde_enable_exceptions()
 
 set(plasmoidplugin_SRCS plasmoidplugin.cpp qwrapper.cpp)
@@ -11,7 +13,12 @@ add_library(plasmoidplugin SHARED ${plasmoidplugin_SRCS})
 
 include_directories(${Readline_INCLUDE_DIR})
 
-target_link_libraries(plasmoidplugin Qt5::Quick KF5::Plasma cln qalculate pthread ${Readline_LIBRARY})
+IF (${QALCULATE_2_0_FOUND})
+  add_definitions(-DHAVE_QALCULATE_2_0_0)
+  target_link_libraries(plasmoidplugin Qt5::Quick KF5::Plasma qalculate pthread ${Readline_LIBRARY})
+ELSE (${QALCULATE_2_0_FOUND})
+  target_link_libraries(plasmoidplugin Qt5::Quick KF5::Plasma qalculate pthread cln ${Readline_LIBRARY})
+ENDIF (${QALCULATE_2_0_FOUND})
 
 install(TARGETS plasmoidplugin DESTINATION ${QML_INSTALL_DIR}/org/kde/private/qalculate)
 install(FILES qmldir DESTINATION ${QML_INSTALL_DIR}/org/kde/private/qalculate)

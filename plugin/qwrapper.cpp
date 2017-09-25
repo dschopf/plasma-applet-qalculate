@@ -1,3 +1,5 @@
+#include "qwrapper.h"
+
 #include <functional>
 
 #include <readline/history.h>
@@ -7,21 +9,19 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 
-#include "qwrapper.h"
+namespace {
+  constexpr int HUGE_TIMEOUT_MS = 10000000;
+  const Number BASE_PRINT_LIMIT(1, 1, 64);
+}
 
 QWrapper::QWrapper(QObject* parent)
   : QObject(parent)
-  , m_thread()
-  , m_mutex()
-  , m_cond()
-  , m_state(State::Idle)
   , m_pcalc()
   , m_eval_options()
   , m_print_options()
-  , m_latest_result()
   , m_netmgr()
-  , m_timeout(10000)
-  , m_input()
+  , m_config()
+  , m_state()
   , m_history()
 {
   m_pcalc.reset(new Calculator());
@@ -48,48 +48,58 @@ QWrapper::QWrapper(QObject* parent)
   m_print_options.base = 10;
   m_print_options.min_exp = EXP_NONE;
 
+  m_config.enable_base2 = false;
+  m_config.enable_base8 = false;
+  m_config.enable_base10 = false;
+  m_config.enable_base16 = false;
+  m_config.timeout = 10000;
+
+  m_state.aborted = false;
+  m_state.input.clear();
+  m_state.state = State::Idle;
+
   m_history.enabled = true;
 
   initHistoryFile();
 
   using_history();
 
-  m_thread = std::thread(std::bind(&QWrapper::worker, this));
+  m_state.thread = std::thread([&](){worker();});
 }
 
 QWrapper::~QWrapper()
 {
   {
-    std::unique_lock<std::mutex> _(m_mutex);
-    m_state = State::Stop;
+    std::unique_lock<std::mutex> _(m_state.mutex);
+    m_state.state = State::Stop;
   }
 
-  m_cond.notify_one();
-  m_thread.join();
+  m_state.cond.notify_one();
+  m_state.thread.join();
+  m_pcalc->terminateThreads();
+  m_pcalc.reset();
 }
 
 void QWrapper::evaluate(QString const& input, bool const enter_pressed)
 {
   {
-    std::unique_lock<std::mutex> _(m_mutex);
+    std::unique_lock<std::mutex> _(m_state.mutex);
 
-    switch (m_state) {
-      case State::Idle:
+    switch (m_state.state) {
       case State::Stop:
+        return;
+      case State::Idle:
         break;
       case State::Calculating:
-        if (m_pcalc->busy())
-          m_pcalc->abort();
-        break;
-      case State::Printing:
-        m_pcalc->abortPrint();
+        m_pcalc->abort();
+        m_state.aborted = true;
         break;
     }
 
-    m_input = input;
+    m_state.input = input;
   }
 
-  m_cond.notify_all();
+  m_state.cond.notify_all();
 
   if (enter_pressed && !input.isEmpty() && (input != m_history.last_entry)) {
     m_history.last_entry = input;
@@ -99,38 +109,17 @@ void QWrapper::evaluate(QString const& input, bool const enter_pressed)
   }
 }
 
-bool QWrapper::lastResultIsInteger()
+void QWrapper::setTimeout(const int timeout)
 {
-  return m_latest_result.representsInteger(false);
+  m_config.timeout = timeout;
 }
 
-QString QWrapper::getLastResultInBase(int const base)
+void QWrapper::setDisableHistory(const bool disabled)
 {
-  if (base < 2 || base > 64)
-    return QString();
+  m_history.enabled = !disabled;
 
-  PrintOptions po(m_print_options);
-
-  po.base = base;
-
-  m_latest_result.format(po);
-
-  return m_latest_result.print(po).c_str();
-}
-
-void QWrapper::setTimeout(int const timeout)
-{
-  m_timeout = timeout;
-}
-
-void QWrapper::setDisableHistory(bool disabled)
-{
-  if (disabled) {
-    m_history.enabled = false;
+  if (disabled)
     return;
-  }
-
-  m_history.enabled = true;
 
   auto ret = read_history(m_history.filename.c_str());
   if (ret < 0) {
@@ -146,13 +135,13 @@ void QWrapper::setDisableHistory(bool disabled)
   }
 }
 
-void QWrapper::setHistorySize(int const size)
+void QWrapper::setHistorySize(const int size)
 {
   if (size > 0 && size < 1e7)
     stifle_history(size);
 }
 
-void QWrapper::setAutoPostConversion(int const value)
+void QWrapper::setAutoPostConversion(const int value)
 {
   switch (value) {
     case 0:
@@ -167,7 +156,7 @@ void QWrapper::setAutoPostConversion(int const value)
   }
 }
 
-void QWrapper::setStructuringMode(int const mode)
+void QWrapper::setStructuringMode(const int mode)
 {
   switch (mode) {
     case 0:
@@ -182,9 +171,9 @@ void QWrapper::setStructuringMode(int const mode)
   }
 }
 
-void QWrapper::setDecimalSeparator(QString const& separator)
+void QWrapper::setDecimalSeparator(const QString& separator)
 {
-  if (separator.compare(",") == 0) {
+  if (separator == ",") {
     m_print_options.decimalpoint_sign = ',';
     m_pcalc->useDecimalComma();
   } else {
@@ -193,7 +182,7 @@ void QWrapper::setDecimalSeparator(QString const& separator)
   }
 }
 
-void QWrapper::setAngleUnit(int const unit)
+void QWrapper::setAngleUnit(const int unit)
 {
   switch (unit) {
     case 0:
@@ -211,13 +200,33 @@ void QWrapper::setAngleUnit(int const unit)
   }
 }
 
-void QWrapper::setExpressionBase(int const base)
+void QWrapper::setExpressionBase(const int base)
 {
   if (base > 1 && base < 65)
     m_eval_options.parse_options.base = base;
 }
 
-void QWrapper::setResultBase(int const base)
+void QWrapper::setEnableBase2(const bool enable)
+{
+  m_config.enable_base2 = enable;
+}
+
+void QWrapper::setEnableBase8(const bool enable)
+{
+  m_config.enable_base8 = enable;
+}
+
+void QWrapper::setEnableBase10(const bool enable)
+{
+  m_config.enable_base10 = enable;
+}
+
+void QWrapper::setEnableBase16(const bool enable)
+{
+  m_config.enable_base16 = enable;
+}
+
+void QWrapper::setResultBase(const int base)
 {
   if (base > 1 && base < 65)
     m_print_options.base = base;
@@ -335,49 +344,96 @@ void QWrapper::getLastHistoryLine()
 
 void QWrapper::worker()
 {
-  std::unique_lock<std::mutex> _(m_mutex);
-  while (m_state != State::Stop)
-  {
-    if (!m_input.isEmpty())
-    {
-      m_state = State::Calculating;
-      auto expr = m_pcalc->unlocalizeExpression(m_input.toStdString(), m_eval_options.parse_options);
-      m_input.clear();
+  std::unique_lock<std::mutex> lock(m_state.mutex);
 
-      _.unlock();
-
-      QString result;
-
-      if (m_pcalc->calculate(&m_latest_result, expr, m_timeout, m_eval_options))
-      {
-        if (!m_latest_result.isAborted())
-        {
-          _.lock();
-          m_state = State::Printing;
-          _.unlock();
-
-          m_pcalc->startPrintControl(m_timeout);
-          m_latest_result.format(m_print_options);
-          result = m_latest_result.print(m_print_options).c_str();
-          if (m_pcalc->printingAborted())
-            emit calculationTimeout();
-          else
-            emit resultText(result);
-          m_pcalc->stopPrintControl();
-        }
-      }
-      else
-      {
-        emit calculationTimeout();
-      }
-
-      _.lock();
+  while (m_state.state != State::Stop) {
+    if (!m_state.input.isEmpty()) {
+      m_state.state = State::Calculating;
+      auto expr = m_pcalc->unlocalizeExpression(m_state.input.toStdString(), m_eval_options.parse_options);
+      m_state.input.clear();
+      lock.unlock();
+      m_pcalc->startControl(m_config.timeout);
+      runCalculation(expr);
+      m_pcalc->stopControl();
+      lock.lock();
     }
 
-    m_state = State::Idle;
-    if (m_input.isEmpty())
-      m_cond.wait(_);
+    m_state.state = State::Idle;
+    while (m_state.input.isEmpty() && m_state.state != State::Stop)
+      m_state.cond.wait(lock);
   }
+}
+
+void QWrapper::runCalculation(const std::string& expr)
+{
+  MathStructure result;
+
+  // use a huge timeout values here, the wrapping control should handle our real timeout
+
+  const bool res = m_pcalc->calculate(&result, expr, HUGE_TIMEOUT_MS, m_eval_options);
+  if (!res && checkReturnState())
+    return;
+
+  QString result_string(QString::fromStdString(m_pcalc->print(result, HUGE_TIMEOUT_MS, m_print_options)));
+  if (result_string.isEmpty() || checkReturnState())
+    return;
+
+  const bool isInteger = result.representsNonNegative() && result.representsInteger();
+
+  if (!isInteger || result.number().isGreaterThan(BASE_PRINT_LIMIT)) {
+    emit resultText(result_string, false, "", "", "", "");
+    return;
+  }
+
+  QString result_base[4];
+
+  for (auto& i : std::map<int, int>{{0, 2}, {1, 8}, {2, 10}, {3, 16}})
+    if (printResultInBase(i.second, result, result_base[i.first]))
+      return;
+
+  emit resultText(result_string, true, result_base[0], result_base[1], result_base[2], result_base[3]);
+}
+
+bool QWrapper::checkReturnState()
+{
+  {
+    std::unique_lock<std::mutex> lock(m_state.mutex);
+    if (m_state.aborted) {
+      m_state.aborted = false;
+      return true;
+    }
+  }
+  if (m_pcalc->aborted()) {
+    emit calculationTimeout();
+    return true;
+  }
+  return false;
+}
+
+bool QWrapper::printResultInBase(const int base, MathStructure& result, QString& result_string)
+{
+  if (getBaseEnable(base) && m_print_options.base != base) {
+    PrintOptions po(m_print_options);
+    po.base = base;
+    result_string = QString::fromStdString(m_pcalc->print(result, HUGE_TIMEOUT_MS, po));
+    return checkReturnState();
+  }
+  return false;
+}
+
+bool QWrapper::getBaseEnable(const int base)
+{
+  switch (base) {
+    case 2:
+      return m_config.enable_base2;
+    case 8:
+      return m_config.enable_base8;
+    case 10:
+      return m_config.enable_base10;
+    case 16:
+      return m_config.enable_base16;
+  }
+  return false;
 }
 
 void QWrapper::initHistoryFile()
