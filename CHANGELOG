@@ -1,6 +1,12 @@
 Qalculate changelog:
 --------------------
 
+v0.4.0:
+- add support for libqalculate v2.0.0
+- change license to MIT
+- bump copyright to 2017
+- add .clang-format file for C++ plugin and format accordingly
+
 v0.3.1:
 - history is now always initialized properly
 
