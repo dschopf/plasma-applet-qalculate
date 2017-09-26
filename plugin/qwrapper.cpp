@@ -33,24 +33,20 @@
 #define PRINT_RESULT(a, b, c) QString::fromStdString(m_pcalc->print(a, b, c))
 #define TIMEOUT HUGE_TIMEOUT_MS
 #else
-#define PRINT_RESULT(a, b, c) QString::fromStdString(m_pcalc->printMathStructureTimeOut(a, b, c))
+#define PRINT_RESULT(a, b, c)                                                  \
+  QString::fromStdString(m_pcalc->printMathStructureTimeOut(a, b, c))
 #define TIMEOUT m_config.timeout
 #endif
 
-namespace {
+namespace
+{
   constexpr int HUGE_TIMEOUT_MS = 10000000;
   const Number BASE_PRINT_LIMIT(1, 1, 64);
-}
+} // namespace
 
-QWrapper::QWrapper(QObject* parent)
-  : QObject(parent)
-  , m_pcalc()
-  , m_eval_options()
-  , m_print_options()
-  , m_netmgr()
-  , m_config()
-  , m_state()
-  , m_history()
+QWrapper::QWrapper(QObject *parent)
+    : QObject(parent), m_pcalc(), m_eval_options(), m_print_options(),
+      m_netmgr(), m_config(), m_state(), m_history()
 {
   m_pcalc.reset(new Calculator());
   m_pcalc->loadGlobalDefinitions();
@@ -92,7 +88,7 @@ QWrapper::QWrapper(QObject* parent)
 
   using_history();
 
-  m_state.thread = std::thread([&](){worker();});
+  m_state.thread = std::thread([&]() { worker(); });
 }
 
 QWrapper::~QWrapper()
@@ -108,7 +104,7 @@ QWrapper::~QWrapper()
   m_pcalc.reset();
 }
 
-void QWrapper::evaluate(QString const& input, bool const enter_pressed)
+void QWrapper::evaluate(QString const &input, bool const enter_pressed)
 {
   {
     std::unique_lock<std::mutex> _(m_state.mutex);
@@ -143,10 +139,7 @@ void QWrapper::evaluate(QString const& input, bool const enter_pressed)
   }
 }
 
-void QWrapper::setTimeout(const int timeout)
-{
-  m_config.timeout = timeout;
-}
+void QWrapper::setTimeout(const int timeout) { m_config.timeout = timeout; }
 
 void QWrapper::setDisableHistory(const bool disabled)
 {
@@ -205,7 +198,7 @@ void QWrapper::setStructuringMode(const int mode)
   }
 }
 
-void QWrapper::setDecimalSeparator(const QString& separator)
+void QWrapper::setDecimalSeparator(const QString &separator)
 {
   if (separator == ",") {
     m_print_options.decimalpoint_sign = ',';
@@ -327,7 +320,8 @@ void QWrapper::setNegativeExponents(const bool value)
 
 void QWrapper::updateExchangeRates()
 {
-  connect(&m_netmgr, SIGNAL (finished(QNetworkReply*)), SLOT (fileDownloaded(QNetworkReply*)));
+  connect(&m_netmgr, SIGNAL(finished(QNetworkReply *)),
+          SLOT(fileDownloaded(QNetworkReply *)));
   QNetworkRequest req(QUrl(m_pcalc->getExchangeRatesUrl().c_str()));
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   m_netmgr.get(req);
@@ -340,10 +334,7 @@ QString QWrapper::getExchangeRatesUpdateTime()
   return QLocale().toString(dt);
 }
 
-bool QWrapper::historyAvailable()
-{
-  return m_history.enabled;
-}
+bool QWrapper::historyAvailable() { return m_history.enabled; }
 
 QString QWrapper::getPrevHistoryLine()
 {
@@ -383,7 +374,8 @@ void QWrapper::worker()
   while (m_state.state != State::Stop) {
     if (!m_state.input.isEmpty()) {
       m_state.state = State::Calculating;
-      auto expr = m_pcalc->unlocalizeExpression(m_state.input.toStdString(), m_eval_options.parse_options);
+      auto expr = m_pcalc->unlocalizeExpression(m_state.input.toStdString(),
+                                                m_eval_options.parse_options);
       m_state.input.clear();
       lock.unlock();
 #if defined(HAVE_QALCULATE_2_0_0)
@@ -402,11 +394,12 @@ void QWrapper::worker()
   }
 }
 
-void QWrapper::runCalculation(const std::string& expr)
+void QWrapper::runCalculation(const std::string &expr)
 {
   MathStructure result;
 
-  // use a huge timeout values here, the wrapping control should handle our real timeout
+  // use a huge timeout values here, the wrapping control should handle our real
+  // timeout
 
   const bool res = m_pcalc->calculate(&result, expr, TIMEOUT, m_eval_options);
   if (!res && checkReturnState())
@@ -427,7 +420,8 @@ void QWrapper::runCalculation(const std::string& expr)
     return;
   }
 
-  const bool isInteger = result.representsNonNegative() && result.representsInteger();
+  const bool isInteger =
+      result.representsNonNegative() && result.representsInteger();
 
   if (!isInteger || result.number().isGreaterThan(BASE_PRINT_LIMIT)) {
     emit resultText(result_string, false, "", "", "", "");
@@ -439,7 +433,7 @@ void QWrapper::runCalculation(const std::string& expr)
 
   QString result_base[4];
 
-  for (auto& i : std::map<int, int>{{0, 2}, {1, 8}, {2, 10}, {3, 16}})
+  for (auto &i : std::map<int, int>{{0, 2}, {1, 8}, {2, 10}, {3, 16}})
     if (printResultInBase(i.second, result, result_base[i.first])) {
 #if defined(HAVE_QALCULATE_2_0_0)
       m_pcalc->stopPrintControl();
@@ -447,7 +441,8 @@ void QWrapper::runCalculation(const std::string& expr)
       return;
     }
 
-  emit resultText(result_string, true, result_base[0], result_base[1], result_base[2], result_base[3]);
+  emit resultText(result_string, true, result_base[0], result_base[1],
+                  result_base[2], result_base[3]);
 #if defined(HAVE_QALCULATE_2_0_0)
   m_pcalc->stopPrintControl();
 #endif
@@ -473,7 +468,8 @@ bool QWrapper::checkReturnState()
   return false;
 }
 
-bool QWrapper::printResultInBase(const int base, MathStructure& result, QString& result_string)
+bool QWrapper::printResultInBase(const int base, MathStructure &result,
+                                 QString &result_string)
 {
   if (getBaseEnable(base) && m_print_options.base != base) {
     PrintOptions po(m_print_options);
@@ -518,10 +514,11 @@ void QWrapper::initHistoryFile()
   m_history.filename.swap(file_path);
 }
 
-void QWrapper::fileDownloaded(QNetworkReply* pReply)
+void QWrapper::fileDownloaded(QNetworkReply *pReply)
 {
   if (pReply->error() != QNetworkReply::NoError)
-    qDebug() << "[Qalculate!] Error downloading exchange rates (" << pReply->error() << "): " << pReply->errorString();
+    qDebug() << "[Qalculate!] Error downloading exchange rates ("
+             << pReply->error() << "): " << pReply->errorString();
 
   QByteArray data = pReply->readAll();
 
