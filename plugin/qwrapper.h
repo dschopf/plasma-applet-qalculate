@@ -14,6 +14,9 @@
 enum class State {
   Calculating,
   Idle,
+#if !defined(HAVE_QALCULATE_2_0)
+  Printing,
+#endif
   Stop
 };
 

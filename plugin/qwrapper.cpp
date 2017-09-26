@@ -9,6 +9,14 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 
+#if defined(HAVE_QALCULATE_2_0_0)
+#define PRINT_RESULT(a, b, c) QString::fromStdString(m_pcalc->print(a, b, c))
+#define TIMEOUT HUGE_TIMEOUT_MS
+#else
+#define PRINT_RESULT(a, b, c) QString::fromStdString(m_pcalc->printMathStructureTimeOut(a, b, c))
+#define TIMEOUT m_config.timeout
+#endif
+
 namespace {
   constexpr int HUGE_TIMEOUT_MS = 10000000;
   const Number BASE_PRINT_LIMIT(1, 1, 64);
@@ -90,6 +98,12 @@ void QWrapper::evaluate(QString const& input, bool const enter_pressed)
         return;
       case State::Idle:
         break;
+#if !defined(HAVE_QALCULATE_2_0_0)
+      case State::Printing:
+        m_pcalc->abortPrint();
+        m_state.aborted = true;
+        break;
+#endif
       case State::Calculating:
         m_pcalc->abort();
         m_state.aborted = true;
@@ -352,9 +366,13 @@ void QWrapper::worker()
       auto expr = m_pcalc->unlocalizeExpression(m_state.input.toStdString(), m_eval_options.parse_options);
       m_state.input.clear();
       lock.unlock();
+#if defined(HAVE_QALCULATE_2_0_0)
       m_pcalc->startControl(m_config.timeout);
+#endif
       runCalculation(expr);
+#if defined(HAVE_QALCULATE_2_0_0)
       m_pcalc->stopControl();
+#endif
       lock.lock();
     }
 
@@ -370,28 +388,49 @@ void QWrapper::runCalculation(const std::string& expr)
 
   // use a huge timeout values here, the wrapping control should handle our real timeout
 
-  const bool res = m_pcalc->calculate(&result, expr, HUGE_TIMEOUT_MS, m_eval_options);
+  const bool res = m_pcalc->calculate(&result, expr, TIMEOUT, m_eval_options);
   if (!res && checkReturnState())
     return;
 
-  QString result_string(QString::fromStdString(m_pcalc->print(result, HUGE_TIMEOUT_MS, m_print_options)));
-  if (result_string.isEmpty() || checkReturnState())
+#if defined(HAVE_QALCULATE_2_0_0)
+  {
+    std::unique_lock<std::mutex> lock(m_state.mutex);
+    m_state.state = State::Printing;
+  }
+  m_pcalc->startPrintControl(m_config.timeout);
+#endif
+  QString result_string(PRINT_RESULT(result, HUGE_TIMEOUT_MS, m_print_options));
+  if (result_string.isEmpty() || checkReturnState()) {
+#if defined(HAVE_QALCULATE_2_0_0)
+    m_pcalc->stopPrintControl();
+#endif
     return;
+  }
 
   const bool isInteger = result.representsNonNegative() && result.representsInteger();
 
   if (!isInteger || result.number().isGreaterThan(BASE_PRINT_LIMIT)) {
     emit resultText(result_string, false, "", "", "", "");
+#if defined(HAVE_QALCULATE_2_0_0)
+    m_pcalc->stopPrintControl();
+#endif
     return;
   }
 
   QString result_base[4];
 
   for (auto& i : std::map<int, int>{{0, 2}, {1, 8}, {2, 10}, {3, 16}})
-    if (printResultInBase(i.second, result, result_base[i.first]))
+    if (printResultInBase(i.second, result, result_base[i.first])) {
+#if defined(HAVE_QALCULATE_2_0_0)
+      m_pcalc->stopPrintControl();
+#endif
       return;
+    }
 
   emit resultText(result_string, true, result_base[0], result_base[1], result_base[2], result_base[3]);
+#if defined(HAVE_QALCULATE_2_0_0)
+  m_pcalc->stopPrintControl();
+#endif
 }
 
 bool QWrapper::checkReturnState()
@@ -403,7 +442,11 @@ bool QWrapper::checkReturnState()
       return true;
     }
   }
+#if defined(HAVE_QALCULATE_2_0_0)
   if (m_pcalc->aborted()) {
+#else
+  if (m_pcalc->printingAborted()) {
+#endif
     emit calculationTimeout();
     return true;
   }
@@ -415,7 +458,7 @@ bool QWrapper::printResultInBase(const int base, MathStructure& result, QString&
   if (getBaseEnable(base) && m_print_options.base != base) {
     PrintOptions po(m_print_options);
     po.base = base;
-    result_string = QString::fromStdString(m_pcalc->print(result, HUGE_TIMEOUT_MS, po));
+    result_string = PRINT_RESULT(result, HUGE_TIMEOUT_MS, po);
     return checkReturnState();
   }
   return false;
