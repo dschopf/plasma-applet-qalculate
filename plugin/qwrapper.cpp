@@ -405,7 +405,7 @@ void QWrapper::runCalculation(const std::string &expr)
   if (!res && checkReturnState())
     return;
 
-#if defined(HAVE_QALCULATE_2_0_0)
+#if !defined(HAVE_QALCULATE_2_0_0)
   {
     std::unique_lock<std::mutex> lock(m_state.mutex);
     m_state.state = State::Printing;
@@ -414,7 +414,7 @@ void QWrapper::runCalculation(const std::string &expr)
 #endif
   QString result_string(PRINT_RESULT(result, HUGE_TIMEOUT_MS, m_print_options));
   if (result_string.isEmpty() || checkReturnState()) {
-#if defined(HAVE_QALCULATE_2_0_0)
+#if !defined(HAVE_QALCULATE_2_0_0)
     m_pcalc->stopPrintControl();
 #endif
     return;
@@ -425,7 +425,7 @@ void QWrapper::runCalculation(const std::string &expr)
 
   if (!isInteger || result.number().isGreaterThan(BASE_PRINT_LIMIT)) {
     emit resultText(result_string, false, "", "", "", "");
-#if defined(HAVE_QALCULATE_2_0_0)
+#if !defined(HAVE_QALCULATE_2_0_0)
     m_pcalc->stopPrintControl();
 #endif
     return;
@@ -435,7 +435,7 @@ void QWrapper::runCalculation(const std::string &expr)
 
   for (auto &i : std::map<int, int>{{0, 2}, {1, 8}, {2, 10}, {3, 16}})
     if (printResultInBase(i.second, result, result_base[i.first])) {
-#if defined(HAVE_QALCULATE_2_0_0)
+#if !defined(HAVE_QALCULATE_2_0_0)
       m_pcalc->stopPrintControl();
 #endif
       return;
@@ -443,7 +443,7 @@ void QWrapper::runCalculation(const std::string &expr)
 
   emit resultText(result_string, true, result_base[0], result_base[1],
                   result_base[2], result_base[3]);
-#if defined(HAVE_QALCULATE_2_0_0)
+#if !defined(HAVE_QALCULATE_2_0_0)
   m_pcalc->stopPrintControl();
 #endif
 }
