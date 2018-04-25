@@ -23,7 +23,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.0
 
 import org.kde.plasma.plasmoid 2.0
-import org.kde.plasma.core 2.0
+import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
 
 import "../code/tools.js" as Tools
@@ -44,6 +44,8 @@ Item {
 
   Layout.minimumHeight: units.gridUnit * 10 // 150
   Layout.minimumWidth: units.gridUnit * 15 // 200
+  Layout.preferredHeight: units.gridUnit * 10 // 150
+  Layout.preferredWidth: units.gridUnit * 15 // 200
 
   RowLayout {
     id: topRowLayout
@@ -161,14 +163,24 @@ Item {
     anchors.top: topRowLayout.bottom
     anchors.horizontalCenter: parent.horizontalCenter
     width: parent.width
-    height: (parent.height - topRowLayout.height)
+    height: parent.height - topRowLayout.height
 
-    IconItem {
-      id: qalculateIcon
+    PlasmaCore.SvgItem {
+      id: qalculateFullIcon
       visible: true
-      anchors.fill: parent
-      anchors.margins: units.largeSpacing
-      source: Tools.stripProtocol(Qt.resolvedUrl('../images/Qalculate.svg'))
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.verticalCenter: parent.verticalCenter
+      Layout.fillHeight: true
+      Layout.fillWidth: true
+      Layout.maximumHeight: Math.min(parent.height, parent.width)
+      Layout.maximumWidth: Layout.maximumHeight
+      Layout.preferredHeight: Math.min(parent.height, parent.width)
+      Layout.preferredWidth: Layout.preferredHeight
+      smooth: true
+
+      svg: PlasmaCore.Svg {
+        imagePath: Tools.stripProtocol(Qt.resolvedUrl('../images/Qalculate.svg'))
+      }
     }
 
     BusyIndicator {
@@ -344,13 +356,13 @@ Item {
   function onNewInput(input, enter) {
     if (!input.length) {
       busyTimer.stop()
-      qalculateIcon.visible = true
+      qalculateFullIcon.visible = true
       busy.visible = false
       clearOutput()
       return
     }
     if (input !== last_input) {
-      qalculateIcon.visible = false
+      qalculateFullIcon.visible = false
       last_input = input
       qwr.evaluate(input, enter)
       busyTimer.start()

@@ -24,7 +24,6 @@ import QtQuick.Layouts 1.0
 import org.kde.plasma.components 2.0 as PlasmaComponents
 
 Item {
-
   property int cfg_unitConversion
   property int cfg_structuringMode
   property string cfg_decimalSeparator

@@ -19,7 +19,7 @@
 //  IN THE SOFTWARE.
 
 import QtQuick 2.0
-
+import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.plasmoid 2.0
 
 import "../code/tools.js" as Tools
@@ -40,6 +40,7 @@ Item {
     property bool fromCompact: false
     property bool debugLogging: false
 
+    property string qalculateIcon: plasmoid.configuration.qalculateIcon
     property int timeout: plasmoid.configuration.timeout
     property bool historyDisabled: plasmoid.configuration.historyDisabled
     property int historySize: plasmoid.configuration.historySize
@@ -62,9 +63,48 @@ Item {
     property bool resultInBase16: plasmoid.configuration.hexadecimal
     property int resultBase: plasmoid.configuration.resultBase
 
-    property Component cr: CompactRepresentation { }
-    property Component fr: FullRepresentation { }
-    property Component frFailed: FullRepresentationFailed { }
+    Component {
+      id: compactRepresentation
+      Item {
+        id: root
+
+        PlasmaCore.IconItem {
+          id: defaultPanelIcon
+          anchors.fill: parent
+          visible: false
+          source: plasmoid.configuration.qalculateIcon
+        }
+
+        PlasmaCore.SvgItem {
+          id: qalculateSvgIcon
+          visible: true
+          anchors.horizontalCenter: parent.horizontalCenter
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.fill: parent
+          smooth: true
+          svg: PlasmaCore.Svg {
+            imagePath: plasmoid.configuration.qalculateIcon
+            onImagePathChanged: {
+              qalculateSvgIcon.visible = isValid()
+              defaultPanelIcon.visible = !isValid()
+            }
+          }
+        }
+
+        MouseArea {
+          id: mouseArea
+          anchors.fill: parent
+          hoverEnabled: true
+          onClicked: {
+            main.fromCompact = true
+            plasmoid.expanded = !plasmoid.expanded;
+          }
+        }
+      }
+    }
+
+    property Component fr: FullRepresentation {}
+    property Component frFailed: FullRepresentationFailed {}
 
     function dbgprint(msg) {
         if (!debugLogging) {
@@ -76,7 +116,7 @@ Item {
     Plasmoid.icon: plasmoid.configuration.qalculateIcon
     Plasmoid.toolTipMainText: "Qalculate!"
 
-    Plasmoid.compactRepresentation: cr
+    Plasmoid.compactRepresentation: compactRepresentation
     Plasmoid.fullRepresentation: fr
 
     Component.onCompleted: {
@@ -84,8 +124,9 @@ Item {
         Plasmoid.fullRepresentation = frFailed
         return
       }
-      if (!plasmoid.configuration.qalculateIcon)
+      if (plasmoid.configuration.qalculateIcon.length == 0) {
         plasmoid.configuration.qalculateIcon = Tools.stripProtocol(Qt.resolvedUrl('../images/Qalculate.svg'))
+      }
       if (plasmoid.configuration.updateExchangeRatesAtStartup) {
         qwr.updateExchangeRates()
       } else {

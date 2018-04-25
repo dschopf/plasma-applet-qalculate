@@ -111,6 +111,7 @@ Item {
           height: units.iconSizes.large + fixedMargins.top + fixedMargins.bottom
 
           PlasmaCore.IconItem {
+            id: iconPreview
             anchors.centerIn: parent
             width: units.iconSizes.large
             height: width
