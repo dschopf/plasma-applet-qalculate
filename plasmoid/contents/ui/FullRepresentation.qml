@@ -25,6 +25,7 @@ import QtQuick.Layouts 1.0
 import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
+import org.kde.kquickcontrolsaddons 2.0 as KQuickControlsAddons
 
 import "../code/tools.js" as Tools
 
@@ -46,6 +47,86 @@ Item {
   Layout.minimumWidth: units.gridUnit * 15 // 200
   Layout.preferredHeight: units.gridUnit * 10 // 150
   Layout.preferredWidth: units.gridUnit * 15 // 200
+
+  KQuickControlsAddons.Clipboard {
+    id: clipboard
+  }
+
+  PlasmaComponents.ContextMenu {
+    id: contextMenu
+
+    function show(item, x, y) {
+      visualParent = item
+      open(x, y)
+    }
+
+    PlasmaComponents.MenuItem {
+      id: menuitem_copy
+      text: i18n("Copy result to clipboard")
+      icon: "edit-copy"
+      enabled: lResult.visible
+      onClicked: clipboard.content = lResult.text
+    }
+
+    PlasmaComponents.MenuItem {
+      id: menuitem_submenu
+
+      text: i18n("Copy result as")
+      icon: "edit-copy"
+      enabled: lResult.visible
+      visible: outputBinary.visible || outputOctal.visible || outputDecimal.visible || outputHex.visible
+
+      property variant submenu: submenu_copybase
+
+      PlasmaComponents.ContextMenu {
+        id: submenu_copybase
+        visualParent: menuitem_submenu.action
+
+        PlasmaComponents.MenuItem {
+          id: menuitem_copybase2
+          text: i18n("Binary")
+          icon: "edit-copy"
+          enabled: lResult.visible
+          visible: outputBinary.visible
+          onClicked: clipboard.content = outputBinary.text
+        }
+
+        PlasmaComponents.MenuItem {
+          id: menuitem_copybase8
+          text: i18n("Octal")
+          icon: "edit-copy"
+          enabled: lResult.visible
+          visible: outputOctal.visible
+          onClicked: clipboard.content = outputOctal.text
+        }
+
+        PlasmaComponents.MenuItem {
+          id: menuitem_copybase10
+          text: i18n("Decimal")
+          icon: "edit-copy"
+          enabled: lResult.visible
+          visible: outputDecimal.visible
+          onClicked: clipboard.content = outputDecimal.text
+        }
+
+        PlasmaComponents.MenuItem {
+          id: menuitem_copybase16
+          text: i18n("Hexadecimal")
+          icon: "edit-copy"
+          enabled: lResult.visible
+          visible: outputHex.visible
+          onClicked: clipboard.content = outputHex.text
+        }
+      }
+    }
+  }
+
+  MouseArea {
+    anchors.fill: parent
+    acceptedButtons: Qt.RightButton
+    onPressed: contextMenu.show(this, mouse.x, mouse.y)
+    enabled: true
+  }
 
   RowLayout {
     id: topRowLayout
