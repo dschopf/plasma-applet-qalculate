@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2017-05-07 19:27+0200\n"
+"POT-Creation-Date: 2018-05-01 07:44+0200\n"
 "PO-Revision-Date: 2016-09-12 19:18+0200\n"
 "Last-Translator: Obed González <obedlink@gmail.com>\n"
 "Language-Team: Obed González <obedlink@gmail.com>\n"
@@ -41,145 +41,159 @@ msgctxt "Exchange rates"
 msgid "Last update"
 msgstr "Ultima actualización"
 
-#: ../plasmoid/contents/ui/config/General.qml:45
+#: ../plasmoid/contents/ui/config/General.qml:47
+#: ../plasmoid/contents/ui/FullRepresentation.qml:65
 msgid "Copy result to clipboard"
 msgstr "Copiar el resultado al portapapeles"
 
-#: ../plasmoid/contents/ui/config/General.qml:46
-#: ../plasmoid/contents/ui/config/General.qml:53
+#: ../plasmoid/contents/ui/config/General.qml:48
+#: ../plasmoid/contents/ui/config/General.qml:55
+#: ../plasmoid/contents/ui/config/General.qml:161
 msgid "Only works when pressing Return"
 msgstr "Sólo funciona cuando se pulsa Intro"
 
-#: ../plasmoid/contents/ui/config/General.qml:52
+#: ../plasmoid/contents/ui/config/General.qml:54
 msgid "Write results in input line edit"
 msgstr "Escribir los resultados en una linea de entrada de edición"
 
-#: ../plasmoid/contents/ui/config/General.qml:59
+#: ../plasmoid/contents/ui/config/General.qml:61
 msgid "Live evaluation"
 msgstr "Cálculo en tiempo real"
 
-#: ../plasmoid/contents/ui/config/General.qml:64
+#: ../plasmoid/contents/ui/config/General.qml:66
 msgid "Calculation timeout"
 msgstr "Timepo de espera para el cálculo"
 
-#: ../plasmoid/contents/ui/config/General.qml:78
+#: ../plasmoid/contents/ui/config/General.qml:80
 msgid "Icon"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:126
+#: ../plasmoid/contents/ui/config/General.qml:129
 msgctxt "Open icon chooser dialog"
 msgid "Choose Icon"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:131
+#: ../plasmoid/contents/ui/config/General.qml:134
 msgctxt "Reset icon to default"
 msgid "Clear Icon"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Input.qml:84
+#: ../plasmoid/contents/ui/config/General.qml:142
+msgid "Input history"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/General.qml:160
+msgid "Disable input history"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/General.qml:166
+msgid "History size"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Input.qml:83
 msgid "Unit conversion"
 msgstr "Conversión de unidades"
 
-#: ../plasmoid/contents/ui/config/Input.qml:103
+#: ../plasmoid/contents/ui/config/Input.qml:102
 msgctxt "Unit conversion"
 msgid "None"
 msgstr "Ninguna"
 
-#: ../plasmoid/contents/ui/config/Input.qml:107
+#: ../plasmoid/contents/ui/config/Input.qml:106
 msgctxt "Unit conversion"
 msgid "Do not do any conversion of units in addition to syncing."
 msgstr ""
 "No realizar ninguna conversión de unidades, además de la sincronización."
 
-#: ../plasmoid/contents/ui/config/Input.qml:113
+#: ../plasmoid/contents/ui/config/Input.qml:112
 msgctxt "Unit conversion"
 msgid "Best"
 msgstr "La mejor"
 
-#: ../plasmoid/contents/ui/config/Input.qml:117
+#: ../plasmoid/contents/ui/config/Input.qml:116
 msgctxt "Unit conversion"
 msgid "Convert to the best suited SI units (the least amount of units)."
 msgstr ""
 "Convertir a las unidades del SI más adecuadas (la mejor cantidad de "
 "unidades)."
 
-#: ../plasmoid/contents/ui/config/Input.qml:123
+#: ../plasmoid/contents/ui/config/Input.qml:122
 msgctxt "Unit conversion"
 msgid "Base"
 msgstr "Base"
 
-#: ../plasmoid/contents/ui/config/Input.qml:127
+#: ../plasmoid/contents/ui/config/Input.qml:126
 msgctxt "Unit conversion"
 msgid "Convert to base units."
 msgstr "Convertir a unidades base."
 
-#: ../plasmoid/contents/ui/config/Input.qml:133
+#: ../plasmoid/contents/ui/config/Input.qml:132
 msgid "Structuring mode"
 msgstr "Modo de estructuración"
 
-#: ../plasmoid/contents/ui/config/Input.qml:152
+#: ../plasmoid/contents/ui/config/Input.qml:151
 msgctxt "Structuring mode"
 msgid "None"
 msgstr "Ninguna"
 
-#: ../plasmoid/contents/ui/config/Input.qml:156
+#: ../plasmoid/contents/ui/config/Input.qml:155
 msgctxt "Structuring mode"
 msgid "Do not do any factorization or additional simplifications."
 msgstr "No realizar ninguna factorización o simplificaciones adicionales."
 
-#: ../plasmoid/contents/ui/config/Input.qml:162
+#: ../plasmoid/contents/ui/config/Input.qml:161
 msgctxt "Structuring mode"
 msgid "Simplify"
 msgstr "Simplificar"
 
-#: ../plasmoid/contents/ui/config/Input.qml:166
+#: ../plasmoid/contents/ui/config/Input.qml:165
 msgctxt "Structuring mode"
 msgid "Simplify the result as much as possible."
 msgstr "Simplificar el resultado tanto como sea posible."
 
-#: ../plasmoid/contents/ui/config/Input.qml:172
+#: ../plasmoid/contents/ui/config/Input.qml:171
 msgctxt "Structuring mode"
 msgid "Factorize"
 msgstr "Factorizar"
 
-#: ../plasmoid/contents/ui/config/Input.qml:176
+#: ../plasmoid/contents/ui/config/Input.qml:175
 msgctxt "Structuring mode"
 msgid "Factorize the result."
 msgstr "Factorizar el resultado."
 
-#: ../plasmoid/contents/ui/config/Input.qml:187
+#: ../plasmoid/contents/ui/config/Input.qml:186
 msgid "Decimal separator"
 msgstr "Separador decimal"
 
-#: ../plasmoid/contents/ui/config/Input.qml:202
+#: ../plasmoid/contents/ui/config/Input.qml:201
 msgid "Use KDE setting"
 msgstr "Usar la configuración de KDE"
 
-#: ../plasmoid/contents/ui/config/Input.qml:213
+#: ../plasmoid/contents/ui/config/Input.qml:212
 msgid "Angle unit"
 msgstr "Unidad angular"
 
-#: ../plasmoid/contents/ui/config/Input.qml:222
+#: ../plasmoid/contents/ui/config/Input.qml:221
 msgctxt "Angle Unit"
 msgid "None"
 msgstr "Ninguna"
 
-#: ../plasmoid/contents/ui/config/Input.qml:223
+#: ../plasmoid/contents/ui/config/Input.qml:222
 msgctxt "Angle Unit"
 msgid "Radians"
 msgstr "Radianes"
 
-#: ../plasmoid/contents/ui/config/Input.qml:224
+#: ../plasmoid/contents/ui/config/Input.qml:223
 msgctxt "Angle Unit"
 msgid "Degrees"
 msgstr "Grados"
 
-#: ../plasmoid/contents/ui/config/Input.qml:225
+#: ../plasmoid/contents/ui/config/Input.qml:224
 msgctxt "Angle Unit"
 msgid "Gradians"
 msgstr "Gradianes"
 
-#: ../plasmoid/contents/ui/config/Input.qml:232
+#: ../plasmoid/contents/ui/config/Input.qml:231
 msgid "Expression base"
 msgstr "Expresión base"
 
@@ -281,18 +295,22 @@ msgid "Show integers also in base"
 msgstr "Mostrar enteros también en la base"
 
 #: ../plasmoid/contents/ui/config/Output.qml:183
+#: ../plasmoid/contents/ui/FullRepresentation.qml:87
 msgid "Binary"
 msgstr "Binario"
 
 #: ../plasmoid/contents/ui/config/Output.qml:188
+#: ../plasmoid/contents/ui/FullRepresentation.qml:96
 msgid "Octal"
 msgstr "Octal"
 
 #: ../plasmoid/contents/ui/config/Output.qml:193
+#: ../plasmoid/contents/ui/FullRepresentation.qml:105
 msgid "Decimal"
 msgstr "Decimal"
 
 #: ../plasmoid/contents/ui/config/Output.qml:198
+#: ../plasmoid/contents/ui/FullRepresentation.qml:114
 msgid "Hexadecimal"
 msgstr "Hexadecimal"
 
@@ -300,15 +318,20 @@ msgstr "Hexadecimal"
 msgid "Result base"
 msgstr "Resultado base"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:61
+#: ../plasmoid/contents/ui/FullRepresentation.qml:74
+#, fuzzy
+msgid "Copy result as"
+msgstr "Copiar el resultado al portapapeles"
+
+#: ../plasmoid/contents/ui/FullRepresentation.qml:146
 msgid "Enter an expression"
 msgstr "Ingrese una expresión"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:129
+#: ../plasmoid/contents/ui/FullRepresentation.qml:294
 msgid "Result"
 msgstr "Resultado"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:190
+#: ../plasmoid/contents/ui/FullRepresentation.qml:367
 #, fuzzy
 msgid "Calculation timed out"
 msgstr "Timepo de espera para el cálculo"

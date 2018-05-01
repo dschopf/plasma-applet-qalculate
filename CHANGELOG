@@ -2,6 +2,7 @@ Qalculate changelog:
 --------------------
 
 trunk:
+- update translations
 - add context menu for copying the results to the clipboard
 - bump copyright to 2018
 - fix issues with applet size in recent KDE versions
