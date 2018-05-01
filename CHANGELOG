@@ -2,6 +2,7 @@ Qalculate changelog:
 --------------------
 
 trunk:
+- bump copyright to 2018
 - fix issues with applet size in recent KDE versions
 - fix issues with image/logo in recent KDE versions
 
