@@ -138,8 +138,7 @@ Item {
 
     PlasmaComponents.TextField {
       id: inputQuery
-      anchors.top: parent.top
-      anchors.left: parent.left
+      Layout.alignment: Qt.AlignTop | Qt.AlignLeft
       Layout.fillWidth: true
       focus: true
       clearButtonShown: true
@@ -249,8 +248,7 @@ Item {
     PlasmaCore.SvgItem {
       id: qalculateFullIcon
       visible: true
-      anchors.horizontalCenter: parent.horizontalCenter
-      anchors.verticalCenter: parent.verticalCenter
+      Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
       Layout.fillHeight: true
       Layout.fillWidth: true
       Layout.maximumHeight: Math.min(parent.height, parent.width)
@@ -268,8 +266,10 @@ Item {
       id: busy
       visible: false
       running: true
-      anchors.fill: parent
-      anchors.margins: 5 * units.largeSpacing
+      Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+      Layout.fillHeight: true
+      Layout.fillWidth: true
+      Layout.margins: 50
     }
 
     Timer {
@@ -283,113 +283,116 @@ Item {
       }
     }
 
-    ColumnLayout{
+    ColumnLayout {
       id: clResult
       spacing: 0
-      anchors.horizontalCenter: parent.horizontalCenter
-      anchors.verticalCenter: parent.verticalCenter
+      Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
-      Label {
-        id: lResult
-        text: i18n("Result")
-        visible: false
-        color: theme.textColor
-        anchors.horizontalCenter: parent.horizontalCenter
-        font.bold: true
-        font.pixelSize: 40
+      RowLayout {
+        id: rlResult
+        spacing: 0
+        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
-        Connections {
-          target: qwr
+        Label {
+          id: lResult
+          text: i18n("Result")
+          visible: false
+          color: theme.textColor
+          Layout.alignment: Qt.AlignHCenter
+          font.bold: true
+          font.pixelSize: 40
 
-          onResultText: {
-            busyTimer.stop()
-            busy.visible = false
+          Connections {
+            target: qwr
 
-            if (!result.length) {
-              lResult.visible = false
-              lResult.text = ""
-              loutputBase.visible = false
-              outputBinary.visible = false
-              outputBinary.text = ""
-              outputOctal.visible = false
-              outputOctal.text = ""
-              outputDecimal.visible = false
-              outputDecimal.text = ""
-              outputHex.visible = false
-              outputHex.text = ""
-              return
-            }
+            onResultText: {
+              busyTimer.stop()
+              busy.visible = false
 
-            lResult.visible = true
-            lResult.text = result
-
-            if (plasmoid.configuration.resultBase !== 10) {
-              loutputBase.visible = true
-              loutputBase.anchors.left = lResult.right
-              loutputBase.anchors.top = lResult.verticalCenter
-            } else {
-              loutputBase.visible = false
-            }
-
-            if (binary_enabled && resultBase2.length) {
-              outputBinary.visible = resultBase2.length
-              outputBinary.text = "0b" + resultBase2
-            } else {
-              outputBinary.visible = false
-            }
-
-            if (octal_enabled && resultBase8.length) {
-              outputOctal.visible = resultBase8.length
-              outputOctal.text = "0o" + resultBase8
-            } else {
-              outputOctal.visible = false
-            }
-
-            if (decimal_enabled && resultBase10.length) {
-              outputDecimal.visible = resultBase10.length
-              outputDecimal.text = resultBase10
-            } else {
-              outputDecimal.visible = false
-            }
-
-            if (hex_enabled && resultBase16.length) {
-              outputHex.visible = resultBase16.length
-              outputHex.text = "0x" + resultBase16
-            } else {
-              outputHex.visible = false
-            }
-
-            if (!plasmoid.configuration.liveEvaluation) {
-              if (plasmoid.configuration.copyResultToClipboard) {
-                clipcopy.text = result
-                clipcopy.selectAll()
-                clipcopy.copy()
+              if (!result.length) {
+                lResult.visible = false
+                lResult.text = ""
+                loutputBase.visible = false
+                outputBinary.visible = false
+                outputBinary.text = ""
+                outputOctal.visible = false
+                outputOctal.text = ""
+                outputDecimal.visible = false
+                outputDecimal.text = ""
+                outputHex.visible = false
+                outputHex.text = ""
+                return
               }
 
-              if (plasmoid.configuration.writeResultsInInputLineEdit)
-                text = lResult.text
+              lResult.visible = true
+              lResult.text = result
+
+              if (plasmoid.configuration.resultBase !== 10) {
+                loutputBase.visible = true
+                loutputBase.anchors.left = lResult.right
+                loutputBase.anchors.top = lResult.verticalCenter
+              } else {
+                loutputBase.visible = false
+              }
+
+              if (binary_enabled && resultBase2.length) {
+                outputBinary.visible = resultBase2.length
+                outputBinary.text = "0b" + resultBase2
+              } else {
+                outputBinary.visible = false
+              }
+
+              if (octal_enabled && resultBase8.length) {
+                outputOctal.visible = resultBase8.length
+                outputOctal.text = "0o" + resultBase8
+              } else {
+                outputOctal.visible = false
+              }
+
+              if (decimal_enabled && resultBase10.length) {
+                outputDecimal.visible = resultBase10.length
+                outputDecimal.text = resultBase10
+              } else {
+                outputDecimal.visible = false
+              }
+
+              if (hex_enabled && resultBase16.length) {
+                outputHex.visible = resultBase16.length
+                outputHex.text = "0x" + resultBase16
+              } else {
+                outputHex.visible = false
+              }
+
+              if (!plasmoid.configuration.liveEvaluation) {
+                if (plasmoid.configuration.copyResultToClipboard) {
+                  clipcopy.text = result
+                  clipcopy.selectAll()
+                  clipcopy.copy()
+                }
+
+                if (plasmoid.configuration.writeResultsInInputLineEdit)
+                  text = lResult.text
+              }
+            }
+
+            onCalculationTimeout: {
+              lResult.text = i18n("Calculation timed out")
+              lResult.visible = true
+              busy.visible = false
             }
           }
-
-          onCalculationTimeout: {
-            lResult.text = i18n("Calculation timed out")
-            lResult.visible = true
-            busy.visible = false
-          }
         }
-      }
 
-      Label {
-        id: loutputBase
-        text: plasmoid.configuration.resultBase
-        visible: false
-        color: theme.textColor
-        anchors.left: lResult.right
-        anchors.verticalCenter: lResult.bottom
-        Layout.minimumHeight: 0
-        Layout.maximumHeight: 0
-        font.bold: true
-        font.pixelSize: Math.round(0.9 * units.gridUnit)
+        Label {
+          id: loutputBase
+          text: plasmoid.configuration.resultBase
+          visible: false
+          color: theme.textColor
+          Layout.minimumHeight: 0
+          Layout.maximumHeight: 0
+          font.bold: true
+          font.pixelSize: Math.round(0.9 * units.gridUnit)
+        }
       }
 
       Label {
@@ -397,7 +400,7 @@ Item {
         text: "ResultBinary"
         visible: false
         color: theme.textColor
-        anchors.horizontalCenter: parent.horizontalCenter
+        Layout.alignment: Qt.AlignHCenter
         font.pixelSize: units.gridUnit
       }
 
@@ -406,7 +409,7 @@ Item {
         text: "ResultOctal"
         visible: false
         color: theme.textColor
-        anchors.horizontalCenter: parent.horizontalCenter
+        Layout.alignment: Qt.AlignHCenter
         font.pixelSize: units.gridUnit
       }
 
@@ -415,7 +418,7 @@ Item {
         text: "ResultDecimal"
         visible: false
         color: theme.textColor
-        anchors.horizontalCenter: parent.horizontalCenter
+        Layout.alignment: Qt.AlignHCenter
         font.pixelSize: units.gridUnit
       }
 
@@ -424,7 +427,7 @@ Item {
         text: "ResultHex"
         visible: false
         color: theme.textColor
-        anchors.horizontalCenter: parent.horizontalCenter
+        Layout.alignment: Qt.AlignHCenter
         font.pixelSize: units.gridUnit
       }
     }
