@@ -47,11 +47,11 @@ class QWrapper : public QObject {
   Q_OBJECT
 
 public:
-  explicit QWrapper(QObject *parent = 0);
+  explicit QWrapper(QObject* parent = 0);
   ~QWrapper();
 
 public Q_SLOTS:
-  void evaluate(const QString &input, const bool enter_pressed);
+  void evaluate(const QString& input, const bool enter_pressed);
 
   // general settings
   void setTimeout(const int timeout);
@@ -61,7 +61,7 @@ public Q_SLOTS:
   // evaluation settings
   void setAutoPostConversion(const int value);
   void setStructuringMode(const int mode);
-  void setDecimalSeparator(const QString &separator);
+  void setDecimalSeparator(const QString& separator);
   void setAngleUnit(const int unit);
   void setExpressionBase(const int base);
   void setEnableBase2(const bool enable);
@@ -91,7 +91,8 @@ public Q_SLOTS:
   void getLastHistoryLine();
 
 signals:
-  void resultText(QString result, QString resultBase2, QString resultBase8, QString resultBase10, QString resultBase16);
+  void resultText(QString result, QString resultBase2, QString resultBase8,
+                  QString resultBase10, QString resultBase16);
   void calculationTimeout();
   void exchangeRatesUpdated(QString date);
 
@@ -132,7 +133,7 @@ private:
   } m_history;
 
 private slots:
-  void fileDownloaded(QNetworkReply *pReply);
+  void fileDownloaded(QNetworkReply* pReply);
 };
 
 #endif // QWRAPPER_H_INCLUDED

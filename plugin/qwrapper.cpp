@@ -19,11 +19,11 @@
 //  IN THE SOFTWARE.
 
 #if defined(HAVE_QALCULATE_2_0_0) || defined(HAVE_QALCULATE_2_5_0)
-  #define PRINT_CONTROL_INCLUDED
+#define PRINT_CONTROL_INCLUDED
 #endif
 
 #if defined(HAVE_QALCULATE_2_5_0)
-  #define HAVE_BINARY_TWOS_COMPLEMENT_OPTION
+#define HAVE_BINARY_TWOS_COMPLEMENT_OPTION
 #endif
 
 #include "qwrapper.h"
@@ -38,21 +38,23 @@
 #include <QNetworkRequest>
 
 #if defined(PRINT_CONTROL_INCLUDED)
-  #define PRINT_RESULT(a, b, c) QString::fromStdString(m_pcalc->print(a, b, c))
-  #define TIMEOUT HUGE_TIMEOUT_MS
+#define PRINT_RESULT(a, b, c) QString::fromStdString(m_pcalc->print(a, b, c))
+#define TIMEOUT HUGE_TIMEOUT_MS
 #else
-  #define PRINT_RESULT(a, b, c) QString::fromStdString(m_pcalc->printMathStructureTimeOut(a, b, c))
-  #define TIMEOUT m_config.timeout
+#define PRINT_RESULT(a, b, c)                                                  \
+  QString::fromStdString(m_pcalc->printMathStructureTimeOut(a, b, c))
+#define TIMEOUT m_config.timeout
 #endif
 
 namespace
 {
   constexpr int HUGE_TIMEOUT_MS = 10000000;
   const std::string ui64_max("18446744073709551615");
-  std::map<int, Number> print_limit = {{2, ui64_max}, {8, ui64_max}, {16, {1, 1, 64}}};
+  std::map<int, Number> print_limit = {
+      {2, ui64_max}, {8, ui64_max}, {16, {1, 1, 64}}};
 } // namespace
 
-QWrapper::QWrapper(QObject *parent)
+QWrapper::QWrapper(QObject* parent)
     : QObject(parent), m_pcalc(), m_eval_options(), m_print_options(),
       m_netmgr(), m_config(), m_state(), m_history()
 {
@@ -115,7 +117,7 @@ QWrapper::~QWrapper()
   m_pcalc.reset();
 }
 
-void QWrapper::evaluate(QString const &input, bool const enter_pressed)
+void QWrapper::evaluate(QString const& input, bool const enter_pressed)
 {
   {
     std::unique_lock<std::mutex> _(m_state.mutex);
@@ -209,7 +211,7 @@ void QWrapper::setStructuringMode(const int mode)
   }
 }
 
-void QWrapper::setDecimalSeparator(const QString &separator)
+void QWrapper::setDecimalSeparator(const QString& separator)
 {
   if (separator == ",") {
     m_print_options.decimalpoint_sign = ',';
@@ -338,8 +340,8 @@ void QWrapper::setNegativeBinaryTwosComplement(const bool value)
 
 void QWrapper::updateExchangeRates()
 {
-  connect(&m_netmgr, SIGNAL(finished(QNetworkReply *)),
-          SLOT(fileDownloaded(QNetworkReply *)));
+  connect(&m_netmgr, SIGNAL(finished(QNetworkReply*)),
+          SLOT(fileDownloaded(QNetworkReply*)));
   QNetworkRequest req(QUrl(m_pcalc->getExchangeRatesUrl().c_str()));
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   m_netmgr.get(req);
@@ -412,7 +414,7 @@ void QWrapper::worker()
   }
 }
 
-void QWrapper::runCalculation(const std::string &expr)
+void QWrapper::runCalculation(const std::string& expr)
 {
   MathStructure result;
 
@@ -450,7 +452,8 @@ void QWrapper::runCalculation(const std::string &expr)
     }
   }
 
-  emit resultText(result_string, output[0].second, output[1].second, output[2].second, output[3].second);
+  emit resultText(result_string, output[0].second, output[1].second,
+                  output[2].second, output[3].second);
 #if !defined(PRINT_CONTROL_INCLUDED)
   m_pcalc->stopPrintControl();
 #endif
@@ -478,7 +481,8 @@ bool QWrapper::checkReturnState()
 
 bool QWrapper::printResultInBase(MathStructure& result, print_result_t& output)
 {
-  if (isBaseEnabled(output.first, result) && m_print_options.base != output.first) {
+  if (isBaseEnabled(output.first, result) &&
+      m_print_options.base != output.first) {
     PrintOptions po(m_print_options);
     po.base = output.first;
     output.second = PRINT_RESULT(result, HUGE_TIMEOUT_MS, po);
@@ -495,16 +499,20 @@ bool QWrapper::isBaseEnabled(const uint8_t base, MathStructure& result)
   switch (base) {
     case 2:
 #if defined(HAVE_BINARY_TWOS_COMPLEMENT_OPTION)
-      return m_config.enable_base2 && m_print_options.twos_complement && result.number().isLessThan(print_limit[2]);
+      return m_config.enable_base2 && m_print_options.twos_complement &&
+             result.number().isLessThan(print_limit[2]);
 #else
-      return m_config.enable_base2 && result.representsPositive() && result.number().isLessThan(print_limit[2]);
+      return m_config.enable_base2 && result.representsPositive() &&
+             result.number().isLessThan(print_limit[2]);
 #endif
     case 8:
-      return m_config.enable_base8 && result.representsPositive() && result.number().isLessThan(print_limit[8]);
+      return m_config.enable_base8 && result.representsPositive() &&
+             result.number().isLessThan(print_limit[8]);
     case 10:
       return m_config.enable_base10 && result.representsPositive();
     case 16:
-      return m_config.enable_base16 && result.representsPositive() && result.number().isLessThan(print_limit[16]);
+      return m_config.enable_base16 && result.representsPositive() &&
+             result.number().isLessThan(print_limit[16]);
   }
   return false;
 }
@@ -528,7 +536,7 @@ void QWrapper::initHistoryFile()
   m_history.filename.swap(file_path);
 }
 
-void QWrapper::fileDownloaded(QNetworkReply *pReply)
+void QWrapper::fileDownloaded(QNetworkReply* pReply)
 {
   if (pReply->error() != QNetworkReply::NoError)
     qDebug() << "[Qalculate!] Error downloading exchange rates ("
