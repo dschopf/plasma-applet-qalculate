@@ -7,6 +7,7 @@ trunk:
 - bump copyright to 2018
 - fix issues with applet size in recent KDE versions
 - fix issues with image/logo in recent KDE versions
+- add support for negative two's complement representation (requires libqalculate v2.5 or later)
 
 v0.4.0:
 - add support for libqalculate v2.0.0

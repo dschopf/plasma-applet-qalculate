@@ -57,6 +57,7 @@ Item {
     property bool useAllPrefixes: plasmoid.configuration.useAllPrefixes
     property bool useDenominatorPrefix: plasmoid.configuration.useDenominatorPrefix
     property bool negativeExponents: plasmoid.configuration.negativeExponents
+    property bool negativeBinaryTwosComplement: plasmoid.configuration.negativeBinaryTwosComplement
     property bool resultInBase2: plasmoid.configuration.binary
     property bool resultInBase8: plasmoid.configuration.octal
     property bool resultInBase10: plasmoid.configuration.decimal
@@ -178,6 +179,10 @@ Item {
 
     onNegativeExponentsChanged: {
       qwr.setNegativeExponents(negativeExponents)
+    }
+
+    onNegativeBinaryTwosComplement: {
+      qwr.setNegativeBinaryTwosComplement(negativeBinaryTwosComplement)
     }
 
     onResultInBase2Changed: {

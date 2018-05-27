@@ -303,18 +303,11 @@ Item {
 
           onResultText: {
             busyTimer.stop()
-            lResult.text = result
-            lResult.visible = result.length
-            busy.visible = !result.length
+            busy.visible = false
 
-            if (plasmoid.configuration.resultBase !== 10) {
-              loutputBase.visible = true
-              loutputBase.anchors.left = lResult.right
-              loutputBase.anchors.top = lResult.verticalCenter
-            } else {
-              loutputBase.visible = false
-            }
-            if (!result.length || !resultIsInteger) {
+            if (!result.length) {
+              lResult.visible = false
+              lResult.text = ""
               loutputBase.visible = false
               outputBinary.visible = false
               outputBinary.text = ""
@@ -324,31 +317,46 @@ Item {
               outputDecimal.text = ""
               outputHex.visible = false
               outputHex.text = ""
-            } else if (resultIsInteger) {
-              if (binary_enabled && resultBase2.length) {
-                outputBinary.visible = resultBase2.length
-                outputBinary.text = "0b" + resultBase2
-              } else {
-                outputBinary.visible = false
-              }
-              if (octal_enabled && resultBase8.length) {
-                outputOctal.visible = resultBase8.length
-                outputOctal.text = "0o" + resultBase8
-              } else {
-                outputOctal.visible = false
-              }
-              if (decimal_enabled && resultBase10.length) {
-                outputDecimal.visible = resultBase10.length
-                outputDecimal.text = resultBase10
-              } else {
-                outputDecimal.visible = false
-              }
-              if (hex_enabled && resultBase16.length) {
-                outputHex.visible = resultBase16.length
-                outputHex.text = "0x" + resultBase16
-              } else {
-                outputHex.visible = false
-              }
+              return
+            }
+
+            lResult.visible = true
+            lResult.text = result
+
+            if (plasmoid.configuration.resultBase !== 10) {
+              loutputBase.visible = true
+              loutputBase.anchors.left = lResult.right
+              loutputBase.anchors.top = lResult.verticalCenter
+            } else {
+              loutputBase.visible = false
+            }
+
+            if (binary_enabled && resultBase2.length) {
+              outputBinary.visible = resultBase2.length
+              outputBinary.text = "0b" + resultBase2
+            } else {
+              outputBinary.visible = false
+            }
+
+            if (octal_enabled && resultBase8.length) {
+              outputOctal.visible = resultBase8.length
+              outputOctal.text = "0o" + resultBase8
+            } else {
+              outputOctal.visible = false
+            }
+
+            if (decimal_enabled && resultBase10.length) {
+              outputDecimal.visible = resultBase10.length
+              outputDecimal.text = resultBase10
+            } else {
+              outputDecimal.visible = false
+            }
+
+            if (hex_enabled && resultBase16.length) {
+              outputHex.visible = resultBase16.length
+              outputHex.text = "0x" + resultBase16
+            } else {
+              outputHex.visible = false
             }
 
             if (!plasmoid.configuration.liveEvaluation) {
@@ -439,10 +447,11 @@ Item {
       busyTimer.stop()
       qalculateFullIcon.visible = true
       busy.visible = false
+      last_input = ""
       clearOutput()
       return
     }
-    if (input !== last_input) {
+    if (input !== last_input || enter == true) {
       qalculateFullIcon.visible = false
       last_input = input
       qwr.evaluate(input, enter)

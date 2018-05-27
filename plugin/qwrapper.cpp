@@ -18,6 +18,14 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 //  IN THE SOFTWARE.
 
+#if defined(HAVE_QALCULATE_2_0_0) || defined(HAVE_QALCULATE_2_5_0)
+  #define PRINT_CONTROL_INCLUDED
+#endif
+
+#if defined(HAVE_QALCULATE_2_5_0)
+  #define HAVE_BINARY_TWOS_COMPLEMENT_OPTION
+#endif
+
 #include "qwrapper.h"
 
 #include <functional>
@@ -29,19 +37,19 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 
-#if defined(HAVE_QALCULATE_2_0_0)
-#define PRINT_RESULT(a, b, c) QString::fromStdString(m_pcalc->print(a, b, c))
-#define TIMEOUT HUGE_TIMEOUT_MS
+#if defined(PRINT_CONTROL_INCLUDED)
+  #define PRINT_RESULT(a, b, c) QString::fromStdString(m_pcalc->print(a, b, c))
+  #define TIMEOUT HUGE_TIMEOUT_MS
 #else
-#define PRINT_RESULT(a, b, c)                                                  \
-  QString::fromStdString(m_pcalc->printMathStructureTimeOut(a, b, c))
-#define TIMEOUT m_config.timeout
+  #define PRINT_RESULT(a, b, c) QString::fromStdString(m_pcalc->printMathStructureTimeOut(a, b, c))
+  #define TIMEOUT m_config.timeout
 #endif
 
 namespace
 {
   constexpr int HUGE_TIMEOUT_MS = 10000000;
-  const Number BASE_PRINT_LIMIT(1, 1, 64);
+  const std::string ui64_max("18446744073709551615");
+  std::map<int, Number> print_limit = {{2, ui64_max}, {8, ui64_max}, {16, {1, 1, 64}}};
 } // namespace
 
 QWrapper::QWrapper(QObject *parent)
@@ -71,6 +79,9 @@ QWrapper::QWrapper(QObject *parent)
   m_print_options.lower_case_e = true;
   m_print_options.base = 10;
   m_print_options.min_exp = EXP_NONE;
+#if defined(HAVE_BINARY_TWOS_COMPLEMENT_OPTION)
+  m_print_options.twos_complement = true;
+#endif
 
   m_config.enable_base2 = false;
   m_config.enable_base8 = false;
@@ -114,7 +125,7 @@ void QWrapper::evaluate(QString const &input, bool const enter_pressed)
         return;
       case State::Idle:
         break;
-#if !defined(HAVE_QALCULATE_2_0_0)
+#if !defined(PRINT_CONTROL_INCLUDED)
       case State::Printing:
         m_pcalc->abortPrint();
         m_state.aborted = true;
@@ -318,6 +329,13 @@ void QWrapper::setNegativeExponents(const bool value)
   m_print_options.negative_exponents = value;
 }
 
+void QWrapper::setNegativeBinaryTwosComplement(const bool value)
+{
+#if defined(HAVE_BINARY_TWOS_COMPLEMENT_OPTION)
+  m_print_options.twos_complement = value;
+#endif
+}
+
 void QWrapper::updateExchangeRates()
 {
   connect(&m_netmgr, SIGNAL(finished(QNetworkReply *)),
@@ -378,11 +396,11 @@ void QWrapper::worker()
                                                 m_eval_options.parse_options);
       m_state.input.clear();
       lock.unlock();
-#if defined(HAVE_QALCULATE_2_0_0)
+#if defined(PRINT_CONTROL_INCLUDED)
       m_pcalc->startControl(m_config.timeout);
 #endif
       runCalculation(expr);
-#if defined(HAVE_QALCULATE_2_0_0)
+#if defined(PRINT_CONTROL_INCLUDED)
       m_pcalc->stopControl();
 #endif
       lock.lock();
@@ -405,7 +423,7 @@ void QWrapper::runCalculation(const std::string &expr)
   if (!res && checkReturnState())
     return;
 
-#if !defined(HAVE_QALCULATE_2_0_0)
+#if !defined(PRINT_CONTROL_INCLUDED)
   {
     std::unique_lock<std::mutex> lock(m_state.mutex);
     m_state.state = State::Printing;
@@ -414,36 +432,26 @@ void QWrapper::runCalculation(const std::string &expr)
 #endif
   QString result_string(PRINT_RESULT(result, HUGE_TIMEOUT_MS, m_print_options));
   if (result_string.isEmpty() || checkReturnState()) {
-#if !defined(HAVE_QALCULATE_2_0_0)
+#if !defined(PRINT_CONTROL_INCLUDED)
     m_pcalc->stopPrintControl();
 #endif
     return;
   }
 
-  const bool isInteger =
-      result.representsNonNegative() && result.representsInteger();
+  // map of base and result string
+  res_vector_t output = {{2, ""}, {8, ""}, {10, ""}, {16, ""}};
 
-  if (!isInteger || result.number().isGreaterThan(BASE_PRINT_LIMIT)) {
-    emit resultText(result_string, false, "", "", "", "");
-#if !defined(HAVE_QALCULATE_2_0_0)
-    m_pcalc->stopPrintControl();
-#endif
-    return;
-  }
-
-  QString result_base[4];
-
-  for (auto &i : std::map<int, int>{{0, 2}, {1, 8}, {2, 10}, {3, 16}})
-    if (printResultInBase(i.second, result, result_base[i.first])) {
-#if !defined(HAVE_QALCULATE_2_0_0)
+  for (auto& i : output) {
+    if (printResultInBase(result, i)) {
+#if !defined(PRINT_CONTROL_INCLUDED)
       m_pcalc->stopPrintControl();
 #endif
       return;
     }
+  }
 
-  emit resultText(result_string, true, result_base[0], result_base[1],
-                  result_base[2], result_base[3]);
-#if !defined(HAVE_QALCULATE_2_0_0)
+  emit resultText(result_string, output[0].second, output[1].second, output[2].second, output[3].second);
+#if !defined(PRINT_CONTROL_INCLUDED)
   m_pcalc->stopPrintControl();
 #endif
 }
@@ -457,7 +465,7 @@ bool QWrapper::checkReturnState()
       return true;
     }
   }
-#if defined(HAVE_QALCULATE_2_0_0)
+#if defined(PRINT_CONTROL_INCLUDED)
   if (m_pcalc->aborted()) {
 #else
   if (m_pcalc->printingAborted()) {
@@ -468,29 +476,35 @@ bool QWrapper::checkReturnState()
   return false;
 }
 
-bool QWrapper::printResultInBase(const int base, MathStructure &result,
-                                 QString &result_string)
+bool QWrapper::printResultInBase(MathStructure& result, print_result_t& output)
 {
-  if (getBaseEnable(base) && m_print_options.base != base) {
+  if (isBaseEnabled(output.first, result) && m_print_options.base != output.first) {
     PrintOptions po(m_print_options);
-    po.base = base;
-    result_string = PRINT_RESULT(result, HUGE_TIMEOUT_MS, po);
+    po.base = output.first;
+    output.second = PRINT_RESULT(result, HUGE_TIMEOUT_MS, po);
     return checkReturnState();
   }
   return false;
 }
 
-bool QWrapper::getBaseEnable(const int base)
+bool QWrapper::isBaseEnabled(const uint8_t base, MathStructure& result)
 {
+  if (result.representsNonInteger())
+    return false;
+
   switch (base) {
     case 2:
-      return m_config.enable_base2;
+#if defined(HAVE_BINARY_TWOS_COMPLEMENT_OPTION)
+      return m_config.enable_base2 && m_print_options.twos_complement && result.number().isLessThan(print_limit[2]);
+#else
+      return m_config.enable_base2 && result.representsPositive() && result.number().isLessThan(print_limit[2]);
+#endif
     case 8:
-      return m_config.enable_base8;
+      return m_config.enable_base8 && result.representsPositive() && result.number().isLessThan(print_limit[8]);
     case 10:
-      return m_config.enable_base10;
+      return m_config.enable_base10 && result.representsPositive();
     case 16:
-      return m_config.enable_base16;
+      return m_config.enable_base16 && result.representsPositive() && result.number().isLessThan(print_limit[16]);
   }
   return false;
 }

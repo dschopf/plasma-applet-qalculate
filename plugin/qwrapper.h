@@ -34,11 +34,14 @@
 enum class State {
   Calculating,
   Idle,
-#if !defined(HAVE_QALCULATE_2_0_0)
+#if !defined(PRINT_CONTROL_INCLUDED)
   Printing,
 #endif
   Stop
 };
+
+typedef std::pair<int, QString> print_result_t;
+typedef std::vector<print_result_t> res_vector_t;
 
 class QWrapper : public QObject {
   Q_OBJECT
@@ -74,6 +77,7 @@ public Q_SLOTS:
   void setUseAllPrefixes(const bool value);
   void setUseDenominatorPrefix(const bool value);
   void setNegativeExponents(const bool value);
+  void setNegativeBinaryTwosComplement(const bool value);
 
   // currency settings
   void updateExchangeRates();
@@ -87,19 +91,16 @@ public Q_SLOTS:
   void getLastHistoryLine();
 
 signals:
-  void resultText(QString result, bool resultIsInteger, QString resultBase2,
-                  QString resultBase8, QString resultBase10,
-                  QString resultBase16);
+  void resultText(QString result, QString resultBase2, QString resultBase8, QString resultBase10, QString resultBase16);
   void calculationTimeout();
   void exchangeRatesUpdated(QString date);
 
 private:
   void worker();
-  void runCalculation(const std::string &lock);
+  void runCalculation(const std::string& lock);
   bool checkReturnState();
-  bool printResultInBase(const int base, MathStructure &result,
-                         QString &result_string);
-  bool getBaseEnable(const int base);
+  bool printResultInBase(MathStructure& result, print_result_t& output);
+  bool isBaseEnabled(const uint8_t base, MathStructure& result);
   void initHistoryFile();
 
   std::unique_ptr<Calculator> m_pcalc;

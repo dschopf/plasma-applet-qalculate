@@ -30,6 +30,7 @@ Item {
   property alias cfg_useAllPrefixes: chbUseAllPrefixes.checked
   property alias cfg_useDenominatorPrefix: chbUseDenominatorPrefix.checked
   property alias cfg_negativeExponents: chbNegativeExponents.checked
+  property alias cfg_negativeBinaryTwosComplement: chbNegativeBinaryTwosComplement.checked
   property alias cfg_binary: chbBinary.checked
   property alias cfg_octal: chbOctal.checked
   property alias cfg_decimal: chbDecimal.checked
@@ -167,6 +168,12 @@ Item {
     CheckBox {
       id: chbNegativeExponents
       text: i18n("Negative exponents")
+      Layout.columnSpan: 2
+    }
+
+    CheckBox {
+      id: chbNegativeBinaryTwosComplement
+      text: i18n("Use two's complement representation for negative binary numbers (requires libqalculate v2.5 or later)")
       Layout.columnSpan: 2
     }
 
