@@ -51,7 +51,7 @@ namespace
   constexpr int HUGE_TIMEOUT_MS = 10000000;
   const std::string ui64_max("18446744073709551615");
   std::map<int, Number> print_limit = {
-      {2, ui64_max}, {8, ui64_max}, {16, {1, 1, 64}}};
+      {2, 0xffffffff}, {8, ui64_max}, {16, {1, 1, 64}}};
 } // namespace
 
 QWrapper::QWrapper(QObject* parent)
@@ -499,8 +499,10 @@ bool QWrapper::isBaseEnabled(const uint8_t base, MathStructure& result)
   switch (base) {
     case 2:
 #if defined(HAVE_BINARY_TWOS_COMPLEMENT_OPTION)
-      return m_config.enable_base2 && m_print_options.twos_complement &&
-             result.number().isLessThan(print_limit[2]);
+      if (m_config.enable_base2 && m_print_options.twos_complement)
+        return result.representsNumber() && result.number().isLessThan(print_limit[2]);
+      else
+        return result.representsPositive() && result.number().isLessThan(print_limit[2]);
 #else
       return m_config.enable_base2 && result.representsPositive() &&
              result.number().isLessThan(print_limit[2]);
