@@ -287,6 +287,7 @@ Item {
       id: clResult
       spacing: 0
       Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+      Layout.maximumWidth: parent.width
 
       RowLayout {
         id: rlResult
@@ -401,6 +402,7 @@ Item {
         visible: false
         color: theme.textColor
         Layout.alignment: Qt.AlignHCenter
+        Layout.maximumWidth: parent.width
         font.pixelSize: units.gridUnit
       }
 
