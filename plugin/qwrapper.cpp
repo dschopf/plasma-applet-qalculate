@@ -49,9 +49,9 @@
 namespace
 {
   constexpr int HUGE_TIMEOUT_MS = 10000000;
-  const std::string ui64_max("18446744073709551615");
-  std::map<int, Number> print_limit = {
-      {2, 0xffffffff}, {8, ui64_max}, {16, {1, 1, 64}}};
+  constexpr auto print_limit_base2 = "0xffffffff";
+  constexpr auto print_limit_base8 = "0xffffffffffffffff";
+  constexpr auto print_limit_base16 = "0xffffffffffffffffffffffffffffffff";
 } // namespace
 
 QWrapper::QWrapper(QObject* parent)
@@ -84,6 +84,14 @@ QWrapper::QWrapper(QObject* parent)
 #if defined(HAVE_BINARY_TWOS_COMPLEMENT_OPTION)
   m_print_options.twos_complement = true;
 #endif
+
+  ParseOptions popts;
+
+  popts.base = 16;
+
+  m_print_limits[2].set(print_limit_base2, popts);
+  m_print_limits[8].set(print_limit_base8, popts);
+  m_print_limits[16].set(print_limit_base16, popts);
 
   m_config.enable_base2 = false;
   m_config.enable_base8 = false;
@@ -499,22 +507,27 @@ bool QWrapper::isBaseEnabled(const uint8_t base, MathStructure& result)
   switch (base) {
     case 2:
 #if defined(HAVE_BINARY_TWOS_COMPLEMENT_OPTION)
-      if (m_config.enable_base2 && m_print_options.twos_complement)
-        return result.representsNumber() && result.number().isLessThan(print_limit[2]);
-      else
-        return result.representsPositive() && result.number().isLessThan(print_limit[2]);
+      if (m_config.enable_base2 && m_print_options.twos_complement) {
+        auto num = result.number();
+        if (num.isNegative())
+          num.negate();
+        return result.representsNumber() && !result.isZero() &&
+               num.isLessThan(m_print_limits[2]);
+      } else
+        return result.representsPositive() &&
+               result.number().isLessThan(m_print_limits[2]);
 #else
       return m_config.enable_base2 && result.representsPositive() &&
-             result.number().isLessThan(print_limit[2]);
+             result.number().isLessThan(m_print_limits[2]);
 #endif
     case 8:
       return m_config.enable_base8 && result.representsPositive() &&
-             result.number().isLessThan(print_limit[8]);
+             result.number().isLessThan(m_print_limits[8]);
     case 10:
       return m_config.enable_base10 && result.representsPositive();
     case 16:
       return m_config.enable_base16 && result.representsPositive() &&
-             result.number().isLessThan(print_limit[16]);
+             result.number().isLessThan(m_print_limits[16]);
   }
   return false;
 }

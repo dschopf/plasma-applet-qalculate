@@ -107,6 +107,7 @@ private:
   std::unique_ptr<Calculator> m_pcalc;
   EvaluationOptions m_eval_options;
   PrintOptions m_print_options;
+  std::map<int, Number> m_print_limits;
   QNetworkAccessManager m_netmgr;
 
   struct {
