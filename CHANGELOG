@@ -1,7 +1,7 @@
 Qalculate changelog:
 --------------------
 
-trunk:
+v0.5:
 - update translations
 - add context menu for copying the results to the clipboard
 - bump copyright to 2018
