@@ -229,6 +229,17 @@ Item {
         }
       }
     }
+
+    Timer {
+      repeat: true
+      running: true
+      interval: 500
+      onTriggered: {
+        if (visible && !inputQuery.focus) {
+          inputQuery.focus = true;
+        }
+      }
+    }
   }
 
   // invisible TextEdit for copying the result to the clipboard
