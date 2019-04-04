@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2018-05-27 16:29+0200\n"
+"POT-Creation-Date: 2019-04-04 18:09+0200\n"
 "PO-Revision-Date: 2016-09-12 19:18+0200\n"
 "Last-Translator: Daniel Schopf <schopf.dan@gmail.com>\n"
 "Language-Team: Daniel Schopf <schopf.dan@gmail.com>\n"
@@ -41,52 +41,64 @@ msgctxt "Exchange rates"
 msgid "Last update"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:47
+#: ../plasmoid/contents/ui/config/General.qml:50
 #: ../plasmoid/contents/ui/FullRepresentation.qml:65
 msgid "Copy result to clipboard"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:48
-#: ../plasmoid/contents/ui/config/General.qml:55
-#: ../plasmoid/contents/ui/config/General.qml:161
+#: ../plasmoid/contents/ui/config/General.qml:51
+#: ../plasmoid/contents/ui/config/General.qml:58
+#: ../plasmoid/contents/ui/config/General.qml:204
 msgid "Only works when pressing Return"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:54
+#: ../plasmoid/contents/ui/config/General.qml:57
 msgid "Write results in input line edit"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:61
+#: ../plasmoid/contents/ui/config/General.qml:64
 msgid "Live evaluation"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:66
+#: ../plasmoid/contents/ui/config/General.qml:69
 msgid "Calculation timeout"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:80
+#: ../plasmoid/contents/ui/config/General.qml:83
 msgid "Icon"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:129
+#: ../plasmoid/contents/ui/config/General.qml:132
 msgctxt "Open icon chooser dialog"
 msgid "Choose Icon"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:134
+#: ../plasmoid/contents/ui/config/General.qml:137
 msgctxt "Reset icon to default"
 msgid "Clear Icon"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:142
+#: ../plasmoid/contents/ui/config/General.qml:146
+msgid "Launch program when clicking the Q! logo in the Plasmoid"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/General.qml:156
+msgid "Executable"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/General.qml:175
+msgid "Please select an executable"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/General.qml:185
 msgid "Input history"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:160
+#: ../plasmoid/contents/ui/config/General.qml:203
 msgid "Disable input history"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:166
+#: ../plasmoid/contents/ui/config/General.qml:209
 msgid "History size"
 msgstr ""
 
@@ -327,11 +339,11 @@ msgstr ""
 msgid "Enter an expression"
 msgstr ""
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:298
+#: ../plasmoid/contents/ui/FullRepresentation.qml:307
 msgid "Result"
 msgstr ""
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:379
+#: ../plasmoid/contents/ui/FullRepresentation.qml:388
 msgid "Calculation timed out"
 msgstr ""
 

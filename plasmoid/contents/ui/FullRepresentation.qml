@@ -260,6 +260,14 @@ Item {
       svg: PlasmaCore.Svg {
         imagePath: Tools.stripProtocol(Qt.resolvedUrl('../images/Qalculate.svg'))
       }
+
+      MouseArea {
+        anchors.fill: parent
+        onClicked: {
+          if (plasmoid.configuration.launcherEnabled)
+          qwr.launch(plasmoid.configuration.launcherExecutable)
+        }
+      }
     }
 
     BusyIndicator {

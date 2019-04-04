@@ -29,7 +29,7 @@ Item {
 
     Connections {
       id: myConnection
-      target: Qt.createQmlObject('import org.kde.private.qalculate 1.0 as QWR; QWR.QWrapper {}', main, 'QWrapper')
+      target: Qt.createQmlObject('import org.kde.private.qalculate 1.0; QWrapper {}', main, 'QWrapper')
       onExchangeRatesUpdated: {
         plasmoid.configuration.exchangeRatesTime = date
       }
@@ -42,6 +42,8 @@ Item {
 
     property string qalculateIcon: plasmoid.configuration.qalculateIcon
     property int timeout: plasmoid.configuration.timeout
+    property bool launcherEnabled: plasmoid.configuration.launcherEnabled
+    property string launcherExecutable: plasmoid.configuration.launcherExecutable
     property bool historyDisabled: plasmoid.configuration.historyDisabled
     property int historySize: plasmoid.configuration.historySize
 

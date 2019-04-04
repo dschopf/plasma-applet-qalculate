@@ -21,6 +21,12 @@
         <entry name="qalculateIcon" type="String">
             <default></default>
         </entry>
+        <entry name="launcherEnabled" type="Bool">
+          <default>false</default>
+        </entry>
+        <entry name="launcherExecutable" type="String">
+          <default></default>
+        </entry>
         <entry name="historyDisabled" type="Bool">
             <default>false</default>
         </entry>

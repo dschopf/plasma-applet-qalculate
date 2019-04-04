@@ -20,6 +20,7 @@
 
 import QtQuick 2.0
 import QtQuick.Controls 1.0
+import QtQuick.Dialogs 1.3
 import QtQuick.Layouts 1.0
 
 import org.kde.plasma.components 2.0 as PlasmaComponents
@@ -34,6 +35,8 @@ Item {
   property alias cfg_writeResultsInInputLineEdit:   chbWriteResultsInInputLineEdit.checked
   property alias cfg_liveEvaluation:                chbLiveEvaluation.checked
   property alias cfg_timeout:                       tfTimeout.text
+  property alias cfg_launcherEnabled:               chbEnableLauncher.checked
+  property alias cfg_launcherExecutable:            tfExecutable.text
   property alias cfg_historyDisabled:               chbHistoryDisabled.checked
   property alias cfg_historySize:                   sbHistorySize.value
 
@@ -135,6 +138,46 @@ Item {
           icon: "edit-clear"
           onClicked: cfg_qalculateIcon = Tools.stripProtocol(Qt.resolvedUrl('../../images/Qalculate.svg'))
         }
+      }
+    }
+
+    CheckBox {
+      id: chbEnableLauncher
+      text: i18n("Launch program when clicking the Q! logo in the Plasmoid")
+      Layout.columnSpan: 2
+    }
+
+    RowLayout {
+      spacing: units.smallSpacing
+      Layout.alignment: Qt.AlignVCenter|Qt.AlignRight
+      Layout.columnSpan: 2
+
+      Label {
+        text: i18n('Executable')
+        Layout.alignment: Qt.AlignVCenter
+        enabled: chbEnableLauncher.checked
+      }
+
+      PlasmaComponents.TextField {
+        id: tfExecutable
+        Layout.alignment: Qt.AlignVCenter
+        Layout.fillWidth: true
+        enabled: chbEnableLauncher.checked
+      }
+
+      Button {
+        id: executableButton
+        iconName: "system-run"
+        enabled: chbEnableLauncher.checked
+
+        FileDialog {
+          id: executableDialog
+          title: i18n("Please select an executable")
+          folder: shortcuts.home
+          onAccepted: cfg_launcherExecutable = Tools.stripProtocol(Qt.resolvedUrl(executableDialog.fileUrl))
+        }
+
+        onClicked: executableDialog.open()
       }
     }
 

@@ -52,6 +52,7 @@ public:
 
 public Q_SLOTS:
   void evaluate(const QString& input, const bool enter_pressed);
+  void launch(const QString& executable);
 
   // general settings
   void setTimeout(const int timeout);

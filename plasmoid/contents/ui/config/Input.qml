@@ -178,7 +178,7 @@ Item {
     }
 
     GridLayout {
-      anchors.horizontalCenter: parent.horizontalCenter
+      Layout.alignment: Qt.AlignVCenter
       Layout.columnSpan: 2
       columns: 3
 

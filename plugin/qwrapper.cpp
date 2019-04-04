@@ -36,6 +36,7 @@
 #include <QFile>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QProcess>
 
 #if defined(PRINT_CONTROL_INCLUDED)
 #define PRINT_RESULT(a, b, c) QString::fromStdString(m_pcalc->print(a, b, c))
@@ -158,6 +159,11 @@ void QWrapper::evaluate(QString const& input, bool const enter_pressed)
     history_set_pos(history_length);
     append_history(1, m_history.filename.c_str());
   }
+}
+
+void QWrapper::launch(const QString& executable)
+{
+  QProcess::startDetached(executable);
 }
 
 void QWrapper::setTimeout(const int timeout) { m_config.timeout = timeout; }
