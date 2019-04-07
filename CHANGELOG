@@ -1,6 +1,13 @@
 Qalculate changelog:
 --------------------
 
+v0.6:
+- add support for launching a program from the main widget
+- fix issue with currentcy timestamp updating in the options
+- fix input history not working anymore
+- bump copyright to 2019
+- update translations
+
 v0.5:
 - update translations
 - add context menu for copying the results to the clipboard
