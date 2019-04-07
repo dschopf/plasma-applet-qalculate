@@ -153,7 +153,7 @@ void QWrapper::evaluate(QString const& input, bool const enter_pressed)
 
   m_state.cond.notify_all();
 
-  if (enter_pressed && !input.isEmpty() && (input != m_history.last_entry)) {
+  if (m_history.enabled && enter_pressed && !input.isEmpty() && (input != m_history.last_entry)) {
     m_history.last_entry = input;
     add_history(m_history.last_entry.toStdString().c_str());
     history_set_pos(history_length);
@@ -554,7 +554,7 @@ void QWrapper::initHistoryFile()
 {
   std::string file_path(getenv("HOME"));
 
-  file_path.append("/.local/share/plasma");
+  file_path.append("/.local/share/qalculate");
 
   struct stat st;
 
@@ -564,7 +564,17 @@ void QWrapper::initHistoryFile()
     return;
   }
 
-  file_path.append("/qalculate_history");
+  file_path.append("/plasma_applet_history");
+
+  ret = stat(file_path.c_str(), &st);
+  if (ret < 0) {
+    if (errno == ENOENT) {
+      write_history(file_path.c_str());
+    } else {
+      m_history.enabled = false;
+      return;
+    }
+  }
 
   m_history.filename.swap(file_path);
 }
