@@ -18,11 +18,11 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 //  IN THE SOFTWARE.
 
-#if defined(HAVE_QALCULATE_2_0_0) || defined(HAVE_QALCULATE_2_5_0)
+#if defined(HAVE_QALCULATE_2_0_0) || defined(HAVE_QALCULATE_2_5_0) || defined(HAVE_QALCULATE_2_6_0)
 #define PRINT_CONTROL_INCLUDED
 #endif
 
-#if defined(HAVE_QALCULATE_2_5_0)
+#if defined(HAVE_QALCULATE_2_5_0) || defined(HAVE_QALCULATE_2_6_0)
 #define HAVE_BINARY_TWOS_COMPLEMENT_OPTION
 #endif
 
@@ -364,7 +364,19 @@ void QWrapper::updateExchangeRates()
 QString QWrapper::getExchangeRatesUpdateTime()
 {
   QDateTime dt;
-  dt.setTime_t(m_pcalc->getExchangeRatesTime());
+
+#if defined(HAVE_QALCULATE_2_6_0)
+  auto t = m_pcalc->getExchangeRatesTime(1);
+#else
+  auto t = m_pcalc->getExchangeRatesTime();
+#endif
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
+  dt.setSecsSinceEpoch(t);
+#else
+  dt.setTime_t(t);
+#endif
+
   return QLocale().toString(dt);
 }
 
@@ -582,6 +594,18 @@ void QWrapper::fileDownloaded(QNetworkReply* pReply)
   m_pcalc->loadExchangeRates();
 
   QDateTime dt;
-  dt.setTime_t(m_pcalc->getExchangeRatesTime());
+
+#if defined(HAVE_QALCULATE_2_6_0)
+  auto t = m_pcalc->getExchangeRatesTime(1);
+#else
+  auto t = m_pcalc->getExchangeRatesTime();
+#endif
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
+  dt.setSecsSinceEpoch(t);
+#else
+  dt.setTime_t(t);
+#endif
+
   emit exchangeRatesUpdated(QLocale().toString(dt));
 }
