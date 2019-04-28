@@ -108,6 +108,7 @@ private:
   std::unique_ptr<Calculator> m_pcalc;
   EvaluationOptions m_eval_options;
   PrintOptions m_print_options;
+  bool m_is_approximate;
   std::map<int, Number> m_print_limits;
   QNetworkAccessManager m_netmgr;
 

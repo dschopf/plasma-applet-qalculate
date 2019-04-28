@@ -86,6 +86,10 @@ QWrapper::QWrapper(QObject* parent)
   m_print_options.twos_complement = true;
 #endif
 
+  m_is_approximate = false;
+  m_print_options.is_approximate = &m_is_approximate;
+  m_print_options.interval_display = INTERVAL_DISPLAY_MIDPOINT;
+
   ParseOptions popts;
 
   popts.base = 16;
@@ -423,6 +427,7 @@ void QWrapper::worker()
       auto expr = m_pcalc->unlocalizeExpression(m_state.input.toStdString(),
                                                 m_eval_options.parse_options);
       m_state.input.clear();
+      m_is_approximate = false;
       lock.unlock();
 #if defined(PRINT_CONTROL_INCLUDED)
       m_pcalc->startControl(m_config.timeout);
@@ -477,6 +482,9 @@ void QWrapper::runCalculation(const std::string& expr)
       return;
     }
   }
+
+  if (m_is_approximate)
+    result_string.prepend("approx. ");
 
   emit resultText(result_string, output[0].second, output[1].second,
                   output[2].second, output[3].second);
