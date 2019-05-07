@@ -539,7 +539,7 @@ bool QWrapper::printResultInBase(MathStructure& result, print_result_t& output)
 
 bool QWrapper::isBaseEnabled(const uint8_t base, MathStructure& result)
 {
-  if (result.representsNonInteger())
+  if (!result.representsInteger())
     return false;
 
   switch (base) {
