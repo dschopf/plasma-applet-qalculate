@@ -108,7 +108,9 @@ private:
   std::unique_ptr<Calculator> m_pcalc;
   EvaluationOptions m_eval_options;
   PrintOptions m_print_options;
+#if defined(INTERVAL_SUPPORT_INCLUDED)
   bool m_is_approximate;
+#endif
   std::map<int, Number> m_print_limits;
   QNetworkAccessManager m_netmgr;
 

@@ -18,8 +18,12 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 //  IN THE SOFTWARE.
 
-#if defined(HAVE_QALCULATE_2_0_0) || defined(HAVE_QALCULATE_2_5_0) || defined(HAVE_QALCULATE_2_6_0)
+#if defined(HAVE_QALCULATE_2_0_0) || defined(HAVE_QALCULATE_2_2_0) || defined(HAVE_QALCULATE_2_5_0) || defined(HAVE_QALCULATE_2_6_0)
 #define PRINT_CONTROL_INCLUDED
+#endif
+
+#if defined(HAVE_QALCULATE_2_2_0) || defined(HAVE_QALCULATE_2_5_0) || defined(HAVE_QALCULATE_2_6_0)
+#define INTERVAL_SUPPORT_INCLUDED
 #endif
 
 #if defined(HAVE_QALCULATE_2_5_0) || defined(HAVE_QALCULATE_2_6_0)
@@ -86,9 +90,11 @@ QWrapper::QWrapper(QObject* parent)
   m_print_options.twos_complement = true;
 #endif
 
+#if defined(INTERVAL_SUPPORT_INCLUDED)
   m_is_approximate = false;
   m_print_options.is_approximate = &m_is_approximate;
   m_print_options.interval_display = INTERVAL_DISPLAY_MIDPOINT;
+#endif
 
   ParseOptions popts;
 
@@ -353,6 +359,8 @@ void QWrapper::setNegativeBinaryTwosComplement(const bool value)
 {
 #if defined(HAVE_BINARY_TWOS_COMPLEMENT_OPTION)
   m_print_options.twos_complement = value;
+#else
+  (void)value;
 #endif
 }
 
@@ -427,7 +435,9 @@ void QWrapper::worker()
       auto expr = m_pcalc->unlocalizeExpression(m_state.input.toStdString(),
                                                 m_eval_options.parse_options);
       m_state.input.clear();
+#if defined(INTERVAL_SUPPORT_INCLUDED)
       m_is_approximate = false;
+#endif
       lock.unlock();
 #if defined(PRINT_CONTROL_INCLUDED)
       m_pcalc->startControl(m_config.timeout);
@@ -483,8 +493,10 @@ void QWrapper::runCalculation(const std::string& expr)
     }
   }
 
+#if defined(INTERVAL_SUPPORT_INCLUDED)
   if (m_is_approximate)
     result_string.prepend("approx. ");
+#endif
 
   emit resultText(result_string, output[0].second, output[1].second,
                   output[2].second, output[3].second);
