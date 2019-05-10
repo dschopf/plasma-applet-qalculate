@@ -10,3 +10,23 @@ cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release \
 make
 sudo make install
 ```
+
+# Packages required
+
+Here is an incomplete list of build dependencies for the qalculate plasma applet:
+
+## Ubunutu
+Install the following packages (tested on Kubuntu 18.04 LTS):
+* cmake
+* g++
+* extra-cmake-modules
+* qt5-qmake
+* qt5-default
+* qtdeclarative5-dev
+* plasma-framework-dev
+* pkg-config
+* libreadline-dev
+* gettext
+* libqalculate-dev
+
+`sudo apt install cmake g++ extra-cmake-modules qt5-qmake qt5-default qtdeclarative5-dev plasma-framework-dev pkg-config libreadline-dev gettext libqalculate-dev`
