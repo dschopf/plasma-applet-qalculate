@@ -13,9 +13,9 @@ sudo make install
 
 # Packages required
 
-Here is an incomplete list of build dependencies for the qalculate plasma applet:
+Here is a list of build dependencies for the qalculate plasma applet:
 
-## Ubunutu
+## Ubuntu
 Install the following packages (tested on Kubuntu 18.04 LTS):
 * cmake
 * g++
@@ -26,7 +26,7 @@ Install the following packages (tested on Kubuntu 18.04 LTS):
 * plasma-framework-dev
 * pkg-config
 * libreadline-dev
-* gettext
+* gettext (required for translations)
 * libqalculate-dev
 
 `sudo apt install cmake g++ extra-cmake-modules qt5-qmake qt5-default qtdeclarative5-dev plasma-framework-dev pkg-config libreadline-dev gettext libqalculate-dev`
