@@ -163,9 +163,9 @@ void QWrapper::evaluate(QString const& input, bool const enter_pressed)
 
   m_state.cond.notify_all();
 
-  if (m_history.enabled && enter_pressed && !input.isEmpty() && (input != m_history.last_entry)) {
-    m_history.last_entry = input;
-    add_history(m_history.last_entry.toStdString().c_str());
+  if (m_history.enabled && enter_pressed && !input.isEmpty() && (input.toStdString() != m_history.last_entry)) {
+    m_history.last_entry = input.toStdString();
+    add_history(m_history.last_entry.c_str());
     history_set_pos(history_length);
     append_history(1, m_history.filename.c_str());
   }
