@@ -134,7 +134,7 @@ private:
   struct {
     bool enabled;
     std::string filename;
-    std::string last_entry;
+    QString last_entry;
   } m_history;
 
 private slots:
