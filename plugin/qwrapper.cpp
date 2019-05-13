@@ -18,20 +18,6 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 //  IN THE SOFTWARE.
 
-#if defined(HAVE_QALCULATE_2_0_0) || defined(HAVE_QALCULATE_2_2_0) || defined(HAVE_QALCULATE_2_5_0) || defined(HAVE_QALCULATE_2_6_0)
-#define PRINT_CONTROL_INCLUDED
-#endif
-
-#if defined(HAVE_QALCULATE_2_2_0) || defined(HAVE_QALCULATE_2_5_0) || defined(HAVE_QALCULATE_2_6_0)
-#define INTERVAL_SUPPORT_INCLUDED
-#endif
-
-#if defined(HAVE_QALCULATE_2_5_0) || defined(HAVE_QALCULATE_2_6_0)
-#define HAVE_BINARY_TWOS_COMPLEMENT_OPTION
-#endif
-
-#include "qwrapper.h"
-
 #include <functional>
 
 #include <readline/history.h>
@@ -41,6 +27,8 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QProcess>
+
+#include "qwrapper.h"
 
 #if defined(PRINT_CONTROL_INCLUDED)
 #define PRINT_RESULT(a, b, c) QString::fromStdString(m_pcalc->print(a, b, c))

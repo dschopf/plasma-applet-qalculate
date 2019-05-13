@@ -31,6 +31,18 @@
 #include <QNetworkAccessManager>
 #include <QObject>
 
+#if defined(HAVE_QALCULATE_2_0_0) || defined(HAVE_QALCULATE_2_2_0) || defined(HAVE_QALCULATE_2_5_0) || defined(HAVE_QALCULATE_2_6_0)
+#define PRINT_CONTROL_INCLUDED
+#endif
+
+#if defined(HAVE_QALCULATE_2_2_0) || defined(HAVE_QALCULATE_2_5_0) || defined(HAVE_QALCULATE_2_6_0)
+#define INTERVAL_SUPPORT_INCLUDED
+#endif
+
+#if defined(HAVE_QALCULATE_2_5_0) || defined(HAVE_QALCULATE_2_6_0)
+#define HAVE_BINARY_TWOS_COMPLEMENT_OPTION
+#endif
+
 enum class State {
   Calculating,
   Idle,
