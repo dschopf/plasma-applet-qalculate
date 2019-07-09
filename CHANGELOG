@@ -1,6 +1,10 @@
 Qalculate changelog:
 --------------------
 
+v0.6.1:
+- various fixes for compatibility with older library versions
+- fixes a crash on certain platforms
+
 v0.6:
 - add support for launching a program from the main widget
 - fix issue with currentcy timestamp updating in the options
