@@ -16,7 +16,14 @@ sudo make install
 Here is a list of build dependencies for the qalculate plasma applet:
 
 ## Ubuntu
-Install the following packages (tested on Kubuntu 18.04 LTS):
+Ubuntu 18.04 and 19.04 users can use launchpad.net PPA with pre-compiled deb package: https://launchpad.net/~dschopf/+archive/ubuntu/plasma-applet-qalculate
+```
+sudo add-apt-repository ppa:dschopf/plasma-applet-qalculate
+sudo apt-get update
+sudo apt-get install plasma-applet-qalculate
+```
+
+For manual compilation - install the following packages (tested on Kubuntu 18.04 LTS):
 * cmake
 * g++
 * extra-cmake-modules
