@@ -18,7 +18,7 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 //  IN THE SOFTWARE.
 
-import QtQuick 2.0
+import QtQuick 2.7
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.0
 
@@ -302,10 +302,12 @@ Item {
         spacing: 0
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
-        Label {
+        TextEdit {
           id: lResult
           text: i18n("Result")
           visible: false
+          readOnly: true
+          selectByMouse: true
           color: theme.textColor
           Layout.alignment: Qt.AlignHCenter
           font.bold: true
@@ -404,38 +406,46 @@ Item {
         }
       }
 
-      Label {
+      TextEdit {
         id: outputBinary
         text: "ResultBinary"
         visible: false
+        readOnly: true
+        selectByMouse: true
         color: theme.textColor
         Layout.alignment: Qt.AlignHCenter
         Layout.maximumWidth: parent.width
         font.pixelSize: units.gridUnit
       }
 
-      Label {
+      TextEdit {
         id: outputOctal
         text: "ResultOctal"
         visible: false
+        readOnly: true
+        selectByMouse: true
         color: theme.textColor
         Layout.alignment: Qt.AlignHCenter
         font.pixelSize: units.gridUnit
       }
 
-      Label {
+      TextEdit {
         id: outputDecimal
         text: "ResultDecimal"
         visible: false
+        readOnly: true
+        selectByMouse: true
         color: theme.textColor
         Layout.alignment: Qt.AlignHCenter
         font.pixelSize: units.gridUnit
       }
 
-      Label {
+      TextEdit {
         id: outputHex
         text: "ResultHex"
         visible: false
+        readOnly: true
+        selectByMouse: true
         color: theme.textColor
         Layout.alignment: Qt.AlignHCenter
         font.pixelSize: units.gridUnit
