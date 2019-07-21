@@ -483,7 +483,7 @@ void QWrapper::runCalculation(const std::string& expr)
 
 #if defined(INTERVAL_SUPPORT_INCLUDED)
   if (m_is_approximate)
-    result_string.prepend("approx. ");
+    result_string.prepend(QString::fromUtf8("\u2248"));
 #endif
 
   emit resultText(result_string, output[0].second, output[1].second,
