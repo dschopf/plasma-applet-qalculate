@@ -82,6 +82,7 @@ public Q_SLOTS:
   void setEnableBase10(const bool enable);
   void setEnableBase16(const bool enable);
   void setResultBase(const int base);
+  void setDetectTimestamps(const bool enable);
 
   // print settings
   void setNumberFractionFormat(const int format);
@@ -111,7 +112,8 @@ signals:
 
 private:
   void worker();
-  void runCalculation(const std::string& lock);
+  void checkInput(std::string& expr);
+  void runCalculation(const std::string& expr);
   bool checkReturnState();
   bool printResultInBase(MathStructure& result, print_result_t& output);
   bool isBaseEnabled(const uint8_t base, MathStructure& result);
@@ -132,6 +134,7 @@ private:
     bool enable_base10;
     bool enable_base16;
     int timeout;
+    bool detectTimestamps;
   } m_config;
 
   struct {

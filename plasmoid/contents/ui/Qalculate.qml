@@ -52,6 +52,7 @@ Item {
     property string decimalSeparator: plasmoid.configuration.decimalSeparator
     property int angleUnit: plasmoid.configuration.angleUnit
     property int expressionBase: plasmoid.configuration.expressionBase
+    property bool detectTimestamps: plasmoid.configuration.detectTimestamps
 
     property int numberFractionFormat: plasmoid.configuration.numberFractionFormat
     property int numericalDisplay: plasmoid.configuration.numericalDisplay
@@ -157,6 +158,10 @@ Item {
 
     onExpressionBaseChanged: {
       qwr.setExpressionBase(expressionBase)
+    }
+
+    onDetectTimestampsChanged: {
+      qwr.setDetectTimestamps(detectTimestamps)
     }
 
     onNumberFractionFormatChanged: {

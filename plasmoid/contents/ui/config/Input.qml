@@ -30,6 +30,7 @@ Item {
   property alias cfg_useKDESeparator:               cbUseKDESetting.checked
   property alias cfg_angleUnit:                     cobAngleUnit.currentIndex
   property alias cfg_expressionBase:                sbExpressionBase.value
+  property alias cfg_detectTimestamps:              cbDetectTimestamps.checked
 
   onCfg_unitConversionChanged: {
     switch (cfg_unitConversion) {
@@ -238,6 +239,12 @@ Item {
       stepSize: 1
       minimumValue: 1
       maximumValue: 64
+    }
+
+    CheckBox {
+      id: cbDetectTimestamps
+      text: i18n("Interpret 11 digit number input as a timestamp")
+      Layout.columnSpan: 2
     }
   }
 }

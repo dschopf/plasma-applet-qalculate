@@ -54,6 +54,9 @@
         <entry name="expressionBase" type="Int">
             <default>10</default>
         </entry>
+        <entry name="detectTimestamps" type="Bool">
+            <default>false</default>
+        </entry>
     </group>
 
     <group name="Output">

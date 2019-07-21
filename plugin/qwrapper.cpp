@@ -19,6 +19,7 @@
 //  IN THE SOFTWARE.
 
 #include <functional>
+#include <regex>
 
 #include <readline/history.h>
 #include <sys/stat.h>
@@ -284,6 +285,11 @@ void QWrapper::setResultBase(const int base)
     m_print_options.base = base;
 }
 
+void QWrapper::setDetectTimestamps(const bool enable)
+{
+  m_config.detectTimestamps = enable;
+}
+
 void QWrapper::setNumberFractionFormat(const int format)
 {
   switch (format) {
@@ -430,6 +436,7 @@ void QWrapper::worker()
 #if defined(PRINT_CONTROL_INCLUDED)
       m_pcalc->startControl(m_config.timeout);
 #endif
+      checkInput(expr);
       runCalculation(expr);
 #if defined(PRINT_CONTROL_INCLUDED)
       m_pcalc->stopControl();
@@ -441,6 +448,15 @@ void QWrapper::worker()
     while (m_state.input.isEmpty() && m_state.state != State::Stop)
       m_state.cond.wait(lock);
   }
+}
+
+void QWrapper::checkInput(std::string& expr)
+{
+  std::regex re(R"(^\d{11}$)");
+
+  std::smatch m;
+  if (std::regex_match(expr, m, re))
+    expr = "unix2date(" + m[0].str() + ")";
 }
 
 void QWrapper::runCalculation(const std::string& expr)
