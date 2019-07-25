@@ -52,6 +52,13 @@ Item {
     id: clipboard
   }
 
+  Keys.onPressed: {
+    if (!inputQuery.focus) {
+      inputQuery.forceActiveFocus();
+      inputQuery.text += event.text
+    }
+  }
+
   PlasmaComponents.ContextMenu {
     id: contextMenu
 

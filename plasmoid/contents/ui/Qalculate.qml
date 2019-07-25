@@ -19,6 +19,8 @@
 //  IN THE SOFTWARE.
 
 import QtQuick 2.0
+import QtQuick.Layouts 1.1
+
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.plasmoid 2.0
 
@@ -38,7 +40,13 @@ Item {
     property alias qwr: myConnection.target
 
     property bool fromCompact: false
-    property bool debugLogging: false
+    property bool debugLogging: true
+
+    readonly property bool inPanel: (plasmoid.location === PlasmaCore.Types.TopEdge
+        || plasmoid.location === PlasmaCore.Types.RightEdge
+        || plasmoid.location === PlasmaCore.Types.BottomEdge
+        || plasmoid.location === PlasmaCore.Types.LeftEdge)
+    readonly property bool vertical: (plasmoid.formFactor === PlasmaCore.Types.Vertical)
 
     property string qalculateIcon: plasmoid.configuration.qalculateIcon
     property int timeout: plasmoid.configuration.timeout
@@ -66,6 +74,9 @@ Item {
     property bool resultInBase10: plasmoid.configuration.decimal
     property bool resultInBase16: plasmoid.configuration.hexadecimal
     property int resultBase: plasmoid.configuration.resultBase
+
+    Plasmoid.switchWidth: units.gridUnit * 20
+    Plasmoid.switchHeight: units.gridUnit * 30
 
     Component {
       id: compactRepresentation
@@ -104,6 +115,53 @@ Item {
             plasmoid.expanded = !plasmoid.expanded;
           }
         }
+
+        Layout.minimumWidth: {
+          if (!inPanel)
+            return units.iconSizeHints.panel;
+
+          if (vertical) {
+            return -1;
+          } else {
+            return Math.min(units.iconSizeHints.panel, parent.height) * buttonIcon.aspectRatio;
+          }
+        }
+
+        Layout.minimumHeight: {
+          if (!inPanel) {
+            return units.iconSizeHints.panel;
+          }
+
+          if (vertical) {
+            return Math.min(units.iconSizeHints.panel, parent.width) * buttonIcon.aspectRatio;
+          } else {
+            return -1;
+          }
+        }
+
+        Layout.maximumWidth: {
+          if (!inPanel) {
+            return -1;
+          }
+
+          if (vertical) {
+            return units.iconSizeHints.panel;
+          } else {
+            return Math.min(units.iconSizeHints.panel, parent.height) * buttonIcon.aspectRatio;
+          }
+        }
+
+        Layout.maximumHeight: {
+          if (!inPanel) {
+            return -1;
+          }
+
+          if (vertical) {
+            return Math.min(units.iconSizeHints.panel, parent.width) * buttonIcon.aspectRatio;
+          } else {
+            return units.iconSizeHints.panel;
+          }
+        }
       }
     }
 
@@ -137,6 +195,9 @@ Item {
         plasmoid.configuration.exchangeRatesTime = qwr.getExchangeRatesUpdateTime()
       }
       qwr.setDisableHistory(historyDisabled)
+
+      if (plasmoid.hasOwnProperty("activationTogglesExpanded"))
+        plasmoid.activationTogglesExpanded = true
     }
 
     Component.onDestruction: {
