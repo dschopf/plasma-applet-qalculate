@@ -19,7 +19,7 @@
 //  IN THE SOFTWARE.
 
 import QtQuick 2.0
-import QtQuick.Controls 1.0
+import QtQuick.Controls 2.2
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.0
 
@@ -37,10 +37,13 @@ Item {
   property alias cfg_timeout:                       tfTimeout.text
   property alias cfg_launcherEnabled:               chbEnableLauncher.checked
   property alias cfg_launcherExecutable:            tfExecutable.text
+  property alias cfg_launcherArgsEnabled:           chbCmdlinArgs.checked
+  property alias cfg_launcherArguments:             tfArguments.text
   property alias cfg_historyDisabled:               chbHistoryDisabled.checked
   property alias cfg_historySize:                   sbHistorySize.value
 
   GridLayout {
+    id: grid
     anchors.left: parent.left
     anchors.right: parent.right
     columns: 2
@@ -48,15 +51,23 @@ Item {
     CheckBox {
       id: chbCopyResultToClipboard
       text: i18n("Copy result to clipboard")
-      tooltip: i18n("Only works when pressing Return")
       Layout.columnSpan: 2
+
+      PlasmaCore.ToolTipArea {
+        anchors.fill: parent
+        subText: i18n("Only works when pressing Return")
+      }
     }
 
     CheckBox {
       id: chbWriteResultsInInputLineEdit
       text: i18n("Write results in input line edit")
-      tooltip: i18n("Only works when pressing Return")
       Layout.columnSpan: 2
+
+      PlasmaCore.ToolTipArea {
+        anchors.fill: parent
+        subText: i18n("Only works when pressing Return")
+      }
     }
 
     CheckBox {
@@ -65,80 +76,117 @@ Item {
       Layout.columnSpan: 2
     }
 
-    Label {
-      text: i18n('Calculation timeout') + " (ms) :"
-      Layout.alignment: Qt.AlignVCenter|Qt.AlignRight
+    Item {
+      Layout.preferredWidth: 0.5 * parent.width
+      Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
+      Layout.preferredHeight: calcLabel.height
+
+      Label {
+        id: calcLabel
+        text: i18n('Calculation timeout') + " (ms) :"
+        anchors.right: parent.right
+      }
     }
 
-    PlasmaComponents.TextField {
-      id: tfTimeout
-      validator: IntValidator { bottom: 0; top: 9999999; }
+    Item {
+      Layout.preferredWidth: 0.5 * parent.width
+      Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
+      Layout.preferredHeight: tfTimeout.height
+
+      PlasmaComponents.TextField {
+        id: tfTimeout
+        validator: IntValidator { bottom: 0; top: 9999999; }
+        anchors.left: parent.left
+      }
     }
 
     RowLayout {
       spacing: units.smallSpacing
-      Layout.alignment: Qt.AlignVCenter|Qt.AlignRight
+      Layout.preferredWidth: parent.width
+      Layout.columnSpan: 2
 
-      Label {
-        text: i18n("Icon") + ":"
+      Item {
+        // Layout.preferredWidth: 0.5 * parent.width
+        Layout.preferredHeight: previewFrame.height
+        Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
+
+        Label {
+          text: i18n("Icon") + ":"
+          anchors.right: parent.right
+          anchors.verticalCenter: parent.verticalCenter
+        }
       }
 
-      Button {
-        id: iconButton
-        Layout.minimumWidth: previewFrame.width + units.smallSpacing * 2
-        Layout.maximumWidth: Layout.minimumWidth
-        Layout.minimumHeight: previewFrame.height + units.smallSpacing * 2
-        Layout.maximumHeight: Layout.minimumWidth
+      Item {
+        // Layout.preferredWidth: 0.5 * parent.width
+        Layout.preferredHeight: previewFrame.height
+        Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
 
-        KQuickAddons.IconDialog {
-          id: iconDialog
-          onIconNameChanged: cfg_qalculateIcon = iconName
+        Button {
+          id: iconButton
+          anchors.left: parent.left
+
+          KQuickAddons.IconDialog {
+            id: iconDialog
+            onIconNameChanged: cfg_qalculateIcon = iconName
+          }
+
+          // just to provide some visual feedback, cannot have checked without checkable enabled
+          checkable: true
+          onClicked: {
+            checked = Qt.binding(function() { // never actually allow it being checked
+              return iconMenu.status === PlasmaComponents.DialogStatus.Open
+            })
+
+            iconMenu.open(0, height)
+          }
+
+          PlasmaCore.FrameSvgItem {
+            id: previewFrame
+            anchors.left: parent.left
+            anchors.top: parent.top
+            imagePath: plasmoid.location === PlasmaCore.Types.Vertical || plasmoid.location === PlasmaCore.Types.Horizontal
+              ? "widgets/panel-background" : "widgets/background"
+            width: iconPreview.width + fixedMargins.left + fixedMargins.right
+            height: iconPreview.height + fixedMargins.top + fixedMargins.bottom
+
+            onWidthChanged: {
+              iconButton.width = width
+              iconButton.height = height
+            }
+
+            PlasmaCore.IconItem {
+              id: iconPreview
+              anchors.centerIn: parent
+              width: units.iconSizes.large
+              height: width
+              source: cfg_qalculateIcon
+            }
+          }
         }
 
-        // just to provide some visual feedback, cannot have checked without checkable enabled
-        checkable: true
-        onClicked: {
-          checked = Qt.binding(function() { // never actually allow it being checked
-            return iconMenu.status === PlasmaComponents.DialogStatus.Open
-          })
+        // QQC Menu can only be opened at cursor position, not a random one
+        PlasmaComponents.ContextMenu {
+          id: iconMenu
+          visualParent: iconButton
 
-          iconMenu.open(0, height)
-        }
-
-        PlasmaCore.FrameSvgItem {
-          id: previewFrame
-          anchors.centerIn: parent
-          imagePath: plasmoid.location === PlasmaCore.Types.Vertical || plasmoid.location === PlasmaCore.Types.Horizontal
-            ? "widgets/panel-background" : "widgets/background"
-          width: units.iconSizes.large + fixedMargins.left + fixedMargins.right
-          height: units.iconSizes.large + fixedMargins.top + fixedMargins.bottom
-
-          PlasmaCore.IconItem {
-            id: iconPreview
-            anchors.centerIn: parent
-            width: units.iconSizes.large
-            height: width
-            source: cfg_qalculateIcon
+          PlasmaComponents.MenuItem {
+            text: i18nc("Open icon chooser dialog", "Choose Icon")
+            icon: "document-open-folder"
+            onClicked: iconDialog.open()
+          }
+          PlasmaComponents.MenuItem {
+            text: i18nc("Reset icon to default", "Clear Icon")
+            icon: "edit-clear"
+            onClicked: cfg_qalculateIcon = Tools.stripProtocol(Qt.resolvedUrl('../../images/Qalculate.svg'))
           }
         }
       }
+    }
 
-      // QQC Menu can only be opened at cursor position, not a random one
-      PlasmaComponents.ContextMenu {
-        id: iconMenu
-        visualParent: iconButton
-
-        PlasmaComponents.MenuItem {
-          text: i18nc("Open icon chooser dialog", "Choose Icon")
-          icon: "document-open-folder"
-          onClicked: iconDialog.open()
-        }
-        PlasmaComponents.MenuItem {
-          text: i18nc("Reset icon to default", "Clear Icon")
-          icon: "edit-clear"
-          onClicked: cfg_qalculateIcon = Tools.stripProtocol(Qt.resolvedUrl('../../images/Qalculate.svg'))
-        }
-      }
+    Item {
+      Layout.columnSpan: 2
+      height: 5
     }
 
     CheckBox {
@@ -149,7 +197,7 @@ Item {
 
     RowLayout {
       spacing: units.smallSpacing
-      Layout.alignment: Qt.AlignVCenter|Qt.AlignRight
+      Layout.maximumWidth: parent.width
       Layout.columnSpan: 2
 
       Label {
@@ -167,7 +215,9 @@ Item {
 
       Button {
         id: executableButton
-        iconName: "system-run"
+        icon.name: "system-run"
+        width: units.iconSizes.large
+        height: width
         enabled: chbEnableLauncher.checked
 
         FileDialog {
@@ -181,43 +231,101 @@ Item {
       }
     }
 
-    GroupBox {
-      title: i18n("Input history")
-      flat: false
-      checkable: false
-      Layout.fillWidth: true
+    RowLayout {
+      spacing: units.smallSpacing
+      Layout.maximumWidth: parent.width
       Layout.columnSpan: 2
 
-      GridLayout {
-        anchors.left: parent.left
-        anchors.right: parent.right
-        columns: 2
+      CheckBox {
+        id: chbCmdlinArgs
+        text: i18n("Arguments")
+        enabled: chbEnableLauncher.checked
+      }
+
+      PlasmaComponents.TextField {
+        id: tfArguments
+        Layout.alignment: Qt.AlignVCenter
+        Layout.fillWidth: true
+        enabled: chbEnableLauncher.checked && chbCmdlinArgs.checked
+
+        PlasmaCore.ToolTipArea {
+          anchors.fill: parent
+          subText: "${INPUT} will be replaced with the current input string"
+        }
+      }
+    }
+
+    Item {
+      Layout.columnSpan: 2
+      height: 5
+    }
+
+    GroupBox {
+      Layout.preferredWidth: parent.width
+      Layout.columnSpan: 2
+
+      background: Rectangle {
+        width: parent.width
+        color: "transparent"
+        border.color: Qt.darker(theme.viewTextColor)
+        radius: 5
+      }
+
+      label: Rectangle {
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        anchors.topMargin: height/2
+        color: "transparent"
+        height: title.font.pixelSize
+        Text {
+          id: title
+          text: i18n("Input history")
+          anchors.centerIn: parent
+          color: theme.textColor
+        }
+      }
+
+      ColumnLayout {
+        Layout.minimumWidth: parent.width
 
         Item {
-          Layout.columnSpan: 2
           height: 5
         }
 
         CheckBox {
           id: chbHistoryDisabled
           text: i18n("Disable input history")
-          tooltip: i18n("Only works when pressing Return")
-          Layout.columnSpan: 2
+        }
+
+        RowLayout {
+          Item {
+            Layout.preferredWidth: grid.width * 0.5
+            Layout.preferredHeight: lbHistorySize.height
+            Layout.alignment: Qt.AlignRight
+
+            Label {
+              id: lbHistorySize
+              anchors.right: parent.right
+              Layout.alignment: Qt.AlignVCenter
+              text: i18n("History size") + ':'
+              enabled: !chbHistoryDisabled.checked
+            }
+          }
+
+          SpinBox {
+            Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
+            id: sbHistorySize
+            stepSize: 1
+            from: 1
+            to: 1e7
+            enabled: !chbHistoryDisabled.checked
+          }
         }
 
         Label {
-          text: i18n("History size") + ':'
-          Layout.alignment: Qt.AlignVCenter|Qt.AlignRight
+          visible: chbLiveEvaluation.checked
           enabled: !chbHistoryDisabled.checked
-        }
-
-        SpinBox {
-          id: sbHistorySize
-          decimals: 0
-          stepSize: 1
-          minimumValue: 1
-          maximumValue: 1e7
-          enabled: !chbHistoryDisabled.checked
+          text: i18n("History entries are only created by pressing Enter when \"Live evaluation\" is enabled!")
         }
       }
     }

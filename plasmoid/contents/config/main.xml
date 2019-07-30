@@ -27,6 +27,12 @@
         <entry name="launcherExecutable" type="String">
           <default></default>
         </entry>
+        <entry name="launcherArgsEnabled" type="Bool">
+          <default>false</default>
+        </entry>
+        <entry name="launcherArguments" type="String">
+          <default>"${INPUT}"</default>
+        </entry>
         <entry name="historyDisabled" type="Bool">
             <default>false</default>
         </entry>

@@ -271,8 +271,12 @@ Item {
       MouseArea {
         anchors.fill: parent
         onClicked: {
-          if (plasmoid.configuration.launcherEnabled)
-          qwr.launch(plasmoid.configuration.launcherExecutable)
+          if (plasmoid.configuration.launcherEnabled) {
+            if (plasmoid.configuration.launcherArgsEnabled)
+              qwr.launch(plasmoid.configuration.launcherExecutable, plasmoid.configuration.launcherArguments, inputQuery.text)
+            else
+              qwr.launch(plasmoid.configuration.launcherExecutable)
+          }
         }
       }
     }
@@ -470,6 +474,32 @@ Item {
     iconSource: "window-pin"
     visible: main.fromCompact
     onCheckedChanged: plasmoid.hideOnWindowDeactivate = !checked
+  }
+
+  PlasmaCore.SvgItem {
+    id: qalculateSmallIcon
+    visible: !qalculateFullIcon.visible
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    smooth: true
+    width: Math.round(units.gridUnit * 1.25)
+    height: width
+
+    svg: PlasmaCore.Svg {
+      imagePath: Tools.stripProtocol(Qt.resolvedUrl('../images/Qalculate.svg'))
+    }
+
+    MouseArea {
+      anchors.fill: parent
+      onClicked: {
+        if (plasmoid.configuration.launcherEnabled) {
+          if (plasmoid.configuration.launcherArgsEnabled)
+              qwr.launch(plasmoid.configuration.launcherExecutable, plasmoid.configuration.launcherArguments, inputQuery.text)
+            else
+              qwr.launch(plasmoid.configuration.launcherExecutable)
+        }
+      }
+    }
   }
 
   function onNewInput(input, enter) {

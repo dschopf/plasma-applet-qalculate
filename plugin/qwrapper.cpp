@@ -165,6 +165,17 @@ void QWrapper::launch(const QString& executable)
   QProcess::startDetached(executable);
 }
 
+
+void QWrapper::launch(const QString& executable, const QString& args, const QString& expression)
+{
+  QStringList list = args.split(' ', QString::SkipEmptyParts);
+
+  for (auto& s : list)
+    s.replace(QString("${INPUT}"), expression);
+
+  QProcess::startDetached(executable, list);
+}
+
 void QWrapper::setTimeout(const int timeout) { m_config.timeout = timeout; }
 
 void QWrapper::setDisableHistory(const bool disabled)

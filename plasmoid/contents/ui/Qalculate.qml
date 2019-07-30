@@ -52,6 +52,8 @@ Item {
     property int timeout: plasmoid.configuration.timeout
     property bool launcherEnabled: plasmoid.configuration.launcherEnabled
     property string launcherExecutable: plasmoid.configuration.launcherExecutable
+    property bool launcherArgsEnabled: plasmoid.configuration.launcherArgsEnabled
+    property string launcherArguments: plasmoid.configuration.launcherArguments
     property bool historyDisabled: plasmoid.configuration.historyDisabled
     property int historySize: plasmoid.configuration.historySize
 
