@@ -313,6 +313,11 @@ Item {
         spacing: 0
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
+        FontMetrics {
+          id: fontMetrics
+          font: lResult.font
+        }
+
         TextEdit {
           id: lResult
           text: i18n("Result")
@@ -348,6 +353,14 @@ Item {
 
               lResult.visible = true
               lResult.text = result
+
+              lResult.font.pixelSize = 40
+
+              if (result.length * fontMetrics.averageCharacterWidth > fullRepresentation.width * 0.95) {
+                while (result.length * fontMetrics.averageCharacterWidth > fullRepresentation.width * 0.95) {
+                  lResult.font.pixelSize = lResult.font.pixelSize * 0.85
+                }
+              }
 
               if (plasmoid.configuration.resultBase !== 10) {
                 loutputBase.visible = true
