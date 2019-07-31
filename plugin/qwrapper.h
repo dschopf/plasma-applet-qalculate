@@ -113,7 +113,7 @@ signals:
 
 private:
   void worker();
-  void checkInput(std::string& expr);
+  bool checkInput(std::string& expr);
   void runCalculation(const std::string& expr);
   bool checkReturnState();
   bool printResultInBase(MathStructure& result, print_result_t& output);

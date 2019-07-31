@@ -447,8 +447,8 @@ void QWrapper::worker()
 #if defined(PRINT_CONTROL_INCLUDED)
       m_pcalc->startControl(m_config.timeout);
 #endif
-      checkInput(expr);
-      runCalculation(expr);
+      if (checkInput(expr))
+        runCalculation(expr);
 #if defined(PRINT_CONTROL_INCLUDED)
       m_pcalc->stopControl();
 #endif
@@ -461,13 +461,20 @@ void QWrapper::worker()
   }
 }
 
-void QWrapper::checkInput(std::string& expr)
+bool QWrapper::checkInput(std::string& expr)
 {
   std::regex re(R"(^\d{11}$)");
 
   std::smatch m;
-  if (std::regex_match(expr, m, re))
-    expr = "unix2date(" + m[0].str() + ")";
+  if (std::regex_match(expr, m, re)) {
+    QDateTime t;
+    t.setTime_t(std::atoll(m[0].str().c_str()));
+
+    emit resultText(t.toString(Qt::SystemLocaleLongDate), QString(), QString(), QString(), QString());
+    return false;
+  }
+
+  return true;
 }
 
 void QWrapper::runCalculation(const std::string& expr)
