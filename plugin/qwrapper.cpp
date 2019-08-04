@@ -53,9 +53,10 @@ QWrapper::QWrapper(QObject* parent)
       m_netmgr(), m_config(), m_state(), m_history()
 {
   m_pcalc.reset(new Calculator());
+  m_pcalc->loadExchangeRates();
+  m_pcalc->loadGlobalCurrencies();
   m_pcalc->loadGlobalDefinitions();
   m_pcalc->loadLocalDefinitions();
-  m_pcalc->loadExchangeRates();
   m_pcalc->useDecimalPoint();
 
   m_eval_options.auto_post_conversion = POST_CONVERSION_NONE;
