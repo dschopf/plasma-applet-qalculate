@@ -177,6 +177,23 @@ void QWrapper::launch(const QString& executable, const QString& args, const QStr
   QProcess::startDetached(executable, list);
 }
 
+int QWrapper::getVersion()
+{
+#if (QALCULATE_MAJOR_VERSION >= 3) && (QALCULATE_MINOR_VERSION >= 3)
+  return 330;
+#elif defined(HAVE_QALCULATE_2_6_0)
+  return 260;
+#elif defined(HAVE_QALCULATE_2_5_0)
+  return 250;
+#elif defined(HAVE_QALCULATE_2_2_0)
+  return 220;
+#elif defined(HAVE_QALCULATE_2_0_0)
+  return 200;
+#else
+  return 100;
+#endif
+}
+
 void QWrapper::setTimeout(const int timeout) { m_config.timeout = timeout; }
 
 void QWrapper::setDisableHistory(const bool disabled)

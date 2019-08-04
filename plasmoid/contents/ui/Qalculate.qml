@@ -198,6 +198,8 @@ Item {
       }
       qwr.setDisableHistory(historyDisabled)
 
+      plasmoid.configuration.libVersion = qwr.getVersion()
+
       if (plasmoid.hasOwnProperty("activationTogglesExpanded"))
         plasmoid.activationTogglesExpanded = true
     }

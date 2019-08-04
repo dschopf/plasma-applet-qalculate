@@ -24,6 +24,7 @@ import QtQuick.Layouts 1.0
 
 Item {
 
+  property int cfg_libVersion
   property int cfg_numberFractionFormat
   property alias cfg_numericalDisplay: cobNumericalDisplay.currentIndex
   property alias cfg_indicateInfiniteSeries: chbIndicateInfiniteSeries.checked
@@ -173,7 +174,8 @@ Item {
 
     CheckBox {
       id: chbNegativeBinaryTwosComplement
-      text: i18n("Use two's complement representation for negative binary numbers (requires libqalculate v2.5 or later)")
+      visible: cfg_libVersion >= 250
+      text: i18n("Use two's complement representation for negative binary numbers")
       Layout.columnSpan: 2
     }
 
