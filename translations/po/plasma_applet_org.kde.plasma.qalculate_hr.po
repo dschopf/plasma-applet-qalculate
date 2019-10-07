@@ -1,0 +1,356 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
+"POT-Creation-Date: 2019-04-04 18:09+0200\n"
+"PO-Revision-Date: 2016-09-12 19:18+0200\n"
+"Last-Translator: Vladimir Mikulic <vladimir.mikulic2@gmail.com>\n"
+"Language-Team: Croatian <vladimir.mikulic2@gmail.com>\n"
+"Language: hr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../plasmoid/contents/config/config.qml:27
+msgid "General"
+msgstr "Općenito"
+
+#: ../plasmoid/contents/config/config.qml:32
+msgid "Input"
+msgstr "Ulaz"
+
+#: ../plasmoid/contents/config/config.qml:37
+msgid "Output"
+msgstr "Izlaz"
+
+#: ../plasmoid/contents/config/config.qml:42
+msgid "Currency"
+msgstr "Valuta"
+
+#: ../plasmoid/contents/ui/config/Currency.qml:37
+msgid "Update exchange rates at startup"
+msgstr "Obnovi valutni tečaj pri pokretanju"
+
+#: ../plasmoid/contents/ui/config/Currency.qml:43
+msgctxt "Exchange rates"
+msgid "Last update"
+msgstr "Zadnje ažuriranje"
+
+#: ../plasmoid/contents/ui/config/General.qml:50
+#: ../plasmoid/contents/ui/FullRepresentation.qml:65
+msgid "Copy result to clipboard"
+msgstr "Kopiraj rezultate u spremnik"
+
+#: ../plasmoid/contents/ui/config/General.qml:51
+#: ../plasmoid/contents/ui/config/General.qml:58
+#: ../plasmoid/contents/ui/config/General.qml:204
+msgid "Only works when pressing Return"
+msgstr "Radi samo kada se pritisne Enter"
+
+#: ../plasmoid/contents/ui/config/General.qml:57
+msgid "Write results in input line edit"
+msgstr "Ispiši rezultate u ulaznu liniju uređivanja"
+
+#: ../plasmoid/contents/ui/config/General.qml:64
+msgid "Live evaluation"
+msgstr "Procjena Uživo"
+
+#: ../plasmoid/contents/ui/config/General.qml:69
+msgid "Calculation timeout"
+msgstr "Preostalo vrijeme računanja"
+
+#: ../plasmoid/contents/ui/config/General.qml:83
+msgid "Icon"
+msgstr "Ikona"
+
+#: ../plasmoid/contents/ui/config/General.qml:132
+msgctxt "Open icon chooser dialog"
+msgid "Choose Icon"
+msgstr "Odaberi Ikonu"
+
+#: ../plasmoid/contents/ui/config/General.qml:137
+msgctxt "Reset icon to default"
+msgid "Clear Icon"
+msgstr "Ukloni ikonu"
+
+#: ../plasmoid/contents/ui/config/General.qml:146
+msgid "Launch program when clicking the Q! logo in the Plasmoid"
+msgstr "Pokreni program klikom na Q! logo u Plasmoidu"
+
+#: ../plasmoid/contents/ui/config/General.qml:156
+msgid "Executable"
+msgstr "Izvršna"
+
+#: ../plasmoid/contents/ui/config/General.qml:175
+msgid "Please select an executable"
+msgstr "Molimo izaberite izvršnu datoteku"
+
+#: ../plasmoid/contents/ui/config/General.qml:185
+msgid "Input history"
+msgstr "Povijest ulaza"
+
+#: ../plasmoid/contents/ui/config/General.qml:203
+msgid "Disable input history"
+msgstr "Onemogući povijest ulaza"
+
+#: ../plasmoid/contents/ui/config/General.qml:209
+msgid "History size"
+msgstr "Veličina povijesti"
+
+#: ../plasmoid/contents/ui/config/Input.qml:83
+msgid "Unit conversion"
+msgstr "Pretvaranje valuta"
+
+#: ../plasmoid/contents/ui/config/Input.qml:102
+msgctxt "Unit conversion"
+msgid "None"
+msgstr "Prazno"
+
+#: ../plasmoid/contents/ui/config/Input.qml:106
+msgctxt "Unit conversion"
+msgid "Do not do any conversion of units in addition to syncing."
+msgstr "Nemoj pretvarati valute dok se ažurira"
+
+#: ../plasmoid/contents/ui/config/Input.qml:112
+msgctxt "Unit conversion"
+msgid "Best"
+msgstr "Najbolje"
+
+#: ../plasmoid/contents/ui/config/Input.qml:116
+msgctxt "Unit conversion"
+msgid "Convert to the best suited SI units (the least amount of units)."
+msgstr "Pretvori najbolje SI valute"
+
+#: ../plasmoid/contents/ui/config/Input.qml:122
+msgctxt "Unit conversion"
+msgid "Base"
+msgstr "Osnovica"
+
+#: ../plasmoid/contents/ui/config/Input.qml:126
+msgctxt "Unit conversion"
+msgid "Convert to base units."
+msgstr "Pretvori u osnovicu"
+
+#: ../plasmoid/contents/ui/config/Input.qml:132
+msgid "Structuring mode"
+msgstr "Strukturni način"
+
+#: ../plasmoid/contents/ui/config/Input.qml:151
+msgctxt "Structuring mode"
+msgid "None"
+msgstr "Prazno"
+
+#: ../plasmoid/contents/ui/config/Input.qml:155
+msgctxt "Structuring mode"
+msgid "Do not do any factorization or additional simplifications."
+msgstr "Nemoj raditi nikakvo faktoziranje ili dodatno pojednostavljenje"
+
+#: ../plasmoid/contents/ui/config/Input.qml:161
+msgctxt "Structuring mode"
+msgid "Simplify"
+msgstr "Pojednostavni"
+
+#: ../plasmoid/contents/ui/config/Input.qml:165
+msgctxt "Structuring mode"
+msgid "Simplify the result as much as possible."
+msgstr "Pojednostavni rezultate koliko je moguće"
+
+#: ../plasmoid/contents/ui/config/Input.qml:171
+msgctxt "Structuring mode"
+msgid "Factorize"
+msgstr "Rastavi na faktore"
+
+#: ../plasmoid/contents/ui/config/Input.qml:175
+msgctxt "Structuring mode"
+msgid "Factorize the result."
+msgstr "Rastavi rezultat na faktore"
+
+#: ../plasmoid/contents/ui/config/Input.qml:186
+msgid "Decimal separator"
+msgstr "Decimalni odvajač"
+
+#: ../plasmoid/contents/ui/config/Input.qml:201
+msgid "Use KDE setting"
+msgstr "Koristi KDE postavke"
+
+#: ../plasmoid/contents/ui/config/Input.qml:212
+msgid "Angle unit"
+msgstr "Mjera kuta"
+
+#: ../plasmoid/contents/ui/config/Input.qml:221
+msgctxt "Angle Unit"
+msgid "None"
+msgstr "Prazno"
+
+#: ../plasmoid/contents/ui/config/Input.qml:222
+msgctxt "Angle Unit"
+msgid "Radians"
+msgstr "Radijani"
+
+#: ../plasmoid/contents/ui/config/Input.qml:223
+msgctxt "Angle Unit"
+msgid "Degrees"
+msgstr "Stupnjevi"
+
+#: ../plasmoid/contents/ui/config/Input.qml:224
+msgctxt "Angle Unit"
+msgid "Gradians"
+msgstr "Gradijani"
+
+#: ../plasmoid/contents/ui/config/Input.qml:231
+msgid "Expression base"
+msgstr "Izraz osnovice"
+
+#: ../plasmoid/contents/ui/config/Output.qml:72
+msgid "Number fraction format"
+msgstr "Format za razlomke"
+
+#: ../plasmoid/contents/ui/config/Output.qml:91
+msgctxt "FractionFormat"
+msgid "Decimal"
+msgstr "Decimalni"
+
+#: ../plasmoid/contents/ui/config/Output.qml:95
+msgctxt "FractionFormat"
+msgid "Display numbers in decimal, not fractional, format (ex. 0.333333)."
+msgstr "Prikaži brojeve u decimalnom obliku, ne u razlomku, format (npr. 0.333333)"
+
+#: ../plasmoid/contents/ui/config/Output.qml:101
+msgctxt "FractionFormat"
+msgid "Exact"
+msgstr "Točan"
+
+#: ../plasmoid/contents/ui/config/Output.qml:105
+msgctxt "FractionFormat"
+msgid ""
+"Display as fraction if necessary to get an exact display of the result (ex. "
+"1/3, but 0.25)."
+msgstr "Prikaži kao razlomak ako je potreban točan prikaz rezultata (npr. "
+"1/3, but 0.25)."
+
+#: ../plasmoid/contents/ui/config/Output.qml:111
+msgctxt "FractionFormat"
+msgid "Fractional"
+msgstr "Djelomičan"
+
+#: ../plasmoid/contents/ui/config/Output.qml:115
+msgctxt "FractionFormat"
+msgid "Display as fraction (ex. 4/3)."
+msgstr "Prikaži kao razlomak (npr. 4/3)."
+
+#: ../plasmoid/contents/ui/config/Output.qml:121
+msgctxt "FractionFormat"
+msgid "Combined"
+msgstr "Spojeno"
+
+#: ../plasmoid/contents/ui/config/Output.qml:125
+msgctxt "FractionFormat"
+msgid "Display as an integer and a fraction (ex. 3 + 1/2)."
+msgstr "Prikaži kao cijeli broj i razlomak (npr. 3 + 1/2)."
+
+#: ../plasmoid/contents/ui/config/Output.qml:131
+msgid "Numerical display"
+msgstr "Brojevni prikaz"
+
+#: ../plasmoid/contents/ui/config/Output.qml:140
+msgctxt "NumericalDisplay"
+msgid "None"
+msgstr "Prazno"
+
+#: ../plasmoid/contents/ui/config/Output.qml:141
+msgctxt "NumericalDisplay"
+msgid "Pure"
+msgstr "Čisto"
+
+#: ../plasmoid/contents/ui/config/Output.qml:142
+msgctxt "NumericalDisplay"
+msgid "Scientific"
+msgstr "Znanstveni"
+
+#: ../plasmoid/contents/ui/config/Output.qml:143
+msgctxt "NumericalDisplay"
+msgid "Precision"
+msgstr "Precizni"
+
+#: ../plasmoid/contents/ui/config/Output.qml:144
+msgctxt "NumericalDisplay"
+msgid "Engineering"
+msgstr "Inženjerski"
+
+#: ../plasmoid/contents/ui/config/Output.qml:152
+msgid "Indicate infinite series"
+msgstr "Ukaži na neograničenu seriju"
+
+#: ../plasmoid/contents/ui/config/Output.qml:158
+msgid "Use all prefixes"
+msgstr "Koristi sve prefikse"
+
+#: ../plasmoid/contents/ui/config/Output.qml:164
+msgid "Use denominator prefix"
+msgstr "Koristi nazivnik kao prefiks"
+
+#: ../plasmoid/contents/ui/config/Output.qml:170
+msgid "Negative exponents"
+msgstr "Negativni eksponent"
+
+#: ../plasmoid/contents/ui/config/Output.qml:176
+msgid ""
+"Use two's complement representation for negative binary numbers (requires "
+"libqalculate v2.5 or later)"
+msgstr "Koristi dvije komplementarene reprezentacije za negativne binarne brojeve (zahtjeva
+libqalculate v2.5 ili kasniju)"
+
+#: ../plasmoid/contents/ui/config/Output.qml:181
+msgid "Show integers also in base"
+msgstr "Prikaži sve cijele brojeve u osnovici"
+
+#: ../plasmoid/contents/ui/config/Output.qml:190
+#: ../plasmoid/contents/ui/FullRepresentation.qml:87
+msgid "Binary"
+msgstr "Binarno"
+
+#: ../plasmoid/contents/ui/config/Output.qml:195
+#: ../plasmoid/contents/ui/FullRepresentation.qml:96
+msgid "Octal"
+msgstr "Oktalno"
+
+#: ../plasmoid/contents/ui/config/Output.qml:200
+#: ../plasmoid/contents/ui/FullRepresentation.qml:105
+msgid "Decimal"
+msgstr "Decimalno"
+
+#: ../plasmoid/contents/ui/config/Output.qml:205
+#: ../plasmoid/contents/ui/FullRepresentation.qml:114
+msgid "Hexadecimal"
+msgstr "Heksadecimalno"
+
+#: ../plasmoid/contents/ui/config/Output.qml:211
+msgid "Result base"
+msgstr "Rezultat osnovice"
+
+#: ../plasmoid/contents/ui/FullRepresentation.qml:74
+msgid "Copy result as"
+msgstr "Kopiraj rezultat kao"
+
+#: ../plasmoid/contents/ui/FullRepresentation.qml:145
+msgid "Enter an expression"
+msgstr "Unesi izraz"
+
+#: ../plasmoid/contents/ui/FullRepresentation.qml:307
+msgid "Result"
+msgstr "Rezultat"
+
+#: ../plasmoid/contents/ui/FullRepresentation.qml:388
+msgid "Calculation timed out"
+msgstr "Računanje isteklo"
+
+#: ../plasmoid/contents/ui/FullRepresentationFailed.qml:35
+msgid ""
+"Failed loading\n"
+"native plugin!"
+msgstr "Neuspješno učitavanje"
