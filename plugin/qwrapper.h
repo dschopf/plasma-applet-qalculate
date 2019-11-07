@@ -18,49 +18,24 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 //  IN THE SOFTWARE.
 
-#ifndef QWRAPPER_H_INCLUDED
-#define QWRAPPER_H_INCLUDED
+#ifndef PLUGIN_QWRAPPER_H_INCLUDED
+#define PLUGIN_QWRAPPER_H_INCLUDED
 
-#include <libqalculate/qalculate.h>
+#include "qalculate.h"
 
-#include <condition_variable>
-#include <memory>
-#include <mutex>
-#include <thread>
-
-#include <QNetworkAccessManager>
-#include <QObject>
-
-#if defined(HAVE_QALCULATE_2_0_0) || defined(HAVE_QALCULATE_2_2_0) || defined(HAVE_QALCULATE_2_5_0) || defined(HAVE_QALCULATE_2_6_0)
-#define PRINT_CONTROL_INCLUDED
-#endif
-
-#if defined(HAVE_QALCULATE_2_2_0) || defined(HAVE_QALCULATE_2_5_0) || defined(HAVE_QALCULATE_2_6_0)
-#define INTERVAL_SUPPORT_INCLUDED
-#endif
-
-#if defined(HAVE_QALCULATE_2_5_0) || defined(HAVE_QALCULATE_2_6_0)
-#define HAVE_BINARY_TWOS_COMPLEMENT_OPTION
-#endif
-
-enum class State {
-  Calculating,
-  Idle,
-#if !defined(PRINT_CONTROL_INCLUDED)
-  Printing,
-#endif
-  Stop
-};
-
-typedef std::pair<int, QString> print_result_t;
-typedef std::vector<print_result_t> res_vector_t;
-
-class QWrapper : public QObject {
+class QWrapper : public QObject, public IQWrapperCallbacks, public IResultCallbacks {
   Q_OBJECT
 
 public:
   explicit QWrapper(QObject* parent = 0);
   ~QWrapper();
+
+  // IResultCallbacks
+  void onResultText(QString result, QString resultBase2, QString resultBase8, QString resultBase10, QString resultBase16) override;
+  void onCalculationTimeout() override;
+
+  // IQWrapperCallbacks
+  void onExchangeRatesUpdated(QString date) override;
 
 public Q_SLOTS:
   void evaluate(const QString& input, const bool enter_pressed);
@@ -107,55 +82,12 @@ public Q_SLOTS:
   void getLastHistoryLine();
 
 signals:
-  void resultText(QString result, QString resultBase2, QString resultBase8,
-                  QString resultBase10, QString resultBase16);
+  void resultText(QString result, QString resultBase2, QString resultBase8, QString resultBase10, QString resultBase16);
   void calculationTimeout();
   void exchangeRatesUpdated(QString date);
 
 private:
-  void worker();
-  bool checkInput(std::string& expr);
-  void runCalculation(const std::string& expr);
-  bool checkReturnState();
-  bool printResultInBase(MathStructure& result, print_result_t& output);
-  bool isBaseEnabled(const uint8_t base, MathStructure& result);
-  void initHistoryFile();
-
-  std::unique_ptr<Calculator> m_pcalc;
-  EvaluationOptions m_eval_options;
-  PrintOptions m_print_options;
-#if defined(INTERVAL_SUPPORT_INCLUDED)
-  bool m_is_approximate;
-#endif
-  std::map<int, Number> m_print_limits;
-  QNetworkAccessManager m_netmgr;
-
-  struct {
-    bool enable_base2;
-    bool enable_base8;
-    bool enable_base10;
-    bool enable_base16;
-    int timeout;
-    bool detectTimestamps;
-  } m_config;
-
-  struct {
-    std::thread thread;
-    std::mutex mutex;
-    std::condition_variable cond;
-    bool aborted;
-    QString input;
-    State state;
-  } m_state;
-
-  struct {
-    bool enabled;
-    std::string filename;
-    QString last_entry;
-  } m_history;
-
-private slots:
-  void fileDownloaded(QNetworkReply* pReply);
+  Qalculate& m_qalc;
 };
 
-#endif // QWRAPPER_H_INCLUDED
+#endif // PLUGIN_QWRAPPER_H_INCLUDED

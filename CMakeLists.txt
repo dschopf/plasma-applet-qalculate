@@ -1,3 +1,5 @@
+project(Qalculate)
+
 # Set minimum CMake version (required for CMake 3.0 or later)
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 
