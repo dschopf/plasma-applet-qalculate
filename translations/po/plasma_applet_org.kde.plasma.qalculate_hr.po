@@ -302,8 +302,8 @@ msgstr "Negativni eksponent"
 msgid ""
 "Use two's complement representation for negative binary numbers (requires "
 "libqalculate v2.5 or later)"
-msgstr "Koristi dvije komplementarene reprezentacije za negativne binarne brojeve (zahtjeva
-libqalculate v2.5 ili kasniju)"
+msgstr "Koristi dvije komplementarene reprezentacije za negativne binarne brojeve (zahtjeva "
+"libqalculate v2.5 ili kasniju)"
 
 #: ../plasmoid/contents/ui/config/Output.qml:181
 msgid "Show integers also in base"
