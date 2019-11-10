@@ -53,7 +53,8 @@ Item {
   }
 
   Keys.onPressed: {
-    if (!inputQuery.focus) {
+    // ignore ESC (27) and TAB (9)
+    if (!inputQuery.focus && event.text.charCodeAt(0) != 27 && event.text.charCodeAt(0) != 9) {
       inputQuery.forceActiveFocus();
       inputQuery.text += event.text
     }
@@ -175,6 +176,8 @@ Item {
           return
         }
 
+        // need a better way to clear the input field
+        /*
         if ((event.key == Qt.Key_C) && (event.modifiers & Qt.ControlModifier)) {
           event.accepted = true
           is_current_line = true
@@ -183,6 +186,7 @@ Item {
           qwr.getLastHistoryLine()
           return
         }
+        */
 
         if (event.key == Qt.Key_Up) {
           event.accepted = true
