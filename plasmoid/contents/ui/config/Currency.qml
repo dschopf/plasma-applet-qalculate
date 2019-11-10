@@ -26,6 +26,7 @@ import org.kde.private.qalculate 1.0
 
 Item {
 
+  property int cfg_libVersion
   property alias cfg_updateExchangeRatesAtStartup: cbUpdateExchangeRatesAtStartup.checked
   property alias cfg_exchangeRatesTime: lLastUpdateValue.text
   property alias cfg_switchDefaultCurrency: cbSwitchDefaultCurrency.checked
@@ -59,6 +60,7 @@ Item {
     CheckBox {
       id: cbSwitchDefaultCurrency
       text: i18n("Switch default currency")
+      visible: cfg_libVersion >= 330
       Layout.columnSpan: 2
     }
 
@@ -67,6 +69,7 @@ Item {
       Layout.columnSpan: 2
       enabled: cbSwitchDefaultCurrency.checked
       model: qwr.getSupportedCurrencies()
+      visible: cfg_libVersion >= 330
 
       onCurrentIndexChanged: {
         qwr.setDefaultCurrency(currentIndex)
@@ -80,7 +83,7 @@ Item {
     }
 
     Label {
-      visible: cmbLocale.enabled && qwr.getAutoPostConversion() != 1
+      visible: cfg_libVersion >= 330 && cmbLocale.enabled && qwr.getAutoPostConversion() != 1
       text: i18n("Default currency does only work when Input->Conversion is set to \"Best\"!")
       Layout.columnSpan: 2
     }

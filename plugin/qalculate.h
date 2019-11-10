@@ -31,6 +31,10 @@
 #include <QNetworkAccessManager>
 #include <QObject>
 
+#if ((QALCULATE_MAJOR_VERSION == 3) && (QALCULATE_MINOR_VERSION >= 3)) || (QALCULATE_MAJOR_VERSION > 3)
+#define LOCAL_CURRENCY_SUPPORTED
+#endif
+
 #if defined(HAVE_QALCULATE_2_0_0) || defined(HAVE_QALCULATE_2_2_0) || defined(HAVE_QALCULATE_2_5_0) || defined(HAVE_QALCULATE_2_6_0)
 #define PRINT_CONTROL_INCLUDED
 #endif
@@ -143,7 +147,9 @@ private:
   bool printResultInBase(MathStructure& result, print_result_t& output);
   bool isBaseEnabled(const uint8_t base, MathStructure& result);
   void initHistoryFile();
+#if defined(LOCAL_CURRENCY_SUPPORTED)
   void initCurrencyList();
+#endif
 
   std::unique_ptr<Calculator> m_pcalc;
   EvaluationOptions m_eval_options;
@@ -181,7 +187,9 @@ private:
     QString last_entry;
   } m_history;
 
+#if defined(LOCAL_CURRENCY_SUPPORTED)
   QStringList m_currencies;
+#endif
 
 private slots:
   void fileDownloaded(QNetworkReply* pReply);

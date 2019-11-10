@@ -403,14 +403,19 @@ QString Qalculate::getExchangeRatesUpdateTime()
 
 QStringList Qalculate::getSupportedCurrencies()
 {
+#if defined(LOCAL_CURRENCY_SUPPORTED)
   if (!m_currencies.length())
     initCurrencyList();
 
   return m_currencies;
+#else
+  return QStringList();
+#endif
 }
 
 void Qalculate::setDefaultCurrency(const int currency_idx)
 {
+#if defined(LOCAL_CURRENCY_SUPPORTED)
   if (!m_currencies.length())
     initCurrencyList();
 
@@ -419,6 +424,9 @@ void Qalculate::setDefaultCurrency(const int currency_idx)
 
   auto c = m_currencies[currency_idx].toStdString().c_str();
   m_pcalc->setLocalCurrency(m_pcalc->getActiveUnit(c));
+#else
+  (void)currency_idx;
+#endif
 }
 
 bool Qalculate::historyAvailable() { return m_history.enabled; }
@@ -652,6 +660,8 @@ void Qalculate::initHistoryFile()
   m_history.filename.swap(file_path);
 }
 
+#if defined(LOCAL_CURRENCY_SUPPORTED)
+
 void Qalculate::initCurrencyList()
 {
   m_currencies.clear();
@@ -681,6 +691,8 @@ void Qalculate::initCurrencyList()
 
   m_currencies.sort();
 }
+
+#endif
 
 void Qalculate::fileDownloaded(QNetworkReply* pReply)
 {
