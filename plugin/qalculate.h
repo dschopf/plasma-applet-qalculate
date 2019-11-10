@@ -101,6 +101,7 @@ public:
 
   // evaluation settings
   void setAutoPostConversion(const int value);
+  int getAutoPostConversion();
   void setStructuringMode(const int mode);
   void setDecimalSeparator(const QString& separator);
   void setAngleUnit(const int unit);
@@ -124,6 +125,8 @@ public:
   // currency settings
   void updateExchangeRates();
   QString getExchangeRatesUpdateTime();
+  QStringList getSupportedCurrencies();
+  void setDefaultCurrency(const int currency_idx);
 
   // history management
   bool historyAvailable();
@@ -140,6 +143,7 @@ private:
   bool printResultInBase(MathStructure& result, print_result_t& output);
   bool isBaseEnabled(const uint8_t base, MathStructure& result);
   void initHistoryFile();
+  void initCurrencyList();
 
   std::unique_ptr<Calculator> m_pcalc;
   EvaluationOptions m_eval_options;
@@ -176,6 +180,8 @@ private:
     std::string filename;
     QString last_entry;
   } m_history;
+
+  QStringList m_currencies;
 
 private slots:
   void fileDownloaded(QNetworkReply* pReply);

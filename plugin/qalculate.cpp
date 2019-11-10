@@ -59,7 +59,7 @@ Qalculate::Qalculate()
   m_pcalc->loadLocalDefinitions();
   m_pcalc->useDecimalPoint();
 
-  m_eval_options.auto_post_conversion = POST_CONVERSION_NONE;
+  m_eval_options.auto_post_conversion = POST_CONVERSION_BEST;
   m_eval_options.keep_zero_units = false;
   m_eval_options.parse_options.angle_unit = ANGLE_UNIT_RADIANS;
   m_eval_options.parse_options.rpn = false;
@@ -210,6 +210,11 @@ void Qalculate::setAutoPostConversion(const int value)
       m_eval_options.auto_post_conversion = POST_CONVERSION_BASE;
       break;
   }
+}
+
+int Qalculate::getAutoPostConversion()
+{
+  return m_eval_options.auto_post_conversion;
 }
 
 void Qalculate::setStructuringMode(const int mode)
@@ -394,6 +399,26 @@ QString Qalculate::getExchangeRatesUpdateTime()
 #endif
 
   return QLocale().toString(dt);
+}
+
+QStringList Qalculate::getSupportedCurrencies()
+{
+  if (!m_currencies.length())
+    initCurrencyList();
+
+  return m_currencies;
+}
+
+void Qalculate::setDefaultCurrency(const int currency_idx)
+{
+  if (!m_currencies.length())
+    initCurrencyList();
+
+  if (currency_idx < 0 || currency_idx >= m_currencies.length())
+    return;
+
+  auto c = m_currencies[currency_idx].toStdString().c_str();
+  m_pcalc->setLocalCurrency(m_pcalc->getActiveUnit(c));
 }
 
 bool Qalculate::historyAvailable() { return m_history.enabled; }
@@ -625,6 +650,36 @@ void Qalculate::initHistoryFile()
   }
 
   m_history.filename.swap(file_path);
+}
+
+void Qalculate::initCurrencyList()
+{
+  m_currencies.clear();
+
+  for (auto &u : m_pcalc->units) {
+    if (u->isActive() && u->isCurrency()) {
+      QString s = u->referenceName().c_str();
+      QString p = u->print(false, false, false).c_str();
+      if (p == s) p.clear();
+      QString a = u->abbreviation(false, true).c_str();
+      if (a == s) a.clear();
+      if (a == p) a.clear();
+      if (!p.isEmpty() || !a.isEmpty()) {
+        s += " (";
+        if (!p.isEmpty()) {
+          s += p;
+          if (!a.isEmpty())
+            s += " - ";
+        }
+        if (!a.isEmpty())
+          s += a;
+        s += ")";
+      }
+      m_currencies << s;
+    }
+  }
+
+  m_currencies.sort();
 }
 
 void Qalculate::fileDownloaded(QNetworkReply* pReply)

@@ -90,6 +90,8 @@ void QWrapper::setHistorySize(const int size) { m_qalc.setHistorySize(size); }
 
 void QWrapper::setAutoPostConversion(const int value) { m_qalc.setAutoPostConversion(value); }
 
+int QWrapper::getAutoPostConversion() { return m_qalc.getAutoPostConversion(); }
+
 void QWrapper::setStructuringMode(const int mode) { m_qalc.setStructuringMode(mode); }
 
 void QWrapper::setDecimalSeparator(const QString& separator) { m_qalc.setDecimalSeparator(separator); }
@@ -127,6 +129,10 @@ void QWrapper::setNegativeBinaryTwosComplement(const bool value) { m_qalc.setNeg
 void QWrapper::updateExchangeRates() { m_qalc.updateExchangeRates(); }
 
 QString QWrapper::getExchangeRatesUpdateTime() { return m_qalc.getExchangeRatesUpdateTime(); }
+
+QStringList QWrapper::getSupportedCurrencies() { return m_qalc.getSupportedCurrencies(); }
+
+void QWrapper::setDefaultCurrency(const int currency_idx) { m_qalc.setDefaultCurrency(currency_idx); }
 
 bool QWrapper::historyAvailable() { return m_qalc.historyAvailable(); }
 

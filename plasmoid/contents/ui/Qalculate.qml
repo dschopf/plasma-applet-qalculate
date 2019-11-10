@@ -23,21 +23,19 @@ import QtQuick.Layouts 1.1
 
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.plasmoid 2.0
+import org.kde.private.qalculate 1.0
 
 import "../code/tools.js" as Tools
 
 Item {
     id:main
 
-    Connections {
-      id: myConnection
-      target: Qt.createQmlObject('import org.kde.private.qalculate 1.0; QWrapper {}', main, 'QWrapper')
+    QWrapper {
+      id: qwr
       onExchangeRatesUpdated: {
         plasmoid.configuration.exchangeRatesTime = date
       }
     }
-
-    property alias qwr: myConnection.target
 
     property bool fromCompact: false
     property bool debugLogging: true
@@ -167,9 +165,6 @@ Item {
       }
     }
 
-    property Component fr: FullRepresentation {}
-    property Component frFailed: FullRepresentationFailed {}
-
     function dbgprint(msg) {
         if (!debugLogging) {
             return
@@ -181,13 +176,9 @@ Item {
     Plasmoid.toolTipMainText: "Qalculate!"
 
     Plasmoid.compactRepresentation: compactRepresentation
-    Plasmoid.fullRepresentation: fr
+    Plasmoid.fullRepresentation: FullRepresentation {}
 
     Component.onCompleted: {
-      if (qwr == null) {
-        Plasmoid.fullRepresentation = frFailed
-        return
-      }
       if (plasmoid.configuration.qalculateIcon.length == 0) {
         plasmoid.configuration.qalculateIcon = Tools.stripProtocol(Qt.resolvedUrl('../images/Qalculate.svg'))
       }
@@ -202,11 +193,13 @@ Item {
 
       if (plasmoid.hasOwnProperty("activationTogglesExpanded"))
         plasmoid.activationTogglesExpanded = true
+
+      if (plasmoid.configuration.switchDefaultCurrency)
+        qwr.setDefaultCurrency(plasmoid.configuration.selectedDefaultCurrency)
     }
 
     Component.onDestruction: {
-      if (qwr !== null)
-        qwr.destroy()
+      qwr.destroy()
     }
 
     onUnitConversionChanged: {

@@ -22,10 +22,18 @@ import QtQuick 2.0
 import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.0
 
+import org.kde.private.qalculate 1.0
+
 Item {
 
   property alias cfg_updateExchangeRatesAtStartup: cbUpdateExchangeRatesAtStartup.checked
   property alias cfg_exchangeRatesTime: lLastUpdateValue.text
+  property alias cfg_switchDefaultCurrency: cbSwitchDefaultCurrency.checked
+  property string cfg_selectedDefaultCurrency: cmbLocale.currentText
+
+  QWrapper {
+    id: qwr
+  }
 
   GridLayout {
     anchors.left: parent.left
@@ -46,6 +54,35 @@ Item {
     Label {
       id: lLastUpdateValue
       text: cfg_updateExchangeRatesAtStartup
+    }
+
+    CheckBox {
+      id: cbSwitchDefaultCurrency
+      text: i18n("Switch default currency")
+      Layout.columnSpan: 2
+    }
+
+    ComboBox {
+      id: cmbLocale
+      Layout.columnSpan: 2
+      enabled: cbSwitchDefaultCurrency.checked
+      model: qwr.getSupportedCurrencies()
+
+      onCurrentIndexChanged: {
+        qwr.setDefaultCurrency(currentIndex)
+        cfg_selectedDefaultCurrency = currentIndex
+      }
+
+      onEnabledChanged: {
+        qwr.setDefaultCurrency(currentIndex)
+        cfg_selectedDefaultCurrency = currentIndex
+      }
+    }
+
+    Label {
+      visible: cmbLocale.enabled && qwr.getAutoPostConversion() != 1
+      text: i18n("Default currency does only work when Input->Conversion is set to \"Best\"!")
+      Layout.columnSpan: 2
     }
   }
 }

@@ -50,6 +50,7 @@ public Q_SLOTS:
 
   // evaluation settings
   void setAutoPostConversion(const int value);
+  int getAutoPostConversion();
   void setStructuringMode(const int mode);
   void setDecimalSeparator(const QString& separator);
   void setAngleUnit(const int unit);
@@ -73,6 +74,8 @@ public Q_SLOTS:
   // currency settings
   void updateExchangeRates();
   QString getExchangeRatesUpdateTime();
+  QStringList getSupportedCurrencies();
+  void setDefaultCurrency(const int currency_idx);
 
   // history management
   bool historyAvailable();
