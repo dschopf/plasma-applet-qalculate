@@ -177,8 +177,7 @@ Item {
         }
 
         // need a better way to clear the input field
-        /*
-        if ((event.key == Qt.Key_C) && (event.modifiers & Qt.ControlModifier)) {
+        if ((event.key == Qt.Key_C) && (event.modifiers & (Qt.ControlModifier | Qt.AltModifier))) {
           event.accepted = true
           is_current_line = true
           current_line = ""
@@ -186,7 +185,6 @@ Item {
           qwr.getLastHistoryLine()
           return
         }
-        */
 
         if (event.key == Qt.Key_Up) {
           event.accepted = true
@@ -237,6 +235,10 @@ Item {
           text = current_line
           qwr.getLastHistoryLine()
           return
+        }
+
+        if (event.key == Qt.Key_Enter || event.key == Qt.Key_Return) {
+          selectAll()
         }
       }
     }
