@@ -67,7 +67,7 @@ void QWrapper::launch(const QString& executable, const QString& args, const QStr
 
 int QWrapper::getVersion()
 {
-#if ((QALCULATE_MAJOR_VERSION == 3) && (QALCULATE_MINOR_VERSION >= 3)) || (QALCULATE_MAJOR_VERSION > 3)
+#if defined(QALCULATE_MAJOR_VERSION) && (((QALCULATE_MAJOR_VERSION == 3) && (QALCULATE_MINOR_VERSION >= 3)) || (QALCULATE_MAJOR_VERSION > 3))
   return 330;
 #elif defined(HAVE_QALCULATE_2_6_0)
   return 260;
