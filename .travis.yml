@@ -1,0 +1,12 @@
+dist: bionic
+language: minimal
+
+services:
+- docker
+
+script:
+- set -e
+- docker run -v $PWD:/qalculate schopfdan/paq_arch ci/build-plugin.sh
+- docker run -v $PWD:/qalculate schopfdan/paq_ubuntu:19.10 ci/build-plugin.sh
+- docker run -v $PWD:/qalculate schopfdan/paq_ubuntu:19.04 ci/build-plugin.sh
+- docker run -v $PWD:/qalculate schopfdan/paq_ubuntu:18.04 ci/build-plugin.sh
