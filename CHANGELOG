@@ -1,6 +1,15 @@
 Qalculate changelog:
 --------------------
 
+v0.7.0:
+- replace "approx." with ~ sign
+- make result selectable
+- better input focus handling
+- font size adjustments for long results
+- fix issues with multiple instances of the applet
+- make default currency selectable (requires libqalculate v3.3 or later)
+- add Croation translation from Vladimir Mikulic
+
 v0.6.1:
 - various fixes for compatibility with older library versions
 - fixes a crash on certain platforms
