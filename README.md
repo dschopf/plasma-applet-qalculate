@@ -25,8 +25,7 @@ Install this AUR package: [plasma5-applets-qalculate](https://aur.archlinux.org/
 
 If there is no package available for your distribution, you can try to compile the source code yourself.
 
-```
-Shell
+```Shell
 mkdir build
 cd  build
 cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release \
