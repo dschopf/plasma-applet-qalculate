@@ -1,20 +1,21 @@
-# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+# Daniel Schopf <schopf.dan@gmail.org>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2019-11-10 10:13+0100\n"
-"PO-Revision-Date: 2019-11-10 18:14+0200\n"
-"Last-Translator: Daniel Schopf <schopf.dan@gmail.com>\n"
-"Language-Team: Daniel Schopf <schopf.dan@gmail.com>\n"
+"POT-Creation-Date: 2019-12-01 11:34+0100\n"
+"PO-Revision-Date: 2019-12-01 11:42+0100\n"
+"Last-Translator: Daniel Schopf <schopf.dan@gmail.org>\n"
+"Language-Team: German <>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 19.08.3\n"
 
 #: ../plasmoid/contents/config/config.qml:27
 msgid "General"
@@ -32,28 +33,28 @@ msgstr "Ausgabe"
 msgid "Currency"
 msgstr "Währungen"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:45
+#: ../plasmoid/contents/ui/config/Currency.qml:46
 msgid "Update exchange rates at startup"
 msgstr "Wechselkurse beim Start aktualisieren"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:51
+#: ../plasmoid/contents/ui/config/Currency.qml:52
 msgctxt "Exchange rates"
 msgid "Last update"
 msgstr "Letzte Aktualisierung"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:61
+#: ../plasmoid/contents/ui/config/Currency.qml:62
 msgid "Switch default currency"
 msgstr "Standardwährung ändern"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:84
+#: ../plasmoid/contents/ui/config/Currency.qml:87
 msgid ""
 "Default currency does only work when Input->Conversion is set to \"Best\"!"
 msgstr ""
-"Standardwährung umstellen funktioniert nur wenn Eingabe->Einheitenumrechnung "
-"\"Optimal\" ist!"
+"Die Standardwährung umstellen funktioniert nur wenn Eingabe-"
+">Einheitenumrechnung auf \"Optimal\" steht!"
 
 #: ../plasmoid/contents/ui/config/General.qml:53
-#: ../plasmoid/contents/ui/FullRepresentation.qml:72
+#: ../plasmoid/contents/ui/FullRepresentation.qml:73
 msgid "Copy result to clipboard"
 msgstr "Ergebnis in die Zwischenablage kopieren"
 
@@ -229,8 +230,8 @@ msgid "Expression base"
 msgstr "Ausdrucksbasis"
 
 #: ../plasmoid/contents/ui/config/Input.qml:246
-msgid "Interpret 11 digit number input as a timestamp"
-msgstr "Zahlen mit 11 Ziffern als Zeitstempel interpretieren"
+msgid "Interpret 9-12 digit numbers as a timestamp"
+msgstr "Zahlen mit 9-12 Ziffern als Zeitstempel interpretieren"
 
 #: ../plasmoid/contents/ui/config/Output.qml:73
 msgid "Number fraction format"
@@ -325,7 +326,6 @@ msgid "Negative exponents"
 msgstr "Negative Exponenten"
 
 #: ../plasmoid/contents/ui/config/Output.qml:178
-#, fuzzy
 msgid "Use two's complement representation for negative binary numbers"
 msgstr "Zweierkomplement für negative Binärzahlen verwenden"
 
@@ -334,22 +334,22 @@ msgid "Show integers also in base"
 msgstr "Ganzzahlen auch in diesen Basen anzeigen"
 
 #: ../plasmoid/contents/ui/config/Output.qml:192
-#: ../plasmoid/contents/ui/FullRepresentation.qml:94
+#: ../plasmoid/contents/ui/FullRepresentation.qml:95
 msgid "Binary"
 msgstr "Binär"
 
 #: ../plasmoid/contents/ui/config/Output.qml:197
-#: ../plasmoid/contents/ui/FullRepresentation.qml:103
+#: ../plasmoid/contents/ui/FullRepresentation.qml:104
 msgid "Octal"
 msgstr "Oktal"
 
 #: ../plasmoid/contents/ui/config/Output.qml:202
-#: ../plasmoid/contents/ui/FullRepresentation.qml:112
+#: ../plasmoid/contents/ui/FullRepresentation.qml:113
 msgid "Decimal"
 msgstr "Dezimal"
 
 #: ../plasmoid/contents/ui/config/Output.qml:207
-#: ../plasmoid/contents/ui/FullRepresentation.qml:121
+#: ../plasmoid/contents/ui/FullRepresentation.qml:122
 msgid "Hexadecimal"
 msgstr "Hexadezimal"
 
@@ -357,18 +357,18 @@ msgstr "Hexadezimal"
 msgid "Result base"
 msgstr "Ergebnisbasis"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:81
+#: ../plasmoid/contents/ui/FullRepresentation.qml:82
 msgid "Copy result as"
 msgstr "Ergebnis kopieren als"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:152
+#: ../plasmoid/contents/ui/FullRepresentation.qml:153
 msgid "Enter an expression"
 msgstr "Ausdruck eingeben"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:323
+#: ../plasmoid/contents/ui/FullRepresentation.qml:329
 msgid "Result"
 msgstr "Ergebnis"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:414
+#: ../plasmoid/contents/ui/FullRepresentation.qml:420
 msgid "Calculation timed out"
 msgstr "Zeitüberschreitung"

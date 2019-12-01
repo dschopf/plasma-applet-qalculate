@@ -243,7 +243,7 @@ Item {
 
     CheckBox {
       id: cbDetectTimestamps
-      text: i18n("Interpret 11 digit number input as a timestamp")
+      text: i18n("Interpret 9-12 digit numbers as a timestamp")
       Layout.columnSpan: 2
     }
   }

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2019-11-10 10:13+0100\n"
+"POT-Creation-Date: 2019-12-01 11:34+0100\n"
 "PO-Revision-Date: 2016-09-12 19:18+0200\n"
 "Last-Translator: Vladimir Mikulic <vladimir.mikulic2@gmail.com>\n"
 "Language-Team: Croatian <vladimir.mikulic2@gmail.com>\n"
@@ -32,26 +32,26 @@ msgstr "Izlaz"
 msgid "Currency"
 msgstr "Valuta"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:45
+#: ../plasmoid/contents/ui/config/Currency.qml:46
 msgid "Update exchange rates at startup"
 msgstr "Obnovi valutni tečaj pri pokretanju"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:51
+#: ../plasmoid/contents/ui/config/Currency.qml:52
 msgctxt "Exchange rates"
 msgid "Last update"
 msgstr "Zadnje ažuriranje"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:61
+#: ../plasmoid/contents/ui/config/Currency.qml:62
 msgid "Switch default currency"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Currency.qml:84
+#: ../plasmoid/contents/ui/config/Currency.qml:87
 msgid ""
 "Default currency does only work when Input->Conversion is set to \"Best\"!"
 msgstr ""
 
 #: ../plasmoid/contents/ui/config/General.qml:53
-#: ../plasmoid/contents/ui/FullRepresentation.qml:72
+#: ../plasmoid/contents/ui/FullRepresentation.qml:73
 msgid "Copy result to clipboard"
 msgstr "Kopiraj rezultate u spremnik"
 
@@ -225,7 +225,7 @@ msgid "Expression base"
 msgstr "Izraz osnovice"
 
 #: ../plasmoid/contents/ui/config/Input.qml:246
-msgid "Interpret 11 digit number input as a timestamp"
+msgid "Interpret 9-12 digit numbers as a timestamp"
 msgstr ""
 
 #: ../plasmoid/contents/ui/config/Output.qml:73
@@ -333,22 +333,22 @@ msgid "Show integers also in base"
 msgstr "Prikaži sve cijele brojeve u osnovici"
 
 #: ../plasmoid/contents/ui/config/Output.qml:192
-#: ../plasmoid/contents/ui/FullRepresentation.qml:94
+#: ../plasmoid/contents/ui/FullRepresentation.qml:95
 msgid "Binary"
 msgstr "Binarno"
 
 #: ../plasmoid/contents/ui/config/Output.qml:197
-#: ../plasmoid/contents/ui/FullRepresentation.qml:103
+#: ../plasmoid/contents/ui/FullRepresentation.qml:104
 msgid "Octal"
 msgstr "Oktalno"
 
 #: ../plasmoid/contents/ui/config/Output.qml:202
-#: ../plasmoid/contents/ui/FullRepresentation.qml:112
+#: ../plasmoid/contents/ui/FullRepresentation.qml:113
 msgid "Decimal"
 msgstr "Decimalno"
 
 #: ../plasmoid/contents/ui/config/Output.qml:207
-#: ../plasmoid/contents/ui/FullRepresentation.qml:121
+#: ../plasmoid/contents/ui/FullRepresentation.qml:122
 msgid "Hexadecimal"
 msgstr "Heksadecimalno"
 
@@ -356,18 +356,18 @@ msgstr "Heksadecimalno"
 msgid "Result base"
 msgstr "Rezultat osnovice"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:81
+#: ../plasmoid/contents/ui/FullRepresentation.qml:82
 msgid "Copy result as"
 msgstr "Kopiraj rezultat kao"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:152
+#: ../plasmoid/contents/ui/FullRepresentation.qml:153
 msgid "Enter an expression"
 msgstr "Unesi izraz"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:323
+#: ../plasmoid/contents/ui/FullRepresentation.qml:329
 msgid "Result"
 msgstr "Rezultat"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:414
+#: ../plasmoid/contents/ui/FullRepresentation.qml:420
 msgid "Calculation timed out"
 msgstr "Računanje isteklo"

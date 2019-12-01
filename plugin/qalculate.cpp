@@ -498,10 +498,12 @@ void Qalculate::worker()
 
 bool Qalculate::checkInput(std::string& expr)
 {
-  std::regex re(R"(^\d{11}$)");
+  if (!m_config.detectTimestamps)
+    return true;
 
   std::smatch m;
-  if (std::regex_match(expr, m, re)) {
+
+  if (std::regex_match(expr, m, std::regex(R"(^\d{9,12}$)"))) {
     QDateTime t;
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
