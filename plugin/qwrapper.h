@@ -21,7 +21,29 @@
 #ifndef PLUGIN_QWRAPPER_H_INCLUDED
 #define PLUGIN_QWRAPPER_H_INCLUDED
 
+#include <QAbstractListModel>
+
 #include "qalculate.h"
+
+class HistoryListModel : public QAbstractListModel {
+  Q_OBJECT
+
+public:
+  explicit HistoryListModel() : m_calc(Qalculate::instance()) {}
+  explicit HistoryListModel(QObject* parent);
+
+  enum {
+    History = Qt::UserRole + 1
+  };
+
+  int rowCount(const QModelIndex & parent) const override;
+  QVariant data(const QModelIndex & index, int role) const override;
+
+  QHash<int,QByteArray> roleNames() const override;
+
+private:
+  Qalculate& m_calc;
+};
 
 class QWrapper : public QObject, public IQWrapperCallbacks, public IResultCallbacks {
   Q_OBJECT
@@ -36,6 +58,7 @@ public:
 
   // IQWrapperCallbacks
   void onExchangeRatesUpdated(QString date) override;
+  void onHistoryUpdated() override;
 
 public Q_SLOTS:
   void evaluate(const QString& input, const bool enter_pressed);
@@ -78,11 +101,8 @@ public Q_SLOTS:
   void setDefaultCurrency(const int currency_idx);
 
   // history management
-  bool historyAvailable();
-  QString getPrevHistoryLine();
-  QString getNextHistoryLine();
-  QString getFirstHistoryLine();
-  void getLastHistoryLine();
+  HistoryListModel* getModel() { return &m_history; }
+  int historyEntries();
 
 signals:
   void resultText(QString result, QString resultBase2, QString resultBase8, QString resultBase10, QString resultBase16);
@@ -91,6 +111,7 @@ signals:
 
 private:
   Qalculate& m_qalc;
+  HistoryListModel m_history;
 };
 
 #endif // PLUGIN_QWRAPPER_H_INCLUDED

@@ -36,10 +36,8 @@ Item {
   property bool octal_enabled: plasmoid.configuration.octal && plasmoid.configuration.resultBase !== 8
   property bool decimal_enabled: plasmoid.configuration.decimal && plasmoid.configuration.resultBase !== 10
   property bool hex_enabled: plasmoid.configuration.hexadecimal && plasmoid.configuration.resultBase !== 16
-  property bool is_current_line: true
-
+  property string current_input: ""
   property string last_input: ""
-  property string current_line: ""
 
   anchors.fill: parent
 
@@ -154,22 +152,30 @@ Item {
       inputMethodHints: Qt.ImhNoPredictiveText
 
       onAccepted: {
+        if (clHistory.visible) {
+          clHistory.visible = false
+          clMain.visible = true
+        }
         onNewInput(text, true)
-        is_current_line = true
-        current_line = text
       }
 
       onTextChanged: {
-        if (is_current_line)
-          current_line = text
-        if (plasmoid.configuration.liveEvaluation)
+        if (text == "" && clHistory.visible) {
+          clHistory.visible = false
+          clMain.visible = true
+        }
+        if (plasmoid.configuration.liveEvaluation && !clHistory.visible)
           onNewInput(text, false)
       }
 
       Keys.onPressed: {
         if (event.key == Qt.Key_Escape) {
           event.accepted = true
-          if (main.fromCompact) {
+          if (clHistory.visible) {
+            clMain.visible = true
+            clHistory.visible = false
+            text = current_input
+          } else if (main.fromCompact) {
             plasmoid.expanded = !plasmoid.expanded
             keepOpen.checked = false
           }
@@ -179,61 +185,59 @@ Item {
         // need a better way to clear the input field
         if ((event.key == Qt.Key_C) && (event.modifiers & (Qt.ControlModifier | Qt.AltModifier))) {
           event.accepted = true
-          is_current_line = true
-          current_line = ""
           text = ""
-          qwr.getLastHistoryLine()
           return
         }
 
         if (event.key == Qt.Key_Up) {
           event.accepted = true
-          if (qwr.historyAvailable()) {
-            var temp = qwr.getPrevHistoryLine()
-            if (is_current_line) {
-              is_current_line = false
-              temp = qwr.getPrevHistoryLine()
-            }
-            if (temp !== "FIRST_ENTRY")
-              text = temp
+          if (!clHistory.visible) {
+            clMain.visible = true
+            clHistory.visible = false
+            current_input = text
+          } else {
+            historyList.decrementCurrentIndex()
           }
+          text = historyList.currentItem.text
           return
         }
 
         if (event.key == Qt.Key_Down) {
           event.accepted = true
-          if (qwr.historyAvailable()) {
-            var temp = qwr.getNextHistoryLine()
-            if (temp !== "LAST_ENTRY")
-              text = temp
-            else {
-              is_current_line = true
-              text = current_line
-            }
+          if (!clHistory.visible) {
+            clHistory.visible = true
+            clMain.visible = false
+            current_input = text
+          } else {
+            historyList.incrementCurrentIndex()
           }
+          text = historyList.currentItem.text
           return
         }
 
         if (event.key == Qt.Key_PageUp) {
           event.accepted = true
-          if (qwr.historyAvailable()) {
-            is_current_line = false
-            var temp = qwr.getFirstHistoryLine()
-            if (temp !== "NOT_FOUND")
-              text = temp
-            else {
-              is_current_line = true
-              text = current_line
-            }
+          if (clHistory.visible) {
+            var temp = historyList.highlightMoveVelocity
+            historyList.highlightMoveVelocity = 40000
+            historyList.positionViewAtBeginning()
+            historyList.currentIndex = 0
+            historyList.highlightMoveVelocity = temp
+            text = historyList.currentItem.text
           }
           return
         }
 
         if (event.key == Qt.Key_PageDown) {
           event.accepted = true
-          is_current_line = true
-          text = current_line
-          qwr.getLastHistoryLine()
+          if (clHistory.visible) {
+            var temp = historyList.highlightMoveVelocity
+            historyList.highlightMoveVelocity = 40000
+            historyList.positionViewAtEnd()
+            historyList.currentIndex = historyList.count - 1
+            historyList.highlightMoveVelocity = temp
+            text = historyList.currentItem.text
+          }
           return
         }
 
@@ -250,7 +254,72 @@ Item {
     visible: false
   }
 
-  ColumnLayout{
+  ColumnLayout {
+    id: clHistory
+    spacing: 0
+    anchors.top: topRowLayout.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    width: parent.width
+    height: parent.height - topRowLayout.height
+    visible: false
+
+    Component {
+      id: historyDelegate
+      Item {
+        id: historyItem
+        height: historyText.height
+        width: historyList.width
+        property alias text: historyText.text
+        Text {
+          id: historyText
+          color: theme.textColor
+          text: history
+          width: parent.width
+        }
+        states: State {
+          name: "Current"
+          when: historyItem.ListView.isCurrentItem
+          PropertyChanges { target: historyItem; x: 2 }
+        }
+        MouseArea {
+          anchors.fill: parent
+          onClicked: {
+            historyList.currentIndex = index
+            inputQuery.text = historyList.currentItem.text
+          }
+        }
+      }
+    }
+
+    Component {
+      id: highlightBar
+      Rectangle {
+        width: historyList.width
+        height: historyList.currentItem.height
+        border.width: 2
+        border.color: theme.highlightColor
+        color: theme.linkColor
+        y: historyList.currentItem.y;
+        radius: 2
+      }
+    }
+
+    ListView {
+      id: historyList
+      Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+      Layout.fillHeight: true
+      Layout.fillWidth: true
+      spacing: 1
+      model: qwr.getModel()
+      delegate: historyDelegate
+      highlight: highlightBar
+      highlightFollowsCurrentItem: false
+      focus: true
+      clip: true
+    }
+  }
+
+  ColumnLayout {
     id: clMain
     spacing: 0
     anchors.top: topRowLayout.bottom
@@ -497,7 +566,7 @@ Item {
 
   PlasmaCore.SvgItem {
     id: qalculateSmallIcon
-    visible: !qalculateFullIcon.visible
+    visible: !qalculateFullIcon.visible && !clHistory.visible
     anchors.left: parent.left
     anchors.bottom: parent.bottom
     smooth: true

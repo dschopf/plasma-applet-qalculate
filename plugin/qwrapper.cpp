@@ -22,8 +22,31 @@
 
 #include "qwrapper.h"
 
+HistoryListModel::HistoryListModel(QObject* parent)
+  : QAbstractListModel(parent)
+  , m_calc(Qalculate::instance())
+{
+}
+
+int HistoryListModel::rowCount(const QModelIndex& parent) const
+{
+  return !parent.isValid() ? m_calc.historyEntries() : 0;
+}
+
+QVariant HistoryListModel::data(const QModelIndex& index, int /*role*/) const
+{
+  return index.isValid() ? m_calc.getHistoryEntry(index.row()) : QVariant();
+}
+
+QHash<int, QByteArray> HistoryListModel::roleNames() const
+{
+  QHash<int, QByteArray> roles;
+  roles[History] = "history";
+  return roles;
+}
+
 QWrapper::QWrapper(QObject* parent)
-  : QObject(parent), m_qalc(Qalculate::instance())
+  : QObject(parent), m_qalc(Qalculate::instance()), m_history(parent)
 {
   m_qalc.register_callbacks(this);
 }
@@ -46,6 +69,14 @@ void QWrapper::onCalculationTimeout()
 void QWrapper::onExchangeRatesUpdated(QString date)
 {
   emit exchangeRatesUpdated(date);
+}
+
+void QWrapper::onHistoryUpdated()
+{
+  QModelIndex begin;
+  QModelIndex end;
+
+  m_history.dataChanged(begin, end);
 }
 
 void QWrapper::evaluate(QString const& input, bool const enter_pressed) { m_qalc.evaluate(input, enter_pressed, this); }
@@ -134,12 +165,4 @@ QStringList QWrapper::getSupportedCurrencies() { return m_qalc.getSupportedCurre
 
 void QWrapper::setDefaultCurrency(const int currency_idx) { m_qalc.setDefaultCurrency(currency_idx); }
 
-bool QWrapper::historyAvailable() { return m_qalc.historyAvailable(); }
-
-QString QWrapper::getPrevHistoryLine() { return m_qalc.getPrevHistoryLine(); }
-
-QString QWrapper::getNextHistoryLine() { return m_qalc.getNextHistoryLine(); }
-
-QString QWrapper::getFirstHistoryLine() { return m_qalc.getFirstHistoryLine(); }
-
-void QWrapper::getLastHistoryLine() { return m_qalc.getLastHistoryLine(); }
+int QWrapper::historyEntries() { return m_qalc.historyEntries(); }

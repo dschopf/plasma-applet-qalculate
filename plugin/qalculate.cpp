@@ -93,12 +93,22 @@ Qalculate::Qalculate()
   m_print_limits[8].set(print_limit_base8, popts);
   m_print_limits[16].set(print_limit_base16, popts);
 
-  m_history.enabled = true;
-
   initHistoryFile();
 
   // init history file
   using_history();
+
+//   history_set_pos(0);
+//
+//   HISTORY_STATE* state = history_get_history_state();
+//
+//   auto** all = history_length();
+//
+//   m_history.size = static_cast<size_t>(state->length);
+//
+//   free(state);
+
+//   qDebug() << "FOUND " << m_history.size << " entries";
 
   m_state.thread = std::thread([&]() { worker(); });
 }
@@ -429,37 +439,19 @@ void Qalculate::setDefaultCurrency(const int currency_idx)
 #endif
 }
 
-bool Qalculate::historyAvailable() { return m_history.enabled; }
-
-QString Qalculate::getPrevHistoryLine()
+int Qalculate::historyEntries()
 {
-  auto h = previous_history();
-  if (h)
-    return h->line;
-  return "FIRST_ENTRY";
+  return m_history.enabled ? history_length : 0;
 }
 
-QString Qalculate::getNextHistoryLine()
+QString Qalculate::getHistoryEntry(int index)
 {
-  auto h = next_history();
-  if (h)
-    return h->line;
-  return "LAST_ENTRY";
-}
+  if (index > history_length || index < 0)
+    return QString();
 
-QString Qalculate::getFirstHistoryLine()
-{
-  history_set_pos(0);
-  auto h = current_history();
-  if (h)
-    return h->line;
-  return QString("NOT_FOUND");
-}
+  auto* entry = history_get(history_length - index);
 
-void Qalculate::getLastHistoryLine()
-{
-  history_set_pos(history_length);
-  return;
+  return entry ? QString(entry->line): QString();
 }
 
 void Qalculate::worker()

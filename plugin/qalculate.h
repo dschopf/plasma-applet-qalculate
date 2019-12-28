@@ -72,6 +72,7 @@ public:
   virtual ~IQWrapperCallbacks() {}
 
   virtual void onExchangeRatesUpdated(QString date) = 0;
+  virtual void onHistoryUpdated() = 0;
 };
 
 class Qalculate : public QObject {
@@ -133,11 +134,8 @@ public:
   void setDefaultCurrency(const int currency_idx);
 
   // history management
-  bool historyAvailable();
-  QString getPrevHistoryLine();
-  QString getNextHistoryLine();
-  QString getFirstHistoryLine();
-  void getLastHistoryLine();
+  int historyEntries();
+  QString getHistoryEntry(int index);
 
 private:
   void worker();
@@ -182,7 +180,7 @@ private:
   } m_state;
 
   struct {
-    bool enabled;
+    bool enabled = true;
     std::string filename;
     QString last_entry;
   } m_history;
