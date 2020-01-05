@@ -301,14 +301,10 @@ Item {
 
     Component {
       id: highlightBar
-      Rectangle {
+      PlasmaComponents.Highlight {
         width: historyList.width
         height: historyList.currentItem.height
-        border.width: 1
-        border.color: theme.highlightColor
-        color: Qt.darker(theme.highlightColor, 2.5)
         y: historyList.currentItem.y;
-        radius: 2
       }
     }
 
