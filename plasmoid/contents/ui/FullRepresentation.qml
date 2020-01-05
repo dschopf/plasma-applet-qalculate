@@ -191,6 +191,8 @@ Item {
 
         if (event.key == Qt.Key_Up) {
           event.accepted = true
+          if (qwr.historyEntries() == 0)
+            return
           if (!clHistory.visible) {
             clMain.visible = true
             clHistory.visible = false
@@ -204,6 +206,8 @@ Item {
 
         if (event.key == Qt.Key_Down) {
           event.accepted = true
+          if (qwr.historyEntries() == 0)
+            return
           if (!clHistory.visible) {
             clHistory.visible = true
             clMain.visible = false
@@ -217,6 +221,8 @@ Item {
 
         if (event.key == Qt.Key_PageUp) {
           event.accepted = true
+          if (qwr.historyEntries() == 0)
+            return
           if (clHistory.visible) {
             var temp = historyList.highlightMoveVelocity
             historyList.highlightMoveVelocity = 40000
@@ -230,6 +236,8 @@ Item {
 
         if (event.key == Qt.Key_PageDown) {
           event.accepted = true
+          if (qwr.historyEntries() == 0)
+            return
           if (clHistory.visible) {
             var temp = historyList.highlightMoveVelocity
             historyList.highlightMoveVelocity = 40000
