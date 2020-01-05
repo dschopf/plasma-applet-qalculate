@@ -1,6 +1,10 @@
 Qalculate changelog:
 --------------------
 
+v0.8.0:
+- complete rework of history handling
+- enable timestamp conversion for 9-12 digits
+
 v0.7.0:
 - replace "approx." with ~ sign
 - make result selectable
