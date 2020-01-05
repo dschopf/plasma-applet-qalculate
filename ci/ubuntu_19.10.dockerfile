@@ -12,7 +12,8 @@ RUN apt-get update \
 	pkg-config \
 	qt5-default \
 	qt5-qmake \
-	qtdeclarative5-dev
+	qtdeclarative5-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 ENTRYPOINT ["/bin/bash"]
 

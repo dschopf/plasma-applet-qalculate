@@ -12,7 +12,9 @@ RUN apt-get update \
 	plasma-framework-dev \
 	qt5-default \
 	qt5-qmake \
-	qtdeclarative5-dev
+	qtdeclarative5-dev \
+    && rm -rf /var/lib/apt/lists/*
+
 
 ENTRYPOINT ["/bin/bash"]
 
