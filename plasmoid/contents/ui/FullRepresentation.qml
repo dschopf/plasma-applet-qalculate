@@ -282,12 +282,8 @@ Item {
           id: historyText
           color: theme.textColor
           text: history
+          x: 5
           width: parent.width
-        }
-        states: State {
-          name: "Current"
-          when: historyItem.ListView.isCurrentItem
-          PropertyChanges { target: historyItem; x: 2 }
         }
         MouseArea {
           anchors.fill: parent
