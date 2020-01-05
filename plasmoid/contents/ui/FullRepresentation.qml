@@ -296,9 +296,9 @@ Item {
       Rectangle {
         width: historyList.width
         height: historyList.currentItem.height
-        border.width: 2
+        border.width: 1
         border.color: theme.highlightColor
-        color: theme.linkColor
+        color: Qt.darker(theme.highlightColor, 2.5)
         y: historyList.currentItem.y;
         radius: 2
       }
