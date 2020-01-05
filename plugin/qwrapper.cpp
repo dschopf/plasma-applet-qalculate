@@ -166,3 +166,5 @@ QStringList QWrapper::getSupportedCurrencies() { return m_qalc.getSupportedCurre
 void QWrapper::setDefaultCurrency(const int currency_idx) { m_qalc.setDefaultCurrency(currency_idx); }
 
 int QWrapper::historyEntries() { return m_qalc.historyEntries(); }
+
+QString QWrapper::historyFilename() const { return m_qalc.historyFilename(); }

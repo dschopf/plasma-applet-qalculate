@@ -136,6 +136,7 @@ public:
   // history management
   int historyEntries();
   QString getHistoryEntry(int index);
+  QString historyFilename() const;
 
 private:
   void worker();

@@ -21,6 +21,7 @@
 #include <functional>
 #include <regex>
 
+#include <pwd.h>
 #include <readline/history.h>
 #include <sys/stat.h>
 
@@ -94,21 +95,7 @@ Qalculate::Qalculate()
   m_print_limits[16].set(print_limit_base16, popts);
 
   initHistoryFile();
-
-  // init history file
   using_history();
-
-//   history_set_pos(0);
-//
-//   HISTORY_STATE* state = history_get_history_state();
-//
-//   auto** all = history_length();
-//
-//   m_history.size = static_cast<size_t>(state->length);
-//
-//   free(state);
-
-//   qDebug() << "FOUND " << m_history.size << " entries";
 
   m_state.thread = std::thread([&]() { worker(); });
 }
@@ -454,6 +441,14 @@ QString Qalculate::getHistoryEntry(int index)
   return entry ? QString(entry->line): QString();
 }
 
+QString Qalculate::historyFilename() const
+{
+  if (m_history.filename.empty())
+    return QString();
+
+  return QString(m_history.filename.c_str());
+}
+
 void Qalculate::worker()
 {
   std::unique_lock<std::mutex> lock(m_state.mutex);
@@ -627,9 +622,15 @@ bool Qalculate::isBaseEnabled(const uint8_t base, MathStructure& result)
 
 void Qalculate::initHistoryFile()
 {
-  std::string file_path(getenv("HOME"));
+  std::string file_path;
 
-  file_path.append("/.local/share/qalculate");
+  if (getenv("XDG_DATA_HOME")) {
+    file_path = getenv("XDG_DATA_HOME");
+    file_path.append("/qalculate");
+  } else {
+    file_path = getpwuid(getuid())->pw_dir;
+    file_path.append("/.local/share/qalculate");
+  }
 
   struct stat st;
 

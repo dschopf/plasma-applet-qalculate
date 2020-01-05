@@ -27,6 +27,8 @@ import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.kquickcontrolsaddons 2.0 as KQuickAddons
 
+import org.kde.private.qalculate 1.0
+
 import "../../code/tools.js" as Tools
 
 Item {
@@ -41,6 +43,10 @@ Item {
   property alias cfg_launcherArguments:             tfArguments.text
   property alias cfg_historyDisabled:               chbHistoryDisabled.checked
   property alias cfg_historySize:                   sbHistorySize.value
+
+  QWrapper {
+    id: qwr
+  }
 
   GridLayout {
     id: grid
@@ -326,6 +332,12 @@ Item {
           visible: chbLiveEvaluation.checked
           enabled: !chbHistoryDisabled.checked
           text: i18n("History entries are only created by pressing Enter when \"Live evaluation\" is enabled!")
+        }
+
+        Label {
+          visible: chbLiveEvaluation.checked && qwr.historyFilename() != ""
+          enabled: !chbHistoryDisabled.checked
+          text: i18n("History entries can be edited in this file: ") + qwr.historyFilename()
         }
       }
     }

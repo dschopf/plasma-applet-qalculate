@@ -103,6 +103,7 @@ public Q_SLOTS:
   // history management
   HistoryListModel* getModel() { return &m_history; }
   int historyEntries();
+  QString historyFilename() const;
 
 signals:
   void resultText(QString result, QString resultBase2, QString resultBase8, QString resultBase10, QString resultBase16);
