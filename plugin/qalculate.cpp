@@ -625,17 +625,22 @@ void Qalculate::initHistoryFile()
   std::string file_path;
 
   if (getenv("XDG_DATA_HOME")) {
-    file_path = getenv("XDG_DATA_HOME");
-    file_path.append("/qalculate");
+    file_path = std::string(getenv("XDG_DATA_HOME")) + "/qalculate";
   } else {
-    file_path = getpwuid(getuid())->pw_dir;
-    file_path.append("/.local/share/qalculate");
+    file_path = std::string(getpwuid(getuid())->pw_dir) + "/.local/share/qalculate";
   }
 
   struct stat st;
 
   auto ret = stat(file_path.c_str(), &st);
-  if (ret < 0 || !S_ISDIR(st.st_mode)) {
+  if (ret < 0) {
+    if (errno == ENOENT)
+      ret = mkdir(file_path.c_str(), S_IRWXU);
+    if (ret < 0) {
+      m_history.enabled = false;
+      return;
+    }
+  } else if (!S_ISDIR(st.st_mode)) {
     m_history.enabled = false;
     return;
   }
