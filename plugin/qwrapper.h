@@ -41,6 +41,8 @@ public:
 
   QHash<int,QByteArray> roleNames() const override;
 
+  void onHistoryModelChanged();
+
 private:
   Qalculate& m_calc;
 };
@@ -57,6 +59,7 @@ public:
   void onCalculationTimeout() override;
 
   // IQWrapperCallbacks
+  void onHistoryModelChanged() override;
   void onExchangeRatesUpdated(QString date) override;
   void onHistoryUpdated() override;
 

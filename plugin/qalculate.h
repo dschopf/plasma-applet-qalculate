@@ -71,6 +71,7 @@ class IQWrapperCallbacks {
 public:
   virtual ~IQWrapperCallbacks() {}
 
+  virtual void onHistoryModelChanged() = 0;
   virtual void onExchangeRatesUpdated(QString date) = 0;
   virtual void onHistoryUpdated() = 0;
 };

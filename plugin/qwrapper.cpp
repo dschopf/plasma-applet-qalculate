@@ -45,6 +45,12 @@ QHash<int, QByteArray> HistoryListModel::roleNames() const
   return roles;
 }
 
+void HistoryListModel::onHistoryModelChanged()
+{
+  beginInsertRows(QModelIndex(), 0, 0);
+  endInsertRows();
+}
+
 QWrapper::QWrapper(QObject* parent)
   : QObject(parent), m_qalc(Qalculate::instance()), m_history(parent)
 {
@@ -54,6 +60,11 @@ QWrapper::QWrapper(QObject* parent)
 QWrapper::~QWrapper()
 {
   m_qalc.unregister_callbacks(this);
+}
+
+void QWrapper::onHistoryModelChanged()
+{
+  m_history.onHistoryModelChanged();
 }
 
 void QWrapper::onResultText(QString result, QString resultBase2, QString resultBase8, QString resultBase10, QString resultBase16)

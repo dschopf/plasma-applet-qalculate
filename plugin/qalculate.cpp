@@ -140,8 +140,10 @@ void Qalculate::evaluate(const QString& input, const bool enter_pressed, IResult
   if (m_history.enabled && enter_pressed && !input.isEmpty() && (input != m_history.last_entry)) {
     m_history.last_entry = input;
     add_history(m_history.last_entry.toStdString().c_str());
-    history_set_pos(history_length);
     append_history(1, m_history.filename.c_str());
+
+    for (auto& cb : m_state.cbs)
+      cb->onHistoryModelChanged();
   }
 
   // abort active calculation for the same callback instance
@@ -178,7 +180,6 @@ void Qalculate::setDisableHistory(const bool disabled)
   if (ret < 0) {
     m_history.enabled = false;
   } else {
-    ret = history_set_pos(history_length);
     auto h = history_get(history_length);
     if (h && h->line) {
       m_history.last_entry = h->line;
