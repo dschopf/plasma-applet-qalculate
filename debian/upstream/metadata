@@ -1,0 +1,10 @@
+---
+Bug:
+  Database: "https://github.com/dschopf/plasma-applet-qalculate/issues"
+  Submit: "https://github.com/dschopf/plasma-applet-qalculate/issues/new"
+Changelog: "https://github.com/dschopf/plasma-applet-qalculate/blob/master/CHANGELOG"
+Repository: "https://github.com/dschopf/plasma-applet-qalculate.git"
+Repository-Browse: "https://github.com/dschopf/plasma-applet-qalculate.git"
+Screenshots: "https://store.kde.org/p/1155946"
+Security-Contact: "Daniel Schopf <schopf.dan@gmail.com>"
+...

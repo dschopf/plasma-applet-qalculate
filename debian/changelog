@@ -1,0 +1,115 @@
+plasma-applet-qalculate (0.8.0-2ppa~eoan) eoan; urgency=medium
+
+  * No-changes rebuild linked against libqalculate21.so
+
+ -- Peter J. Mello <admin@petermello.net>  Wed, 08 Jan 2020 14:51:19 -0800
+
+plasma-applet-qalculate (0.8.0-1~eoan) eoan; urgency=medium
+
+  * Update to upstream v0.8.0 release
+    - Complete rework of history handling
+    - Enable timestamp conversion for 9-12 digits
+
+ -- Daniel Schopf <schopf.dan@gmail.com>  Mon, 06 Jan 2020 10:39:10 -0000
+
+plasma-applet-qalculate (0.7.0-1~eoan) eoan; urgency=medium
+
+  * New upstream release: v0.7.0
+    - Replace "approx." with ~ sign
+    - Make result selectable
+    - Better input focus handling
+    - Font size adjustments for long results
+    - Fix issues with multiple instances of the applet
+    - Make default currency selectable (requires libqalculate v3.3 or later)
+    - Add Croation translation from Vladimir Mikulic
+
+ -- Daniel Schopf <schopf.dan@gmail.com>  Mon, 18 Nov 2019 16:04:41 -0000
+
+plasma-applet-qalculate (0.6.2-1~disco) disco; urgency=medium
+
+  * Update to upstream v0.6.2 release
+    - Lowers some Qt dependencies in order to make the applet run properly on
+        Ubuntu 18.04.
+
+ -- Daniel Schopf <schopf.dan@gmail.com>  Mon, 15 Jul 2019 15:11:38 -0000
+
+plasma-applet-qalculate (0.6.1-1~disco) disco; urgency=medium
+
+  * Update to upstream v0.6.1 release
+    - Various fixes for compatibility with older library versions
+    - Fixes a crash on certain platforms
+
+ -- Daniel Schopf <schopf.dan@gmail.com>  Tue, 09 Jul 2019 16:57:37 -0000
+
+plasma-applet-qalculate (0.6.0-1~cosmic) cosmic; urgency=medium
+
+  * Update to upstream v0.6.0 release
+    - Add support for launching a program from the main widget
+    - Fix issue with currentcy timestamp updating in the options
+    - Fix input history not working anymore
+    - Bump copyright to 2019
+    - Update translations
+
+ -- Daniel Schopf <schopf.dan@gmail.com>  Sun, 07 Apr 2019 10:07:08 -0000
+
+plasma-applet-qalculate (0.5.0-1~bionic) bionic; urgency=medium
+
+  * Update to upstream v0.5.0 release
+    - Update translations
+    - Add context menu for copying the results to the clipboard
+    - Bump copyright to 2018
+    - Fix issues with applet size in recent KDE versions
+    - Fix issues with image/logo in recent KDE versions
+    - Add support for negative two's complement representation
+        (requires libqalculate v2.5 or later)
+
+ -- Daniel Schopf <schopf.dan@gmail.com>  Mon, 29 May 2018 16:28:35 -0000
+
+plasma-applet-qalculate (0.4.0-1~zesty) zesty; urgency=medium
+
+  * Update to upstream v0.4.0 release
+    - Add support for libqalculate v2.0.0
+    - Change license to MIT
+    - Bump copyright to 2017
+    - Add .clang-format file for C++ plugin and format accordingly
+
+ -- Daniel Schopf <schopf.dan@gmail.com>  Wed, 27 Sep 2017 15:09:20 -0000
+
+plasma-applet-qalculate (0.3.1-1~zesty) zesty; urgency=medium
+
+  * Update to upstream v0.3.1 release
+    - History is now always initialized properly
+
+ -- Daniel Schopf <schopf.dan@gmail.com>  Sun, 28 May 2017 08:30:32 -0000
+
+plasma-applet-qalculate (0.3.0-1~zesty) zesty; urgency=medium
+
+  * Update to upstream v0.3.0 release
+    + New features:
+      - Add support for history, which can be disabled in the options
+          The following keys are available:
+          <UP> - Previous history entry
+          <DOWN> -  Next history entry
+          <PAGE UP> - First history entry
+          <PAGE DOWN> - Last history entry
+          <CTRL + C> - Clear input
+    + Bug fixes:
+      - Create only a single C++ wrapper object
+
+ -- Daniel Schopf <schopf.dan@gmail.com>  Sun, 21 May 2017 08:08:46 -0000
+
+plasma-applet-qalculate (0.2.1-1~zesty) zesty; urgency=medium
+
+  * Update to upstream v0.2.1 release
+
+ -- Daniel Schopf <schopf.dan@gmail.com>  Tue, 09 May 2017 14:48:22 -0000
+
+plasma-applet-qalculate (0.2.0-1~zesty) zesty; urgency=medium
+
+  * Update to upstream v0.2.0 release
+    - Make icon configurable
+    - Add busy indicator
+    - Make calculations run in background
+    - Require at least libqalculate v0.9.8
+
+ -- Daniel Schopf <schopf.dan@gmail.com>  Mon, 08 May 2017 17:02:32 -0000
