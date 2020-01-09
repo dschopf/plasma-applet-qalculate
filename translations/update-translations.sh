@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-cd "$( dirname "${BASH_SOURCE[0]}" )"
+cd "$(dirname "${BASH_SOURCE[0]}")" || exit 1
 
 PROJECT="org.kde.plasma.qalculate"
 NAME="plasma_applet_$PROJECT"
@@ -12,10 +12,10 @@ extract-messages.sh
 sed -e "s,Report-Msgid-Bugs-To: http://bugs.kde.org,Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues," -i "po/$NAME.pot"
 
 echo "Merging translations"
-catalogs=`find ./po -name '*.po'`
+catalogs=$(find ./po -name '*.po')
 for cat in $catalogs; do
-  echo $cat
-  msgmerge -o $cat.new $cat po/$NAME.pot
-  mv $cat.new $cat
+  echo "$cat"
+  msgmerge -o "$cat".new "$cat" po/$NAME.pot
+  mv "$cat".new "$cat"
 done
 echo "Done merging translations"

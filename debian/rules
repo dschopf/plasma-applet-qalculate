@@ -1,0 +1,29 @@
+#!/usr/bin/make -f
+
+DEB_BUILD_MAINT_OPTIONS = future=+lfs hardening=+all reproducible=+fixfilepath
+DH_INTERNAL_OPTIONS     = -v
+DH_VERBOSE              = 1
+export DEB_BUILD_MAINT_OPTIONS DH_INTERNAL_OPTIONS DH_VERBOSE
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+
+%:
+	dh $@ -Bobj-$(DEB_HOST_MULTIARCH)
+
+
+override_dh_auto_configure:
+	$(CURDIR)/debian/prefix.sh
+	install -d $(CURDIR)/obj-$(DEB_HOST_MULTIARCH)
+	cd $(CURDIR)/obj-$(DEB_HOST_MULTIARCH) && cmake -DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_SYSCONFDIR=/etc \
+		-DCMAKE_INSTALL_LOCALSTATEDIR=/var \
+		-DCMAKE_INSTALL_LIBDIR=lib/$(DEB_HOST_MULTIARCH) \
+		-DKDE_INSTALL_LIBDIR=lib/$(DEB_HOST_MULTIARCH) \
+		-DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=TRUE \
+		-DCMAKE_FIND_PACKAGE_NO_PACKAGE_REGISTRY:BOOL=TRUE \
+		-DCMAKE_SKIP_RPATH:BOOL=TRUE \
+		-DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE \
+		"-GUnix Makefiles" ..

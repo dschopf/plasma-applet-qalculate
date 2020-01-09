@@ -1,2 +1,5 @@
+.pc
 build
+obj-*
 *.kdev4
+debian/files
