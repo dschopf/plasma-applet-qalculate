@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+
+if command -v kpackagetool5 >/dev/null 2>&1; then
+  kpackagetool5 -gp --generate-index /usr/share/plasma/plasmoids >/dev/null
+fi
+
+
+#DEBHELPER#

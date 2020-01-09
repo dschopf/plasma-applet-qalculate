@@ -9,7 +9,8 @@ Last-Update: 2020-01-08
 @@ -2,17 +2,18 @@
  Encoding=UTF-8
  Name=Qalculate!
- Comment=Qalculate! applet for plasma desktop
+-Comment=Qalculate! applet for plasma desktop
++Comment=Qalculate! applet for Plasma desktop
 +Icon=qalculate
  Type=Service
 +
@@ -24,7 +25,7 @@ Last-Update: 2020-01-08
 -X-KDE-PluginInfo-Version=0.1
 -X-KDE-PluginInfo-Website=plasma.kde.org
 +X-KDE-PluginInfo-Version=0.8.0
-+X-KDE-PluginInfo-Website=store.kde.org/p/1155946
++X-KDE-PluginInfo-Website=https://store.kde.org/p/1155946
  X-KDE-ServiceTypes=Plasma/Applet
 +
  X-Plasma-API=declarativeappletscript
