@@ -3,7 +3,7 @@ Section: kde
 Priority: optional
 Maintainer: Peter J. Mello <admin@petermello.net>
 Build-Depends: debhelper-compat (= 12), cmake, gettext, pkg-config,
- qtdeclarative5-dev, libkf5plasma-dev, libqalculate-dev (>= 3.4.0~),
+ qtdeclarative5-dev (>= 5.4.0~), libkf5plasma-dev, libqalculate-dev (>= 3.4.0~),
  libreadline-dev
 Standards-Version: 4.4.1
 Homepage: https://store.kde.org/p/1155946/
