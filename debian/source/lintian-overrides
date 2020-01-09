@@ -1,0 +1,2 @@
+# Upstream release tarballs are unsigned
+plasma-applet-qalculate source: debian-watch-does-not-check-gpg-signature
