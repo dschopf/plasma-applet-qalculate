@@ -1,255 +1,260 @@
-# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+# Daniel Schopf <schopf.dan@gmail.org>, 2019, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2019-12-01 11:34+0100\n"
-"PO-Revision-Date: 2016-09-12 19:18+0200\n"
-"Last-Translator: Obed González <obedlink@gmail.com>\n"
-"Language-Team: Obed González <obedlink@gmail.com>\n"
-"Language: es\n"
+"POT-Creation-Date: 2020-01-15 19:36+0100\n"
+"PO-Revision-Date: 2020-01-15 19:40+0100\n"
+"Last-Translator: Daniel Schopf <schopf.dan@gmail.org>\n"
+"Language-Team: German <>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 19.12.1\n"
 
 #: ../plasmoid/contents/config/config.qml:27
 msgid "General"
-msgstr "General"
+msgstr "Allgemein"
 
 #: ../plasmoid/contents/config/config.qml:32
 msgid "Input"
-msgstr "Entrada"
+msgstr "Eingabe"
 
 #: ../plasmoid/contents/config/config.qml:37
 msgid "Output"
-msgstr "Salida"
+msgstr "Ausgabe"
 
 #: ../plasmoid/contents/config/config.qml:42
 msgid "Currency"
-msgstr "Moneda"
+msgstr "Währungen"
 
 #: ../plasmoid/contents/ui/config/Currency.qml:46
 msgid "Update exchange rates at startup"
-msgstr "Actualizar tasas de cambio al iniciar"
+msgstr "Wechselkurse beim Start aktualisieren"
 
 #: ../plasmoid/contents/ui/config/Currency.qml:52
 msgctxt "Exchange rates"
 msgid "Last update"
-msgstr "Ultima actualización"
+msgstr "Letzte Aktualisierung"
 
 #: ../plasmoid/contents/ui/config/Currency.qml:62
 msgid "Switch default currency"
-msgstr ""
+msgstr "Standardwährung ändern"
 
 #: ../plasmoid/contents/ui/config/Currency.qml:87
 msgid ""
 "Default currency does only work when Input->Conversion is set to \"Best\"!"
 msgstr ""
+"Die Standardwährung umstellen funktioniert nur wenn Eingabe-"
+">Einheitenumrechnung auf \"Optimal\" steht!"
 
-#: ../plasmoid/contents/ui/config/General.qml:53
-#: ../plasmoid/contents/ui/FullRepresentation.qml:73
+#: ../plasmoid/contents/ui/config/General.qml:59
+#: ../plasmoid/contents/ui/FullRepresentation.qml:71
 msgid "Copy result to clipboard"
-msgstr "Copiar el resultado al portapapeles"
-
-#: ../plasmoid/contents/ui/config/General.qml:58
-#: ../plasmoid/contents/ui/config/General.qml:69
-msgid "Only works when pressing Return"
-msgstr "Sólo funciona cuando se pulsa Intro"
+msgstr "Ergebnis in die Zwischenablage kopieren"
 
 #: ../plasmoid/contents/ui/config/General.qml:64
-msgid "Write results in input line edit"
-msgstr "Escribir los resultados en una linea de entrada de edición"
-
 #: ../plasmoid/contents/ui/config/General.qml:75
+msgid "Only works when pressing Return"
+msgstr "Funktioniert nur beim Drücken von Return"
+
+#: ../plasmoid/contents/ui/config/General.qml:70
+msgid "Write results in input line edit"
+msgstr "Ergebnis in die Eingabezeile schreiben"
+
+#: ../plasmoid/contents/ui/config/General.qml:81
 msgid "Live evaluation"
-msgstr "Cálculo en tiempo real"
+msgstr "Sofortauswertung"
 
-#: ../plasmoid/contents/ui/config/General.qml:86
+#: ../plasmoid/contents/ui/config/General.qml:92
 msgid "Calculation timeout"
-msgstr "Timepo de espera para el cálculo"
+msgstr "Maximale Berechnungszeit"
 
-#: ../plasmoid/contents/ui/config/General.qml:114
+#: ../plasmoid/contents/ui/config/General.qml:120
 msgid "Icon"
-msgstr ""
+msgstr "Symbol"
 
-#: ../plasmoid/contents/ui/config/General.qml:174
+#: ../plasmoid/contents/ui/config/General.qml:180
 msgctxt "Open icon chooser dialog"
 msgid "Choose Icon"
-msgstr ""
+msgstr "Auswählen"
 
-#: ../plasmoid/contents/ui/config/General.qml:179
+#: ../plasmoid/contents/ui/config/General.qml:185
 msgctxt "Reset icon to default"
 msgid "Clear Icon"
-msgstr ""
+msgstr "Zurücksetzen"
 
-#: ../plasmoid/contents/ui/config/General.qml:194
+#: ../plasmoid/contents/ui/config/General.qml:200
 msgid "Launch program when clicking the Q! logo in the Plasmoid"
-msgstr ""
+msgstr "Ein Programm starten beim Klick auf das Q! Logo"
 
-#: ../plasmoid/contents/ui/config/General.qml:204
+#: ../plasmoid/contents/ui/config/General.qml:210
 msgid "Executable"
-msgstr ""
+msgstr "Programm"
 
-#: ../plasmoid/contents/ui/config/General.qml:225
+#: ../plasmoid/contents/ui/config/General.qml:231
 msgid "Please select an executable"
-msgstr ""
+msgstr "Bitte ein Programm auswählen"
 
-#: ../plasmoid/contents/ui/config/General.qml:241
+#: ../plasmoid/contents/ui/config/General.qml:247
 msgid "Arguments"
-msgstr ""
+msgstr "Argumente"
 
-#: ../plasmoid/contents/ui/config/General.qml:282
+#: ../plasmoid/contents/ui/config/General.qml:288
 msgid "Input history"
-msgstr ""
+msgstr "Letzte Eingaben"
 
-#: ../plasmoid/contents/ui/config/General.qml:297
+#: ../plasmoid/contents/ui/config/General.qml:303
 msgid "Disable input history"
-msgstr ""
+msgstr "Letzte Eingaben deaktivieren"
 
-#: ../plasmoid/contents/ui/config/General.qml:310
+#: ../plasmoid/contents/ui/config/General.qml:316
 msgid "History size"
-msgstr ""
+msgstr "Anzahl der Einträge"
 
-#: ../plasmoid/contents/ui/config/General.qml:328
+#: ../plasmoid/contents/ui/config/General.qml:334
 msgid ""
 "History entries are only created by pressing Enter when \"Live evaluation\" "
 "is enabled!"
 msgstr ""
+"Einträge im Verlauf werden bei \"Sofortauswertung\" nur bei drücken von "
+"Enter erstellt!"
+
+#: ../plasmoid/contents/ui/config/General.qml:340
+msgid "History entries can be edited in this file: "
+msgstr "Der Verlauf kann in dieser Datei verändert werden:"
 
 #: ../plasmoid/contents/ui/config/Input.qml:84
 msgid "Unit conversion"
-msgstr "Conversión de unidades"
+msgstr "Einheitenumrechnung"
 
 #: ../plasmoid/contents/ui/config/Input.qml:103
 msgctxt "Unit conversion"
 msgid "None"
-msgstr "Ninguna"
+msgstr "Keine"
 
 #: ../plasmoid/contents/ui/config/Input.qml:107
 msgctxt "Unit conversion"
 msgid "Do not do any conversion of units in addition to syncing."
-msgstr ""
-"No realizar ninguna conversión de unidades, además de la sincronización."
+msgstr "Einheiten werden nicht umgerechnet."
 
 #: ../plasmoid/contents/ui/config/Input.qml:113
 msgctxt "Unit conversion"
 msgid "Best"
-msgstr "La mejor"
+msgstr "Optimal"
 
 #: ../plasmoid/contents/ui/config/Input.qml:117
 msgctxt "Unit conversion"
 msgid "Convert to the best suited SI units (the least amount of units)."
-msgstr ""
-"Convertir a las unidades del SI más adecuadas (la mejor cantidad de "
-"unidades)."
+msgstr "Konvertiert zu den optimalen Einheiten (die wenigsten Einheiten)."
 
 #: ../plasmoid/contents/ui/config/Input.qml:123
 msgctxt "Unit conversion"
 msgid "Base"
-msgstr "Base"
+msgstr "Basis"
 
 #: ../plasmoid/contents/ui/config/Input.qml:127
 msgctxt "Unit conversion"
 msgid "Convert to base units."
-msgstr "Convertir a unidades base."
+msgstr "In die Basiseinheiten konvertieren"
 
 #: ../plasmoid/contents/ui/config/Input.qml:133
 msgid "Structuring mode"
-msgstr "Modo de estructuración"
+msgstr "Strukturmodus"
 
 #: ../plasmoid/contents/ui/config/Input.qml:152
 msgctxt "Structuring mode"
 msgid "None"
-msgstr "Ninguna"
+msgstr "Kein"
 
 #: ../plasmoid/contents/ui/config/Input.qml:156
 msgctxt "Structuring mode"
 msgid "Do not do any factorization or additional simplifications."
-msgstr "No realizar ninguna factorización o simplificaciones adicionales."
+msgstr "Keine Faktorisierung oder andere Vereinfachung durchführen."
 
 #: ../plasmoid/contents/ui/config/Input.qml:162
 msgctxt "Structuring mode"
 msgid "Simplify"
-msgstr "Simplificar"
+msgstr "Vereinfachen"
 
 #: ../plasmoid/contents/ui/config/Input.qml:166
 msgctxt "Structuring mode"
 msgid "Simplify the result as much as possible."
-msgstr "Simplificar el resultado tanto como sea posible."
+msgstr "Das Ergebnis so weit wie möglich vereinfachen."
 
 #: ../plasmoid/contents/ui/config/Input.qml:172
 msgctxt "Structuring mode"
 msgid "Factorize"
-msgstr "Factorizar"
+msgstr "Faktorisieren"
 
 #: ../plasmoid/contents/ui/config/Input.qml:176
 msgctxt "Structuring mode"
 msgid "Factorize the result."
-msgstr "Factorizar el resultado."
+msgstr "Das Ergebnis faktorisieren."
 
 #: ../plasmoid/contents/ui/config/Input.qml:187
 msgid "Decimal separator"
-msgstr "Separador decimal"
+msgstr "Dezimaltrennzeichen"
 
 #: ../plasmoid/contents/ui/config/Input.qml:202
 msgid "Use KDE setting"
-msgstr "Usar la configuración de KDE"
+msgstr "KDE Einstellung benutzen"
 
 #: ../plasmoid/contents/ui/config/Input.qml:213
 msgid "Angle unit"
-msgstr "Unidad angular"
+msgstr "Winkeleinheit"
 
 #: ../plasmoid/contents/ui/config/Input.qml:222
 msgctxt "Angle Unit"
 msgid "None"
-msgstr "Ninguna"
+msgstr "Keine"
 
 #: ../plasmoid/contents/ui/config/Input.qml:223
 msgctxt "Angle Unit"
 msgid "Radians"
-msgstr "Radianes"
+msgstr "Bogenmaß"
 
 #: ../plasmoid/contents/ui/config/Input.qml:224
 msgctxt "Angle Unit"
 msgid "Degrees"
-msgstr "Grados"
+msgstr "Grad"
 
 #: ../plasmoid/contents/ui/config/Input.qml:225
 msgctxt "Angle Unit"
 msgid "Gradians"
-msgstr "Gradianes"
+msgstr "Gon"
 
 #: ../plasmoid/contents/ui/config/Input.qml:232
 msgid "Expression base"
-msgstr "Expresión base"
+msgstr "Ausdrucksbasis"
 
 #: ../plasmoid/contents/ui/config/Input.qml:246
-#, fuzzy
 msgid "Interpret 9-12 digit numbers as a timestamp"
-msgstr "Interprete números de 9 a 12 dígitos como una marca de tiempo"
+msgstr "Zahlen mit 9-12 Ziffern als Zeitstempel interpretieren"
 
 #: ../plasmoid/contents/ui/config/Output.qml:73
 msgid "Number fraction format"
-msgstr "Formato de los números fraccionarios"
+msgstr "Format für Brüche"
 
 #: ../plasmoid/contents/ui/config/Output.qml:92
 msgctxt "FractionFormat"
 msgid "Decimal"
-msgstr "Decimal"
+msgstr "Dezimal"
 
 #: ../plasmoid/contents/ui/config/Output.qml:96
 msgctxt "FractionFormat"
 msgid "Display numbers in decimal, not fractional, format (ex. 0.333333)."
-msgstr "Mostrar números en decimales, no fraccionados. formato (ej. 0.333333)."
+msgstr "Zahlen inm Dezimalformat darstellen (z.B. 0,333333)."
 
 #: ../plasmoid/contents/ui/config/Output.qml:102
 msgctxt "FractionFormat"
 msgid "Exact"
-msgstr "Exacto"
+msgstr "Exakt"
 
 #: ../plasmoid/contents/ui/config/Output.qml:106
 msgctxt "FractionFormat"
@@ -257,120 +262,117 @@ msgid ""
 "Display as fraction if necessary to get an exact display of the result (ex. "
 "1/3, but 0.25)."
 msgstr ""
-"Mostrar como fracción si es necesario para obtener una visualización exacta "
-"del resultado (ej. 1/3, pero 0.25)."
+"Als Bruch anzeigen um eine exakte Anzeige zu erhalten (z.B. 1/3 aber 0.25)"
 
 #: ../plasmoid/contents/ui/config/Output.qml:112
 msgctxt "FractionFormat"
 msgid "Fractional"
-msgstr "Fraccionado"
+msgstr "Bruch"
 
 #: ../plasmoid/contents/ui/config/Output.qml:116
 msgctxt "FractionFormat"
 msgid "Display as fraction (ex. 4/3)."
-msgstr "Mostrar como fracción (ej. 4/3)."
+msgstr "Zahlen als Bruch darstellen (z.B. 4/3)"
 
 #: ../plasmoid/contents/ui/config/Output.qml:122
 msgctxt "FractionFormat"
 msgid "Combined"
-msgstr "Combinado"
+msgstr "Kombiniert"
 
 #: ../plasmoid/contents/ui/config/Output.qml:126
 msgctxt "FractionFormat"
 msgid "Display as an integer and a fraction (ex. 3 + 1/2)."
-msgstr "Mostar como un entero y una fracción (ej. 3 + 1/2)."
+msgstr "Zahlen in gemischter Schreibweise darstellen (z.B. 3 + 1/2)"
 
 #: ../plasmoid/contents/ui/config/Output.qml:132
 msgid "Numerical display"
-msgstr "Visualización numérica"
+msgstr "Numerische Anzeige"
 
 #: ../plasmoid/contents/ui/config/Output.qml:141
 msgctxt "NumericalDisplay"
 msgid "None"
-msgstr "Ninguna"
+msgstr "Keine"
 
 #: ../plasmoid/contents/ui/config/Output.qml:142
 msgctxt "NumericalDisplay"
 msgid "Pure"
-msgstr "Pura"
+msgstr "Rein"
 
 #: ../plasmoid/contents/ui/config/Output.qml:143
 msgctxt "NumericalDisplay"
 msgid "Scientific"
-msgstr "Científica"
+msgstr "Wissenschaftlich"
 
 #: ../plasmoid/contents/ui/config/Output.qml:144
 msgctxt "NumericalDisplay"
 msgid "Precision"
-msgstr "Precisión"
+msgstr "Präzise"
 
 #: ../plasmoid/contents/ui/config/Output.qml:145
 msgctxt "NumericalDisplay"
 msgid "Engineering"
-msgstr "Ingeniería"
+msgstr "Technisch"
 
 #: ../plasmoid/contents/ui/config/Output.qml:153
 msgid "Indicate infinite series"
-msgstr "Indicar series infinitas"
+msgstr "Unendliche Reihe kenntlich machen"
 
 #: ../plasmoid/contents/ui/config/Output.qml:159
 msgid "Use all prefixes"
-msgstr "Usar todos los prefijos"
+msgstr "Alle Präfixe benutzen"
 
 #: ../plasmoid/contents/ui/config/Output.qml:165
 msgid "Use denominator prefix"
-msgstr "Usar prefijo denominador"
+msgstr "Nenner-Präfixe verwenden"
 
 #: ../plasmoid/contents/ui/config/Output.qml:171
 msgid "Negative exponents"
-msgstr "Exponentes negativos"
+msgstr "Negative Exponenten"
 
 #: ../plasmoid/contents/ui/config/Output.qml:178
 msgid "Use two's complement representation for negative binary numbers"
-msgstr ""
+msgstr "Zweierkomplement für negative Binärzahlen verwenden"
 
 #: ../plasmoid/contents/ui/config/Output.qml:183
 msgid "Show integers also in base"
-msgstr "Mostrar enteros también en la base"
+msgstr "Ganzzahlen auch in diesen Basen anzeigen"
 
 #: ../plasmoid/contents/ui/config/Output.qml:192
-#: ../plasmoid/contents/ui/FullRepresentation.qml:95
+#: ../plasmoid/contents/ui/FullRepresentation.qml:93
 msgid "Binary"
-msgstr "Binario"
+msgstr "Binär"
 
 #: ../plasmoid/contents/ui/config/Output.qml:197
-#: ../plasmoid/contents/ui/FullRepresentation.qml:104
+#: ../plasmoid/contents/ui/FullRepresentation.qml:102
 msgid "Octal"
-msgstr "Octal"
+msgstr "Oktal"
 
 #: ../plasmoid/contents/ui/config/Output.qml:202
-#: ../plasmoid/contents/ui/FullRepresentation.qml:113
+#: ../plasmoid/contents/ui/FullRepresentation.qml:111
 msgid "Decimal"
-msgstr "Decimal"
+msgstr "Dezimal"
 
 #: ../plasmoid/contents/ui/config/Output.qml:207
-#: ../plasmoid/contents/ui/FullRepresentation.qml:122
+#: ../plasmoid/contents/ui/FullRepresentation.qml:120
 msgid "Hexadecimal"
-msgstr "Hexadecimal"
+msgstr "Hexadezimal"
 
 #: ../plasmoid/contents/ui/config/Output.qml:213
 msgid "Result base"
-msgstr "Resultado base"
+msgstr "Ergebnisbasis"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:82
-#, fuzzy
+#: ../plasmoid/contents/ui/FullRepresentation.qml:80
 msgid "Copy result as"
-msgstr "Copiar el resultado al portapapeles"
+msgstr "Ergebnis kopieren als"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:153
+#: ../plasmoid/contents/ui/FullRepresentation.qml:151
 msgid "Enter an expression"
-msgstr "Ingrese una expresión"
+msgstr "Ausdruck eingeben"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:329
+#: ../plasmoid/contents/ui/FullRepresentation.qml:398
 msgid "Result"
-msgstr "Resultado"
+msgstr "Ergebnis"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:420
-#, fuzzy
+#: ../plasmoid/contents/ui/FullRepresentation.qml:489
 msgid "Calculation timed out"
-msgstr "Timepo de espera para el cálculo"
+msgstr "Zeitüberschreitung"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2019-12-01 11:34+0100\n"
+"POT-Creation-Date: 2020-01-15 19:36+0100\n"
 "PO-Revision-Date: 2016-09-12 19:18+0200\n"
 "Last-Translator: Daniel Schopf <schopf.dan@gmail.com>\n"
 "Language-Team: Daniel Schopf <schopf.dan@gmail.com>\n"
@@ -50,74 +50,78 @@ msgid ""
 "Default currency does only work when Input->Conversion is set to \"Best\"!"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:53
-#: ../plasmoid/contents/ui/FullRepresentation.qml:73
+#: ../plasmoid/contents/ui/config/General.qml:59
+#: ../plasmoid/contents/ui/FullRepresentation.qml:71
 msgid "Copy result to clipboard"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:58
-#: ../plasmoid/contents/ui/config/General.qml:69
+#: ../plasmoid/contents/ui/config/General.qml:64
+#: ../plasmoid/contents/ui/config/General.qml:75
 msgid "Only works when pressing Return"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:64
+#: ../plasmoid/contents/ui/config/General.qml:70
 msgid "Write results in input line edit"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:75
+#: ../plasmoid/contents/ui/config/General.qml:81
 msgid "Live evaluation"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:86
+#: ../plasmoid/contents/ui/config/General.qml:92
 msgid "Calculation timeout"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:114
+#: ../plasmoid/contents/ui/config/General.qml:120
 msgid "Icon"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:174
+#: ../plasmoid/contents/ui/config/General.qml:180
 msgctxt "Open icon chooser dialog"
 msgid "Choose Icon"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:179
+#: ../plasmoid/contents/ui/config/General.qml:185
 msgctxt "Reset icon to default"
 msgid "Clear Icon"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:194
+#: ../plasmoid/contents/ui/config/General.qml:200
 msgid "Launch program when clicking the Q! logo in the Plasmoid"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:204
+#: ../plasmoid/contents/ui/config/General.qml:210
 msgid "Executable"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:225
+#: ../plasmoid/contents/ui/config/General.qml:231
 msgid "Please select an executable"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:241
+#: ../plasmoid/contents/ui/config/General.qml:247
 msgid "Arguments"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:282
+#: ../plasmoid/contents/ui/config/General.qml:288
 msgid "Input history"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:297
+#: ../plasmoid/contents/ui/config/General.qml:303
 msgid "Disable input history"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:310
+#: ../plasmoid/contents/ui/config/General.qml:316
 msgid "History size"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/General.qml:328
+#: ../plasmoid/contents/ui/config/General.qml:334
 msgid ""
 "History entries are only created by pressing Enter when \"Live evaluation\" "
 "is enabled!"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/General.qml:340
+msgid "History entries can be edited in this file: "
 msgstr ""
 
 #: ../plasmoid/contents/ui/config/Input.qml:84
@@ -328,22 +332,22 @@ msgid "Show integers also in base"
 msgstr ""
 
 #: ../plasmoid/contents/ui/config/Output.qml:192
-#: ../plasmoid/contents/ui/FullRepresentation.qml:95
+#: ../plasmoid/contents/ui/FullRepresentation.qml:93
 msgid "Binary"
 msgstr ""
 
 #: ../plasmoid/contents/ui/config/Output.qml:197
-#: ../plasmoid/contents/ui/FullRepresentation.qml:104
+#: ../plasmoid/contents/ui/FullRepresentation.qml:102
 msgid "Octal"
 msgstr ""
 
 #: ../plasmoid/contents/ui/config/Output.qml:202
-#: ../plasmoid/contents/ui/FullRepresentation.qml:113
+#: ../plasmoid/contents/ui/FullRepresentation.qml:111
 msgid "Decimal"
 msgstr ""
 
 #: ../plasmoid/contents/ui/config/Output.qml:207
-#: ../plasmoid/contents/ui/FullRepresentation.qml:122
+#: ../plasmoid/contents/ui/FullRepresentation.qml:120
 msgid "Hexadecimal"
 msgstr ""
 
@@ -351,18 +355,18 @@ msgstr ""
 msgid "Result base"
 msgstr ""
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:82
+#: ../plasmoid/contents/ui/FullRepresentation.qml:80
 msgid "Copy result as"
 msgstr ""
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:153
+#: ../plasmoid/contents/ui/FullRepresentation.qml:151
 msgid "Enter an expression"
 msgstr ""
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:329
+#: ../plasmoid/contents/ui/FullRepresentation.qml:398
 msgid "Result"
 msgstr ""
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:420
+#: ../plasmoid/contents/ui/FullRepresentation.qml:489
 msgid "Calculation timed out"
 msgstr ""
