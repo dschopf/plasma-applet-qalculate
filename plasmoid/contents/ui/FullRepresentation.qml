@@ -183,7 +183,8 @@ Item {
         }
 
         // need a better way to clear the input field
-        if ((event.key == Qt.Key_C) && (event.modifiers & (Qt.ControlModifier | Qt.AltModifier))) {
+        var mods = Qt.ControlModifier | Qt.AltModifier
+        if ((event.key == Qt.Key_C) && (event.modifiers & mods) == mods) {
           event.accepted = true
           text = ""
           return
@@ -407,7 +408,7 @@ Item {
           Connections {
             target: qwr
 
-            onResultText: {
+            function onResultText(result, resultBase2, resultBase8, resultBase10, resultBase16) {
               busyTimer.stop()
               busy.visible = false
 
@@ -485,7 +486,7 @@ Item {
               }
             }
 
-            onCalculationTimeout: {
+            function onCalculationTimeout() {
               lResult.text = i18n("Calculation timed out")
               lResult.visible = true
               busy.visible = false

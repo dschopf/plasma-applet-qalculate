@@ -38,7 +38,7 @@ Item {
     }
 
     property bool fromCompact: false
-    property bool debugLogging: true
+    property bool debugLogging: false
 
     readonly property bool inPanel: (plasmoid.location === PlasmaCore.Types.TopEdge
         || plasmoid.location === PlasmaCore.Types.RightEdge
