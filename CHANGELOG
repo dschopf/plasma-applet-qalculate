@@ -1,6 +1,9 @@
 Qalculate changelog:
 --------------------
 
+- fix issue with CTRL-C
+- bump copyright to 2020
+
 v0.8.0:
 - complete rework of history handling
 - enable timestamp conversion for 9-12 digits
