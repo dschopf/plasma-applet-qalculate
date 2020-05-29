@@ -11,6 +11,7 @@ RUN apt-get update \
 	libkf5plasma-dev \
 	libqalculate-dev \
 	libreadline-dev \
+	make \
 	pkg-config \
 	qt5-default \
 	qt5-qmake \
