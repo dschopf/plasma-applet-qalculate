@@ -514,9 +514,15 @@ void Qalculate::runCalculation(const std::string& expr)
   // use a huge timeout values here, the wrapping control should handle our real
   // timeout
 
+#if defined(PRINT_CONTROL_INCLUDED)
+  result = m_pcalc->calculate(expr, m_eval_options);
+  if (checkReturnState())
+    return;
+#else
   const bool res = m_pcalc->calculate(&result, expr, TIMEOUT, m_eval_options);
   if (!res && checkReturnState())
     return;
+#endif
 
 #if !defined(PRINT_CONTROL_INCLUDED)
   {
