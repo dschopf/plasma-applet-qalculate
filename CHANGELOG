@@ -1,8 +1,11 @@
 Qalculate changelog:
 --------------------
 
+v0.8.1
 - fix issue with CTRL-C
+- fix issue with calculation timeout
 - bump copyright to 2020
+- add Portuguese translation
 
 v0.8.0:
 - complete rework of history handling
