@@ -408,7 +408,7 @@ Item {
           Connections {
             target: qwr
 
-            function onResultText(result, resultBase2, resultBase8, resultBase10, resultBase16) {
+            onResultText: {
               busyTimer.stop()
               busy.visible = false
 
@@ -486,7 +486,7 @@ Item {
               }
             }
 
-            function onCalculationTimeout() {
+            onCalculationTimeout: {
               lResult.text = i18n("Calculation timed out")
               lResult.visible = true
               busy.visible = false
