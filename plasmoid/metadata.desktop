@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Name=Qalculate!
 Comment=Qalculate! applet for Plasma desktop
-Icon=qalculate
+Icon=/usr/share/plasma/plasmoids/org.kde.plasma.qalculate/contents/images/Qalculate.svg
 Type=Service
 
 X-KDE-ParentApp=
@@ -11,7 +11,7 @@ X-KDE-PluginInfo-Category=Utilities
 X-KDE-PluginInfo-Email=schopf.dan@gmail.com
 X-KDE-PluginInfo-License=MIT
 X-KDE-PluginInfo-Name=org.kde.plasma.qalculate
-X-KDE-PluginInfo-Version=0.8
+X-KDE-PluginInfo-Version=0.8.2
 X-KDE-PluginInfo-Website=https://store.kde.org/p/1155946
 X-KDE-ServiceTypes=Plasma/Applet
 X-Plasma-API=declarativeappletscript

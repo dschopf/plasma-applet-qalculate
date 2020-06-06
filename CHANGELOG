@@ -1,6 +1,10 @@
 Qalculate changelog:
 --------------------
 
+v0.8.2
+- switch back to old Qalculate! icon
+- fix issue with older Qt versions
+
 v0.8.1
 - fix issue with CTRL-C
 - fix issue with calculation timeout
