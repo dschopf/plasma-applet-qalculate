@@ -70,6 +70,7 @@ Item {
       enabled: cbSwitchDefaultCurrency.checked
       model: qwr.getSupportedCurrencies()
       visible: cfg_libVersion >= 330
+      currentIndex: cfg_selectedDefaultCurrency
 
       onCurrentIndexChanged: {
         qwr.setDefaultCurrency(currentIndex)
@@ -77,8 +78,7 @@ Item {
       }
 
       onEnabledChanged: {
-        qwr.setDefaultCurrency(currentIndex)
-        cfg_selectedDefaultCurrency = currentIndex
+        qwr.setDefaultCurrency(enabled ? currentIndex : -1)
       }
     }
 

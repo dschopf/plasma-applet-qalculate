@@ -46,6 +46,7 @@ Item {
         || plasmoid.location === PlasmaCore.Types.LeftEdge)
     readonly property bool vertical: (plasmoid.formFactor === PlasmaCore.Types.Vertical)
 
+    // general
     property string qalculateIcon: plasmoid.configuration.qalculateIcon
     property int timeout: plasmoid.configuration.timeout
     property bool launcherEnabled: plasmoid.configuration.launcherEnabled
@@ -55,6 +56,7 @@ Item {
     property bool historyDisabled: plasmoid.configuration.historyDisabled
     property int historySize: plasmoid.configuration.historySize
 
+    // input
     property int unitConversion: plasmoid.configuration.unitConversion
     property int structuringMode: plasmoid.configuration.structuringMode
     property string decimalSeparator: plasmoid.configuration.decimalSeparator
@@ -62,6 +64,7 @@ Item {
     property int expressionBase: plasmoid.configuration.expressionBase
     property bool detectTimestamps: plasmoid.configuration.detectTimestamps
 
+    // output
     property int numberFractionFormat: plasmoid.configuration.numberFractionFormat
     property int numericalDisplay: plasmoid.configuration.numericalDisplay
     property bool indicateInfiniteSeries: plasmoid.configuration.indicateInfiniteSeries
@@ -74,6 +77,7 @@ Item {
     property bool resultInBase10: plasmoid.configuration.decimal
     property bool resultInBase16: plasmoid.configuration.hexadecimal
     property int resultBase: plasmoid.configuration.resultBase
+    property bool unicodeEnabled: plasmoid.configuration.unicode
 
     Plasmoid.switchWidth: units.gridUnit * 20
     Plasmoid.switchHeight: units.gridUnit * 30
@@ -284,5 +288,9 @@ Item {
 
     onHistorySizeChanged: {
       qwr.setHistorySize(historySize)
+    }
+
+    onUnicodeEnabledChanged: {
+      qwr.setUnicodeEnabled(unicodeEnabled)
     }
 }

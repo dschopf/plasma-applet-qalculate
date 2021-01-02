@@ -94,12 +94,19 @@ void QWrapper::evaluate(QString const& input, bool const enter_pressed) { m_qalc
 
 void QWrapper::launch(const QString& executable)
 {
-  QProcess::startDetached(executable);
+  launch(executable, QString(), QString());
 }
 
 void QWrapper::launch(const QString& executable, const QString& args, const QString& expression)
 {
-  QStringList list = args.split(' ', QString::SkipEmptyParts);
+  QStringList list;
+
+  if (!args.isEmpty())
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+    list = args.split(' ', Qt::SkipEmptyParts);
+#else
+    list = args.split(' ', QString::SkipEmptyParts);
+#endif
 
   for (auto& s : list)
     s.replace(QString("${INPUT}"), expression);
@@ -167,6 +174,8 @@ void QWrapper::setUseDenominatorPrefix(const bool value) { m_qalc.setUseDenomina
 void QWrapper::setNegativeExponents(const bool value) { m_qalc.setNegativeExponents(value); }
 
 void QWrapper::setNegativeBinaryTwosComplement(const bool value) { m_qalc.setNegativeBinaryTwosComplement(value); }
+
+void QWrapper::setUnicodeEnabled(const bool value) { m_qalc.setUnicodeEnabled(value); }
 
 void QWrapper::updateExchangeRates() { m_qalc.updateExchangeRates(); }
 

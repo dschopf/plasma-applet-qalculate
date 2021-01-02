@@ -105,6 +105,9 @@
         <entry name="resultBase" type="Int">
             <default>10</default>
         </entry>
+        <entry name="unicode" type="Bool">
+            <default>true</default>
+        </entry>
     </group>
 
     <group name="Currency">

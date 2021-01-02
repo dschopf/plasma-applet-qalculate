@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2020-01-15 19:36+0100\n"
+"POT-Creation-Date: 2021-01-02 16:49+0100\n"
 "PO-Revision-Date: 2016-09-12 19:18+0200\n"
 "Last-Translator: Daniel Schopf <schopf.dan@gmail.com>\n"
 "Language-Team: Daniel Schopf <schopf.dan@gmail.com>\n"
@@ -232,126 +232,130 @@ msgstr ""
 msgid "Interpret 9-12 digit numbers as a timestamp"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Output.qml:73
+#: ../plasmoid/contents/ui/config/Output.qml:74
 msgid "Number fraction format"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Output.qml:92
+#: ../plasmoid/contents/ui/config/Output.qml:93
 msgctxt "FractionFormat"
 msgid "Decimal"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Output.qml:96
+#: ../plasmoid/contents/ui/config/Output.qml:97
 msgctxt "FractionFormat"
 msgid "Display numbers in decimal, not fractional, format (ex. 0.333333)."
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Output.qml:102
+#: ../plasmoid/contents/ui/config/Output.qml:103
 msgctxt "FractionFormat"
 msgid "Exact"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Output.qml:106
+#: ../plasmoid/contents/ui/config/Output.qml:107
 msgctxt "FractionFormat"
 msgid ""
 "Display as fraction if necessary to get an exact display of the result (ex. "
 "1/3, but 0.25)."
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Output.qml:112
+#: ../plasmoid/contents/ui/config/Output.qml:113
 msgctxt "FractionFormat"
 msgid "Fractional"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Output.qml:116
+#: ../plasmoid/contents/ui/config/Output.qml:117
 msgctxt "FractionFormat"
 msgid "Display as fraction (ex. 4/3)."
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Output.qml:122
+#: ../plasmoid/contents/ui/config/Output.qml:123
 msgctxt "FractionFormat"
 msgid "Combined"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Output.qml:126
+#: ../plasmoid/contents/ui/config/Output.qml:127
 msgctxt "FractionFormat"
 msgid "Display as an integer and a fraction (ex. 3 + 1/2)."
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Output.qml:132
+#: ../plasmoid/contents/ui/config/Output.qml:133
 msgid "Numerical display"
-msgstr ""
-
-#: ../plasmoid/contents/ui/config/Output.qml:141
-msgctxt "NumericalDisplay"
-msgid "None"
 msgstr ""
 
 #: ../plasmoid/contents/ui/config/Output.qml:142
 msgctxt "NumericalDisplay"
-msgid "Pure"
+msgid "None"
 msgstr ""
 
 #: ../plasmoid/contents/ui/config/Output.qml:143
 msgctxt "NumericalDisplay"
-msgid "Scientific"
+msgid "Pure"
 msgstr ""
 
 #: ../plasmoid/contents/ui/config/Output.qml:144
 msgctxt "NumericalDisplay"
-msgid "Precision"
+msgid "Scientific"
 msgstr ""
 
 #: ../plasmoid/contents/ui/config/Output.qml:145
 msgctxt "NumericalDisplay"
+msgid "Precision"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:146
+msgctxt "NumericalDisplay"
 msgid "Engineering"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Output.qml:153
+#: ../plasmoid/contents/ui/config/Output.qml:154
+msgid "Enable unicode in output"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Output.qml:160
 msgid "Indicate infinite series"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Output.qml:159
+#: ../plasmoid/contents/ui/config/Output.qml:166
 msgid "Use all prefixes"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Output.qml:165
+#: ../plasmoid/contents/ui/config/Output.qml:172
 msgid "Use denominator prefix"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Output.qml:171
+#: ../plasmoid/contents/ui/config/Output.qml:178
 msgid "Negative exponents"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Output.qml:178
+#: ../plasmoid/contents/ui/config/Output.qml:185
 msgid "Use two's complement representation for negative binary numbers"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Output.qml:183
+#: ../plasmoid/contents/ui/config/Output.qml:190
 msgid "Show integers also in base"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Output.qml:192
+#: ../plasmoid/contents/ui/config/Output.qml:199
 #: ../plasmoid/contents/ui/FullRepresentation.qml:93
 msgid "Binary"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Output.qml:197
+#: ../plasmoid/contents/ui/config/Output.qml:204
 #: ../plasmoid/contents/ui/FullRepresentation.qml:102
 msgid "Octal"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Output.qml:202
+#: ../plasmoid/contents/ui/config/Output.qml:209
 #: ../plasmoid/contents/ui/FullRepresentation.qml:111
 msgid "Decimal"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Output.qml:207
+#: ../plasmoid/contents/ui/config/Output.qml:214
 #: ../plasmoid/contents/ui/FullRepresentation.qml:120
 msgid "Hexadecimal"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Output.qml:213
+#: ../plasmoid/contents/ui/config/Output.qml:220
 msgid "Result base"
 msgstr ""
 
@@ -363,10 +367,10 @@ msgstr ""
 msgid "Enter an expression"
 msgstr ""
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:398
+#: ../plasmoid/contents/ui/FullRepresentation.qml:399
 msgid "Result"
 msgstr ""
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:489
+#: ../plasmoid/contents/ui/FullRepresentation.qml:490
 msgid "Calculation timed out"
 msgstr ""

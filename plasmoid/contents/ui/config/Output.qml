@@ -37,6 +37,7 @@ Item {
   property alias cfg_decimal: chbDecimal.checked
   property alias cfg_hexadecimal: chbHexadecimal.checked
   property alias cfg_resultBase: sbResultBase.value
+  property alias cfg_unicode: chbUnicode.checked
 
   onCfg_numberFractionFormatChanged: {
     switch (cfg_numberFractionFormat) {
@@ -146,6 +147,12 @@ Item {
             append(arr)
         }
       }
+    }
+
+    CheckBox {
+      id: chbUnicode
+      text: i18n("Enable unicode in output")
+      Layout.columnSpan: 2
     }
 
     CheckBox {
