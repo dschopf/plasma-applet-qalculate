@@ -1,4 +1,6 @@
-FROM ubuntu:19.10
+FROM ubuntu:20.10
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
     && apt-get install -y -qq --no-install-recommends \
@@ -9,6 +11,7 @@ RUN apt-get update \
 	libkf5plasma-dev \
 	libqalculate-dev \
 	libreadline-dev \
+	make \
 	pkg-config \
 	qt5-default \
 	qt5-qmake \
