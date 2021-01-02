@@ -59,6 +59,24 @@ enum class State {
   Stop
 };
 
+#if !defined(PRINT_CONTROL_INCLUDED)
+template<typename T>
+class scope_exit
+{
+public:
+    explicit scope_exit(T&& exitScope) : exitScope_(std::forward<T>(exitScope)){}
+    ~scope_exit(){try{exitScope_();}catch(...){}}
+private:
+    T exitScope_;
+};
+
+template <typename T>
+scope_exit<T> create_scope_exit(T&& exitScope)
+{
+    return scope_exit<T>(std::forward<T>(exitScope));
+}
+#endif // !PRINT_CONTROL_INCLUDED
+
 class IResultCallbacks {
 public:
   virtual ~IResultCallbacks() {}
@@ -127,6 +145,7 @@ public:
   void setUseDenominatorPrefix(const bool value);
   void setNegativeExponents(const bool value);
   void setNegativeBinaryTwosComplement(const bool value);
+  void setUnicodeEnabled(const bool value);
 
   // currency settings
   void updateExchangeRates();

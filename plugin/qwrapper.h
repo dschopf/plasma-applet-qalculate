@@ -96,6 +96,7 @@ public Q_SLOTS:
   void setUseDenominatorPrefix(const bool value);
   void setNegativeExponents(const bool value);
   void setNegativeBinaryTwosComplement(const bool value);
+  void setUnicodeEnabled(const bool value);
 
   // currency settings
   void updateExchangeRates();

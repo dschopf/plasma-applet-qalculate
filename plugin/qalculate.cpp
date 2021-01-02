@@ -77,6 +77,7 @@ Qalculate::Qalculate()
   m_print_options.lower_case_e = true;
   m_print_options.base = 10;
   m_print_options.min_exp = EXP_NONE;
+  m_print_options.use_unicode_signs = true;
 #if defined(HAVE_BINARY_TWOS_COMPLEMENT_OPTION)
   m_print_options.twos_complement = true;
 #endif
@@ -364,6 +365,11 @@ void Qalculate::setNegativeBinaryTwosComplement(const bool value)
 #endif
 }
 
+void Qalculate::setUnicodeEnabled(const bool value)
+{
+  m_print_options.use_unicode_signs = value;
+}
+
 void Qalculate::updateExchangeRates()
 {
   std::unique_lock<std::mutex> _(m_state.mutex);
@@ -417,11 +423,14 @@ void Qalculate::setDefaultCurrency(const int currency_idx)
   if (!m_currencies.length())
     initCurrencyList();
 
-  if (currency_idx < 0 || currency_idx >= m_currencies.length())
+  if (currency_idx < 0 || currency_idx >= m_currencies.length()) {
+    if (currency_idx == -1)
+      m_pcalc->setLocalCurrency(nullptr);
     return;
+  }
 
-  auto c = m_currencies[currency_idx].toStdString().c_str();
-  m_pcalc->setLocalCurrency(m_pcalc->getActiveUnit(c));
+  const QString c = m_currencies[currency_idx].split(' ')[0];
+  m_pcalc->setLocalCurrency(m_pcalc->getActiveUnit(c.toUtf8().data()));
 #else
   (void)currency_idx;
 #endif
@@ -530,12 +539,10 @@ void Qalculate::runCalculation(const std::string& expr)
     m_state.state = State::Printing;
   }
   m_pcalc->startPrintControl(m_config.timeout);
+  auto se = create_scope_exit([this]() { m_pcalc->stopPrintControl(); });
 #endif
   QString result_string(PRINT_RESULT(result, HUGE_TIMEOUT_MS, m_print_options));
   if (result_string.isEmpty() || checkReturnState()) {
-#if !defined(PRINT_CONTROL_INCLUDED)
-    m_pcalc->stopPrintControl();
-#endif
     return;
   }
 
@@ -544,9 +551,6 @@ void Qalculate::runCalculation(const std::string& expr)
 
   for (auto& i : output) {
     if (printResultInBase(result, i)) {
-#if !defined(PRINT_CONTROL_INCLUDED)
-      m_pcalc->stopPrintControl();
-#endif
       return;
     }
   }
@@ -557,9 +561,6 @@ void Qalculate::runCalculation(const std::string& expr)
 #endif
 
   m_state.active_cb->onResultText(result_string, output[0].second, output[1].second, output[2].second, output[3].second);
-#if !defined(PRINT_CONTROL_INCLUDED)
-  m_pcalc->stopPrintControl();
-#endif
 }
 
 bool Qalculate::checkReturnState()
