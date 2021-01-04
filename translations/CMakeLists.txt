@@ -7,7 +7,7 @@ if(NOT GETTEXT_MSGFMT_EXECUTABLE)
   )
 else(NOT GETTEXT_MSGFMT_EXECUTABLE)
 
-  set(catalogname plasma_applet_qalculate)
+  set(catalogname plasma_applet_org.kde.plasma.qalculate)
 
   file(GLOB PO_FILES po/*.po)
   set(GMO_FILES)
