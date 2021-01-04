@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-PROJECT="plasma_applet_qalculate"	# project name
-BASEDIR="../plasmoid"			# root of translatable sources
+PROJECT="plasma_applet_org.kde.plasma.qalculate"
+BASEDIR="../plasmoid"
 BUGADDR="https://github.com/dschopf/qalculate/issues"
 
 echo "Extracting messages"
