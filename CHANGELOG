@@ -1,6 +1,10 @@
 Qalculate changelog:
 --------------------
 
+v0.8.4
+- fix icon aspect ratio in panel for KDE 5.21
+- fix translations missing for recent KDE versions
+
 v0.8.3
 - add unicode support in output (enabled by default)
 - fix default currency settings

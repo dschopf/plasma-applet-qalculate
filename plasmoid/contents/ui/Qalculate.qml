@@ -99,7 +99,8 @@ Item {
           visible: true
           anchors.horizontalCenter: parent.horizontalCenter
           anchors.verticalCenter: parent.verticalCenter
-          anchors.fill: parent
+          height: Math.min(parent.height, parent.width)
+          width: height
           smooth: true
           svg: PlasmaCore.Svg {
             imagePath: plasmoid.configuration.qalculateIcon
