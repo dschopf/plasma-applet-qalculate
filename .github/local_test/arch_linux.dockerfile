@@ -1,4 +1,4 @@
-FROM archlinux/base
+FROM archlinux:base-devel
 
 RUN echo $'\
 Server = https://mirror.23media.com/archlinux/$repo/os/$arch \n\
@@ -15,13 +15,9 @@ Server = https://mirror.ubrco.de/archlinux/$repo/os/$arch' > /etc/pacman.d/mirro
 RUN pacman -Syq --noconfirm --noprogressbar \
 	cmake \
 	extra-cmake-modules \
-	gcc \
-	gettext \
 	libqalculate \
-	make \
-	pkg-config \
 	plasma-framework \
-	qt5-base
+	qt5-declarative
 
 ENTRYPOINT ["/bin/bash"]
 

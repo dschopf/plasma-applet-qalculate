@@ -1,4 +1,4 @@
-FROM ubuntu:20.10
+FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -13,11 +13,11 @@ RUN apt-get update \
 	libreadline-dev \
 	make \
 	pkg-config \
-	qt5-default \
 	qt5-qmake \
 	qtdeclarative5-dev \
     && rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT ["/bin/bash"]
+COPY build_plugin.sh /entrypoint.sh
 
-WORKDIR /qalculate
+ENTRYPOINT ["/entrypoint.sh"]
+
