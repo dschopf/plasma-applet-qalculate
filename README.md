@@ -2,10 +2,11 @@
 
 Qalculate applet for the KDE Plasma 5 desktop, bringing the power of [libqalculate](http://qalculate.github.io/) to your desktop.
 
-![Arch Linux](https://github.com/dschopf/plasma-applet-qalculate/workflows/Arch%20Linux/badge.svg)
-![Ubuntu-18.04](https://github.com/dschopf/plasma-applet-qalculate/workflows/Ubuntu-18.04/badge.svg)
-![Ubuntu-20.04](https://github.com/dschopf/plasma-applet-qalculate/workflows/Ubuntu-20.04/badge.svg)
-![Ubuntu-20.10](https://github.com/dschopf/plasma-applet-qalculate/workflows/Ubuntu-20.10/badge.svg)
+![Arch Linux](https://github.com/dschopf/plasma-applet-qalculate/actions/workflows/arch.yml/badge.svg)
+![Ubuntu-18.04](https://github.com/dschopf/plasma-applet-qalculate/actions/workflows/ubuntu-18.04.yml/badge.svg)
+![Ubuntu-20.04](https://github.com/dschopf/plasma-applet-qalculate/actions/workflows/ubuntu-20.04.yml/badge.svg)
+![Ubuntu-20.10](https://github.com/dschopf/plasma-applet-qalculate/actions/workflows/ubuntu-20.10.yml/badge.svg)
+![Ubuntu-21.04](https://github.com/dschopf/plasma-applet-qalculate/actions/workflows/ubuntu-21.04.yml/badge.svg)
 
 ## Screenshots
 [![Screenshot1](https://cdn.pling.com/img/8/6/4/f/48e64ea6e7741fa132afa8f29c7951858422.png)](https://store.kde.org/p/1155946) [![Screenshot2](https://cdn.pling.com/img/6/8/a/a/cd20e40e2ec26f74592f06e5a4c739d9ed69.png)](https://store.kde.org/p/1155946)
@@ -17,7 +18,7 @@ Plasma KNewStuff3 system is also available at the [Pling Store](https://store.kd
 
 ### Ubuntu and derivatives
 
-Ubuntu 18.04 LTS "Bionic", 20.04 "Focal" and 20.10 "Groovy" users can install the packages
+Ubuntu 18.04 LTS "Bionic", 20.04 "Focal", 20.10 "Groovy" and 21.04 "Hirsute" users can install the packages
 from [this PPA](https://launchpad.net/~dschopf/+archive/ubuntu/plasma-applet-qalculate) with the following two commands:
 
 ```bash

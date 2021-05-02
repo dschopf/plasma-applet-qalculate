@@ -2,27 +2,10 @@ name: Ubuntu-20.04
 
 on: [push]
 
-env:
-  BUILD_TYPE: Release
-
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: docker://schopfdan/paq_ubuntu:20.04
-
     steps:
     - uses: actions/checkout@v2
+    - uses: ./.github/actions/ubuntu_20.04
 
-    - name: Create Build Environment
-      run: cmake -E make_directory build
-
-    - name: Configure CMake
-      shell: bash
-      working-directory: build
-      run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS=-Werror
-
-    - name: Build
-      shell: bash
-      working-directory: build
-      run: cmake --build . --config $BUILD_TYPE
