@@ -43,12 +43,12 @@ msgstr "Ultima actualización"
 
 #: ../plasmoid/contents/ui/config/Currency.qml:62
 msgid "Switch default currency"
-msgstr ""
+msgstr "Cambiar a moneda predeterminada"
 
 #: ../plasmoid/contents/ui/config/Currency.qml:87
 msgid ""
 "Default currency does only work when Input->Conversion is set to \"Best\"!"
-msgstr ""
+msgstr "¡La moneda predeterminada solo funciona cuando Entrada->Conversión se establece en \"Mejor\"!"
 
 #: ../plasmoid/contents/ui/config/General.qml:59
 #: ../plasmoid/contents/ui/FullRepresentation.qml:71
@@ -74,55 +74,56 @@ msgstr "Timepo de espera para el cálculo"
 
 #: ../plasmoid/contents/ui/config/General.qml:120
 msgid "Icon"
-msgstr ""
+msgstr "Ícono"
 
 #: ../plasmoid/contents/ui/config/General.qml:180
 msgctxt "Open icon chooser dialog"
 msgid "Choose Icon"
-msgstr ""
+msgstr "Elegir Ícono"
 
 #: ../plasmoid/contents/ui/config/General.qml:185
 msgctxt "Reset icon to default"
 msgid "Clear Icon"
-msgstr ""
+msgstr "Reestablecer Ícono"
 
 #: ../plasmoid/contents/ui/config/General.qml:200
 msgid "Launch program when clicking the Q! logo in the Plasmoid"
-msgstr ""
+msgstr "Lanzar programa al hacer click en el logo Q! del Plasmoid"
 
 #: ../plasmoid/contents/ui/config/General.qml:210
 msgid "Executable"
-msgstr ""
+msgstr "Ejecutable"
 
 #: ../plasmoid/contents/ui/config/General.qml:231
 msgid "Please select an executable"
-msgstr ""
+msgstr "Por favor seleccionar un ejecutable"
 
 #: ../plasmoid/contents/ui/config/General.qml:247
 msgid "Arguments"
-msgstr ""
+msgstr "Argumentos"
 
 #: ../plasmoid/contents/ui/config/General.qml:288
 msgid "Input history"
-msgstr ""
+msgstr "Historial de entrada"
 
 #: ../plasmoid/contents/ui/config/General.qml:303
 msgid "Disable input history"
-msgstr ""
+msgstr "Desactivar historial de entrada"
 
 #: ../plasmoid/contents/ui/config/General.qml:316
 msgid "History size"
-msgstr ""
+msgstr "Tamaño del historial"
 
 #: ../plasmoid/contents/ui/config/General.qml:334
 msgid ""
 "History entries are only created by pressing Enter when \"Live evaluation\" "
 "is enabled!"
-msgstr ""
+msgstr "¡Las entradas del historial solo se crean presionando Enter cuando \"Evaluación en vivo\" "
+"está habilitado!"
 
 #: ../plasmoid/contents/ui/config/General.qml:340
 msgid "History entries can be edited in this file: "
-msgstr ""
+msgstr "Las entradas del historial pueden ser editadas en el siguiente archivo"
 
 #: ../plasmoid/contents/ui/config/Input.qml:84
 msgid "Unit conversion"
