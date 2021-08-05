@@ -1,6 +1,6 @@
 name: Ubuntu-21.04
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
