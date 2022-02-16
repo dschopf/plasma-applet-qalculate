@@ -79,8 +79,8 @@ Item {
     property int resultBase: plasmoid.configuration.resultBase
     property bool unicodeEnabled: plasmoid.configuration.unicode
 
-    Plasmoid.switchWidth: units.gridUnit * 20
-    Plasmoid.switchHeight: units.gridUnit * 30
+    Plasmoid.switchWidth: PlasmaCore.Units.gridUnit * 20
+    Plasmoid.switchHeight: PlasmaCore.Units.gridUnit * 30
 
     Component {
       id: compactRepresentation
@@ -91,6 +91,7 @@ Item {
           id: defaultPanelIcon
           anchors.fill: parent
           visible: false
+          readonly property double aspectRatio: (vertical ? implicitHeight / implicitWidth : implicitWidth / implicitHeight)
           source: plasmoid.configuration.qalculateIcon
         }
 
@@ -123,22 +124,22 @@ Item {
 
         Layout.minimumWidth: {
           if (!inPanel)
-            return units.iconSizeHints.panel;
+            return PlasmaCore.Units.iconSizeHints.panel;
 
           if (vertical) {
             return -1;
           } else {
-            return Math.min(units.iconSizeHints.panel, parent.height) * buttonIcon.aspectRatio;
+            return Math.min(PlasmaCore.Units.iconSizeHints.panel, parent.height) * defaultPanelIcon.aspectRatio;
           }
         }
 
         Layout.minimumHeight: {
           if (!inPanel) {
-            return units.iconSizeHints.panel;
+            return PlasmaCore.Units.iconSizeHints.panel;
           }
 
           if (vertical) {
-            return Math.min(units.iconSizeHints.panel, parent.width) * buttonIcon.aspectRatio;
+            return Math.min(PlasmaCore.Units.iconSizeHints.panel, parent.width) * defaultPanelIcon.aspectRatio;
           } else {
             return -1;
           }
@@ -150,9 +151,9 @@ Item {
           }
 
           if (vertical) {
-            return units.iconSizeHints.panel;
+            return PlasmaCore.Units.iconSizeHints.panel;
           } else {
-            return Math.min(units.iconSizeHints.panel, parent.height) * buttonIcon.aspectRatio;
+            return Math.min(PlasmaCore.Units.iconSizeHints.panel, parent.height) * defaultPanelIcon.aspectRatio;
           }
         }
 
@@ -162,9 +163,9 @@ Item {
           }
 
           if (vertical) {
-            return Math.min(units.iconSizeHints.panel, parent.width) * buttonIcon.aspectRatio;
+            return Math.min(PlasmaCore.Units.iconSizeHints.panel, parent.width) * defaultPanelIcon.aspectRatio;
           } else {
-            return units.iconSizeHints.panel;
+            return PlasmaCore.Units.iconSizeHints.panel;
           }
         }
       }

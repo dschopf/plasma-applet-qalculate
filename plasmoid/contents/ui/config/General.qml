@@ -107,7 +107,7 @@ Item {
     }
 
     RowLayout {
-      spacing: units.smallSpacing
+      spacing: PlasmaCore.Units.smallSpacing
       Layout.preferredWidth: parent.width
       Layout.columnSpan: 2
 
@@ -164,7 +164,7 @@ Item {
             PlasmaCore.IconItem {
               id: iconPreview
               anchors.centerIn: parent
-              width: units.iconSizes.large
+              width: PlasmaCore.Units.iconSizes.large
               height: width
               source: cfg_qalculateIcon
             }
@@ -202,7 +202,7 @@ Item {
     }
 
     RowLayout {
-      spacing: units.smallSpacing
+      spacing: PlasmaCore.Units.smallSpacing
       Layout.maximumWidth: parent.width
       Layout.columnSpan: 2
 
@@ -222,7 +222,7 @@ Item {
       Button {
         id: executableButton
         icon.name: "system-run"
-        width: units.iconSizes.large
+        width: PlasmaCore.Units.iconSizes.large
         height: width
         enabled: chbEnableLauncher.checked
 
@@ -238,7 +238,7 @@ Item {
     }
 
     RowLayout {
-      spacing: units.smallSpacing
+      spacing: PlasmaCore.Units.smallSpacing
       Layout.maximumWidth: parent.width
       Layout.columnSpan: 2
 
