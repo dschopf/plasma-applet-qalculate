@@ -41,10 +41,10 @@ Item {
 
   anchors.fill: parent
 
-  Layout.minimumHeight: units.gridUnit * 10 // 150
-  Layout.minimumWidth: units.gridUnit * 15 // 200
-  Layout.preferredHeight: units.gridUnit * 10 // 150
-  Layout.preferredWidth: units.gridUnit * 15 // 200
+  Layout.minimumHeight: PlasmaCore.Units.gridUnit * 10 // 150
+  Layout.minimumWidth: PlasmaCore.Units.gridUnit * 15 // 200
+  Layout.preferredHeight: PlasmaCore.Units.gridUnit * 10 // 150
+  Layout.preferredWidth: PlasmaCore.Units.gridUnit * 15 // 200
 
   KQuickControlsAddons.Clipboard {
     id: clipboard
@@ -502,7 +502,7 @@ Item {
           Layout.minimumHeight: 0
           Layout.maximumHeight: 0
           font.bold: true
-          font.pixelSize: Math.round(0.9 * units.gridUnit)
+          font.pixelSize: Math.round(0.9 * PlasmaCore.Units.gridUnit)
         }
       }
 
@@ -515,7 +515,7 @@ Item {
         color: theme.textColor
         Layout.alignment: Qt.AlignHCenter
         Layout.maximumWidth: parent.width
-        font.pixelSize: units.gridUnit
+        font.pixelSize: PlasmaCore.Units.gridUnit
       }
 
       TextEdit {
@@ -526,7 +526,7 @@ Item {
         selectByMouse: true
         color: theme.textColor
         Layout.alignment: Qt.AlignHCenter
-        font.pixelSize: units.gridUnit
+        font.pixelSize: PlasmaCore.Units.gridUnit
       }
 
       TextEdit {
@@ -537,7 +537,7 @@ Item {
         selectByMouse: true
         color: theme.textColor
         Layout.alignment: Qt.AlignHCenter
-        font.pixelSize: units.gridUnit
+        font.pixelSize: PlasmaCore.Units.gridUnit
       }
 
       TextEdit {
@@ -548,7 +548,7 @@ Item {
         selectByMouse: true
         color: theme.textColor
         Layout.alignment: Qt.AlignHCenter
-        font.pixelSize: units.gridUnit
+        font.pixelSize: PlasmaCore.Units.gridUnit
       }
     }
   }
@@ -557,7 +557,7 @@ Item {
     id: keepOpen
     anchors.right: parent.right
     anchors.bottom: parent.bottom
-    width: Math.round(units.gridUnit * 1.25)
+    width: Math.round(PlasmaCore.Units.gridUnit * 1.25)
     height: width
     checkable: true
     iconSource: "window-pin"
@@ -571,7 +571,7 @@ Item {
     anchors.left: parent.left
     anchors.bottom: parent.bottom
     smooth: true
-    width: Math.round(units.gridUnit * 1.25)
+    width: Math.round(PlasmaCore.Units.gridUnit * 1.25)
     height: width
 
     svg: PlasmaCore.Svg {

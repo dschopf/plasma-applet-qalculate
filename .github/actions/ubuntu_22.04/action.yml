@@ -1,0 +1,5 @@
+name: 'Docker runner'
+description: 'Builds the qalculate plasma applet in a docker container'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

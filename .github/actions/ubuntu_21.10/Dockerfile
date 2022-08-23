@@ -1,4 +1,4 @@
-FROM ubuntu:20.10
+FROM ubuntu:21.10
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -17,6 +17,7 @@ RUN apt-get update \
 	qtdeclarative5-dev \
     && rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT ["/bin/bash"]
+COPY build_plugin.sh /entrypoint.sh
 
-WORKDIR /qalculate
+ENTRYPOINT ["/entrypoint.sh"]
+
