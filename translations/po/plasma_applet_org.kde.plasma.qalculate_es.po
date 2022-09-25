@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2021-01-02 16:49+0100\n"
+"POT-Creation-Date: 2022-09-25 10:52+0200\n"
 "PO-Revision-Date: 2016-09-12 19:18+0200\n"
 "Last-Translator: Obed González <obedlink@gmail.com>\n"
 "Language-Team: Obed González <obedlink@gmail.com>\n"
@@ -32,23 +32,33 @@ msgstr "Salida"
 msgid "Currency"
 msgstr "Moneda"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:46
+#: ../plasmoid/contents/ui/config/Currency.qml:48
 msgid "Update exchange rates at startup"
 msgstr "Actualizar tasas de cambio al iniciar"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:52
+#: ../plasmoid/contents/ui/config/Currency.qml:58
+msgid "Update exchange rates every"
+msgstr "Actualizar tasas de cambio cada"
+
+#: ../plasmoid/contents/ui/config/Currency.qml:74
+msgid "hours"
+msgstr "horas"
+
+#: ../plasmoid/contents/ui/config/Currency.qml:80
 msgctxt "Exchange rates"
 msgid "Last update"
 msgstr "Ultima actualización"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:62
+#: ../plasmoid/contents/ui/config/Currency.qml:90
 msgid "Switch default currency"
 msgstr "Cambiar a moneda predeterminada"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:87
+#: ../plasmoid/contents/ui/config/Currency.qml:115
 msgid ""
 "Default currency does only work when Input->Conversion is set to \"Best\"!"
-msgstr "¡La moneda predeterminada solo funciona cuando Entrada->Conversión se establece en \"Mejor\"!"
+msgstr ""
+"¡La moneda predeterminada solo funciona cuando Entrada->Conversión se "
+"establece en \"Mejor\"!"
 
 #: ../plasmoid/contents/ui/config/General.qml:59
 #: ../plasmoid/contents/ui/FullRepresentation.qml:71
@@ -118,8 +128,9 @@ msgstr "Tamaño del historial"
 msgid ""
 "History entries are only created by pressing Enter when \"Live evaluation\" "
 "is enabled!"
-msgstr "¡Las entradas del historial solo se crean presionando Enter cuando \"Evaluación en vivo\" "
-"está habilitado!"
+msgstr ""
+"¡Las entradas del historial solo se crean presionando Enter cuando "
+"\"Evaluación en vivo\" está habilitado!"
 
 #: ../plasmoid/contents/ui/config/General.qml:340
 msgid "History entries can be edited in this file: "
@@ -375,11 +386,11 @@ msgstr "Copiar el resultado al portapapeles"
 msgid "Enter an expression"
 msgstr "Ingrese una expresión"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:399
+#: ../plasmoid/contents/ui/FullRepresentation.qml:411
 msgid "Result"
 msgstr "Resultado"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:490
+#: ../plasmoid/contents/ui/FullRepresentation.qml:502
 #, fuzzy
 msgid "Calculation timed out"
 msgstr "Timepo de espera para el cálculo"

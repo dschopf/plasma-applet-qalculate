@@ -28,6 +28,8 @@ Item {
 
   property int cfg_libVersion
   property alias cfg_updateExchangeRatesAtStartup: cbUpdateExchangeRatesAtStartup.checked
+  property alias cfg_updateExchangeRatesRegularly: cbUpdateExchangeRatesRegularly.checked
+  property alias cfg_exchangeRateUpdateInterval: sbExchangeRateUpdateInterval.value
   property alias cfg_exchangeRatesTime: lLastUpdateValue.text
   property alias cfg_switchDefaultCurrency: cbSwitchDefaultCurrency.checked
   property string cfg_selectedDefaultCurrency: cmbLocale.currentText
@@ -45,6 +47,32 @@ Item {
       id: cbUpdateExchangeRatesAtStartup
       text: i18n("Update exchange rates at startup")
       Layout.columnSpan: 2
+    }
+
+    RowLayout {
+      Layout.columnSpan: 2
+
+      CheckBox {
+        id: cbUpdateExchangeRatesRegularly
+        enabled: cbUpdateExchangeRatesAtStartup.checked
+        text: i18n("Update exchange rates every")
+      }
+
+      SpinBox {
+        id: sbExchangeRateUpdateInterval
+        enabled: cbUpdateExchangeRatesAtStartup.checked
+        decimals: 0
+        stepSize: 1
+        value: 24
+        minimumValue: 1
+        maximumValue: 72
+      }
+
+      Label {
+        id: lFooBar
+        enabled: cbUpdateExchangeRatesAtStartup.checked
+        text: i18n("hours")
+      }
     }
 
     Label {

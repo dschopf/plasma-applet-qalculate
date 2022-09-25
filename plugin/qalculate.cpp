@@ -98,6 +98,9 @@ Qalculate::Qalculate()
   initHistoryFile();
   using_history();
 
+  connect(&m_netmgr, SIGNAL(finished(QNetworkReply*)),
+          SLOT(fileDownloaded(QNetworkReply*)));
+
   m_state.thread = std::thread([&]() { worker(); });
 }
 
@@ -107,6 +110,8 @@ Qalculate::~Qalculate()
     std::unique_lock<std::mutex> _(m_state.mutex);
     m_state.state = State::Stop;
   }
+
+  disconnect(&m_netmgr, SIGNAL(finished(QNetworkReply*)));
 
   m_state.cond.notify_one();
   m_state.thread.join();
@@ -377,8 +382,6 @@ void Qalculate::updateExchangeRates()
   if (m_state.exchange_rate_updating)
     return;
 
-  connect(&m_netmgr, SIGNAL(finished(QNetworkReply*)),
-          SLOT(fileDownloaded(QNetworkReply*)));
   QNetworkRequest req(QUrl(m_pcalc->getExchangeRatesUrl().c_str()));
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   m_netmgr.get(req);
