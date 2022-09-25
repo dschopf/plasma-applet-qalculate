@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2021-01-02 16:49+0100\n"
+"POT-Creation-Date: 2022-09-25 10:52+0200\n"
 "PO-Revision-Date: 2020-01-09 13:08-0800\n"
 "Last-Translator: Peter J. Mello <admin@petermello.net>\n"
 "Language-Team: Peter J. Mello <admin@petermello.net>\n"
@@ -32,20 +32,28 @@ msgstr "Resultado"
 msgid "Currency"
 msgstr "Moeda"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:46
+#: ../plasmoid/contents/ui/config/Currency.qml:48
 msgid "Update exchange rates at startup"
 msgstr "Atualizar taxas de câmbio na inicialização"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:52
+#: ../plasmoid/contents/ui/config/Currency.qml:58
+msgid "Update exchange rates every"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Currency.qml:74
+msgid "hours"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Currency.qml:80
 msgctxt "Exchange rates"
 msgid "Last update"
 msgstr "Ultima atualização"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:62
+#: ../plasmoid/contents/ui/config/Currency.qml:90
 msgid "Switch default currency"
 msgstr "Alterar moeda padrão"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:87
+#: ../plasmoid/contents/ui/config/Currency.qml:115
 msgid ""
 "Default currency does only work when Input->Conversion is set to \"Best\"!"
 msgstr ""
@@ -121,8 +129,8 @@ msgid ""
 "History entries are only created by pressing Enter when \"Live evaluation\" "
 "is enabled!"
 msgstr ""
-"As entradas do histórico são criadas apenas pressionando Enter quando o"
-"\"Cálculo instantâneo\" está ativado!"
+"As entradas do histórico são criadas apenas pressionando Enter quando "
+"o\"Cálculo instantâneo\" está ativado!"
 
 #: ../plasmoid/contents/ui/config/General.qml:340
 msgid "History entries can be edited in this file: "
@@ -374,10 +382,10 @@ msgstr "Copiar resultado como"
 msgid "Enter an expression"
 msgstr "Digite uma expressão"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:399
+#: ../plasmoid/contents/ui/FullRepresentation.qml:411
 msgid "Result"
 msgstr "Resultado"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:490
+#: ../plasmoid/contents/ui/FullRepresentation.qml:502
 msgid "Calculation timed out"
 msgstr "Cálculo excedido"

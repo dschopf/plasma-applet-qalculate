@@ -5,8 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+
+## [0.8.5] - 2022-09-25
+### Added
+- Option to update exchange rates regularly
+
 ### Changed
 - Removed support for Ubuntu 21.04 and 21.10 and added 22.10
+
 
 v0.8.4
 - fix icon aspect ratio in panel for KDE 5.21
