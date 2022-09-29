@@ -1,4 +1,4 @@
-name: Ubuntu-21.10
+name: Ubuntu-22.10
 
 on: [push, pull_request]
 
@@ -7,5 +7,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: ./.github/actions/ubuntu_21.10
+    - uses: ./.github/actions/ubuntu_22.10
 
