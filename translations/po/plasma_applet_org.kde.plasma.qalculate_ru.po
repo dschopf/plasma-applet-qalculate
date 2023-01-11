@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plasma_applet_qalculate\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2022-09-25 10:52+0200\n"
+"POT-Creation-Date: 2023-01-11 18:26+0700\n"
 "PO-Revision-Date: 2021-05-18 22:51+0700\n"
 "Last-Translator: Damir Islamov <damir@secretlaboratory.ru>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -40,11 +40,15 @@ msgstr "Обновлять курсы валют при запуске"
 
 #: ../plasmoid/contents/ui/config/Currency.qml:58
 msgid "Update exchange rates every"
-msgstr ""
+msgstr "Обновлять курсы валют каждые"
 
 #: ../plasmoid/contents/ui/config/Currency.qml:74
-msgid "hours"
-msgstr ""
+msgid "hour"
+msgid_plural "hours"
+msgstr[0] "час"
+msgstr[1] "часа"
+msgstr[2] "часов"
+msgstr[3] "час"
 
 #: ../plasmoid/contents/ui/config/Currency.qml:80
 msgctxt "Exchange rates"

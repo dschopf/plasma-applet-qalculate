@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2022-09-25 10:52+0200\n"
+"POT-Creation-Date: 2023-01-11 18:26+0700\n"
 "PO-Revision-Date: 2020-01-09 13:08-0800\n"
 "Last-Translator: Peter J. Mello <admin@petermello.net>\n"
 "Language-Team: Peter J. Mello <admin@petermello.net>\n"
@@ -41,8 +41,10 @@ msgid "Update exchange rates every"
 msgstr ""
 
 #: ../plasmoid/contents/ui/config/Currency.qml:74
-msgid "hours"
-msgstr ""
+msgid "hour"
+msgid_plural "hours"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../plasmoid/contents/ui/config/Currency.qml:80
 msgctxt "Exchange rates"

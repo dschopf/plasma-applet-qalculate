@@ -71,7 +71,7 @@ Item {
       Label {
         id: lFooBar
         enabled: cbUpdateExchangeRatesAtStartup.checked
-        text: i18n("hours")
+        text: i18np("hour", "hours", sbExchangeRateUpdateInterval)
       }
     }
 
