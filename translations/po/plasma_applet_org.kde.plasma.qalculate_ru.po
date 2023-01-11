@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plasma_applet_qalculate\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2021-01-02 16:49+0100\n"
+"POT-Creation-Date: 2022-09-25 10:52+0200\n"
 "PO-Revision-Date: 2021-05-18 22:51+0700\n"
 "Last-Translator: Damir Islamov <damir@secretlaboratory.ru>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Lokalize 20.12.0\n"
 
 #: ../plasmoid/contents/config/config.qml:27
@@ -34,25 +34,33 @@ msgstr "Вывод"
 msgid "Currency"
 msgstr "Валюта"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:46
+#: ../plasmoid/contents/ui/config/Currency.qml:48
 msgid "Update exchange rates at startup"
 msgstr "Обновлять курсы валют при запуске"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:52
+#: ../plasmoid/contents/ui/config/Currency.qml:58
+msgid "Update exchange rates every"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Currency.qml:74
+msgid "hours"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Currency.qml:80
 msgctxt "Exchange rates"
 msgid "Last update"
 msgstr "Последнее обновление"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:62
+#: ../plasmoid/contents/ui/config/Currency.qml:90
 msgid "Switch default currency"
 msgstr "Изменить валюту по умолчанию"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:87
+#: ../plasmoid/contents/ui/config/Currency.qml:115
 msgid ""
 "Default currency does only work when Input->Conversion is set to \"Best\"!"
 msgstr ""
-"Валюта по умолчанию работает, только если для параметра Ввод->Преобразование"
-" установлено значение «Лучшее»!"
+"Валюта по умолчанию работает, только если для параметра Ввод->Преобразование "
+"установлено значение «Лучшее»!"
 
 #: ../plasmoid/contents/ui/config/General.qml:59
 #: ../plasmoid/contents/ui/FullRepresentation.qml:71
@@ -123,8 +131,8 @@ msgid ""
 "History entries are only created by pressing Enter when \"Live evaluation\" "
 "is enabled!"
 msgstr ""
-"Записи в истории создаются только нажатием клавиши Enter, когда включена"
-" функция «Расчёт по мере ввода»!"
+"Записи в истории создаются только нажатием клавиши Enter, когда включена "
+"функция «Расчёт по мере ввода»!"
 
 #: ../plasmoid/contents/ui/config/General.qml:340
 msgid "History entries can be edited in this file: "
@@ -154,8 +162,8 @@ msgstr "Лучшее"
 msgctxt "Unit conversion"
 msgid "Convert to the best suited SI units (the least amount of units)."
 msgstr ""
-"Преобразовать в наиболее подходящие единицы измерения СИ (наименьшее"
-" количество единиц)."
+"Преобразовать в наиболее подходящие единицы измерения СИ (наименьшее "
+"количество единиц)."
 
 #: ../plasmoid/contents/ui/config/Input.qml:123
 msgctxt "Unit conversion"
@@ -267,8 +275,8 @@ msgid ""
 "Display as fraction if necessary to get an exact display of the result (ex. "
 "1/3, but 0.25)."
 msgstr ""
-"Отображать дробью, если необходимо, чтобы получить точный результат"
-" (например, 1/3, но 0,25)."
+"Отображать дробью, если необходимо, чтобы получить точный результат "
+"(например, 1/3, но 0,25)."
 
 #: ../plasmoid/contents/ui/config/Output.qml:113
 msgctxt "FractionFormat"
@@ -342,8 +350,8 @@ msgstr "Отрицательные показатели степеней"
 #: ../plasmoid/contents/ui/config/Output.qml:185
 msgid "Use two's complement representation for negative binary numbers"
 msgstr ""
-"Использовать представление в виде дополнения до двух для отрицательных"
-" двоичных чисел"
+"Использовать представление в виде дополнения до двух для отрицательных "
+"двоичных чисел"
 
 #: ../plasmoid/contents/ui/config/Output.qml:190
 msgid "Show integers also in base"
@@ -381,10 +389,10 @@ msgstr "Копировать результат как"
 msgid "Enter an expression"
 msgstr "Введите выражение"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:399
+#: ../plasmoid/contents/ui/FullRepresentation.qml:411
 msgid "Result"
 msgstr "Результат"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:490
+#: ../plasmoid/contents/ui/FullRepresentation.qml:502
 msgid "Calculation timed out"
 msgstr "Время вычисления истекло"

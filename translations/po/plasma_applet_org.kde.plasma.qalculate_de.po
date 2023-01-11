@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2021-01-02 16:49+0100\n"
+"POT-Creation-Date: 2022-09-25 10:52+0200\n"
 "PO-Revision-Date: 2020-01-15 19:40+0100\n"
 "Last-Translator: Daniel Schopf <schopf.dan@gmail.org>\n"
 "Language-Team: German <>\n"
@@ -33,20 +33,28 @@ msgstr "Ausgabe"
 msgid "Currency"
 msgstr "Währungen"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:46
+#: ../plasmoid/contents/ui/config/Currency.qml:48
 msgid "Update exchange rates at startup"
 msgstr "Wechselkurse beim Start aktualisieren"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:52
+#: ../plasmoid/contents/ui/config/Currency.qml:58
+msgid "Update exchange rates every"
+msgstr "Wechselkurse regelmäßig aktualisieren, alle"
+
+#: ../plasmoid/contents/ui/config/Currency.qml:74
+msgid "hours"
+msgstr "Stunden"
+
+#: ../plasmoid/contents/ui/config/Currency.qml:80
 msgctxt "Exchange rates"
 msgid "Last update"
 msgstr "Letzte Aktualisierung"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:62
+#: ../plasmoid/contents/ui/config/Currency.qml:90
 msgid "Switch default currency"
 msgstr "Standardwährung ändern"
 
-#: ../plasmoid/contents/ui/config/Currency.qml:87
+#: ../plasmoid/contents/ui/config/Currency.qml:115
 msgid ""
 "Default currency does only work when Input->Conversion is set to \"Best\"!"
 msgstr ""
@@ -373,10 +381,10 @@ msgstr "Ergebnis kopieren als"
 msgid "Enter an expression"
 msgstr "Ausdruck eingeben"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:399
+#: ../plasmoid/contents/ui/FullRepresentation.qml:411
 msgid "Result"
 msgstr "Ergebnis"
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:490
+#: ../plasmoid/contents/ui/FullRepresentation.qml:502
 msgid "Calculation timed out"
 msgstr "Zeitüberschreitung"

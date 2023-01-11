@@ -378,6 +378,18 @@ Item {
       }
     }
 
+    Timer {
+      id: exchangeRateUpdateTimer
+      // interval in ms, config value provides hours
+      interval: plasmoid.configuration.exchangeRateUpdateInterval * 1000 * 60 * 60
+      running: plasmoid.configuration.updateExchangeRatesRegularly
+      repeat: true
+      onTriggered: {
+        dbgprint("Updating exchange rates")
+        qwr.updateExchangeRates()
+      }
+    }
+
     ColumnLayout {
       id: clResult
       spacing: 0
