@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the plasma_applet_qalculate package.
+# This file is distributed under the same license as the plasma_applet_org.kde.plasma.qalculate package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: plasma_applet_qalculate\n"
+"Project-Id-Version: plasma_applet_org.kde.plasma.qalculate\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2021-01-02 16:49+0100\n"
+"POT-Creation-Date: 2022-09-25 10:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,20 +33,28 @@ msgstr ""
 msgid "Currency"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Currency.qml:46
+#: ../plasmoid/contents/ui/config/Currency.qml:48
 msgid "Update exchange rates at startup"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Currency.qml:52
+#: ../plasmoid/contents/ui/config/Currency.qml:58
+msgid "Update exchange rates every"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Currency.qml:74
+msgid "hours"
+msgstr ""
+
+#: ../plasmoid/contents/ui/config/Currency.qml:80
 msgctxt "Exchange rates"
 msgid "Last update"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Currency.qml:62
+#: ../plasmoid/contents/ui/config/Currency.qml:90
 msgid "Switch default currency"
 msgstr ""
 
-#: ../plasmoid/contents/ui/config/Currency.qml:87
+#: ../plasmoid/contents/ui/config/Currency.qml:115
 msgid ""
 "Default currency does only work when Input->Conversion is set to \"Best\"!"
 msgstr ""
@@ -368,10 +376,10 @@ msgstr ""
 msgid "Enter an expression"
 msgstr ""
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:399
+#: ../plasmoid/contents/ui/FullRepresentation.qml:411
 msgid "Result"
 msgstr ""
 
-#: ../plasmoid/contents/ui/FullRepresentation.qml:490
+#: ../plasmoid/contents/ui/FullRepresentation.qml:502
 msgid "Calculation timed out"
 msgstr ""
