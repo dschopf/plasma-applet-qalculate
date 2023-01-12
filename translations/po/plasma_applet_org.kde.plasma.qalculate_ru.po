@@ -40,7 +40,7 @@ msgstr "Обновлять курсы валют при запуске"
 
 #: ../plasmoid/contents/ui/config/Currency.qml:58
 msgid "Update exchange rates every"
-msgstr "Обновлять курсы валют каждые"
+msgstr "Обновлять курсы валют через"
 
 #: ../plasmoid/contents/ui/config/Currency.qml:74
 msgid "hour"
