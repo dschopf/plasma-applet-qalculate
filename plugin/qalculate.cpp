@@ -43,17 +43,17 @@
 
 namespace
 {
-  constexpr int HUGE_TIMEOUT_MS = 10000000;
-  constexpr auto print_limit_base2 = "0xffffffff";
-  constexpr auto print_limit_base8 = "0xffffffffffffffff";
-  constexpr auto print_limit_base16 = "0xffffffffffffffffffffffffffffffff";
+  constexpr int HUGE_TIMEOUT_MS{10000000};
+  constexpr auto print_limit_base2{"0xffffffff"};
+  constexpr auto print_limit_base8{"0xffffffffffffffff"};
+  constexpr auto print_limit_base16{"0xffffffffffffffffffffffffffffffff"};
 } // namespace
 
 Qalculate::Qalculate()
     : m_pcalc(), m_eval_options(), m_print_options(), m_netmgr(), m_config(),
       m_state(), m_history()
 {
-  m_pcalc.reset(new Calculator());
+  m_pcalc = std::make_unique<Calculator>();
   m_pcalc->loadExchangeRates();
   m_pcalc->loadGlobalCurrencies();
   m_pcalc->loadGlobalDefinitions();
@@ -133,8 +133,8 @@ void Qalculate::unregister_callbacks(IQWrapperCallbacks* p)
 {
   std::unique_lock<std::mutex> _(m_state.mutex);
 
-  auto it = std::find_if(std::begin(m_state.cbs), std::end(m_state.cbs),
-                         [p](const IQWrapperCallbacks* q) { return p == q; });
+  auto it{std::find_if(std::begin(m_state.cbs), std::end(m_state.cbs),
+                       [p](const IQWrapperCallbacks* q) { return p == q; })};
   if (it != std::end(m_state.cbs))
     m_state.cbs.erase(it);
 }
@@ -170,10 +170,10 @@ void Qalculate::evaluate(const QString& input, const bool enter_pressed,
   }
 
   // remove pending calculation for the same callback instance
-  auto it = std::find_if(std::begin(m_state.queue), std::end(m_state.queue),
-                         [cb](std::pair<IResultCallbacks*, QString>& q) {
-                           return std::get<0>(q) == cb;
-                         });
+  auto it{std::find_if(std::begin(m_state.queue), std::end(m_state.queue),
+                       [cb](std::pair<IResultCallbacks*, QString>& q) {
+                         return std::get<0>(q) == cb;
+                       })};
   if (it != std::end(m_state.queue))
     m_state.queue.erase(it);
 
@@ -190,11 +190,10 @@ void Qalculate::setDisableHistory(const bool disabled)
   if (disabled)
     return;
 
-  auto ret = read_history(m_history.filename.c_str());
-  if (ret < 0) {
+  if (read_history(m_history.filename.c_str()) < 0) {
     m_history.enabled = false;
   } else {
-    auto h = history_get(history_length);
+    auto* h{history_get(history_length)};
     if (h && h->line) {
       m_history.last_entry = h->line;
     } else {
@@ -402,9 +401,9 @@ QString Qalculate::getExchangeRatesUpdateTime()
   QDateTime dt;
 
 #if defined(HAVE_QALCULATE_2_6_0)
-  auto t = m_pcalc->getExchangeRatesTime(1);
+  auto t{m_pcalc->getExchangeRatesTime(1)};
 #else
-  auto t = m_pcalc->getExchangeRatesTime();
+  auto t{m_pcalc->getExchangeRatesTime()};
 #endif
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
@@ -457,7 +456,7 @@ QString Qalculate::getHistoryEntry(int index)
   if (index > history_length || index < 0)
     return QString();
 
-  auto* entry = history_get(history_length - index);
+  auto* entry{history_get(history_length - index)};
 
   return entry ? QString(entry->line) : QString();
 }
@@ -480,8 +479,8 @@ void Qalculate::worker()
       m_state.queue.erase(std::begin(m_state.queue));
       m_state.state = State::Calculating;
       m_state.active_cb = std::get<0>(input);
-      auto expr = m_pcalc->unlocalizeExpression(
-          std::get<1>(input).toStdString(), m_eval_options.parse_options);
+      auto expr{m_pcalc->unlocalizeExpression(std::get<1>(input).toStdString(),
+                                              m_eval_options.parse_options)};
 #if defined(INTERVAL_SUPPORT_INCLUDED)
       m_is_approximate = false;
 #endif
@@ -540,7 +539,7 @@ void Qalculate::runCalculation(const std::string& expr)
   if (checkReturnState())
     return;
 #else
-  const bool res = m_pcalc->calculate(&result, expr, TIMEOUT, m_eval_options);
+  const bool res{m_pcalc->calculate(&result, expr, TIMEOUT, m_eval_options)};
   if (!res && checkReturnState())
     return;
 #endif
@@ -551,7 +550,7 @@ void Qalculate::runCalculation(const std::string& expr)
     m_state.state = State::Printing;
   }
   m_pcalc->startPrintControl(m_config.timeout);
-  auto se = create_scope_exit([this]() { m_pcalc->stopPrintControl(); });
+  auto se{create_scope_exit([this]() { m_pcalc->stopPrintControl(); })};
 #endif
   QString result_string(PRINT_RESULT(result, HUGE_TIMEOUT_MS, m_print_options));
   if (result_string.isEmpty() || checkReturnState()) {
@@ -618,7 +617,7 @@ bool Qalculate::isBaseEnabled(const uint8_t base, MathStructure& result)
     case 2:
 #if defined(HAVE_BINARY_TWOS_COMPLEMENT_OPTION)
       if (m_config.enable_base2 && m_print_options.twos_complement) {
-        auto num = result.number();
+        auto num{result.number()};
         if (num.isNegative())
           num.negate();
         return result.representsNumber() && !result.isZero() &&
@@ -655,7 +654,7 @@ void Qalculate::initHistoryFile()
 
   struct stat st;
 
-  auto ret = stat(file_path.c_str(), &st);
+  auto ret{stat(file_path.c_str(), &st)};
   if (ret < 0) {
     if (errno == ENOENT)
       ret = mkdir(file_path.c_str(), S_IRWXU);
@@ -747,9 +746,9 @@ void Qalculate::fileDownloaded(QNetworkReply* pReply)
   QDateTime dt;
 
 #if defined(HAVE_QALCULATE_2_6_0)
-  auto t = m_pcalc->getExchangeRatesTime(1);
+  auto t{m_pcalc->getExchangeRatesTime(1)};
 #else
-  auto t = m_pcalc->getExchangeRatesTime();
+  auto t{m_pcalc->getExchangeRatesTime()};
 #endif
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
