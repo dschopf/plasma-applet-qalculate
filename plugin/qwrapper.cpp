@@ -23,8 +23,7 @@
 #include "qwrapper.h"
 
 HistoryListModel::HistoryListModel(QObject* parent)
-  : QAbstractListModel(parent)
-  , m_calc(Qalculate::instance())
+    : QAbstractListModel(parent), m_calc(Qalculate::instance())
 {
 }
 
@@ -52,30 +51,23 @@ void HistoryListModel::onHistoryModelChanged()
 }
 
 QWrapper::QWrapper(QObject* parent)
-  : QObject(parent), m_qalc(Qalculate::instance()), m_history(parent)
+    : QObject(parent), m_qalc(Qalculate::instance()), m_history(parent)
 {
   m_qalc.register_callbacks(this);
 }
 
-QWrapper::~QWrapper()
-{
-  m_qalc.unregister_callbacks(this);
-}
+QWrapper::~QWrapper() { m_qalc.unregister_callbacks(this); }
 
-void QWrapper::onHistoryModelChanged()
-{
-  m_history.onHistoryModelChanged();
-}
+void QWrapper::onHistoryModelChanged() { m_history.onHistoryModelChanged(); }
 
-void QWrapper::onResultText(QString result, QString resultBase2, QString resultBase8, QString resultBase10, QString resultBase16)
+void QWrapper::onResultText(QString result, QString resultBase2,
+                            QString resultBase8, QString resultBase10,
+                            QString resultBase16)
 {
   emit resultText(result, resultBase2, resultBase8, resultBase10, resultBase16);
 }
 
-void QWrapper::onCalculationTimeout()
-{
-  emit calculationTimeout();
-}
+void QWrapper::onCalculationTimeout() { emit calculationTimeout(); }
 
 void QWrapper::onExchangeRatesUpdated(QString date)
 {
@@ -90,14 +82,18 @@ void QWrapper::onHistoryUpdated()
   m_history.dataChanged(begin, end);
 }
 
-void QWrapper::evaluate(QString const& input, bool const enter_pressed) { m_qalc.evaluate(input, enter_pressed, this); }
+void QWrapper::evaluate(QString const& input, bool const enter_pressed)
+{
+  m_qalc.evaluate(input, enter_pressed, this);
+}
 
 void QWrapper::launch(const QString& executable)
 {
   launch(executable, QString(), QString());
 }
 
-void QWrapper::launch(const QString& executable, const QString& args, const QString& expression)
+void QWrapper::launch(const QString& executable, const QString& args,
+                      const QString& expression)
 {
   QStringList list;
 
@@ -116,7 +112,9 @@ void QWrapper::launch(const QString& executable, const QString& args, const QStr
 
 int QWrapper::getVersion()
 {
-#if defined(QALCULATE_MAJOR_VERSION) && (((QALCULATE_MAJOR_VERSION == 3) && (QALCULATE_MINOR_VERSION >= 3)) || (QALCULATE_MAJOR_VERSION > 3))
+#if defined(QALCULATE_MAJOR_VERSION) &&                                        \
+    (((QALCULATE_MAJOR_VERSION == 3) && (QALCULATE_MINOR_VERSION >= 3)) ||     \
+     (QALCULATE_MAJOR_VERSION > 3))
   return 330;
 #elif defined(HAVE_QALCULATE_2_6_0)
   return 260;
@@ -133,57 +131,120 @@ int QWrapper::getVersion()
 
 void QWrapper::setTimeout(const int timeout) { m_qalc.setTimeout(timeout); }
 
-void QWrapper::setDisableHistory(const bool disabled) { m_qalc.setDisableHistory(disabled); }
+void QWrapper::setDisableHistory(const bool disabled)
+{
+  m_qalc.setDisableHistory(disabled);
+}
 
 void QWrapper::setHistorySize(const int size) { m_qalc.setHistorySize(size); }
 
-void QWrapper::setAutoPostConversion(const int value) { m_qalc.setAutoPostConversion(value); }
+void QWrapper::setAutoPostConversion(const int value)
+{
+  m_qalc.setAutoPostConversion(value);
+}
 
 int QWrapper::getAutoPostConversion() { return m_qalc.getAutoPostConversion(); }
 
-void QWrapper::setStructuringMode(const int mode) { m_qalc.setStructuringMode(mode); }
+void QWrapper::setStructuringMode(const int mode)
+{
+  m_qalc.setStructuringMode(mode);
+}
 
-void QWrapper::setDecimalSeparator(const QString& separator) { m_qalc.setDecimalSeparator(separator); }
+void QWrapper::setDecimalSeparator(const QString& separator)
+{
+  m_qalc.setDecimalSeparator(separator);
+}
 
 void QWrapper::setAngleUnit(const int unit) { m_qalc.setAngleUnit(unit); }
 
-void QWrapper::setExpressionBase(const int base) { m_qalc.setExpressionBase(base); }
+void QWrapper::setExpressionBase(const int base)
+{
+  m_qalc.setExpressionBase(base);
+}
 
-void QWrapper::setEnableBase2(const bool enable) { m_qalc.setEnableBase2(enable); }
+void QWrapper::setEnableBase2(const bool enable)
+{
+  m_qalc.setEnableBase2(enable);
+}
 
-void QWrapper::setEnableBase8(const bool enable) { m_qalc.setEnableBase8(enable); }
+void QWrapper::setEnableBase8(const bool enable)
+{
+  m_qalc.setEnableBase8(enable);
+}
 
-void QWrapper::setEnableBase10(const bool enable) { m_qalc.setEnableBase10(enable); }
+void QWrapper::setEnableBase10(const bool enable)
+{
+  m_qalc.setEnableBase10(enable);
+}
 
-void QWrapper::setEnableBase16(const bool enable) { m_qalc.setEnableBase16(enable); }
+void QWrapper::setEnableBase16(const bool enable)
+{
+  m_qalc.setEnableBase16(enable);
+}
 
 void QWrapper::setResultBase(const int base) { m_qalc.setResultBase(base); }
 
-void QWrapper::setDetectTimestamps(const bool enable) { m_qalc.setDetectTimestamps(enable); }
+void QWrapper::setDetectTimestamps(const bool enable)
+{
+  m_qalc.setDetectTimestamps(enable);
+}
 
-void QWrapper::setNumberFractionFormat(const int format) { m_qalc.setNumberFractionFormat(format); }
+void QWrapper::setNumberFractionFormat(const int format)
+{
+  m_qalc.setNumberFractionFormat(format);
+}
 
-void QWrapper::setNumericalDisplay(const int value) { m_qalc.setNumericalDisplay(value); }
+void QWrapper::setNumericalDisplay(const int value)
+{
+  m_qalc.setNumericalDisplay(value);
+}
 
-void QWrapper::setIndicateInfiniteSeries(const bool value) { m_qalc.setIndicateInfiniteSeries(value); }
+void QWrapper::setIndicateInfiniteSeries(const bool value)
+{
+  m_qalc.setIndicateInfiniteSeries(value);
+}
 
-void QWrapper::setUseAllPrefixes(const bool value) { m_qalc.setUseAllPrefixes(value); }
+void QWrapper::setUseAllPrefixes(const bool value)
+{
+  m_qalc.setUseAllPrefixes(value);
+}
 
-void QWrapper::setUseDenominatorPrefix(const bool value) { m_qalc.setUseDenominatorPrefix(value); }
+void QWrapper::setUseDenominatorPrefix(const bool value)
+{
+  m_qalc.setUseDenominatorPrefix(value);
+}
 
-void QWrapper::setNegativeExponents(const bool value) { m_qalc.setNegativeExponents(value); }
+void QWrapper::setNegativeExponents(const bool value)
+{
+  m_qalc.setNegativeExponents(value);
+}
 
-void QWrapper::setNegativeBinaryTwosComplement(const bool value) { m_qalc.setNegativeBinaryTwosComplement(value); }
+void QWrapper::setNegativeBinaryTwosComplement(const bool value)
+{
+  m_qalc.setNegativeBinaryTwosComplement(value);
+}
 
-void QWrapper::setUnicodeEnabled(const bool value) { m_qalc.setUnicodeEnabled(value); }
+void QWrapper::setUnicodeEnabled(const bool value)
+{
+  m_qalc.setUnicodeEnabled(value);
+}
 
 void QWrapper::updateExchangeRates() { m_qalc.updateExchangeRates(); }
 
-QString QWrapper::getExchangeRatesUpdateTime() { return m_qalc.getExchangeRatesUpdateTime(); }
+QString QWrapper::getExchangeRatesUpdateTime()
+{
+  return m_qalc.getExchangeRatesUpdateTime();
+}
 
-QStringList QWrapper::getSupportedCurrencies() { return m_qalc.getSupportedCurrencies(); }
+QStringList QWrapper::getSupportedCurrencies()
+{
+  return m_qalc.getSupportedCurrencies();
+}
 
-void QWrapper::setDefaultCurrency(const int currency_idx) { m_qalc.setDefaultCurrency(currency_idx); }
+void QWrapper::setDefaultCurrency(const int currency_idx)
+{
+  m_qalc.setDefaultCurrency(currency_idx);
+}
 
 int QWrapper::historyEntries() { return m_qalc.historyEntries(); }
 
