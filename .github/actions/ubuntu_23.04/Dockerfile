@@ -1,4 +1,6 @@
-FROM ubuntu:18.04
+FROM ubuntu:23.04
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
     && apt-get install -y -qq --no-install-recommends \
@@ -6,14 +8,16 @@ RUN apt-get update \
 	extra-cmake-modules \
 	g++ \
 	gettext \
+	libkf5plasma-dev \
 	libqalculate-dev \
 	libreadline-dev \
+	make \
 	pkg-config \
-	plasma-framework-dev \
 	qt5-qmake \
 	qtdeclarative5-dev \
     && rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT ["/bin/bash"]
+COPY build_plugin.sh /entrypoint.sh
 
-WORKDIR /qalculate
+ENTRYPOINT ["/entrypoint.sh"]
+
