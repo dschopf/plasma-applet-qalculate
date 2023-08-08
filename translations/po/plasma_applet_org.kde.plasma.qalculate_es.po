@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2023-01-11 18:26+0700\n"
+"POT-Creation-Date: 2023-08-08 10:04+0200\n"
 "PO-Revision-Date: 2016-09-12 19:18+0200\n"
 "Last-Translator: Obed González <obedlink@gmail.com>\n"
 "Language-Team: Obed González <obedlink@gmail.com>\n"
@@ -397,3 +397,8 @@ msgstr "Resultado"
 #, fuzzy
 msgid "Calculation timed out"
 msgstr "Timepo de espera para el cálculo"
+
+#: ../plugin/conversion.cpp:60
+#, fuzzy
+msgid "factors"
+msgstr "Factorizar"

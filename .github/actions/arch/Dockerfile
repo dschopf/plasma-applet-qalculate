@@ -1,6 +1,7 @@
 FROM archlinux:base-devel
 
-RUN pacman -Syq --noconfirm --noprogressbar \
+RUN pacman -Syu --noconfirm --noprogressbar && \
+        pacman -Syq --noconfirm --noprogressbar \
 	cmake \
 	extra-cmake-modules \
 	libqalculate \

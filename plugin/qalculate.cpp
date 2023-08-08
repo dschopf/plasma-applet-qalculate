@@ -41,8 +41,8 @@
 #define TIMEOUT m_config.timeout
 #endif
 
-namespace
-{
+namespace {
+  constexpr const char* APPROXIMATE_SIGN{"\u2248"};
   constexpr int HUGE_TIMEOUT_MS{10000000};
   constexpr auto print_limit_base2{"0xffffffff"};
   constexpr auto print_limit_base8{"0xffffffffffffffff"};
@@ -390,7 +390,8 @@ void Qalculate::updateExchangeRates()
     return;
 
   QNetworkRequest req(QUrl(m_pcalc->getExchangeRatesUrl().c_str()));
-  req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute,
+                   QNetworkRequest::NoLessSafeRedirectPolicy);
   m_netmgr.get(req);
 
   m_state.exchange_rate_updating = true;
@@ -488,7 +489,7 @@ void Qalculate::worker()
 #if defined(PRINT_CONTROL_INCLUDED)
       m_pcalc->startControl(m_config.timeout);
 #endif
-      if (checkInput(expr))
+      if (preprocessInput(expr))
         runCalculation(expr);
 #if defined(PRINT_CONTROL_INCLUDED)
       m_pcalc->stopControl();
@@ -503,14 +504,10 @@ void Qalculate::worker()
   }
 }
 
-bool Qalculate::checkInput(std::string& expr)
+bool Qalculate::preprocessInput(const std::string& expr)
 {
-  if (!m_config.detectTimestamps)
-    return true;
-
-  std::smatch m;
-
-  if (std::regex_match(expr, m, std::regex(R"(^\d{9,12}$)"))) {
+  if (std::smatch m; m_config.detectTimestamps &&
+                     std::regex_match(expr, m, std::regex(R"(^\d{9,12}$)"))) {
     QDateTime t;
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
@@ -519,9 +516,12 @@ bool Qalculate::checkInput(std::string& expr)
     t.setTime_t(std::atoll(m[0].str().c_str()));
 #endif
 
-    m_state.active_cb->onResultText(t.toString(Qt::SystemLocaleLongDate),
-                                    QString(), QString(), QString(), QString());
+    m_state.active_cb->onResultText(QLocale().toString(t), {}, {}, {}, {});
     return false;
+  }
+
+  if (m_pcalc->hasToExpression(expr)) {
+    return handleToExpression(expr);
   }
 
   return true;
@@ -568,7 +568,7 @@ void Qalculate::runCalculation(const std::string& expr)
 
 #if defined(INTERVAL_SUPPORT_INCLUDED)
   if (m_is_approximate)
-    result_string.prepend(QString::fromUtf8("\u2248"));
+    result_string.prepend(QString::fromUtf8(APPROXIMATE_SIGN));
 #endif
 
   m_state.active_cb->onResultText(result_string, output[0].second,

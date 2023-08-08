@@ -1,5 +1,6 @@
 find_package(PkgConfig)
 find_package(Readline)
+find_package(KF5I18n)
 
 pkg_check_modules(QALCULATE REQUIRED libqalculate>=0.9.8)
 pkg_check_modules(QALCULATE_2_0 QUIET libqalculate>=2.0.0)
@@ -9,12 +10,14 @@ pkg_check_modules(QALCULATE_2_6 QUIET libqalculate>=2.6.0)
 
 kde_enable_exceptions()
 
-set(plasmoidplugin_SRCS plasmoidplugin.cpp qalculate.cpp qwrapper.cpp)
+set(plasmoidplugin_SRCS conversion.cpp plasmoidplugin.cpp qalculate.cpp qwrapper.cpp)
 set(CMAKE_CXX_STANDARD 17)
 
 add_library(plasmoidplugin SHARED ${plasmoidplugin_SRCS})
 
 include_directories(${Readline_INCLUDE_DIR})
+
+target_link_libraries(plasmoidplugin KF5::I18n)
 
 if(${QALCULATE_2_6_FOUND})
   add_definitions(-DHAVE_QALCULATE_2_6_0)
@@ -68,7 +71,7 @@ else(${QALCULATE_2_6_FOUND})
   )
 endif(${QALCULATE_2_6_FOUND})
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror")
 
 install(TARGETS plasmoidplugin
         DESTINATION ${QML_INSTALL_DIR}/org/kde/private/qalculate
