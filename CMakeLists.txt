@@ -1,7 +1,7 @@
-project(Qalculate)
-
 # Set minimum CMake version (required for CMake 3.0 or later)
-cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
+
+project(Qalculate)
 
 set(QT_MIN_VERSION "5.4.0")
 set(KF5_MIN_VERSION "5.0.0")

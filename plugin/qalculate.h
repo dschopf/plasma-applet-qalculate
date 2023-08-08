@@ -160,7 +160,7 @@ public:
 
 private:
   void worker();
-  bool checkInput(std::string& expr);
+  bool preprocessInput(const std::string& expr);
   void runCalculation(const std::string& expr);
   bool checkReturnState();
   bool printResultInBase(MathStructure& result, print_result_t& output);
@@ -169,6 +169,10 @@ private:
 #if defined(LOCAL_CURRENCY_SUPPORTED)
   void initCurrencyList();
 #endif
+
+  // conversion handling in conversion.cpp
+  bool handleToExpression(const std::string& expr);
+  bool handleFactorize(const std::string& expr);
 
   std::unique_ptr<Calculator> m_pcalc;
   EvaluationOptions m_eval_options;
