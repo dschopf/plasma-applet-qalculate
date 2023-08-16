@@ -419,11 +419,7 @@ QString Qalculate::getExchangeRatesUpdateTime()
   auto t{m_pcalc->getExchangeRatesTime()};
 #endif
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
   dt.setSecsSinceEpoch(t);
-#else
-  dt.setTime_t(t);
-#endif
 
   return QLocale().toString(dt);
 }
@@ -529,11 +525,7 @@ bool Qalculate::preprocessInput(const std::string& expr)
                      std::regex_match(expr, m, std::regex(R"(^\d{9,12}$)"))) {
     QDateTime t;
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
     t.setSecsSinceEpoch(QString(m[0].str().c_str()).toLongLong());
-#else
-    t.setTime_t(std::atoll(m[0].str().c_str()));
-#endif
 
     m_state.active_cb->onResultText(QLocale().toString(t), {}, {}, {}, {});
     return false;
@@ -783,11 +775,7 @@ void Qalculate::fileDownloaded(QNetworkReply* pReply)
   auto t{m_pcalc->getExchangeRatesTime()};
 #endif
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
   dt.setSecsSinceEpoch(t);
-#else
-  dt.setTime_t(t);
-#endif
 
   std::unique_lock<std::mutex> _(m_state.mutex);
 
