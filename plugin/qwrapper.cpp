@@ -104,8 +104,9 @@ void QWrapper::launch(const QString& executable, const QString& args,
     list = args.split(' ', QString::SkipEmptyParts);
 #endif
 
-  for (auto& s : list)
+  for (auto& s : list) {
     s.replace(QString("${INPUT}"), expression);
+  }
 
   QProcess::startDetached(executable, list);
 }

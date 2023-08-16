@@ -125,8 +125,9 @@ void Qalculate::register_callbacks(IQWrapperCallbacks* p)
 
   if (std::find_if(std::begin(m_state.cbs), std::end(m_state.cbs),
                    [p](const IQWrapperCallbacks* q) { return p == q; }) ==
-      std::end(m_state.cbs))
+      std::end(m_state.cbs)) {
     m_state.cbs.push_back(p);
+  }
 }
 
 void Qalculate::unregister_callbacks(IQWrapperCallbacks* p)
@@ -135,8 +136,9 @@ void Qalculate::unregister_callbacks(IQWrapperCallbacks* p)
 
   auto it{std::find_if(std::begin(m_state.cbs), std::end(m_state.cbs),
                        [p](const IQWrapperCallbacks* q) { return p == q; })};
-  if (it != std::end(m_state.cbs))
+  if (it != std::end(m_state.cbs)) {
     m_state.cbs.erase(it);
+  }
 }
 
 void Qalculate::evaluate(const QString& input, const bool enter_pressed,
@@ -144,8 +146,9 @@ void Qalculate::evaluate(const QString& input, const bool enter_pressed,
 {
   std::unique_lock<std::mutex> _(m_state.mutex);
 
-  if (m_state.state == State::Stop)
+  if (m_state.state == State::Stop) {
     return;
+  }
 
   if (m_history.enabled && enter_pressed && !input.isEmpty() &&
       (input != m_history.last_entry)) {
@@ -153,18 +156,21 @@ void Qalculate::evaluate(const QString& input, const bool enter_pressed,
     add_history(m_history.last_entry.toStdString().c_str());
     append_history(1, m_history.filename.c_str());
 
-    for (auto& cb : m_state.cbs)
+    for (auto& cb : m_state.cbs) {
       cb->onHistoryModelChanged();
+    }
   }
 
   // abort active calculation for the same callback instance
   if (m_state.active_cb == cb) {
 #if !defined(PRINT_CONTROL_INCLUDED)
-    if (m_state.state == State::Printing)
+    if (m_state.state == State::Printing) {
       m_pcalc->abortPrint();
+    }
 #endif
-    if (m_state.state == State::Calculating)
+    if (m_state.state == State::Calculating) {
       m_pcalc->abort();
+    }
     m_state.aborted = true;
     m_state.cond.notify_all();
   }
@@ -174,8 +180,9 @@ void Qalculate::evaluate(const QString& input, const bool enter_pressed,
                        [cb](std::pair<IResultCallbacks*, QString>& q) {
                          return std::get<0>(q) == cb;
                        })};
-  if (it != std::end(m_state.queue))
+  if (it != std::end(m_state.queue)) {
     m_state.queue.erase(it);
+  }
 
   m_state.queue.push_back({cb, input});
   m_state.cond.notify_all();
@@ -187,8 +194,9 @@ void Qalculate::setDisableHistory(const bool disabled)
 {
   m_history.enabled = !disabled;
 
-  if (disabled)
+  if (disabled) {
     return;
+  }
 
   if (read_history(m_history.filename.c_str()) < 0) {
     m_history.enabled = false;
@@ -204,8 +212,9 @@ void Qalculate::setDisableHistory(const bool disabled)
 
 void Qalculate::setHistorySize(const int size)
 {
-  if (size > 0 && size < 1e7)
+  if (size > 0 && size < 1e7) {
     stifle_history(size);
+  }
 }
 
 void Qalculate::setAutoPostConversion(const int value)
@@ -274,8 +283,9 @@ void Qalculate::setAngleUnit(const int unit)
 
 void Qalculate::setExpressionBase(const int base)
 {
-  if (base > 1 && base < 65)
+  if (base > 1 && base < 65) {
     m_eval_options.parse_options.base = base;
+  }
 }
 
 void Qalculate::setEnableBase2(const bool enable)
@@ -300,8 +310,9 @@ void Qalculate::setEnableBase16(const bool enable)
 
 void Qalculate::setResultBase(const int base)
 {
-  if (base > 1 && base < 65)
+  if (base > 1 && base < 65) {
     m_print_options.base = base;
+  }
 }
 
 void Qalculate::setDetectTimestamps(const bool enable)
@@ -386,8 +397,9 @@ void Qalculate::updateExchangeRates()
 {
   std::unique_lock<std::mutex> _(m_state.mutex);
 
-  if (m_state.exchange_rate_updating)
+  if (m_state.exchange_rate_updating) {
     return;
+  }
 
   QNetworkRequest req(QUrl(m_pcalc->getExchangeRatesUrl().c_str()));
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute,
@@ -419,8 +431,9 @@ QString Qalculate::getExchangeRatesUpdateTime()
 QStringList Qalculate::getSupportedCurrencies()
 {
 #if defined(LOCAL_CURRENCY_SUPPORTED)
-  if (!m_currencies.length())
+  if (!m_currencies.length()) {
     initCurrencyList();
+  }
 
   return m_currencies;
 #else
@@ -431,12 +444,14 @@ QStringList Qalculate::getSupportedCurrencies()
 void Qalculate::setDefaultCurrency(const int currency_idx)
 {
 #if defined(LOCAL_CURRENCY_SUPPORTED)
-  if (!m_currencies.length())
+  if (!m_currencies.length()) {
     initCurrencyList();
+  }
 
   if (currency_idx < 0 || currency_idx >= m_currencies.length()) {
-    if (currency_idx == -1)
+    if (currency_idx == -1) {
       m_pcalc->setLocalCurrency(nullptr);
+    }
     return;
   }
 
@@ -454,8 +469,9 @@ int Qalculate::historyEntries()
 
 QString Qalculate::getHistoryEntry(int index)
 {
-  if (index > history_length || index < 0)
+  if (index > history_length || index < 0) {
     return QString();
+  }
 
   auto* entry{history_get(history_length - index)};
 
@@ -464,8 +480,9 @@ QString Qalculate::getHistoryEntry(int index)
 
 QString Qalculate::historyFilename() const
 {
-  if (m_history.filename.empty())
+  if (m_history.filename.empty()) {
     return QString();
+  }
 
   return QString(m_history.filename.c_str());
 }
@@ -489,8 +506,9 @@ void Qalculate::worker()
 #if defined(PRINT_CONTROL_INCLUDED)
       m_pcalc->startControl(m_config.timeout);
 #endif
-      if (preprocessInput(expr))
+      if (preprocessInput(expr)) {
         runCalculation(expr);
+      }
 #if defined(PRINT_CONTROL_INCLUDED)
       m_pcalc->stopControl();
 #endif
@@ -499,8 +517,9 @@ void Qalculate::worker()
 
     m_state.state = State::Idle;
     m_state.active_cb = nullptr;
-    while (m_state.queue.empty() && m_state.state != State::Stop)
+    while (m_state.queue.empty() && m_state.state != State::Stop) {
       m_state.cond.wait(lock);
+    }
   }
 }
 
@@ -536,12 +555,14 @@ void Qalculate::runCalculation(const std::string& expr)
 
 #if defined(PRINT_CONTROL_INCLUDED)
   result = m_pcalc->calculate(expr, m_eval_options);
-  if (checkReturnState())
+  if (checkReturnState()) {
     return;
+  }
 #else
   const bool res{m_pcalc->calculate(&result, expr, TIMEOUT, m_eval_options)};
-  if (!res && checkReturnState())
+  if (!res && checkReturnState()) {
     return;
+  }
 #endif
 
 #if !defined(PRINT_CONTROL_INCLUDED)
@@ -567,8 +588,9 @@ void Qalculate::runCalculation(const std::string& expr)
   }
 
 #if defined(INTERVAL_SUPPORT_INCLUDED)
-  if (m_is_approximate)
+  if (m_is_approximate) {
     result_string.prepend(QString::fromUtf8(APPROXIMATE_SIGN));
+  }
 #endif
 
   m_state.active_cb->onResultText(result_string, output[0].second,
@@ -610,21 +632,24 @@ bool Qalculate::printResultInBase(MathStructure& result, print_result_t& output)
 
 bool Qalculate::isBaseEnabled(const uint8_t base, MathStructure& result)
 {
-  if (!result.representsInteger())
+  if (!result.representsInteger()) {
     return false;
+  }
 
   switch (base) {
     case 2:
 #if defined(HAVE_BINARY_TWOS_COMPLEMENT_OPTION)
       if (m_config.enable_base2 && m_print_options.twos_complement) {
         auto num{result.number()};
-        if (num.isNegative())
+        if (num.isNegative()) {
           num.negate();
+        }
         return result.representsNumber() && !result.isZero() &&
                num.isLessThan(m_print_limits[2]);
-      } else
+      } else {
         return result.representsPositive() &&
                result.number().isLessThan(m_print_limits[2]);
+      }
 #else
       return m_config.enable_base2 && result.representsPositive() &&
              result.number().isLessThan(m_print_limits[2]);
@@ -656,8 +681,9 @@ void Qalculate::initHistoryFile()
 
   auto ret{stat(file_path.c_str(), &st)};
   if (ret < 0) {
-    if (errno == ENOENT)
+    if (errno == ENOENT) {
       ret = mkdir(file_path.c_str(), S_IRWXU);
+    }
     if (ret < 0) {
       m_history.enabled = false;
       return;
@@ -692,22 +718,27 @@ void Qalculate::initCurrencyList()
     if (u->isActive() && u->isCurrency()) {
       QString s = u->referenceName().c_str();
       QString p = u->print(false, false, false).c_str();
-      if (p == s)
+      if (p == s) {
         p.clear();
+      }
       QString a = u->abbreviation(false, true).c_str();
-      if (a == s)
+      if (a == s) {
         a.clear();
-      if (a == p)
+      }
+      if (a == p) {
         a.clear();
+      }
       if (!p.isEmpty() || !a.isEmpty()) {
         s += " (";
         if (!p.isEmpty()) {
           s += p;
-          if (!a.isEmpty())
+          if (!a.isEmpty()) {
             s += " - ";
+          }
         }
-        if (!a.isEmpty())
+        if (!a.isEmpty()) {
           s += a;
+        }
         s += ")";
       }
       m_currencies << s;
@@ -721,9 +752,10 @@ void Qalculate::initCurrencyList()
 
 void Qalculate::fileDownloaded(QNetworkReply* pReply)
 {
-  if (pReply->error() != QNetworkReply::NoError)
+  if (pReply->error() != QNetworkReply::NoError) {
     qDebug() << "[Qalculate!] Error downloading exchange rates ("
              << pReply->error() << "): " << pReply->errorString();
+  }
 
   QByteArray data = pReply->readAll();
 
@@ -759,8 +791,9 @@ void Qalculate::fileDownloaded(QNetworkReply* pReply)
 
   std::unique_lock<std::mutex> _(m_state.mutex);
 
-  for (auto& cb : m_state.cbs)
+  for (auto& cb : m_state.cbs) {
     cb->onExchangeRatesUpdated(QLocale().toString(dt));
+  }
 
   m_state.exchange_rate_updating = false;
 }
