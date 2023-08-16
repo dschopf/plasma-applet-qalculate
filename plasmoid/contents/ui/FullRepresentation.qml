@@ -292,6 +292,13 @@ Item {
             historyList.currentIndex = index
             inputQuery.text = historyList.currentItem.text
           }
+          onDoubleClicked: {
+            historyList.currentIndex = index
+            inputQuery.text = historyList.currentItem.text
+            clHistory.visible = false
+            clMain.visible = true
+            onNewInput(inputQuery.text, false)
+          }
         }
       }
     }
