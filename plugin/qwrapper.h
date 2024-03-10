@@ -1,4 +1,4 @@
-//  Copyright (c) 2016 - 2023 Daniel Schopf <schopfdan@gmail.com>
+//  Copyright (c) 2016 - 2024 Daniel Schopf <schopfdan@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining
 //  a copy of this software and associated documentation files (the "Software"),
@@ -51,7 +51,7 @@ class QWrapper : public QObject, public IQWrapperCallbacks, public IResultCallba
   Q_OBJECT
 
 public:
-  explicit QWrapper(QObject* parent = 0);
+  explicit QWrapper(QObject* parent = nullptr);
   ~QWrapper();
 
   // IResultCallbacks
@@ -109,7 +109,7 @@ public Q_SLOTS:
   int historyEntries();
   QString historyFilename() const;
 
-signals:
+Q_SIGNALS:
   void resultText(QString result, QString resultBase2, QString resultBase8, QString resultBase10, QString resultBase16);
   void calculationTimeout();
   void exchangeRatesUpdated(QString date);

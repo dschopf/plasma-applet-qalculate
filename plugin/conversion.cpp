@@ -1,4 +1,4 @@
-//  Copyright (c) 2016 - 2023 Daniel Schopf <schopfdan@gmail.com>
+//  Copyright (c) 2016 - 2024 Daniel Schopf <schopfdan@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining
 //  a copy of this software and associated documentation files (the "Software"),
@@ -20,6 +20,7 @@
 
 #include <functional>
 #include <regex>
+#include <string>
 
 #include <pwd.h>
 #include <readline/history.h>
@@ -30,7 +31,7 @@
 #include <QNetworkRequest>
 #include <QProcess>
 
-#define TRANSLATION_DOMAIN "plasma_applet_org.kde.plasma.qalculate"
+#define TRANSLATION_DOMAIN "plasma_applet_com.dschopf.plasma.qalculate"
 #include <klocalizedstring.h>
 
 #include "qwrapper.h"
@@ -44,43 +45,170 @@ namespace {
   {
     QString res;
     for (size_t i{0}; i < values.size(); ++i) {
-      res += values[i].print().c_str();
+      res.append(QString::fromStdString(values[i].print()));
       if (i < values.size() - 1) {
-        res.append(' ').append(sign).append(' ');
+        res.append(QChar::SpecialCharacter::Space).append(QString::fromLatin1(sign)).append(QChar::SpecialCharacter::Space);
       }
     }
     return res;
   }
+
+  auto getFunction(const QString& target, const Qalculate* q)
+  {
+    static const std::map<QStringList, std::function<bool(const QString&)>> map{
+        {{QString::fromLatin1("factors"), i18n("factors")},
+         [q](const QString& expr) { return q->handleFactorize(expr); }},
+        {{QString::fromLatin1("roman"), i18n("roman")},
+         [q](const QString& expr) {
+           return q->handleBaseConversion(expr, BASE_ROMAN_NUMERALS);
+         }},
+        {{QString::fromLatin1("binary"), i18n("Binary")},
+         [q](const QString& expr) {
+           return q->handleBaseConversion(expr, BASE_BINARY);
+         }},
+        {{QString::fromLatin1("octal"), i18n("octal")},
+         [q](const QString& expr) {
+           return q->handleBaseConversion(expr, BASE_OCTAL);
+         }},
+        {{QString::fromLatin1("decimal"), i18n("decimal")},
+         [q](const QString& expr) {
+           return q->handleBaseConversion(expr, BASE_DECIMAL);
+         }},
+        {{QString::fromLatin1("duodecimal"), i18n("duodecimal")},
+         [q](const QString& expr) {
+           return q->handleBaseConversion(expr, BASE_DUODECIMAL);
+         }},
+        {{QString::fromLatin1("hex"), QString::fromLatin1("hexadecimal"), i18n("hexadecimal")}, [q](const QString& expr) {
+           return q->handleBaseConversion(expr, BASE_HEXADECIMAL);
+         }}};
+
+    for (const auto& item : map) {
+      if (item.first.contains(target)) {
+        return item.second;
+      }
+    }
+
+    throw std::out_of_range("No matching function found");
+  }
 } // namespace
+
+bool Qalculate::handleConversion(const std::string& expr)
+{
+  if (std::smatch m; m_config.detectTimestamps &&
+                     std::regex_match(expr, m, std::regex(R"(^\d{9,12}$)"))) {
+    QDateTime t{};
+
+    t.setSecsSinceEpoch(QString::fromStdString(m[0].str()).toLongLong());
+
+    m_state.active_cb->onResultText(QLocale().toString(t), {}, {}, {}, {});
+
+    return true;
+  }
+
+  // "to" detection using qalculate library
+  if (m_pcalc->hasToExpression(expr)) {
+    return handleToExpression(expr);
+  }
+
+  // also detect "in" cases, for now only numbers without units
+  // separated by space
+  const auto items{QString::fromStdString(expr).split(QChar::SpecialCharacter::Space)};
+
+  if (items.size() == 3 && items[1] == QString::fromLatin1("in")) {
+    return handleInExpression(items);
+  }
+
+  if (items.size() == 4 && items[1] == QString::fromLatin1("in") &&
+      (items[2] == QString::fromLatin1("base") || items[2] == i18n("base"))) {
+      try {
+        const auto base{std::stoul(items[3].toStdString())};
+        return handleBaseConversionCustom(items[0], base);
+      } catch (const std::exception&) {
+        return false;
+      }
+  }
+
+  return false;
+}
 
 bool Qalculate::handleToExpression(const std::string& expr)
 {
   std::string value{expr};
   std::string target{};
+
   if (!m_pcalc->separateToExpression(value, target, m_eval_options)) {
-    return true;
+    return false;
   }
 
-  if (target == "factors" ||
-      QString::fromStdString(target) == i18n("factors")) {
-    return handleFactorize(value);
+  try {
+    return getFunction(QString::fromStdString(target),
+                       this)(QString::fromStdString(value));
+  } catch (const std::out_of_range&) {
+    return false;
   }
-
-  return true;
 }
 
-bool Qalculate::handleFactorize(const std::string& value)
+bool Qalculate::handleInExpression(const QStringList& items)
 {
-  Number number{value};
+  try {
+    return getFunction(items[2], this)(items[0]);
+  } catch (const std::out_of_range&) {
+    return false;
+  }
+}
+
+bool Qalculate::handleFactorize(const QString& value) const
+{
+  Number number{value.toStdString()};
   std::vector<Number> result;
 
   number.factorize(result);
 
-  QString result_string{value.c_str()};
+  QString result_string{value};
 
-  result_string += QString(" = ") + expandVector(result);
+  result_string += QString::fromLatin1(" = ") + expandVector(result);
 
   m_state.active_cb->onResultText(result_string, {}, {}, {}, {});
 
-  return false;
+  return true;
+}
+
+bool Qalculate::handleBaseConversion(const QString& value, uint16_t base) const
+{
+  // static const std::map<uint16_t, const char*> prefix{
+  //     {2, "0b"}, {8, "0o"}, {16, "0x"}};
+
+  Number number{value.toStdString()};
+
+  PrintOptions po{m_print_options};
+  po.base = base;
+
+  std::string res{};
+  // if (auto it{prefix.find(base)}; it != prefix.end()) {
+  //   res = it->second;
+  // }
+  res += number.print(po);
+
+  m_state.active_cb->onResultText(QString::fromStdString(res), {}, {}, {}, {});
+
+  return true;
+}
+
+bool Qalculate::handleBaseConversionCustom(const QString& value,
+                                           uint16_t base) const
+{
+  Number number{value.toStdString()};
+
+  PrintOptions po{m_print_options};
+  po.base = BASE_CUSTOM;
+  auto temp{m_pcalc->customOutputBase()};
+  m_pcalc->setCustomOutputBase(base);
+
+  std::string res{number.print(po)};
+
+  m_state.active_cb->onResultText(QString::fromStdString(res), {}, {}, {}, {});
+
+  m_pcalc->setCustomOutputBase(temp);
+
+  return true;
 }

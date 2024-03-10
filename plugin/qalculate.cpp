@@ -1,4 +1,4 @@
-//  Copyright (c) 2016 - 2023 Daniel Schopf <schopfdan@gmail.com>
+//  Copyright (c) 2016 - 2024 Daniel Schopf <schopfdan@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining
 //  a copy of this software and associated documentation files (the "Software"),
@@ -32,14 +32,8 @@
 
 #include "qwrapper.h"
 
-#if defined(PRINT_CONTROL_INCLUDED)
 #define PRINT_RESULT(a, b, c) QString::fromStdString(m_pcalc->print(a, b, c))
 #define TIMEOUT HUGE_TIMEOUT_MS
-#else
-#define PRINT_RESULT(a, b, c)                                                  \
-  QString::fromStdString(m_pcalc->printMathStructureTimeOut(a, b, c))
-#define TIMEOUT m_config.timeout
-#endif
 
 namespace {
   constexpr const char* APPROXIMATE_SIGN{"\u2248"};
@@ -78,14 +72,9 @@ Qalculate::Qalculate()
   m_print_options.base = 10;
   m_print_options.min_exp = EXP_NONE;
   m_print_options.use_unicode_signs = true;
-#if defined(HAVE_BINARY_TWOS_COMPLEMENT_OPTION)
   m_print_options.twos_complement = true;
-#endif
-
-#if defined(INTERVAL_SUPPORT_INCLUDED)
   m_print_options.is_approximate = &m_is_approximate;
   m_print_options.interval_display = INTERVAL_DISPLAY_MIDPOINT;
-#endif
 
   ParseOptions popts;
 
@@ -163,11 +152,6 @@ void Qalculate::evaluate(const QString& input, const bool enter_pressed,
 
   // abort active calculation for the same callback instance
   if (m_state.active_cb == cb) {
-#if !defined(PRINT_CONTROL_INCLUDED)
-    if (m_state.state == State::Printing) {
-      m_pcalc->abortPrint();
-    }
-#endif
     if (m_state.state == State::Calculating) {
       m_pcalc->abort();
     }
@@ -203,7 +187,7 @@ void Qalculate::setDisableHistory(const bool disabled)
   } else {
     auto* h{history_get(history_length)};
     if (h && h->line) {
-      m_history.last_entry = h->line;
+      m_history.last_entry = QString::fromLatin1(h->line);
     } else {
       m_history.last_entry.clear();
     }
@@ -254,7 +238,7 @@ void Qalculate::setStructuringMode(const int mode)
 
 void Qalculate::setDecimalSeparator(const QString& separator)
 {
-  if (separator == ",") {
+  if (separator == QChar::fromLatin1(',')) {
     m_print_options.decimalpoint_sign = ',';
     m_pcalc->useDecimalComma();
   } else {
@@ -381,11 +365,7 @@ void Qalculate::setNegativeExponents(const bool value)
 
 void Qalculate::setNegativeBinaryTwosComplement(const bool value)
 {
-#if defined(HAVE_BINARY_TWOS_COMPLEMENT_OPTION)
   m_print_options.twos_complement = value;
-#else
-  (void)value;
-#endif
 }
 
 void Qalculate::setUnicodeEnabled(const bool value)
@@ -401,7 +381,7 @@ void Qalculate::updateExchangeRates()
     return;
   }
 
-  QNetworkRequest req(QUrl(m_pcalc->getExchangeRatesUrl().c_str()));
+  QNetworkRequest req(QUrl(QString::fromStdString(m_pcalc->getExchangeRatesUrl())));
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute,
                    QNetworkRequest::NoLessSafeRedirectPolicy);
   m_netmgr.get(req);
@@ -413,11 +393,7 @@ QString Qalculate::getExchangeRatesUpdateTime()
 {
   QDateTime dt;
 
-#if defined(HAVE_QALCULATE_2_6_0)
   auto t{m_pcalc->getExchangeRatesTime(1)};
-#else
-  auto t{m_pcalc->getExchangeRatesTime()};
-#endif
 
   dt.setSecsSinceEpoch(t);
 
@@ -426,20 +402,15 @@ QString Qalculate::getExchangeRatesUpdateTime()
 
 QStringList Qalculate::getSupportedCurrencies()
 {
-#if defined(LOCAL_CURRENCY_SUPPORTED)
   if (!m_currencies.length()) {
     initCurrencyList();
   }
 
   return m_currencies;
-#else
-  return QStringList();
-#endif
 }
 
 void Qalculate::setDefaultCurrency(const int currency_idx)
 {
-#if defined(LOCAL_CURRENCY_SUPPORTED)
   if (!m_currencies.length()) {
     initCurrencyList();
   }
@@ -451,11 +422,8 @@ void Qalculate::setDefaultCurrency(const int currency_idx)
     return;
   }
 
-  const QString c = m_currencies[currency_idx].split(' ')[0];
+  const QString c = m_currencies[currency_idx].split(QChar::SpecialCharacter::Space)[0];
   m_pcalc->setLocalCurrency(m_pcalc->getActiveUnit(c.toUtf8().data()));
-#else
-  (void)currency_idx;
-#endif
 }
 
 int Qalculate::historyEntries()
@@ -466,21 +434,21 @@ int Qalculate::historyEntries()
 QString Qalculate::getHistoryEntry(int index)
 {
   if (index > history_length || index < 0) {
-    return QString();
+    return {};
   }
 
   auto* entry{history_get(history_length - index)};
 
-  return entry ? QString(entry->line) : QString();
+  return entry ? QString::fromStdString(entry->line) : QString();
 }
 
 QString Qalculate::historyFilename() const
 {
   if (m_history.filename.empty()) {
-    return QString();
+    return {};
   }
 
-  return QString(m_history.filename.c_str());
+  return QString::fromStdString(m_history.filename);
 }
 
 void Qalculate::worker()
@@ -495,19 +463,13 @@ void Qalculate::worker()
       m_state.active_cb = std::get<0>(input);
       auto expr{m_pcalc->unlocalizeExpression(std::get<1>(input).toStdString(),
                                               m_eval_options.parse_options)};
-#if defined(INTERVAL_SUPPORT_INCLUDED)
       m_is_approximate = false;
-#endif
       lock.unlock();
-#if defined(PRINT_CONTROL_INCLUDED)
       m_pcalc->startControl(m_config.timeout);
-#endif
-      if (preprocessInput(expr)) {
+      if (!handleConversion(expr)) {
         runCalculation(expr);
       }
-#if defined(PRINT_CONTROL_INCLUDED)
       m_pcalc->stopControl();
-#endif
       lock.lock();
     }
 
@@ -519,25 +481,6 @@ void Qalculate::worker()
   }
 }
 
-bool Qalculate::preprocessInput(const std::string& expr)
-{
-  if (std::smatch m; m_config.detectTimestamps &&
-                     std::regex_match(expr, m, std::regex(R"(^\d{9,12}$)"))) {
-    QDateTime t;
-
-    t.setSecsSinceEpoch(QString(m[0].str().c_str()).toLongLong());
-
-    m_state.active_cb->onResultText(QLocale().toString(t), {}, {}, {}, {});
-    return false;
-  }
-
-  if (m_pcalc->hasToExpression(expr)) {
-    return handleToExpression(expr);
-  }
-
-  return true;
-}
-
 void Qalculate::runCalculation(const std::string& expr)
 {
   MathStructure result;
@@ -545,33 +488,18 @@ void Qalculate::runCalculation(const std::string& expr)
   // use a huge timeout values here, the wrapping control should handle our real
   // timeout
 
-#if defined(PRINT_CONTROL_INCLUDED)
   result = m_pcalc->calculate(expr, m_eval_options);
   if (checkReturnState()) {
     return;
   }
-#else
-  const bool res{m_pcalc->calculate(&result, expr, TIMEOUT, m_eval_options)};
-  if (!res && checkReturnState()) {
-    return;
-  }
-#endif
 
-#if !defined(PRINT_CONTROL_INCLUDED)
-  {
-    std::unique_lock<std::mutex> lock(m_state.mutex);
-    m_state.state = State::Printing;
-  }
-  m_pcalc->startPrintControl(m_config.timeout);
-  auto se{create_scope_exit([this]() { m_pcalc->stopPrintControl(); })};
-#endif
   QString result_string(PRINT_RESULT(result, HUGE_TIMEOUT_MS, m_print_options));
   if (result_string.isEmpty() || checkReturnState()) {
     return;
   }
 
   // map of base and result string
-  res_vector_t output = {{2, ""}, {8, ""}, {10, ""}, {16, ""}};
+  res_vector_t output = {{2, {}}, {8, {}}, {10, {}}, {16, {}}};
 
   for (auto& i : output) {
     if (printResultInBase(result, i)) {
@@ -579,11 +507,9 @@ void Qalculate::runCalculation(const std::string& expr)
     }
   }
 
-#if defined(INTERVAL_SUPPORT_INCLUDED)
   if (m_is_approximate) {
     result_string.prepend(QString::fromUtf8(APPROXIMATE_SIGN));
   }
-#endif
 
   m_state.active_cb->onResultText(result_string, output[0].second,
                                   output[1].second, output[2].second,
@@ -599,11 +525,7 @@ bool Qalculate::checkReturnState()
       return true;
     }
   }
-#if defined(PRINT_CONTROL_INCLUDED)
   if (m_pcalc->aborted()) {
-#else
-  if (m_pcalc->printingAborted()) {
-#endif
     m_state.active_cb->onCalculationTimeout();
     return true;
   }
@@ -630,7 +552,6 @@ bool Qalculate::isBaseEnabled(const uint8_t base, MathStructure& result)
 
   switch (base) {
     case 2:
-#if defined(HAVE_BINARY_TWOS_COMPLEMENT_OPTION)
       if (m_config.enable_base2 && m_print_options.twos_complement) {
         auto num{result.number()};
         if (num.isNegative()) {
@@ -642,10 +563,6 @@ bool Qalculate::isBaseEnabled(const uint8_t base, MathStructure& result)
         return result.representsPositive() &&
                result.number().isLessThan(m_print_limits[2]);
       }
-#else
-      return m_config.enable_base2 && result.representsPositive() &&
-             result.number().isLessThan(m_print_limits[2]);
-#endif
     case 8:
       return m_config.enable_base8 && result.representsPositive() &&
              result.number().isLessThan(m_print_limits[8]);
@@ -700,20 +617,18 @@ void Qalculate::initHistoryFile()
   m_history.filename.swap(file_path);
 }
 
-#if defined(LOCAL_CURRENCY_SUPPORTED)
-
 void Qalculate::initCurrencyList()
 {
   m_currencies.clear();
 
   for (auto& u : m_pcalc->units) {
     if (u->isActive() && u->isCurrency()) {
-      QString s = u->referenceName().c_str();
-      QString p = u->print(false, false, false).c_str();
+      auto s{QString::fromStdString(u->referenceName())};
+      auto p{QString::fromStdString(u->print(false, false, false))};
       if (p == s) {
         p.clear();
       }
-      QString a = u->abbreviation(false, true).c_str();
+      auto a{QString::fromStdString(u->abbreviation(false, true))};
       if (a == s) {
         a.clear();
       }
@@ -721,17 +636,17 @@ void Qalculate::initCurrencyList()
         a.clear();
       }
       if (!p.isEmpty() || !a.isEmpty()) {
-        s += " (";
+        s += QString::fromLatin1(" (");
         if (!p.isEmpty()) {
           s += p;
           if (!a.isEmpty()) {
-            s += " - ";
+            s += QString::fromLatin1(" - ");
           }
         }
         if (!a.isEmpty()) {
           s += a;
         }
-        s += ")";
+        s += QChar::fromLatin1(')');
       }
       m_currencies << s;
     }
@@ -739,8 +654,6 @@ void Qalculate::initCurrencyList()
 
   m_currencies.sort();
 }
-
-#endif
 
 void Qalculate::fileDownloaded(QNetworkReply* pReply)
 {
@@ -753,7 +666,7 @@ void Qalculate::fileDownloaded(QNetworkReply* pReply)
 
   pReply->deleteLater();
 
-  QFile file(m_pcalc->getExchangeRatesFileName().c_str());
+  QFile file(QString::fromStdString(m_pcalc->getExchangeRatesFileName()));
 
   if (!file.open(QIODevice::WriteOnly)) {
     qDebug() << "[Qalculate!] Error opening exchange rates file";
@@ -769,11 +682,7 @@ void Qalculate::fileDownloaded(QNetworkReply* pReply)
 
   QDateTime dt;
 
-#if defined(HAVE_QALCULATE_2_6_0)
   auto t{m_pcalc->getExchangeRatesTime(1)};
-#else
-  auto t{m_pcalc->getExchangeRatesTime()};
-#endif
 
   dt.setSecsSinceEpoch(t);
 
