@@ -16,8 +16,8 @@ RUN pacman -Syq --noconfirm --noprogressbar \
 	cmake \
 	extra-cmake-modules \
 	libqalculate \
-	plasma-framework \
-	qt5-declarative
+	plasma-sdk \
+	qt6-declarative
 
 ENTRYPOINT ["/bin/bash"]
 
