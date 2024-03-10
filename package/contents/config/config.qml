@@ -18,29 +18,29 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 //  IN THE SOFTWARE.
 
-import QtQuick 2.0
+import QtQuick
 
-import org.kde.plasma.configuration 2.0
+import org.kde.plasma.configuration
 
 ConfigModel {
     ConfigCategory {
          name: i18n('General')
-         icon: Qt.resolvedUrl('../images/Qalculate.svg').replace('file://', '')
+         icon: Qt.resolvedUrl('../images/Qalculate.svg').toString().replace('file://', '')
          source: 'config/General.qml'
     }
     ConfigCategory {
          name: i18n('Input')
-         icon: Qt.resolvedUrl('../images/Qalculate.svg').replace('file://', '')
+         icon: Qt.resolvedUrl('../images/Qalculate.svg').toString().replace('file://', '')
          source: 'config/Input.qml'
     }
     ConfigCategory {
          name: i18n('Output')
-         icon: Qt.resolvedUrl('../images/Qalculate.svg').replace('file://', '')
+         icon: Qt.resolvedUrl('../images/Qalculate.svg').toString().replace('file://', '')
          source: 'config/Output.qml'
     }
     ConfigCategory {
          name: i18n('Currency')
-         icon: Qt.resolvedUrl('../images/Qalculate.svg').replace('file://', '')
+         icon: Qt.resolvedUrl('../images/Qalculate.svg').toString().replace('file://', '')
          source: 'config/Currency.qml'
     }
 }

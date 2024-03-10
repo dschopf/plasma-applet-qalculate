@@ -18,16 +18,16 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 //  IN THE SOFTWARE.
 
-import QtQuick 2.0
-import QtQuick.Controls 2.2
-import QtQuick.Dialogs 1.2
-import QtQuick.Layouts 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Dialogs
+import QtQuick.Layouts
 
-import org.kde.plasma.components 2.0 as PlasmaComponents
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.kquickcontrolsaddons 2.0 as KQuickAddons
+import org.kde.plasma.components  as PlasmaComponents
+import org.kde.plasma.core as PlasmaCore
+import org.kde.kquickcontrolsaddons  as KQuickAddons
 
-import org.kde.private.qalculate 1.0
+import org.kde.private.qalculate
 
 import "../../code/tools.js" as Tools
 

@@ -1,0 +1,21 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "schopf.dan@gmail.com",
+                "Name": "Daniel Schopf"
+            }
+        ],
+        "Category": "Utilities",
+        "Description": "Qalculate! applet for Plasma desktop",
+        "Description[hr]": "Qalculate! Programčić za radnu površinu Plasma",
+        "Icon": "/usr/share/plasma/plasmoids/org.kde.plasma.private.qalculate/contents/images/Qalculate.svg",
+        "Id": "org.kde.plasma.private.qalculate",
+        "License": "MIT",
+        "Name": "Qalculate!",
+        "Version": "0.10.0",
+        "Website": "https://store.kde.org/p/1155946"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0"
+}

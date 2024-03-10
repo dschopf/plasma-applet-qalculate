@@ -502,7 +502,7 @@ void Qalculate::worker()
 #if defined(PRINT_CONTROL_INCLUDED)
       m_pcalc->startControl(m_config.timeout);
 #endif
-      if (preprocessInput(expr)) {
+      if (!handleConversion(expr)) {
         runCalculation(expr);
       }
 #if defined(PRINT_CONTROL_INCLUDED)
@@ -517,25 +517,6 @@ void Qalculate::worker()
       m_state.cond.wait(lock);
     }
   }
-}
-
-bool Qalculate::preprocessInput(const std::string& expr)
-{
-  if (std::smatch m; m_config.detectTimestamps &&
-                     std::regex_match(expr, m, std::regex(R"(^\d{9,12}$)"))) {
-    QDateTime t;
-
-    t.setSecsSinceEpoch(QString(m[0].str().c_str()).toLongLong());
-
-    m_state.active_cb->onResultText(QLocale().toString(t), {}, {}, {}, {});
-    return false;
-  }
-
-  if (m_pcalc->hasToExpression(expr)) {
-    return handleToExpression(expr);
-  }
-
-  return true;
 }
 
 void Qalculate::runCalculation(const std::string& expr)

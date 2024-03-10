@@ -32,7 +32,7 @@ else(NOT GETTEXT_MSGFMT_EXECUTABLE)
       )
       install(
         FILES ${_gmoFile}
-        DESTINATION ${LOCALE_INSTALL_DIR}/${_langCode}/LC_MESSAGES/
+        DESTINATION ${KDE_INSTALL_FULL_LOCALEDIR}/${_langCode}/LC_MESSAGES/
         RENAME ${catalogname}.mo
       )
       list(APPEND GMO_FILES ${_gmoFile})

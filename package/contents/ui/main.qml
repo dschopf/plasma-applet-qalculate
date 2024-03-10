@@ -18,16 +18,19 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 //  IN THE SOFTWARE.
 
-import QtQuick 2.0
-import QtQuick.Layouts 1.1
+import QtQuick
+import QtQuick.Layouts
 
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.plasmoid 2.0
-import org.kde.private.qalculate 1.0
+import org.kde.kirigami as Kirigami
+import org.kde.ksvg as KSvg
+import org.kde.plasma.core as PlasmaCore
+import org.kde.plasma.plasmoid
+
+import org.kde.plasma.private.qalculate
 
 import "../code/tools.js" as Tools
 
-Item {
+PlasmoidItem {
     id:main
 
     QWrapper {
@@ -38,7 +41,7 @@ Item {
     }
 
     property bool fromCompact: false
-    property bool debugLogging: false
+    property bool debugLogging: true
 
     readonly property bool inPanel: (plasmoid.location === PlasmaCore.Types.TopEdge
         || plasmoid.location === PlasmaCore.Types.RightEdge
@@ -79,15 +82,15 @@ Item {
     property int resultBase: plasmoid.configuration.resultBase
     property bool unicodeEnabled: plasmoid.configuration.unicode
 
-    Plasmoid.switchWidth: PlasmaCore.Units.gridUnit * 20
-    Plasmoid.switchHeight: PlasmaCore.Units.gridUnit * 30
+    switchWidth: Kirigami.Units.gridUnit * 20
+    switchHeight: Kirigami.Units.gridUnit * 30
 
     Component {
       id: compactRepresentation
       Item {
         id: root
 
-        PlasmaCore.IconItem {
+        Kirigami.Icon {
           id: defaultPanelIcon
           anchors.fill: parent
           visible: false
@@ -95,7 +98,7 @@ Item {
           source: plasmoid.configuration.qalculateIcon
         }
 
-        PlasmaCore.SvgItem {
+        KSvg.SvgItem {
           id: qalculateSvgIcon
           visible: true
           anchors.horizontalCenter: parent.horizontalCenter
@@ -103,7 +106,7 @@ Item {
           height: Math.min(parent.height, parent.width)
           width: height
           smooth: true
-          svg: PlasmaCore.Svg {
+          svg: KSvg.Svg {
             imagePath: plasmoid.configuration.qalculateIcon
             onImagePathChanged: {
               qalculateSvgIcon.visible = isValid()
@@ -118,56 +121,56 @@ Item {
           hoverEnabled: true
           onClicked: {
             main.fromCompact = true
-            plasmoid.expanded = !plasmoid.expanded;
+            main.expanded = !main.expanded
           }
         }
 
-        Layout.minimumWidth: {
-          if (!inPanel)
-            return PlasmaCore.Units.iconSizeHints.panel;
-
-          if (vertical) {
-            return -1;
-          } else {
-            return Math.min(PlasmaCore.Units.iconSizeHints.panel, parent.height) * defaultPanelIcon.aspectRatio;
-          }
-        }
-
-        Layout.minimumHeight: {
-          if (!inPanel) {
-            return PlasmaCore.Units.iconSizeHints.panel;
-          }
-
-          if (vertical) {
-            return Math.min(PlasmaCore.Units.iconSizeHints.panel, parent.width) * defaultPanelIcon.aspectRatio;
-          } else {
-            return -1;
-          }
-        }
-
-        Layout.maximumWidth: {
-          if (!inPanel) {
-            return -1;
-          }
-
-          if (vertical) {
-            return PlasmaCore.Units.iconSizeHints.panel;
-          } else {
-            return Math.min(PlasmaCore.Units.iconSizeHints.panel, parent.height) * defaultPanelIcon.aspectRatio;
-          }
-        }
-
-        Layout.maximumHeight: {
-          if (!inPanel) {
-            return -1;
-          }
-
-          if (vertical) {
-            return Math.min(PlasmaCore.Units.iconSizeHints.panel, parent.width) * defaultPanelIcon.aspectRatio;
-          } else {
-            return PlasmaCore.Units.iconSizeHints.panel;
-          }
-        }
+        // Layout.minimumWidth: {
+        //   if (!inPanel)
+        //     return Kirigami.Units.iconSizeHints.panel;
+        //
+        //   if (vertical) {
+        //     return -1;
+        //   } else {
+        //     return Math.min(units.iconSizeHints.panel, parent.height) * defaultPanelIcon.aspectRatio;
+        //   }
+        // }
+        //
+        // Layout.minimumHeight: {
+        //   if (!inPanel) {
+        //     return Kirigami.Units.iconSizeHints.panel;
+        //   }
+        //
+        //   if (vertical) {
+        //     return Math.min(Kirigami.Units.iconSizeHints.panel, parent.width) * defaultPanelIcon.aspectRatio;
+        //   } else {
+        //     return -1;
+        //   }
+        // }
+        //
+        // Layout.maximumWidth: {
+        //   if (!inPanel) {
+        //     return -1;
+        //   }
+        //
+        //   if (vertical) {
+        //     return Kirigami.Units.iconSizeHints.panel;
+        //   } else {
+        //     return Math.min(Kirigami.Units.iconSizeHints.panel, parent.height) * defaultPanelIcon.aspectRatio;
+        //   }
+        // }
+        //
+        // Layout.maximumHeight: {
+        //   if (!inPanel) {
+        //     return -1;
+        //   }
+        //
+        //   if (vertical) {
+        //     return Math.min(Kirigami.Units.iconSizeHints.panel, parent.width) * defaultPanelIcon.aspectRatio;
+        //   } else {
+        //     return Kirigami.Units.iconSizeHints.panel;
+        //   }
+        // }
       }
     }
 
@@ -179,14 +182,14 @@ Item {
     }
 
     Plasmoid.icon: plasmoid.configuration.qalculateIcon
-    Plasmoid.toolTipMainText: "Qalculate!"
+    toolTipMainText: "Qalculate!"
 
-    Plasmoid.compactRepresentation: compactRepresentation
-    Plasmoid.fullRepresentation: FullRepresentation {}
+    compactRepresentation: compactRepresentation
+    fullRepresentation: FullRepresentation {}
 
     Component.onCompleted: {
       if (plasmoid.configuration.qalculateIcon.length == 0) {
-        plasmoid.configuration.qalculateIcon = Tools.stripProtocol(Qt.resolvedUrl('../images/Qalculate.svg'))
+        plasmoid.configuration.qalculateIcon = Tools.stripProtocol(Qt.resolvedUrl('../images/Qalculate.svg').toString())
       }
       if (plasmoid.configuration.updateExchangeRatesAtStartup) {
         qwr.updateExchangeRates()

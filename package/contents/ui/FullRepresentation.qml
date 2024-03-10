@@ -18,14 +18,17 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 //  IN THE SOFTWARE.
 
-import QtQuick 2.7
-import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
-import org.kde.plasma.plasmoid 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 2.0 as PlasmaComponents
-import org.kde.kquickcontrolsaddons 2.0 as KQuickControlsAddons
+import org.kde.kirigami as Kirigami
+import org.kde.plasma.plasmoid
+import org.kde.plasma.core as PlasmaCore
+import org.kde.plasma.extras 2.0 as PlasmaExtras
+import org.kde.plasma.components 3.0 as PlasmaComponents
+import org.kde.kquickcontrolsaddons as KQuickControlsAddons
+import org.kde.ksvg as KSvg
 
 import "../code/tools.js" as Tools
 
@@ -41,10 +44,10 @@ Item {
 
   anchors.fill: parent
 
-  Layout.minimumHeight: PlasmaCore.Units.gridUnit * 10 // 150
-  Layout.minimumWidth: PlasmaCore.Units.gridUnit * 15 // 200
-  Layout.preferredHeight: PlasmaCore.Units.gridUnit * 10 // 150
-  Layout.preferredWidth: PlasmaCore.Units.gridUnit * 15 // 200
+  Layout.minimumHeight: Kirigami.Units.gridUnit * 10 // 150
+  Layout.minimumWidth: Kirigami.Units.gridUnit * 15 // 200
+  Layout.preferredHeight: Kirigami.Units.gridUnit * 10 // 150
+  Layout.preferredWidth: Kirigami.Units.gridUnit * 15 // 200
 
   KQuickControlsAddons.Clipboard {
     id: clipboard
@@ -58,7 +61,7 @@ Item {
     }
   }
 
-  PlasmaComponents.ContextMenu {
+  PlasmaExtras.Menu {
     id: contextMenu
 
     function show(item, x, y) {
@@ -66,7 +69,7 @@ Item {
       open(x, y)
     }
 
-    PlasmaComponents.MenuItem {
+    PlasmaExtras.MenuItem {
       id: menuitem_copy
       text: i18n("Copy result to clipboard")
       icon: "edit-copy"
@@ -74,7 +77,7 @@ Item {
       onClicked: clipboard.content = lResult.text
     }
 
-    PlasmaComponents.MenuItem {
+    PlasmaExtras.MenuItem {
       id: menuitem_submenu
 
       text: i18n("Copy result as")
@@ -82,13 +85,11 @@ Item {
       enabled: lResult.visible
       visible: outputBinary.visible || outputOctal.visible || outputDecimal.visible || outputHex.visible
 
-      property variant submenu: submenu_copybase
-
-      PlasmaComponents.ContextMenu {
+      property PlasmaExtras.Menu submenu: PlasmaExtras.Menu {
         id: submenu_copybase
         visualParent: menuitem_submenu.action
 
-        PlasmaComponents.MenuItem {
+        PlasmaExtras.MenuItem {
           id: menuitem_copybase2
           text: i18n("Binary")
           icon: "edit-copy"
@@ -97,7 +98,7 @@ Item {
           onClicked: clipboard.content = outputBinary.text
         }
 
-        PlasmaComponents.MenuItem {
+        PlasmaExtras.MenuItem {
           id: menuitem_copybase8
           text: i18n("Octal")
           icon: "edit-copy"
@@ -106,7 +107,7 @@ Item {
           onClicked: clipboard.content = outputOctal.text
         }
 
-        PlasmaComponents.MenuItem {
+        PlasmaExtras.MenuItem {
           id: menuitem_copybase10
           text: i18n("Decimal")
           icon: "edit-copy"
@@ -115,7 +116,7 @@ Item {
           onClicked: clipboard.content = outputDecimal.text
         }
 
-        PlasmaComponents.MenuItem {
+        PlasmaExtras.MenuItem {
           id: menuitem_copybase16
           text: i18n("Hexadecimal")
           icon: "edit-copy"
@@ -281,7 +282,7 @@ Item {
         property alias text: historyText.text
         Text {
           id: historyText
-          color: theme.textColor
+          // color: theme.textColor
           text: history
           x: 5
           width: parent.width
@@ -305,7 +306,7 @@ Item {
 
     Component {
       id: highlightBar
-      PlasmaComponents.Highlight {
+      PlasmaExtras.Highlight {
         width: historyList.width
         height: historyList.currentItem.height
         y: historyList.currentItem.y;
@@ -335,7 +336,7 @@ Item {
     width: parent.width
     height: parent.height - topRowLayout.height
 
-    PlasmaCore.SvgItem {
+    KSvg.SvgItem {
       id: qalculateFullIcon
       visible: true
       Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
@@ -347,8 +348,8 @@ Item {
       Layout.preferredWidth: Layout.preferredHeight
       smooth: true
 
-      svg: PlasmaCore.Svg {
-        imagePath: Tools.stripProtocol(Qt.resolvedUrl('../images/Qalculate.svg'))
+      svg: KSvg.Svg {
+        imagePath: Tools.stripProtocol(Qt.resolvedUrl('../images/Qalculate.svg').toString())
       }
 
       MouseArea {
@@ -419,7 +420,7 @@ Item {
           visible: false
           readOnly: true
           selectByMouse: true
-          color: theme.textColor
+          // color: theme.textColor
           Layout.alignment: Qt.AlignHCenter
           font.bold: true
           font.pixelSize: 40
@@ -521,7 +522,7 @@ Item {
           Layout.minimumHeight: 0
           Layout.maximumHeight: 0
           font.bold: true
-          font.pixelSize: Math.round(0.9 * PlasmaCore.Units.gridUnit)
+          font.pixelSize: Math.round(0.9 * Kirigami.Units.gridUnit)
         }
       }
 
@@ -534,7 +535,7 @@ Item {
         color: theme.textColor
         Layout.alignment: Qt.AlignHCenter
         Layout.maximumWidth: parent.width
-        font.pixelSize: PlasmaCore.Units.gridUnit
+        font.pixelSize: Kirigami.Units.gridUnit
       }
 
       TextEdit {
@@ -545,7 +546,7 @@ Item {
         selectByMouse: true
         color: theme.textColor
         Layout.alignment: Qt.AlignHCenter
-        font.pixelSize: PlasmaCore.Units.gridUnit
+        font.pixelSize: Kirigami.Units.gridUnit
       }
 
       TextEdit {
@@ -556,7 +557,7 @@ Item {
         selectByMouse: true
         color: theme.textColor
         Layout.alignment: Qt.AlignHCenter
-        font.pixelSize: PlasmaCore.Units.gridUnit
+        font.pixelSize: Kirigami.Units.gridUnit
       }
 
       TextEdit {
@@ -567,7 +568,7 @@ Item {
         selectByMouse: true
         color: theme.textColor
         Layout.alignment: Qt.AlignHCenter
-        font.pixelSize: PlasmaCore.Units.gridUnit
+        font.pixelSize: Kirigami.Units.gridUnit
       }
     }
   }
@@ -576,25 +577,25 @@ Item {
     id: keepOpen
     anchors.right: parent.right
     anchors.bottom: parent.bottom
-    width: Math.round(PlasmaCore.Units.gridUnit * 1.25)
+    width: Math.round(Kirigami.Units.gridUnit * 1.25)
     height: width
     checkable: true
-    iconSource: "window-pin"
+    icon.name: "window-pin"
     visible: main.fromCompact
-    onCheckedChanged: plasmoid.hideOnWindowDeactivate = !checked
+    onCheckedChanged: main.hideOnWindowDeactivate = !checked
   }
 
-  PlasmaCore.SvgItem {
+  KSvg.SvgItem {
     id: qalculateSmallIcon
     visible: !qalculateFullIcon.visible && !clHistory.visible
     anchors.left: parent.left
     anchors.bottom: parent.bottom
     smooth: true
-    width: Math.round(PlasmaCore.Units.gridUnit * 1.25)
+    width: Math.round(Kirigami.Units.gridUnit * 1.25)
     height: width
 
-    svg: PlasmaCore.Svg {
-      imagePath: Tools.stripProtocol(Qt.resolvedUrl('../images/Qalculate.svg'))
+    svg: KSvg.Svg {
+      imagePath: Tools.stripProtocol(Qt.resolvedUrl('../images/Qalculate.svg').toString())
     }
 
     MouseArea {

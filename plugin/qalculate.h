@@ -160,7 +160,6 @@ public:
 
 private:
   void worker();
-  bool preprocessInput(const std::string& expr);
   void runCalculation(const std::string& expr);
   bool checkReturnState();
   bool printResultInBase(MathStructure& result, print_result_t& output);
@@ -171,9 +170,23 @@ private:
 #endif
 
   // conversion handling in conversion.cpp
-  bool handleToExpression(const std::string& expr);
-  bool handleFactorize(const std::string& expr);
 
+  /**
+   * Function for handling all conversion cases.
+   *
+   * @param expr The expression to handle
+   * @return Whether or not a conversion was performed
+   */
+  bool handleConversion(const std::string& expr);
+  bool handleToExpression(const std::string& expr);
+  bool handleInExpression(const QStringList& items);
+public:
+  // final handler functions need to be public for function map
+  bool handleFactorize(const QString& value) const;
+  bool handleBaseConversion(const QString& value, uint16_t base) const;
+  bool handleBaseConversionCustom(const QString& value, uint16_t base) const;
+
+private:
   std::unique_ptr<Calculator> m_pcalc;
   EvaluationOptions m_eval_options;
   PrintOptions m_print_options;
