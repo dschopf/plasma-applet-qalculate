@@ -22,8 +22,9 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import org.kde.plasma.components as PlasmaComponents
+import org.kde.kcmutils as KCM
 
-Item {
+KCM.SimpleKCM {
   property int cfg_unitConversion
   property int cfg_structuringMode
   property string cfg_decimalSeparator
@@ -67,13 +68,13 @@ Item {
     cfg_structuringModeChanged()
   }
 
-  ExclusiveGroup {
-    id: unitConversionGroup
-  }
-
-  ExclusiveGroup {
-    id: structuringModeGroup
-  }
+  // ExclusiveGroup {
+  //   id: unitConversionGroup
+  // }
+  //
+  // ExclusiveGroup {
+  //   id: structuringModeGroup
+  // }
 
   GridLayout {
     anchors.left: parent.left
@@ -82,8 +83,8 @@ Item {
 
     GroupBox {
       title: i18n("Unit conversion")
-      flat: false
-      checkable: false
+      // flat: false
+      // checkable: false
       Layout.fillWidth: true
       Layout.columnSpan: 2
 
@@ -99,7 +100,7 @@ Item {
 
         RadioButton {
           id: unitConversionTypeNone
-          exclusiveGroup: unitConversionGroup
+          // exclusiveGroup: unitConversionGroup
           text: i18nc("Unit conversion", "None")
           onCheckedChanged: if (checked) cfg_unitConversion = 0;
         }
@@ -109,7 +110,7 @@ Item {
 
         RadioButton {
           id: unitConversionTypeBest
-          exclusiveGroup: unitConversionGroup
+          // exclusiveGroup: unitConversionGroup
           text: i18nc("Unit conversion", "Best")
           onCheckedChanged: if (checked) cfg_unitConversion = 1;
         }
@@ -119,7 +120,7 @@ Item {
 
         RadioButton {
           id: unitConversionTypeBase
-          exclusiveGroup: unitConversionGroup
+          // exclusiveGroup: unitConversionGroup
           text: i18nc("Unit conversion", "Base")
           onCheckedChanged: if (checked) cfg_unitConversion = 2;
         }
@@ -131,8 +132,8 @@ Item {
 
     GroupBox {
       title: i18n("Structuring mode")
-      flat: false
-      checkable: false
+      // flat: false
+      // checkable: false
       Layout.fillWidth: true
       Layout.columnSpan: 2
 
@@ -148,7 +149,7 @@ Item {
 
         RadioButton {
           id: structuringModeNone
-          exclusiveGroup: structuringModeGroup
+          // exclusiveGroup: structuringModeGroup
           text: i18nc("Structuring mode", "None")
           onCheckedChanged: if (checked) cfg_structuringMode = 0;
         }
@@ -158,7 +159,7 @@ Item {
 
         RadioButton {
           id: structuringModeSimplify
-          exclusiveGroup: structuringModeGroup
+          // exclusiveGroup: structuringModeGroup
           text: i18nc("Structuring mode", "Simplify")
           onCheckedChanged: if (checked) cfg_structuringMode = 1;
         }
@@ -168,7 +169,7 @@ Item {
 
         RadioButton {
           id: structuringModeFactorize
-          exclusiveGroup: structuringModeGroup
+          // exclusiveGroup: structuringModeGroup
           text: i18nc("Structuring mode", "Factorize")
           onCheckedChanged: if (checked) cfg_structuringMode = 2;
         }
@@ -190,7 +191,7 @@ Item {
 
       PlasmaComponents.TextField {
         id: tfDecimalSeparator
-        validator: RegExpValidator { regExp: /(\.|,)/; }
+        validator: RegularExpressionValidator { regularExpression: /(\.|,)/; }
         enabled: !cbUseKDESetting.checked
         onTextChanged: {
           cfg_decimalSeparator = text
@@ -235,10 +236,10 @@ Item {
 
     SpinBox {
       id: sbExpressionBase
-      decimals: 0
-      stepSize: 1
-      minimumValue: 1
-      maximumValue: 64
+      // decimals: 0
+      // stepSize: 1
+      from: 1
+      to: 64
     }
 
     CheckBox {

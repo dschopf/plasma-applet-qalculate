@@ -21,10 +21,11 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import org.kde.kcmutils as KCM
 
-import org.kde.private.qalculate
+import org.kde.plasma.private.qalculate
 
-Item {
+KCM.SimpleKCM {
 
   property int cfg_libVersion
   property alias cfg_updateExchangeRatesAtStartup: cbUpdateExchangeRatesAtStartup.checked
@@ -61,11 +62,11 @@ Item {
       SpinBox {
         id: sbExchangeRateUpdateInterval
         enabled: cbUpdateExchangeRatesAtStartup.checked
-        decimals: 0
-        stepSize: 1
+        // decimals: 0
+        // stepSize: 1
         value: 24
-        minimumValue: 1
-        maximumValue: 72
+        from: 1
+        to: 72
       }
 
       Label {

@@ -169,7 +169,7 @@ Item {
           onNewInput(text, false)
       }
 
-      Keys.onPressed: {
+      Keys.onPressed: function(event) {
         if (event.key == Qt.Key_Escape) {
           event.accepted = true
           if (clHistory.visible) {
@@ -177,7 +177,7 @@ Item {
             clHistory.visible = false
             text = current_input
           } else if (main.fromCompact) {
-            plasmoid.expanded = !plasmoid.expanded
+            main.expanded = !main.expanded
             keepOpen.checked = false
           }
           return
@@ -282,7 +282,7 @@ Item {
         property alias text: historyText.text
         Text {
           id: historyText
-          // color: theme.textColor
+          color: Kirigami.Theme.textColor
           text: history
           x: 5
           width: parent.width
@@ -420,7 +420,7 @@ Item {
           visible: false
           readOnly: true
           selectByMouse: true
-          // color: theme.textColor
+          color: Kirigami.Theme.textColor
           Layout.alignment: Qt.AlignHCenter
           font.bold: true
           font.pixelSize: 40
@@ -428,7 +428,7 @@ Item {
           Connections {
             target: qwr
 
-            onResultText: {
+            function onResultText(result, resultBase2, resultBase8, resultBase10, resultBase16) {
               busyTimer.stop()
               busy.visible = false
 
@@ -506,7 +506,7 @@ Item {
               }
             }
 
-            onCalculationTimeout: {
+            function onCalculationTimeout() {
               lResult.text = i18n("Calculation timed out")
               lResult.visible = true
               busy.visible = false
@@ -518,7 +518,7 @@ Item {
           id: loutputBase
           text: plasmoid.configuration.resultBase
           visible: false
-          color: theme.textColor
+          color: Kirigami.Theme.textColor
           Layout.minimumHeight: 0
           Layout.maximumHeight: 0
           font.bold: true
@@ -532,7 +532,7 @@ Item {
         visible: false
         readOnly: true
         selectByMouse: true
-        color: theme.textColor
+        color: Kirigami.Theme.textColor
         Layout.alignment: Qt.AlignHCenter
         Layout.maximumWidth: parent.width
         font.pixelSize: Kirigami.Units.gridUnit
@@ -544,7 +544,7 @@ Item {
         visible: false
         readOnly: true
         selectByMouse: true
-        color: theme.textColor
+        color: Kirigami.Theme.textColor
         Layout.alignment: Qt.AlignHCenter
         font.pixelSize: Kirigami.Units.gridUnit
       }
@@ -555,7 +555,7 @@ Item {
         visible: false
         readOnly: true
         selectByMouse: true
-        color: theme.textColor
+        color: Kirigami.Theme.textColor
         Layout.alignment: Qt.AlignHCenter
         font.pixelSize: Kirigami.Units.gridUnit
       }
@@ -566,7 +566,7 @@ Item {
         visible: false
         readOnly: true
         selectByMouse: true
-        color: theme.textColor
+        color: Kirigami.Theme.textColor
         Layout.alignment: Qt.AlignHCenter
         font.pixelSize: Kirigami.Units.gridUnit
       }

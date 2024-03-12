@@ -26,12 +26,13 @@ import QtQuick.Layouts
 import org.kde.plasma.components  as PlasmaComponents
 import org.kde.plasma.core as PlasmaCore
 import org.kde.kquickcontrolsaddons  as KQuickAddons
+import org.kde.kcmutils as KCM
 
-import org.kde.private.qalculate
+import org.kde.plasma.private.qalculate
 
 import "../../code/tools.js" as Tools
 
-Item {
+KCM.SimpleKCM {
   property string cfg_qalculateIcon:                plasmoid.configuration.qalculateIcon
   property alias cfg_copyResultToClipboard:         chbCopyResultToClipboard.checked
   property alias cfg_writeResultsInInputLineEdit:   chbWriteResultsInInputLineEdit.checked
@@ -132,10 +133,10 @@ Item {
           id: iconButton
           anchors.left: parent.left
 
-          KQuickAddons.IconDialog {
-            id: iconDialog
-            onIconNameChanged: cfg_qalculateIcon = iconName
-          }
+          // KQuickAddons.IconDialog {
+          //   id: iconDialog
+          //   onIconNameChanged: cfg_qalculateIcon = iconName
+          // }
 
           // just to provide some visual feedback, cannot have checked without checkable enabled
           checkable: true
@@ -147,46 +148,46 @@ Item {
             iconMenu.open(0, height)
           }
 
-          PlasmaCore.FrameSvgItem {
-            id: previewFrame
-            anchors.left: parent.left
-            anchors.top: parent.top
-            imagePath: plasmoid.location === PlasmaCore.Types.Vertical || plasmoid.location === PlasmaCore.Types.Horizontal
-              ? "widgets/panel-background" : "widgets/background"
-            width: iconPreview.width + fixedMargins.left + fixedMargins.right
-            height: iconPreview.height + fixedMargins.top + fixedMargins.bottom
-
-            onWidthChanged: {
-              iconButton.width = width
-              iconButton.height = height
-            }
-
-            PlasmaCore.IconItem {
-              id: iconPreview
-              anchors.centerIn: parent
-              width: PlasmaCore.Units.iconSizes.large
-              height: width
-              source: cfg_qalculateIcon
-            }
-          }
+          // PlasmaCore.FrameSvgItem {
+          //   id: previewFrame
+          //   anchors.left: parent.left
+          //   anchors.top: parent.top
+          //   imagePath: plasmoid.location === PlasmaCore.Types.Vertical || plasmoid.location === PlasmaCore.Types.Horizontal
+          //     ? "widgets/panel-background" : "widgets/background"
+          //   width: iconPreview.width + fixedMargins.left + fixedMargins.right
+          //   height: iconPreview.height + fixedMargins.top + fixedMargins.bottom
+          //
+          //   onWidthChanged: {
+          //     iconButton.width = width
+          //     iconButton.height = height
+          //   }
+          //
+          //   PlasmaCore.IconItem {
+          //     id: iconPreview
+          //     anchors.centerIn: parent
+          //     width: PlasmaCore.Units.iconSizes.large
+          //     height: width
+          //     source: cfg_qalculateIcon
+          //   }
+          // }
         }
 
         // QQC Menu can only be opened at cursor position, not a random one
-        PlasmaComponents.ContextMenu {
-          id: iconMenu
-          visualParent: iconButton
-
-          PlasmaComponents.MenuItem {
-            text: i18nc("Open icon chooser dialog", "Choose Icon")
-            icon: "document-open-folder"
-            onClicked: iconDialog.open()
-          }
-          PlasmaComponents.MenuItem {
-            text: i18nc("Reset icon to default", "Clear Icon")
-            icon: "edit-clear"
-            onClicked: cfg_qalculateIcon = Tools.stripProtocol(Qt.resolvedUrl('../../images/Qalculate.svg'))
-          }
-        }
+        // PlasmaComponents.ContextMenu {
+        //   id: iconMenu
+        //   visualParent: iconButton
+        //
+        //   PlasmaComponents.MenuItem {
+        //     text: i18nc("Open icon chooser dialog", "Choose Icon")
+        //     icon: "document-open-folder"
+        //     onClicked: iconDialog.open()
+        //   }
+        //   PlasmaComponents.MenuItem {
+        //     text: i18nc("Reset icon to default", "Clear Icon")
+        //     icon: "edit-clear"
+        //     onClicked: cfg_qalculateIcon = Tools.stripProtocol(Qt.resolvedUrl('../../images/Qalculate.svg'))
+        //   }
+        // }
       }
     }
 
@@ -229,7 +230,7 @@ Item {
         FileDialog {
           id: executableDialog
           title: i18n("Please select an executable")
-          folder: shortcuts.home
+          // folder: shortcuts.home
           onAccepted: cfg_launcherExecutable = Tools.stripProtocol(Qt.resolvedUrl(executableDialog.fileUrl))
         }
 

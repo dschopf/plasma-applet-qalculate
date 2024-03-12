@@ -24,7 +24,6 @@ import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 import org.kde.kcmutils as KCM
 
-
 KCM.SimpleKCM {
 
   property int cfg_libVersion
@@ -60,9 +59,9 @@ KCM.SimpleKCM {
     }
   }
 
-  ExclusiveGroup {
-    id: numberFractionFormatGroup
-  }
+  // ExclusiveGroup {
+  //   id: numberFractionFormatGroup
+  // }
 
   Component.onCompleted: {
     cfg_numberFractionFormatChanged()
@@ -75,8 +74,8 @@ KCM.SimpleKCM {
 
     GroupBox {
       title: i18n("Number fraction format")
-      flat: false
-      checkable: false
+      // flat: false
+      // checkable: false
       Layout.fillWidth: true
       Layout.columnSpan: 2
 
@@ -92,7 +91,7 @@ KCM.SimpleKCM {
 
         RadioButton {
           id: numberFractionFormatDecimal
-          exclusiveGroup: numberFractionFormatGroup
+          // exclusiveGroup: numberFractionFormatGroup
           text: i18nc("FractionFormat", "Decimal")
           onCheckedChanged: if (checked) cfg_numberFractionFormat = 0;
         }
@@ -102,7 +101,7 @@ KCM.SimpleKCM {
 
         RadioButton {
           id: numberFractionFormatExact
-          exclusiveGroup: numberFractionFormatGroup
+          // exclusiveGroup: numberFractionFormatGroup
           text: i18nc("FractionFormat", "Exact")
           onCheckedChanged: if (checked) cfg_numberFractionFormat = 1;
         }
@@ -112,7 +111,7 @@ KCM.SimpleKCM {
 
         RadioButton {
           id: numberFractionFormatFractional
-          exclusiveGroup: numberFractionFormatGroup
+          // exclusiveGroup: numberFractionFormatGroup
           text: i18nc("FractionFormat", "Fractional")
           onCheckedChanged: if (checked) cfg_numberFractionFormat = 2;
         }
@@ -122,7 +121,7 @@ KCM.SimpleKCM {
 
         RadioButton {
           id: numberFractionFormatCombined
-          exclusiveGroup: numberFractionFormatGroup
+          // exclusiveGroup: numberFractionFormatGroup
           text: i18nc("FractionFormat", "Combined")
           onCheckedChanged: if (checked) cfg_numberFractionFormat = 3;
         }
@@ -191,8 +190,8 @@ KCM.SimpleKCM {
 
     GroupBox {
       title: i18n("Show integers also in base") + ':'
-      flat: false
-      checkable: false
+      // flat: false
+      // checkable: false
       Layout.fillWidth: true
       Layout.columnSpan: 2
 
@@ -226,10 +225,10 @@ KCM.SimpleKCM {
 
     SpinBox {
       id: sbResultBase
-      decimals: 0
-      stepSize: 1
-      minimumValue: 1
-      maximumValue: 64
+      // decimals: 0
+      // stepSize: 1
+      from: 1
+      to: 64
     }
   }
 }
