@@ -29,7 +29,7 @@ class HistoryListModel : public QAbstractListModel {
   Q_OBJECT
 
 public:
-  explicit HistoryListModel() : m_calc(Qalculate::instance()) {}
+  HistoryListModel() : m_calc(Qalculate::instance()) {}
   explicit HistoryListModel(QObject* parent);
 
   enum {

@@ -3,10 +3,10 @@
 Qalculate applet for the KDE Plasma 5 desktop, bringing the power of [libqalculate](http://qalculate.github.io/) to your desktop.
 
 ![Arch Linux](https://github.com/dschopf/plasma-applet-qalculate/actions/workflows/arch.yml/badge.svg)
-![Ubuntu-18.04](https://github.com/dschopf/plasma-applet-qalculate/actions/workflows/ubuntu-18.04.yml/badge.svg)
 ![Ubuntu-20.04](https://github.com/dschopf/plasma-applet-qalculate/actions/workflows/ubuntu-20.04.yml/badge.svg)
 ![Ubuntu-22.04](https://github.com/dschopf/plasma-applet-qalculate/actions/workflows/ubuntu-22.04.yml/badge.svg)
 ![Ubuntu-22.10](https://github.com/dschopf/plasma-applet-qalculate/actions/workflows/ubuntu-22.10.yml/badge.svg)
+![Ubuntu-18.04](https://github.com/dschopf/plasma-applet-qalculate/actions/workflows/ubuntu-23.04.yml/badge.svg)
 
 ## Screenshots
 [![Screenshot1](https://images.pling.com/img/00/00/44/59/37/1155946/48e64ea6e7741fa132afa8f29c7951858422.png)](https://store.kde.org/p/1155946) [![Screenshot2](https://images.pling.com/img/00/00/44/59/37/1155946/cd20e40e2ec26f74592f06e5a4c739d9ed69.png)](https://store.kde.org/p/1155946)
@@ -18,7 +18,7 @@ Plasma KNewStuff3 system is also available at the [Pling Store](https://store.kd
 
 ### Ubuntu and derivatives
 
-Ubuntu 18.04 LTS "Bionic", 20.04 "Focal", 22.04 "Jammy" and 22.10 "Kinetic" users can install the latest packages
+Ubuntu 20.04 "Focal", 22.04 "Jammy", 22.10 "Kinetic" and 23.04 "Lunar" users can install the latest packages
 from [this PPA](https://launchpad.net/~dschopf/+archive/ubuntu/plasma-applet-qalculate) with the following two commands:
 
 ```bash

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2023-01-11 18:26+0700\n"
+"POT-Creation-Date: 2023-08-08 10:04+0200\n"
 "PO-Revision-Date: 2020-01-15 19:40+0100\n"
 "Last-Translator: Daniel Schopf <schopf.dan@gmail.org>\n"
 "Language-Team: German <>\n"
@@ -42,10 +42,9 @@ msgid "Update exchange rates every"
 msgstr "Wechselkurse regelmäßig aktualisieren, alle"
 
 #: ../plasmoid/contents/ui/config/Currency.qml:74
-#, fuzzy
 msgid "hour"
 msgid_plural "hours"
-msgstr[0] "Stunden"
+msgstr[0] "Stunde"
 msgstr[1] "Stunden"
 
 #: ../plasmoid/contents/ui/config/Currency.qml:80
@@ -391,3 +390,7 @@ msgstr "Ergebnis"
 #: ../plasmoid/contents/ui/FullRepresentation.qml:502
 msgid "Calculation timed out"
 msgstr "Zeitüberschreitung"
+
+#: ../plugin/conversion.cpp:60
+msgid "factors"
+msgstr "Faktoren"

@@ -47,8 +47,8 @@
 #define HAVE_BINARY_TWOS_COMPLEMENT_OPTION
 #endif
 
-typedef std::pair<int, QString> print_result_t;
-typedef std::vector<print_result_t> res_vector_t;
+using print_result_t = std::pair<int, QString>;
+using res_vector_t = std::vector<print_result_t>;
 
 enum class State {
   Calculating,
@@ -160,7 +160,7 @@ public:
 
 private:
   void worker();
-  bool checkInput(std::string& expr);
+  bool preprocessInput(const std::string& expr);
   void runCalculation(const std::string& expr);
   bool checkReturnState();
   bool printResultInBase(MathStructure& result, print_result_t& output);
@@ -170,38 +170,42 @@ private:
   void initCurrencyList();
 #endif
 
+  // conversion handling in conversion.cpp
+  bool handleToExpression(const std::string& expr);
+  bool handleFactorize(const std::string& expr);
+
   std::unique_ptr<Calculator> m_pcalc;
   EvaluationOptions m_eval_options;
   PrintOptions m_print_options;
 #if defined(INTERVAL_SUPPORT_INCLUDED)
-  bool m_is_approximate = false;
+  bool m_is_approximate{false};
 #endif
   std::map<int, Number> m_print_limits;
   QNetworkAccessManager m_netmgr;
 
   struct {
-    bool enable_base2 = false;
-    bool enable_base8 = false;
-    bool enable_base10 = false;
-    bool enable_base16 = false;
-    int timeout = 10000;
-    bool detectTimestamps = false;
+    bool enable_base2{false};
+    bool enable_base8{false};
+    bool enable_base10{false};
+    bool enable_base16{false};
+    int timeout{10000};
+    bool detectTimestamps{false};
   } m_config;
 
   struct {
     std::thread thread;
     std::mutex mutex;
     std::condition_variable cond;
-    bool aborted = false;
+    bool aborted{false};
     State state = State::Idle;
     std::vector<IQWrapperCallbacks*> cbs;
-    bool exchange_rate_updating = false;
+    bool exchange_rate_updating{false};
     std::vector<std::pair<IResultCallbacks*, QString>> queue;
-    IResultCallbacks* active_cb = nullptr;
+    IResultCallbacks* active_cb{nullptr};
   } m_state;
 
   struct {
-    bool enabled = true;
+    bool enabled{true};
     std::string filename;
     QString last_entry;
   } m_history;

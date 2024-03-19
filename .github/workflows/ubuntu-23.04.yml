@@ -1,4 +1,4 @@
-name: Ubuntu-18.04
+name: Ubuntu-23.04
 
 on: [push, pull_request]
 
@@ -7,5 +7,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: ./.github/actions/ubuntu_18.04
+    - uses: ./.github/actions/ubuntu_23.04
 
