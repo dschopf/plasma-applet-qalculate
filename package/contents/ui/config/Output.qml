@@ -59,10 +59,6 @@ KCM.SimpleKCM {
     }
   }
 
-  // ExclusiveGroup {
-  //   id: numberFractionFormatGroup
-  // }
-
   Component.onCompleted: {
     cfg_numberFractionFormatChanged()
   }
@@ -91,7 +87,6 @@ KCM.SimpleKCM {
 
         RadioButton {
           id: numberFractionFormatDecimal
-          // exclusiveGroup: numberFractionFormatGroup
           text: i18nc("FractionFormat", "Decimal")
           onCheckedChanged: if (checked) cfg_numberFractionFormat = 0;
         }
@@ -101,7 +96,6 @@ KCM.SimpleKCM {
 
         RadioButton {
           id: numberFractionFormatExact
-          // exclusiveGroup: numberFractionFormatGroup
           text: i18nc("FractionFormat", "Exact")
           onCheckedChanged: if (checked) cfg_numberFractionFormat = 1;
         }
@@ -111,7 +105,6 @@ KCM.SimpleKCM {
 
         RadioButton {
           id: numberFractionFormatFractional
-          // exclusiveGroup: numberFractionFormatGroup
           text: i18nc("FractionFormat", "Fractional")
           onCheckedChanged: if (checked) cfg_numberFractionFormat = 2;
         }
@@ -121,7 +114,6 @@ KCM.SimpleKCM {
 
         RadioButton {
           id: numberFractionFormatCombined
-          // exclusiveGroup: numberFractionFormatGroup
           text: i18nc("FractionFormat", "Combined")
           onCheckedChanged: if (checked) cfg_numberFractionFormat = 3;
         }

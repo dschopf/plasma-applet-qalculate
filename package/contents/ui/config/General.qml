@@ -18,22 +18,40 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 //  IN THE SOFTWARE.
 
-import QtQuick
-import QtQuick.Controls
+import QtQuick 2.15
 import QtQuick.Dialogs
-import QtQuick.Layouts
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.1
 
-import org.kde.plasma.components  as PlasmaComponents
+
+import org.kde.draganddrop 2.0 as DragDrop
+import org.kde.kirigami 2.5 as Kirigami
+import org.kde.iconthemes as KIconThemes
 import org.kde.plasma.core as PlasmaCore
-import org.kde.kquickcontrolsaddons  as KQuickAddons
+import org.kde.kirigami 2.20 as Kirigami
+import org.kde.ksvg 1.0 as KSvg
+import org.kde.plasma.plasmoid 2.0
 import org.kde.kcmutils as KCM
+
+// import QtQuick.Dialogs
+// import QtQuick.Layouts
+
+// import org.kde.iconthemes as KIconThemes
+// import org.kde.kirigami as Kirigami
+// import org.kde.plasma.components  as PlasmaComponents
+// import org.kde.plasma.core as PlasmaCore
+// import org.kde.kcmutils as KCM
+// import org.kde.plasma.extras 2.0 as PlasmaExtras
+// import org.kde.ksvg as KSvg
 
 import org.kde.plasma.private.qalculate
 
 import "../../code/tools.js" as Tools
 
 KCM.SimpleKCM {
-  property string cfg_qalculateIcon:                plasmoid.configuration.qalculateIcon
+
+  property var cfg_angleUnit
+  property string cfg_qalculateIcon:                Plasmoid.configuration.qalculateIcon
   property alias cfg_copyResultToClipboard:         chbCopyResultToClipboard.checked
   property alias cfg_writeResultsInInputLineEdit:   chbWriteResultsInInputLineEdit.checked
   property alias cfg_liveEvaluation:                chbLiveEvaluation.checked
@@ -49,181 +67,177 @@ KCM.SimpleKCM {
     id: qwr
   }
 
-  GridLayout {
-    id: grid
+  Kirigami.FormLayout {
     anchors.left: parent.left
     anchors.right: parent.right
-    columns: 2
 
     CheckBox {
       id: chbCopyResultToClipboard
+      Kirigami.FormData.label: i18n("Behavior:")
       text: i18n("Copy result to clipboard")
-      Layout.columnSpan: 2
 
-      PlasmaCore.ToolTipArea {
-        anchors.fill: parent
-        subText: i18n("Only works when pressing Return")
-      }
+      ToolTip.delay: Kirigami.Units.toolTipDelay
+      ToolTip.text: i18n("Only works when pressing Return")
+      ToolTip.visible: chbCopyResultToClipboard.hovered
     }
 
     CheckBox {
       id: chbWriteResultsInInputLineEdit
       text: i18n("Write results in input line edit")
-      Layout.columnSpan: 2
 
-      PlasmaCore.ToolTipArea {
-        anchors.fill: parent
-        subText: i18n("Only works when pressing Return")
-      }
+      ToolTip.delay: Kirigami.Units.toolTipDelay
+      ToolTip.text: i18n("Only works when pressing Return")
+      ToolTip.visible: chbWriteResultsInInputLineEdit.hovered
     }
 
     CheckBox {
       id: chbLiveEvaluation
       text: i18n("Live evaluation")
-      Layout.columnSpan: 2
     }
 
-    Item {
-      Layout.preferredWidth: 0.5 * parent.width
-      Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
-      Layout.preferredHeight: calcLabel.height
+    // Item {
+    //   Kirigami.FormData.isSection: true
+    // }
 
-      Label {
-        id: calcLabel
-        text: i18n('Calculation timeout') + " (ms) :"
-        anchors.right: parent.right
-      }
-    }
-
-    Item {
-      Layout.preferredWidth: 0.5 * parent.width
-      Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
-      Layout.preferredHeight: tfTimeout.height
-
-      PlasmaComponents.TextField {
-        id: tfTimeout
-        validator: IntValidator { bottom: 0; top: 9999999; }
-        anchors.left: parent.left
-      }
-    }
-
-    RowLayout {
-      spacing: PlasmaCore.Units.smallSpacing
-      Layout.preferredWidth: parent.width
-      Layout.columnSpan: 2
-
-      Item {
-        // Layout.preferredWidth: 0.5 * parent.width
-        Layout.preferredHeight: previewFrame.height
-        Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
-
-        Label {
-          text: i18n("Icon") + ":"
-          anchors.right: parent.right
-          anchors.verticalCenter: parent.verticalCenter
-        }
-      }
-
-      Item {
-        // Layout.preferredWidth: 0.5 * parent.width
-        Layout.preferredHeight: previewFrame.height
-        Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
-
-        Button {
-          id: iconButton
-          anchors.left: parent.left
-
-          // KQuickAddons.IconDialog {
-          //   id: iconDialog
-          //   onIconNameChanged: cfg_qalculateIcon = iconName
-          // }
-
-          // just to provide some visual feedback, cannot have checked without checkable enabled
-          checkable: true
-          onClicked: {
-            checked = Qt.binding(function() { // never actually allow it being checked
-              return iconMenu.status === PlasmaComponents.DialogStatus.Open
-            })
-
-            iconMenu.open(0, height)
+    Kirigami.ActionTextField {
+      id: tfTimeout
+      Kirigami.FormData.label: i18n('Calculation timeout') + " (ms) :"
+      text: Plasmoid.configuration.timeout
+      validator: IntValidator { bottom: 0; top: 9999999; }
+      rightActions: [
+        Action {
+          icon.name: "edit-reset"
+          text: i18n("Reset to default value")
+          onTriggered: {
+              tfTimeout.text = '10000'
+              cfg_timeout = '10000'
           }
+        }
+      ]
+      onAccepted: cfg_timeout = tfTimeout.text
+    }
 
-          // PlasmaCore.FrameSvgItem {
-          //   id: previewFrame
-          //   anchors.left: parent.left
-          //   anchors.top: parent.top
-          //   imagePath: plasmoid.location === PlasmaCore.Types.Vertical || plasmoid.location === PlasmaCore.Types.Horizontal
-          //     ? "widgets/panel-background" : "widgets/background"
-          //   width: iconPreview.width + fixedMargins.left + fixedMargins.right
-          //   height: iconPreview.height + fixedMargins.top + fixedMargins.bottom
-          //
-          //   onWidthChanged: {
-          //     iconButton.width = width
-          //     iconButton.height = height
-          //   }
-          //
-          //   PlasmaCore.IconItem {
-          //     id: iconPreview
-          //     anchors.centerIn: parent
-          //     width: PlasmaCore.Units.iconSizes.large
-          //     height: width
-          //     source: cfg_qalculateIcon
-          //   }
-          // }
+    Button {
+        id: iconButton
+
+        Kirigami.FormData.label: i18n("Icon") + ":"
+
+        implicitWidth: previewFrame.width + Kirigami.Units.smallSpacing * 2
+        implicitHeight: previewFrame.height + Kirigami.Units.smallSpacing * 2
+
+        // Just to provide some visual feedback when dragging;
+        // cannot have checked without checkable enabled
+        checkable: true
+        checked: dropArea.containsAcceptableDrag
+
+        onPressed: iconMenu.opened ? iconMenu.close() : iconMenu.open()
+
+        DragDrop.DropArea {
+            id: dropArea
+
+            property bool containsAcceptableDrag: false
+
+            anchors.fill: parent
+
+            onDragEnter: {
+                // Cannot use string operations (e.g. indexOf()) on "url" basic type.
+                var urlString = event.mimeData.url.toString();
+
+                // This list is also hardcoded in KIconDialog.
+                var extensions = [".png", ".xpm", ".svg", ".svgz"];
+                containsAcceptableDrag = urlString.indexOf("file:///") === 0 && extensions.some(function (extension) {
+                    return urlString.indexOf(extension) === urlString.length - extension.length; // "endsWith"
+                });
+
+                if (!containsAcceptableDrag) {
+                    event.ignore();
+                }
+            }
+            onDragLeave: containsAcceptableDrag = false
+
+            onDrop: {
+                if (containsAcceptableDrag) {
+                    // Strip file:// prefix, we already verified in onDragEnter that we have only local URLs.
+                    iconDialog.setCustomButtonImage(event.mimeData.url.toString().substr("file://".length));
+                }
+                containsAcceptableDrag = false;
+            }
         }
 
-        // QQC Menu can only be opened at cursor position, not a random one
-        // PlasmaComponents.ContextMenu {
-        //   id: iconMenu
-        //   visualParent: iconButton
-        //
-        //   PlasmaComponents.MenuItem {
-        //     text: i18nc("Open icon chooser dialog", "Choose Icon")
-        //     icon: "document-open-folder"
-        //     onClicked: iconDialog.open()
-        //   }
-        //   PlasmaComponents.MenuItem {
-        //     text: i18nc("Reset icon to default", "Clear Icon")
-        //     icon: "edit-clear"
-        //     onClicked: cfg_qalculateIcon = Tools.stripProtocol(Qt.resolvedUrl('../../images/Qalculate.svg'))
-        //   }
-        // }
-      }
+        KIconThemes.IconDialog {
+            id: iconDialog
+            onIconNameChanged: cfg_qalculateIcon = iconName
+        }
+
+        KSvg.FrameSvgItem {
+            id: previewFrame
+            anchors.centerIn: parent
+            imagePath: Plasmoid.location === PlasmaCore.Types.Vertical || Plasmoid.location === PlasmaCore.Types.Horizontal
+                    ? "widgets/panel-background" : "widgets/background"
+            width: Kirigami.Units.iconSizes.large + fixedMargins.left + fixedMargins.right
+            height: Kirigami.Units.iconSizes.large + fixedMargins.top + fixedMargins.bottom
+
+            Kirigami.Icon {
+                anchors.centerIn: parent
+                width: Kirigami.Units.iconSizes.large
+                height: width
+                source: cfg_qalculateIcon
+            }
+        }
+
+        Menu {
+            id: iconMenu
+
+            // Appear below the button
+            y: +parent.height
+
+            onClosed: iconButton.checked = false;
+
+            MenuItem {
+                text: i18nc("Open icon chooser dialog", "Choose Icon")
+                icon.name: "document-open-folder"
+                onClicked: iconDialog.open()
+            }
+            MenuItem {
+                text: i18nc("Reset icon to default", "Clear Icon")
+                icon.name: "edit-clear"
+                onClicked: cfg_qalculateIcon = Tools.stripProtocol(Qt.resolvedUrl('../../images/Qalculate.svg').toString())
+            }
+        }
     }
 
     Item {
-      Layout.columnSpan: 2
-      height: 5
+      Kirigami.FormData.isSection: true
     }
 
     CheckBox {
       id: chbEnableLauncher
       text: i18n("Launch program when clicking the Q! logo in the Plasmoid")
-      Layout.columnSpan: 2
     }
 
     RowLayout {
-      spacing: PlasmaCore.Units.smallSpacing
-      Layout.maximumWidth: parent.width
-      Layout.columnSpan: 2
+      Layout.fillWidth: true
 
-      Label {
-        text: i18n('Executable')
-        Layout.alignment: Qt.AlignVCenter
-        enabled: chbEnableLauncher.checked
-      }
-
-      PlasmaComponents.TextField {
+      Kirigami.ActionTextField {
         id: tfExecutable
-        Layout.alignment: Qt.AlignVCenter
-        Layout.fillWidth: true
+        text: i18n('Executable')
         enabled: chbEnableLauncher.checked
+        Layout.fillWidth: true
+        rightActions: [
+          Action {
+            icon.name: "edit-clear"
+            text: i18n("Clear the field")
+            onTriggered: {
+                tfExecutable.clear()
+            }
+          }
+        ]
       }
 
       Button {
         id: executableButton
         icon.name: "system-run"
-        width: PlasmaCore.Units.iconSizes.large
+        width: Kirigami.Units.iconSizes.large
         height: width
         enabled: chbEnableLauncher.checked
 
@@ -231,7 +245,7 @@ KCM.SimpleKCM {
           id: executableDialog
           title: i18n("Please select an executable")
           // folder: shortcuts.home
-          onAccepted: cfg_launcherExecutable = Tools.stripProtocol(Qt.resolvedUrl(executableDialog.fileUrl))
+          onAccepted: cfg_launcherExecutable = Tools.stripProtocol(Qt.resolvedUrl(executableDialog.fileUrl).to_string())
         }
 
         onClicked: executableDialog.open()
@@ -239,108 +253,150 @@ KCM.SimpleKCM {
     }
 
     RowLayout {
-      spacing: PlasmaCore.Units.smallSpacing
-      Layout.maximumWidth: parent.width
-      Layout.columnSpan: 2
+      spacing: Kirigami.Units.smallSpacing
+      Layout.fillWidth: true
+      // Layout.columnSpan: 2
 
       CheckBox {
         id: chbCmdlinArgs
         text: i18n("Arguments")
         enabled: chbEnableLauncher.checked
+        // Layout.fillWidth: true
       }
 
-      PlasmaComponents.TextField {
+      TextField {
         id: tfArguments
         Layout.alignment: Qt.AlignVCenter
         Layout.fillWidth: true
         enabled: chbEnableLauncher.checked && chbCmdlinArgs.checked
 
         PlasmaCore.ToolTipArea {
-          anchors.fill: parent
+          y: +parent.height
+          // anchors.fill: parent
           subText: "${INPUT} will be replaced with the current input string"
         }
       }
     }
 
     Item {
-      Layout.columnSpan: 2
-      height: 5
+      Kirigami.FormData.isSection: true
     }
 
-    GroupBox {
-      Layout.preferredWidth: parent.width
-      Layout.columnSpan: 2
+    CheckBox {
+      id: chbHistoryDisabled
+      text: i18n("Disable input history")
+      Kirigami.FormData.label: i18n("Foo")
+    }
 
-      background: Rectangle {
-        width: parent.width
-        color: "transparent"
-        border.color: Qt.darker(theme.viewTextColor)
-        radius: 5
-      }
+    SpinBox {
+      id: sbHistorySize
+      stepSize: 1
+      from: 1
+      to: 1e7
+      enabled: !chbHistoryDisabled.checked
+    }
 
-      label: Rectangle {
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: parent.top
-        anchors.topMargin: height/2
-        color: "transparent"
-        height: title.font.pixelSize
-        Text {
-          id: title
-          text: i18n("Input history")
-          anchors.centerIn: parent
-          color: theme.textColor
-        }
-      }
+  }
 
-      ColumnLayout {
-        Layout.minimumWidth: parent.width
+  footer: ColumnLayout {
+    Kirigami.InlineMessage {
+        Layout.fillWidth: true
+        visible: chbLiveEvaluation.checked
+        enabled: !chbHistoryDisabled.checked
+        // type: Kirigami.MessageType.Warning
+        text: i18n("History entries are only created by pressing Enter when \"Live evaluation\" is enabled!")
+    }
 
-        Item {
-          height: 5
-        }
-
-        CheckBox {
-          id: chbHistoryDisabled
-          text: i18n("Disable input history")
-        }
-
-        RowLayout {
-          Item {
-            Layout.preferredWidth: grid.width * 0.5
-            Layout.preferredHeight: lbHistorySize.height
-            Layout.alignment: Qt.AlignRight
-
-            Label {
-              id: lbHistorySize
-              anchors.right: parent.right
-              Layout.alignment: Qt.AlignVCenter
-              text: i18n("History size") + ':'
-              enabled: !chbHistoryDisabled.checked
-            }
-          }
-
-          SpinBox {
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
-            id: sbHistorySize
-            stepSize: 1
-            from: 1
-            to: 1e7
-            enabled: !chbHistoryDisabled.checked
-          }
-        }
-
-        Label {
-          visible: chbLiveEvaluation.checked
-          enabled: !chbHistoryDisabled.checked
-          text: i18n("History entries are only created by pressing Enter when \"Live evaluation\" is enabled!")
-        }
-
-        Label {
-          visible: chbLiveEvaluation.checked && qwr.historyFilename() != ""
-          enabled: !chbHistoryDisabled.checked
-          text: i18n("History entries can be edited in this file: ") + qwr.historyFilename()
-        }
-      }
+    Kirigami.InlineMessage {
+        Layout.fillWidth: true
+        visible: chbLiveEvaluation.checked && qwr.historyFilename() != ""
+        enabled: !chbHistoryDisabled.checked
+        // type: Kirigami.MessageType.Warning
+        text: i18n("History entries can be edited in this file: ") + qwr.historyFilename()
     }
   }
+
+
+  //
+  //   Item {
+  //     Layout.columnSpan: 2
+  //     height: 5
+  //   }
+  //
+  //   GroupBox {
+  //     Layout.preferredWidth: parent.width
+  //     Layout.columnSpan: 2
+  //
+  //     background: Rectangle {
+  //       width: parent.width
+  //       color: "transparent"
+  //       border.color: Qt.darker(Kirigami.Theme.textColor)
+  //       radius: 5
+  //     }
+  //
+  //     label: Rectangle {
+  //       anchors.horizontalCenter: parent.horizontalCenter
+  //       anchors.top: parent.top
+  //       anchors.topMargin: height/2
+  //       color: "transparent"
+  //       height: title.font.pixelSize
+  //       Text {
+  //         id: title
+  //         text: i18n("Input history")
+  //         anchors.centerIn: parent
+  //         color: Kirigami.Theme.textColor
+  //       }
+  //     }
+  //
+  //     ColumnLayout {
+  //       Layout.minimumWidth: parent.width
+  //
+  //       Item {
+  //         height: 5
+  //       }
+  //
+  //       CheckBox {
+  //         id: chbHistoryDisabled
+  //         text: i18n("Disable input history")
+  //       }
+  //
+  //       RowLayout {
+  //         Item {
+  //           Layout.preferredWidth: grid.width * 0.5
+  //           Layout.preferredHeight: lbHistorySize.height
+  //           Layout.alignment: Qt.AlignRight
+  //
+  //           Label {
+  //             id: lbHistorySize
+  //             anchors.right: parent.right
+  //             Layout.alignment: Qt.AlignVCenter
+  //             text: i18n("History size") + ':'
+  //             enabled: !chbHistoryDisabled.checked
+  //           }
+  //         }
+  //
+  //         SpinBox {
+  //           Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
+  //           id: sbHistorySize
+  //           stepSize: 1
+  //           from: 1
+  //           to: 1e7
+  //           enabled: !chbHistoryDisabled.checked
+  //         }
+  //       }
+  //
+  //       Label {
+  //         visible: chbLiveEvaluation.checked
+  //         enabled: !chbHistoryDisabled.checked
+  //         text: i18n("History entries are only created by pressing Enter when \"Live evaluation\" is enabled!")
+  //       }
+  //
+  //       Label {
+  //         visible: chbLiveEvaluation.checked && qwr.historyFilename() != ""
+  //         enabled: !chbHistoryDisabled.checked
+  //         text: i18n("History entries can be edited in this file: ") + qwr.historyFilename()
+  //       }
+  //     }
+  //   }
+  // }
 }

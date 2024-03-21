@@ -68,14 +68,6 @@ KCM.SimpleKCM {
     cfg_structuringModeChanged()
   }
 
-  // ExclusiveGroup {
-  //   id: unitConversionGroup
-  // }
-  //
-  // ExclusiveGroup {
-  //   id: structuringModeGroup
-  // }
-
   GridLayout {
     anchors.left: parent.left
     anchors.right: parent.right
@@ -83,8 +75,6 @@ KCM.SimpleKCM {
 
     GroupBox {
       title: i18n("Unit conversion")
-      // flat: false
-      // checkable: false
       Layout.fillWidth: true
       Layout.columnSpan: 2
 
@@ -100,7 +90,6 @@ KCM.SimpleKCM {
 
         RadioButton {
           id: unitConversionTypeNone
-          // exclusiveGroup: unitConversionGroup
           text: i18nc("Unit conversion", "None")
           onCheckedChanged: if (checked) cfg_unitConversion = 0;
         }
@@ -110,7 +99,6 @@ KCM.SimpleKCM {
 
         RadioButton {
           id: unitConversionTypeBest
-          // exclusiveGroup: unitConversionGroup
           text: i18nc("Unit conversion", "Best")
           onCheckedChanged: if (checked) cfg_unitConversion = 1;
         }
@@ -120,7 +108,6 @@ KCM.SimpleKCM {
 
         RadioButton {
           id: unitConversionTypeBase
-          // exclusiveGroup: unitConversionGroup
           text: i18nc("Unit conversion", "Base")
           onCheckedChanged: if (checked) cfg_unitConversion = 2;
         }
