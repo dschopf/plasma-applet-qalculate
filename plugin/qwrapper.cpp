@@ -1,4 +1,4 @@
-//  Copyright (c) 2016 - 2020 Daniel Schopf <schopfdan@gmail.com>
+//  Copyright (c) 2016 - 2024 Daniel Schopf <schopfdan@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining
 //  a copy of this software and associated documentation files (the "Software"),
@@ -64,14 +64,14 @@ void QWrapper::onResultText(QString result, QString resultBase2,
                             QString resultBase8, QString resultBase10,
                             QString resultBase16)
 {
-  emit resultText(result, resultBase2, resultBase8, resultBase10, resultBase16);
+  Q_EMIT resultText(result, resultBase2, resultBase8, resultBase10, resultBase16);
 }
 
-void QWrapper::onCalculationTimeout() { emit calculationTimeout(); }
+void QWrapper::onCalculationTimeout() { Q_EMIT calculationTimeout(); }
 
 void QWrapper::onExchangeRatesUpdated(QString date)
 {
-  emit exchangeRatesUpdated(date);
+  Q_EMIT exchangeRatesUpdated(date);
 }
 
 void QWrapper::onHistoryUpdated()
@@ -97,36 +97,20 @@ void QWrapper::launch(const QString& executable, const QString& args,
 {
   QStringList list;
 
-  if (!args.isEmpty())
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-    list = args.split(' ', Qt::SkipEmptyParts);
-#else
-    list = args.split(' ', QString::SkipEmptyParts);
-#endif
+  if (!args.isEmpty()) {
+    list = args.split(QChar::SpecialCharacter::Space, Qt::SkipEmptyParts);
+  }
 
-  for (auto& s : list)
-    s.replace(QString("${INPUT}"), expression);
+  for (auto& s : list) {
+    s.replace(QString::fromLatin1("${INPUT}"), expression);
+  }
 
   QProcess::startDetached(executable, list);
 }
 
 int QWrapper::getVersion()
 {
-#if defined(QALCULATE_MAJOR_VERSION) &&                                        \
-    (((QALCULATE_MAJOR_VERSION == 3) && (QALCULATE_MINOR_VERSION >= 3)) ||     \
-     (QALCULATE_MAJOR_VERSION > 3))
-  return 330;
-#elif defined(HAVE_QALCULATE_2_6_0)
-  return 260;
-#elif defined(HAVE_QALCULATE_2_5_0)
-  return 250;
-#elif defined(HAVE_QALCULATE_2_2_0)
-  return 220;
-#elif defined(HAVE_QALCULATE_2_0_0)
-  return 200;
-#else
-  return 100;
-#endif
+  return QALCULATE_MAJOR_VERSION * 100 + QALCULATE_MAJOR_VERSION * 10 + QALCULATE_MICRO_VERSION;
 }
 
 void QWrapper::setTimeout(const int timeout) { m_qalc.setTimeout(timeout); }

@@ -5,8 +5,8 @@ RUN pacman -Syu --noconfirm --noprogressbar && \
 	cmake \
 	extra-cmake-modules \
 	libqalculate \
-	plasma-framework \
-	qt5-declarative
+	plasma-sdk \
+	qt6-declarative
 
 COPY build_plugin.sh /entrypoint.sh
 

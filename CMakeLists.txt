@@ -1,30 +1,82 @@
-# Set minimum CMake version (required for CMake 3.0 or later)
 cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 
 project(Qalculate)
 
-set(QT_MIN_VERSION "5.4.0")
-set(KF5_MIN_VERSION "5.0.0")
+set(QT_MIN_VERSION "6.6.0")
+set(KF6_MIN_VERSION "6.0.0")
 
-# Use Extra CMake Modules (ECM) for common functionality. See
-# http://api.kde.org/ecm/manual/ecm.7.html and
-# http://api.kde.org/ecm/manual/ecm-kde-modules.7.html
-find_package(ECM REQUIRED NO_MODULE)
-# Needed by find_package(KF5Plasma) below.
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR}
-                      ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake
-)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+cmake_policy(SET CMP0160 OLD)
+set(CMAKE_POLICY_DEFAULT_CMP0160 OLD)
+
+find_package(ECM ${KF6_MIN_VERSION} REQUIRED NO_MODULE)
+
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/.cmake)
+find_package(PkgConfig)
+find_package(Readline)
+
+pkg_check_modules(QALCULATE REQUIRED libqalculate>=3.3.0)
+
+include(CMakePackageConfigHelpers)
+include(ECMQmlModule)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
-include(KDECompilerSettings)
+include(KDECompilerSettings NO_POLICY_SCOPE)
 
-# Locate plasma_install_package macro.
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED Quick)
-find_package(KF5Plasma ${KF5_MIN_VERSION} REQUIRED)
+find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED Qml)
+find_package(KF6 ${KF6_MIN_VERSION} REQUIRED I18n)
+find_package(Plasma ${PROJECT_DEP_VERSION} REQUIRED)
 
-add_subdirectory(plugin)
-add_subdirectory(translations)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror")
+set(APPLET_NAME "com.dschopf.plasma.qalculate")
 
-# Add installatation target ("make install").
-plasma_install_package(plasmoid org.kde.plasma.qalculate)
+plasma_install_package(package ${APPLET_NAME})
+
+ecm_add_qml_module(qalculateplugin URI ${APPLET_NAME})
+
+kde_enable_exceptions()
+
+target_sources(
+  qalculateplugin PRIVATE plugin/conversion.cpp plugin/qalculate.cpp
+                          plugin/qalculateplugin.cpp plugin/qwrapper.cpp)
+
+target_include_directories(qalculateplugin PRIVATE ${Readline_INCLUDE_DIR})
+
+target_link_libraries(qalculateplugin PRIVATE KF6::I18n qalculate Qt::Qml
+                                              ${Readline_LIBRARY})
+
+if(NOT GETTEXT_FOUND)
+  message(WARNING "msgfmt not found. Translations will *not* be installed")
+else()
+
+  file(GLOB PO_FILES translate/*.po)
+
+  set(catalogname plasma_applet_${APPLET_NAME})
+  set(GMO_FILES)
+
+  foreach(po_file ${PO_FILES})
+    get_filename_component(lang_code ${po_file} NAME_WE)
+    set(gmo_file ${CMAKE_CURRENT_BINARY_DIR}/${catalogname}_${lang_code}.gmo)
+    add_custom_command(
+      OUTPUT ${gmo_file}
+      COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} --check -o ${gmo_file} ${po_file}
+      DEPENDS ${po_file}
+      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+      VERBATIM)
+    install(
+      FILES ${gmo_file}
+      DESTINATION ${KDE_INSTALL_FULL_LOCALEDIR}/${lang_code}/LC_MESSAGES/
+      RENAME ${catalogname}.mo)
+    list(APPEND GMO_FILES ${gmo_file})
+  endforeach()
+
+  add_custom_target(translations DEPENDS ${GMO_FILES})
+
+endif()
+
+add_dependencies(qalculateplugin translations)
+ecm_finalize_qml_module(qalculateplugin)
+
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

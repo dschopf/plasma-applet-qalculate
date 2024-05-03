@@ -1,4 +1,4 @@
-//  Copyright (c) 2016 - 2020 Daniel Schopf <schopfdan@gmail.com>
+//  Copyright (c) 2016 - 2024 Daniel Schopf <schopfdan@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining
 //  a copy of this software and associated documentation files (the "Software"),
@@ -31,51 +31,14 @@
 #include <QNetworkAccessManager>
 #include <QObject>
 
-#if defined(QALCULATE_MAJOR_VERSION) && (((QALCULATE_MAJOR_VERSION == 3) && (QALCULATE_MINOR_VERSION >= 3)) || (QALCULATE_MAJOR_VERSION > 3))
-#define LOCAL_CURRENCY_SUPPORTED
-#endif
-
-#if defined(HAVE_QALCULATE_2_0_0) || defined(HAVE_QALCULATE_2_2_0) || defined(HAVE_QALCULATE_2_5_0) || defined(HAVE_QALCULATE_2_6_0)
-#define PRINT_CONTROL_INCLUDED
-#endif
-
-#if defined(HAVE_QALCULATE_2_2_0) || defined(HAVE_QALCULATE_2_5_0) || defined(HAVE_QALCULATE_2_6_0)
-#define INTERVAL_SUPPORT_INCLUDED
-#endif
-
-#if defined(HAVE_QALCULATE_2_5_0) || defined(HAVE_QALCULATE_2_6_0)
-#define HAVE_BINARY_TWOS_COMPLEMENT_OPTION
-#endif
-
 using print_result_t = std::pair<int, QString>;
 using res_vector_t = std::vector<print_result_t>;
 
 enum class State {
   Calculating,
   Idle,
-#if !defined(PRINT_CONTROL_INCLUDED)
-  Printing,
-#endif
   Stop
 };
-
-#if !defined(PRINT_CONTROL_INCLUDED)
-template<typename T>
-class scope_exit
-{
-public:
-    explicit scope_exit(T&& exitScope) : exitScope_(std::forward<T>(exitScope)){}
-    ~scope_exit(){try{exitScope_();}catch(...){}}
-private:
-    T exitScope_;
-};
-
-template <typename T>
-scope_exit<T> create_scope_exit(T&& exitScope)
-{
-    return scope_exit<T>(std::forward<T>(exitScope));
-}
-#endif // !PRINT_CONTROL_INCLUDED
 
 class IResultCallbacks {
 public:
@@ -160,26 +123,35 @@ public:
 
 private:
   void worker();
-  bool preprocessInput(const std::string& expr);
   void runCalculation(const std::string& expr);
   bool checkReturnState();
   bool printResultInBase(MathStructure& result, print_result_t& output);
   bool isBaseEnabled(const uint8_t base, MathStructure& result);
   void initHistoryFile();
-#if defined(LOCAL_CURRENCY_SUPPORTED)
   void initCurrencyList();
-#endif
 
   // conversion handling in conversion.cpp
-  bool handleToExpression(const std::string& expr);
-  bool handleFactorize(const std::string& expr);
 
+  /**
+   * Function for handling all conversion cases.
+   *
+   * @param expr The expression to handle
+   * @return Whether or not a conversion was performed
+   */
+  bool handleConversion(const std::string& expr);
+  bool handleToExpression(const std::string& expr);
+  bool handleInExpression(const QStringList& items);
+public:
+  // final handler functions need to be public for function map
+  bool handleFactorize(const QString& value) const;
+  bool handleBaseConversion(const QString& value, uint16_t base) const;
+  bool handleBaseConversionCustom(const QString& value, uint16_t base) const;
+
+private:
   std::unique_ptr<Calculator> m_pcalc;
   EvaluationOptions m_eval_options;
   PrintOptions m_print_options;
-#if defined(INTERVAL_SUPPORT_INCLUDED)
   bool m_is_approximate{false};
-#endif
   std::map<int, Number> m_print_limits;
   QNetworkAccessManager m_netmgr;
 
@@ -210,11 +182,9 @@ private:
     QString last_entry;
   } m_history;
 
-#if defined(LOCAL_CURRENCY_SUPPORTED)
   QStringList m_currencies;
-#endif
 
-private slots:
+private Q_SLOTS:
   void fileDownloaded(QNetworkReply* pReply);
 };
 
