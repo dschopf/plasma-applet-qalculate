@@ -1,3 +1,6 @@
 build*
 *.kdev4
 package/contents/locale
+*.lokalize
+lokalize-scripts/
+main.lqa
