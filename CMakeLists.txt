@@ -29,8 +29,11 @@ find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED Qml)
 find_package(KF6 ${KF6_MIN_VERSION} REQUIRED I18n)
 find_package(Plasma ${PROJECT_DEP_VERSION} REQUIRED)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wno-error=maybe-uninitialized")
 set(APPLET_NAME "com.dschopf.plasma.qalculate")
+
+option(ENABLE_TESTS "Enable unit tests" OFF)
+add_feature_info(ENABLE_TESTS ENABLE_TESTS "Enables the building of unit tests.")
 
 plasma_install_package(package ${APPLET_NAME})
 
@@ -39,12 +42,12 @@ ecm_add_qml_module(qalculateplugin URI ${APPLET_NAME})
 kde_enable_exceptions()
 
 target_sources(
-  qalculateplugin PRIVATE plugin/conversion.cpp plugin/qalculate.cpp
+  qalculateplugin PRIVATE plugin/preprocessor.cpp plugin/qalculate.cpp
                           plugin/qalculateplugin.cpp plugin/qwrapper.cpp)
 
 target_include_directories(qalculateplugin PRIVATE ${Readline_INCLUDE_DIR})
 
-target_link_libraries(qalculateplugin PRIVATE KF6::I18n qalculate Qt::Qml
+target_link_libraries(qalculateplugin PRIVATE KF6::I18n qalculate Qt::Qml mpfr
                                               ${Readline_LIBRARY})
 
 if(NOT GETTEXT_FOUND)
@@ -78,5 +81,9 @@ endif()
 
 add_dependencies(qalculateplugin translations)
 ecm_finalize_qml_module(qalculateplugin)
+
+if(ENABLE_TESTS)
+add_subdirectory(plugin/tests)
+endif()
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

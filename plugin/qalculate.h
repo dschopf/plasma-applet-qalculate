@@ -21,62 +21,47 @@
 #ifndef PLUGIN_QALCULATE_H_INCLUDED
 #define PLUGIN_QALCULATE_H_INCLUDED
 
-#include <libqalculate/qalculate.h>
-
+#include "Iqalculate.h"
 #include <condition_variable>
 #include <memory>
 #include <mutex>
 #include <thread>
+#include <vector>
 
+#include <QCoreApplication>
 #include <QNetworkAccessManager>
 #include <QObject>
+
+#include <libqalculate/qalculate.h>
 
 using print_result_t = std::pair<int, QString>;
 using res_vector_t = std::vector<print_result_t>;
 
-enum class State {
-  Calculating,
-  Idle,
-  Stop
-};
-
-class IResultCallbacks {
-public:
-  virtual ~IResultCallbacks() {}
-
-  virtual void onResultText(QString result, QString resultBase2, QString resultBase8, QString resultBase10, QString resultBase16) = 0;
-  virtual void onCalculationTimeout() = 0;
-};
-
-class IQWrapperCallbacks {
-public:
-  virtual ~IQWrapperCallbacks() {}
-
-  virtual void onHistoryModelChanged() = 0;
-  virtual void onExchangeRatesUpdated(QString date) = 0;
-  virtual void onHistoryUpdated() = 0;
-};
-
-class Qalculate : public QObject {
+class Qalculate : public QObject, public IHistoryCallbacks {
   Q_OBJECT
 
 private:
-  Qalculate();
-  ~Qalculate();
+  enum class State {
+    Calculating,
+    Idle,
+    Stop
+  };
 
 public:
+  explicit Qalculate(QObject* parent);
   Qalculate(Qalculate const&) = delete;
   Qalculate(Qalculate const&&) = delete;
   void operator=(Qalculate const&) = delete;
   void operator=(Qalculate const&&) = delete;
+  ~Qalculate();
+#if defined(ENABLE_TESTS)
+  void shutdown();
+#endif // ENABLE_TESTS
 
-  static Qalculate& instance() {
-    static Qalculate inst;
-    return inst;
-  }
+  static std::shared_ptr<Qalculate> getInstance(QObject* parent = nullptr);
 
-  void register_callbacks(IQWrapperCallbacks* p);
-  void unregister_callbacks(IQWrapperCallbacks* p);
+  void registerCallbacks(IQWrapperCallbacks* p);
+  void unregisterCallbacks(IQWrapperCallbacks* p);
 
   // main function
   void evaluate(const QString& input, const bool enter_pressed, IResultCallbacks* cb);
@@ -117,8 +102,8 @@ public:
   void setDefaultCurrency(const int currency_idx);
 
   // history management
-  int historyEntries();
-  QString getHistoryEntry(int index);
+  int historyEntries() override;
+  QString getHistoryEntry(int index) override;
   QString historyFilename() const;
 
 private:
@@ -133,14 +118,18 @@ private:
   // conversion handling in conversion.cpp
 
   /**
-   * Function for handling all conversion cases.
+   * Function for handling internal input processing.
    *
-   * @param expr The expression to handle
-   * @return Whether or not a conversion was performed
+   * @param expr The expression to process
+   * @return Whether or not the input was handled
    */
-  bool handleConversion(const std::string& expr);
+  bool preprocessInput(const std::string& expr);
+  bool checkTimestamp(const std::string& expr);
+  bool checkAssignment(const std::string& expr);
+  bool checkComparison(const std::string& expr);
   bool handleToExpression(const std::string& expr);
   bool handleInExpression(const QStringList& items);
+
 public:
   // final handler functions need to be public for function map
   bool handleFactorize(const QString& value) const;
@@ -149,8 +138,8 @@ public:
 
 private:
   std::unique_ptr<Calculator> m_pcalc;
-  EvaluationOptions m_eval_options;
-  PrintOptions m_print_options;
+  EvaluationOptions m_eval_options{};
+  PrintOptions m_print_options{};
   bool m_is_approximate{false};
   std::map<int, Number> m_print_limits;
   QNetworkAccessManager m_netmgr;
@@ -162,7 +151,7 @@ private:
     bool enable_base16{false};
     int timeout{10000};
     bool detectTimestamps{false};
-  } m_config;
+  } m_config{};
 
   struct {
     std::thread thread;
@@ -174,15 +163,15 @@ private:
     bool exchange_rate_updating{false};
     std::vector<std::pair<IResultCallbacks*, QString>> queue;
     IResultCallbacks* active_cb{nullptr};
-  } m_state;
+  } m_state{};
 
   struct {
     bool enabled{true};
     std::string filename;
     QString last_entry;
-  } m_history;
+  } m_history{};
 
-  QStringList m_currencies;
+  QStringList m_currencies{};
 
 private Q_SLOTS:
   void fileDownloaded(QNetworkReply* pReply);

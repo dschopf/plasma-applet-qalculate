@@ -43,9 +43,9 @@ namespace {
   constexpr auto print_limit_base16{"0xffffffffffffffffffffffffffffffff"};
 } // namespace
 
-Qalculate::Qalculate()
-    : m_pcalc(), m_eval_options(), m_print_options(), m_netmgr(), m_config(),
-      m_state(), m_history()
+Qalculate::Qalculate(QObject* parent)
+  : QObject(nullptr)
+  , m_netmgr{parent}
 {
   m_pcalc = std::make_unique<Calculator>();
   m_pcalc->loadExchangeRates();
@@ -95,20 +95,47 @@ Qalculate::Qalculate()
 
 Qalculate::~Qalculate()
 {
+  disconnect(&m_netmgr, SIGNAL(finished(QNetworkReply*)));
+
   {
     std::unique_lock<std::mutex> _(m_state.mutex);
     m_state.state = State::Stop;
+    m_state.cond.notify_one();
   }
 
-  disconnect(&m_netmgr, SIGNAL(finished(QNetworkReply*)));
-
-  m_state.cond.notify_one();
-  m_state.thread.join();
+  if (m_state.thread.joinable()) {
+    m_state.thread.join();
+  }
   m_pcalc->terminateThreads();
-  m_pcalc.reset();
 }
 
-void Qalculate::register_callbacks(IQWrapperCallbacks* p)
+#if defined(ENABLE_TESTS)
+void Qalculate::shutdown()
+{
+  {
+    std::unique_lock<std::mutex> _(m_state.mutex);
+    m_state.state = State::Stop;
+    m_state.cond.notify_one();
+  }
+
+  if (m_state.thread.joinable()) {
+    m_state.thread.join();
+  }
+}
+#endif // ENABLE_TESTS
+
+std::shared_ptr<Qalculate> Qalculate::getInstance(QObject* parent)
+{
+  static std::weak_ptr<Qalculate> wp;
+  auto sp{wp.lock()};
+  if (!sp) {
+    sp = std::make_shared<Qalculate>(parent);
+    wp = sp;
+  }
+  return sp;
+}
+
+void Qalculate::registerCallbacks(IQWrapperCallbacks* p)
 {
   std::unique_lock<std::mutex> _(m_state.mutex);
 
@@ -119,7 +146,7 @@ void Qalculate::register_callbacks(IQWrapperCallbacks* p)
   }
 }
 
-void Qalculate::unregister_callbacks(IQWrapperCallbacks* p)
+void Qalculate::unregisterCallbacks(IQWrapperCallbacks* p)
 {
   std::unique_lock<std::mutex> _(m_state.mutex);
 
@@ -466,19 +493,26 @@ void Qalculate::worker()
       m_is_approximate = false;
       lock.unlock();
       m_pcalc->startControl(m_config.timeout);
-      if (!handleConversion(expr)) {
+      if (!preprocessInput(expr)) {
         runCalculation(expr);
       }
       m_pcalc->stopControl();
       lock.lock();
     }
 
+    if (m_state.state == State::Stop) {
+      break;
+    }
     m_state.state = State::Idle;
     m_state.active_cb = nullptr;
-    while (m_state.queue.empty() && m_state.state != State::Stop) {
-      m_state.cond.wait(lock);
-    }
+    m_state.cond.wait(lock, [this]() {
+      return !m_state.queue.empty() || m_state.state == State::Stop;
+    });
   }
+
+  // clear thread cache allocated from within libqalculate
+  // to avoid memory leaks
+  mpfr_free_cache2(MPFR_FREE_LOCAL_CACHE);
 }
 
 void Qalculate::runCalculation(const std::string& expr)
