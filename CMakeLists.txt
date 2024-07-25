@@ -18,6 +18,7 @@ find_package(PkgConfig)
 find_package(Readline)
 
 pkg_check_modules(QALCULATE REQUIRED libqalculate>=3.3.0)
+pkg_check_modules(MPFR REQUIRED mpfr)
 
 include(CMakePackageConfigHelpers)
 include(ECMQmlModule)
@@ -29,11 +30,13 @@ find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED Qml)
 find_package(KF6 ${KF6_MIN_VERSION} REQUIRED I18n)
 find_package(Plasma ${PROJECT_DEP_VERSION} REQUIRED)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wno-error=maybe-uninitialized")
+set(CMAKE_CXX_FLAGS
+    "${CMAKE_CXX_FLAGS} -Wall -Werror -Wno-error=maybe-uninitialized")
 set(APPLET_NAME "com.dschopf.plasma.qalculate")
 
 option(ENABLE_TESTS "Enable unit tests" OFF)
-add_feature_info(ENABLE_TESTS ENABLE_TESTS "Enables the building of unit tests.")
+add_feature_info(ENABLE_TESTS ENABLE_TESTS
+                 "Enables the building of unit tests.")
 
 plasma_install_package(package ${APPLET_NAME})
 
@@ -47,8 +50,9 @@ target_sources(
 
 target_include_directories(qalculateplugin PRIVATE ${Readline_INCLUDE_DIR})
 
-target_link_libraries(qalculateplugin PRIVATE KF6::I18n qalculate Qt::Qml mpfr
-                                              ${Readline_LIBRARY})
+target_link_libraries(
+  qalculateplugin PRIVATE KF6::I18n ${QALCULATE_LIBRARIES} Qt::Qml
+                          ${MPFR_LIBRARIES} ${Readline_LIBRARY})
 
 if(NOT GETTEXT_FOUND)
   message(WARNING "msgfmt not found. Translations will *not* be installed")
@@ -83,7 +87,7 @@ add_dependencies(qalculateplugin translations)
 ecm_finalize_qml_module(qalculateplugin)
 
 if(ENABLE_TESTS)
-add_subdirectory(plugin/tests)
+  add_subdirectory(plugin/tests)
 endif()
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
