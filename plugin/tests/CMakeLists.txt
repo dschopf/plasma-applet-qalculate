@@ -6,8 +6,10 @@ add_executable(QalculateTests helpers.cpp main.cpp preprocessor_assign.cpp
                               ../preprocessor.cpp ../qalculate.cpp)
 
 target_compile_definitions(QalculateTests PRIVATE ENABLE_TESTS)
-target_compile_options(QalculateTests PRIVATE -fsanitize=address)
-target_link_options(QalculateTests PRIVATE -fsanitize=address)
+
+# disable ASAN tests until upstream changes are released
+#target_compile_options(QalculateTests PRIVATE -fsanitize=address)
+#target_link_options(QalculateTests PRIVATE -fsanitize=address)
 
 target_link_libraries(
   QalculateTests
