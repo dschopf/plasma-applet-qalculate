@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plasma_applet_com.dschopf.plasma.qalculate\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2024-04-07 19:52+0200\n"
+"POT-Creation-Date: 2025-12-16 22:20+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -376,7 +376,8 @@ msgid "Show integers also in base"
 msgstr ""
 
 #: ../package/contents/ui/config/Output.qml:182
-#: ../package/contents/ui/FullRepresentation.qml:94 ../plugin/conversion.cpp:65
+#: ../package/contents/ui/FullRepresentation.qml:94
+#: ../plugin/preprocessor.cpp:66
 msgid "Binary"
 msgstr ""
 
@@ -415,30 +416,30 @@ msgstr ""
 msgid "Calculation timed out"
 msgstr ""
 
-#: ../plugin/conversion.cpp:59
+#: ../plugin/preprocessor.cpp:60
 msgid "factors"
 msgstr ""
 
-#: ../plugin/conversion.cpp:61
+#: ../plugin/preprocessor.cpp:62
 msgid "roman"
 msgstr ""
 
-#: ../plugin/conversion.cpp:69
+#: ../plugin/preprocessor.cpp:70
 msgid "octal"
 msgstr ""
 
-#: ../plugin/conversion.cpp:73
+#: ../plugin/preprocessor.cpp:74
 msgid "decimal"
 msgstr ""
 
-#: ../plugin/conversion.cpp:77
+#: ../plugin/preprocessor.cpp:78
 msgid "duodecimal"
 msgstr ""
 
-#: ../plugin/conversion.cpp:81
+#: ../plugin/preprocessor.cpp:82
 msgid "hexadecimal"
 msgstr ""
 
-#: ../plugin/conversion.cpp:122
+#: ../plugin/preprocessor.cpp:120
 msgid "base"
 msgstr ""

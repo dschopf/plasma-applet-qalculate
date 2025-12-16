@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plasma_applet_com.dschopf.plasma.qalculate\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2024-04-07 19:52+0200\n"
+"POT-Creation-Date: 2025-12-16 22:20+0700\n"
 "PO-Revision-Date: 2024-04-07 19:52+0200\n"
 "Last-Translator: Cherif Kahsum <cherkaba@pm.me>\n"
 "Language-Team: French <>\n"
@@ -62,7 +62,9 @@ msgstr "Changer la devise par défaut"
 #: ../package/contents/ui/config/Currency.qml:107
 msgid ""
 "Default currency does only work when Input->Conversion is set to \"Best\"!"
-msgstr "La devise par défaut ne fonctionne que lorsque Entrée->Conversion est défini sur \"Optimal\"!"
+msgstr ""
+"La devise par défaut ne fonctionne que lorsque Entrée->Conversion est défini "
+"sur \"Optimal\"!"
 
 #: ../package/contents/ui/config/General.qml:63
 msgid "Behavior"
@@ -100,8 +102,8 @@ msgstr "Icône"
 
 #: ../package/contents/ui/config/General.qml:188
 msgctxt "Open icon chooser dialog"
-msgid "Choose Icôn"
-msgstr "Choisire une icone"
+msgid "Choose Icon"
+msgstr "Choisire une icône"
 
 #: ../package/contents/ui/config/General.qml:193
 msgctxt "Reset icon to default"
@@ -149,8 +151,8 @@ msgid ""
 "History entries are only created by pressing Enter when \"Live evaluation\" "
 "is enabled!"
 msgstr ""
-"Les entrées de l'historique ne sont créées qu'en appuyant sur Entrée "
-"lorsque l'\"Évaluation en temps réel\" est activée !"
+"Les entrées de l'historique ne sont créées qu'en appuyant sur Entrée lorsque "
+"l'\"Évaluation en temps réel\" est activée !"
 
 #: ../package/contents/ui/config/Input.qml:44
 msgid "Unit conversion"
@@ -174,7 +176,8 @@ msgstr "Optimal"
 #: ../package/contents/ui/config/Input.qml:69
 msgctxt "Unit conversion"
 msgid "Convert to the best suited SI units (the least amount of units)."
-msgstr "Convertir vers les unités SI les mieux adaptées (le moins d'unités possible)."
+msgstr ""
+"Convertir vers les unités SI les mieux adaptées (le moins d'unités possible)."
 
 #: ../package/contents/ui/config/Input.qml:77
 msgctxt "Unit conversion"
@@ -198,7 +201,8 @@ msgstr "Aucun"
 #: ../package/contents/ui/config/Input.qml:115
 msgctxt "Structuring mode"
 msgid "Do not do any factorization or additional simplifications."
-msgstr "Ne pas effectuer de factorisation ni de simplifications supplémentaires."
+msgstr ""
+"Ne pas effectuer de factorisation ni de simplifications supplémentaires."
 
 #: ../package/contents/ui/config/Input.qml:123
 msgctxt "Structuring mode"
@@ -286,7 +290,8 @@ msgstr "Décimal"
 #: ../package/contents/ui/config/Output.qml:58
 msgctxt "FractionFormat"
 msgid "Display numbers in decimal, not fractional, format (ex. 0.333333)."
-msgstr "Afficher les nombres au format décimal, non fractionnel (ex. 0,333333)."
+msgstr ""
+"Afficher les nombres au format décimal, non fractionnel (ex. 0,333333)."
 
 #: ../package/contents/ui/config/Output.qml:66
 msgctxt "FractionFormat"
@@ -295,8 +300,12 @@ msgstr "Exact"
 
 #: ../package/contents/ui/config/Output.qml:74
 msgctxt "FractionFormat"
-msgid "Display as fraction if necessary to get an exact display of the result (ex. 1/3, but 0.25)."
-msgstr "Afficher sous forme de fraction si nécessaire pour obtenir un affichage exact du résultat (ex. 1/3, mais 0,25)."
+msgid ""
+"Display as fraction if necessary to get an exact display of the result (ex. "
+"1/3, but 0.25)."
+msgstr ""
+"Afficher sous forme de fraction si nécessaire pour obtenir un affichage "
+"exact du résultat (ex. 1/3, mais 0,25)."
 
 #: ../package/contents/ui/config/Output.qml:82
 msgctxt "FractionFormat"
@@ -369,14 +378,17 @@ msgstr "Exposants négatifs"
 
 #: ../package/contents/ui/config/Output.qml:172
 msgid "Use two's complement representation for negative binary numbers"
-msgstr "Utiliser la représentation en complément à deux pour les nombres binaires négatifs"
+msgstr ""
+"Utiliser la représentation en complément à deux pour les nombres binaires "
+"négatifs"
 
 #: ../package/contents/ui/config/Output.qml:181
 msgid "Show integers also in base"
 msgstr "Afficher aussi les entiers en base"
 
 #: ../package/contents/ui/config/Output.qml:182
-#: ../package/contents/ui/FullRepresentation.qml:94 ../plugin/conversion.cpp:65
+#: ../package/contents/ui/FullRepresentation.qml:94
+#: ../plugin/preprocessor.cpp:66
 msgid "Binary"
 msgstr "Binaire"
 
@@ -415,30 +427,30 @@ msgstr "Résultat"
 msgid "Calculation timed out"
 msgstr "Calcul interrompu (délai dépassé)"
 
-#: ../plugin/conversion.cpp:59
+#: ../plugin/preprocessor.cpp:60
 msgid "factors"
 msgstr "facteurs"
 
-#: ../plugin/conversion.cpp:61
+#: ../plugin/preprocessor.cpp:62
 msgid "roman"
 msgstr "romain"
 
-#: ../plugin/conversion.cpp:69
+#: ../plugin/preprocessor.cpp:70
 msgid "octal"
 msgstr "octal"
 
-#: ../plugin/conversion.cpp:73
+#: ../plugin/preprocessor.cpp:74
 msgid "decimal"
 msgstr "décimal"
 
-#: ../plugin/conversion.cpp:77
+#: ../plugin/preprocessor.cpp:78
 msgid "duodecimal"
 msgstr "duodécimal"
 
-#: ../plugin/conversion.cpp:81
+#: ../plugin/preprocessor.cpp:82
 msgid "hexadecimal"
 msgstr "hexadécimal"
 
-#: ../plugin/conversion.cpp:122
+#: ../plugin/preprocessor.cpp:120
 msgid "base"
 msgstr "base"
