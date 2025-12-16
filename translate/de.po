@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2024-04-07 19:52+0200\n"
+"POT-Creation-Date: 2025-12-16 22:20+0700\n"
 "PO-Revision-Date: 2020-01-15 19:40+0100\n"
 "Last-Translator: Daniel Schopf <schopf.dan@gmail.org>\n"
 "Language-Team: German <>\n"
@@ -381,7 +381,8 @@ msgid "Show integers also in base"
 msgstr "Ganzzahlen auch in diesen Basen anzeigen"
 
 #: ../package/contents/ui/config/Output.qml:182
-#: ../package/contents/ui/FullRepresentation.qml:94 ../plugin/conversion.cpp:65
+#: ../package/contents/ui/FullRepresentation.qml:94
+#: ../plugin/preprocessor.cpp:66
 msgid "Binary"
 msgstr "Binär"
 
@@ -420,30 +421,30 @@ msgstr "Ergebnis"
 msgid "Calculation timed out"
 msgstr "Zeitüberschreitung"
 
-#: ../plugin/conversion.cpp:59
+#: ../plugin/preprocessor.cpp:60
 msgid "factors"
 msgstr "Faktoren"
 
-#: ../plugin/conversion.cpp:61
+#: ../plugin/preprocessor.cpp:62
 msgid "roman"
 msgstr "römisch"
 
-#: ../plugin/conversion.cpp:69
+#: ../plugin/preprocessor.cpp:70
 msgid "octal"
 msgstr "oktal"
 
-#: ../plugin/conversion.cpp:73
+#: ../plugin/preprocessor.cpp:74
 msgid "decimal"
 msgstr "dezimal"
 
-#: ../plugin/conversion.cpp:77
+#: ../plugin/preprocessor.cpp:78
 msgid "duodecimal"
 msgstr "duodezimal"
 
-#: ../plugin/conversion.cpp:81
+#: ../plugin/preprocessor.cpp:82
 msgid "hexadecimal"
 msgstr "hexdezimal"
 
-#: ../plugin/conversion.cpp:122
+#: ../plugin/preprocessor.cpp:120
 msgid "base"
 msgstr "Basis"
