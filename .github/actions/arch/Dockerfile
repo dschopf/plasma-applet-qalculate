@@ -4,6 +4,7 @@ RUN pacman -Syu --noconfirm --noprogressbar && \
         pacman -Syq --noconfirm --noprogressbar \
 	cmake \
 	extra-cmake-modules \
+	gtest \
 	libqalculate \
 	plasma-sdk \
 	qt6-declarative

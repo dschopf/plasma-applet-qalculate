@@ -21,16 +21,19 @@
 #ifndef PLUGIN_QWRAPPER_H_INCLUDED
 #define PLUGIN_QWRAPPER_H_INCLUDED
 
-#include <QAbstractListModel>
-
+#include "Iqalculate.h"
 #include "qalculate.h"
+
+#include <memory>
+
+#include <QAbstractListModel>
+#include <QVariant>
 
 class HistoryListModel : public QAbstractListModel {
   Q_OBJECT
 
 public:
-  HistoryListModel() : m_calc(Qalculate::instance()) {}
-  explicit HistoryListModel(QObject* parent);
+  HistoryListModel(QObject* parent, IHistoryCallbacks* callbacks);
 
   enum {
     History = Qt::UserRole + 1
@@ -44,7 +47,7 @@ public:
   void onHistoryModelChanged();
 
 private:
-  Qalculate& m_calc;
+  IHistoryCallbacks* m_callbacks{nullptr};
 };
 
 class QWrapper : public QObject, public IQWrapperCallbacks, public IResultCallbacks {
@@ -61,7 +64,6 @@ public:
   // IQWrapperCallbacks
   void onHistoryModelChanged() override;
   void onExchangeRatesUpdated(QString date) override;
-  void onHistoryUpdated() override;
 
 public Q_SLOTS:
   void evaluate(const QString& input, const bool enter_pressed);
@@ -115,7 +117,7 @@ Q_SIGNALS:
   void exchangeRatesUpdated(QString date);
 
 private:
-  Qalculate& m_qalc;
+  std::shared_ptr<Qalculate> m_qalc;
   HistoryListModel m_history;
 };
 

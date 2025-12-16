@@ -17,7 +17,7 @@ Plasma KNewStuff3 system is also available at the [Pling Store](https://store.kd
 Install this AUR package: [plasma5-applets-qalculate](https://aur.archlinux.org/packages/plasma5-applets-qalculate/).
 
 ```bash
-yay -Syu plasma5-applets-qalculate
+yay -Syu plasma6-applets-qalculate
 ```
 
 ## Building/Installing from source

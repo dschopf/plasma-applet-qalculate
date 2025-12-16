@@ -1,0 +1,444 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the plasma_applet_com.dschopf.plasma.qalculate package.
+# Cherkah <cherkaba@pm.me>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: plasma_applet_com.dschopf.plasma.qalculate\n"
+"Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
+"POT-Creation-Date: 2024-04-07 19:52+0200\n"
+"PO-Revision-Date: 2024-04-07 19:52+0200\n"
+"Last-Translator: Cherif Kahsum <cherkaba@pm.me>\n"
+"Language-Team: French <>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../package/contents/config/config.qml:27
+msgid "General"
+msgstr "Général"
+
+#: ../package/contents/config/config.qml:32
+msgid "Input"
+msgstr "Entrée"
+
+#: ../package/contents/config/config.qml:37
+msgid "Output"
+msgstr "Résultat"
+
+#: ../package/contents/config/config.qml:42
+#: ../package/contents/ui/config/Currency.qml:48
+msgid "Currency"
+msgstr "Devise"
+
+#: ../package/contents/ui/config/Currency.qml:49
+msgid "Update exchange rates at startup"
+msgstr "Actualiser les taux de change au démarrage"
+
+#: ../package/contents/ui/config/Currency.qml:54
+#: ../package/contents/ui/config/Currency.qml:83
+msgctxt "Exchange rates"
+msgid "Last update"
+msgstr "Dernière actualisation"
+
+#: ../package/contents/ui/config/Currency.qml:64
+msgid "Update exchange rates regularly"
+msgstr "Fréquence de l'Actualisation des taux de change"
+
+#: ../package/contents/ui/config/Currency.qml:74
+msgid "hour"
+msgid_plural "hours"
+msgstr[0] "heure"
+msgstr[1] "heures"
+
+#: ../package/contents/ui/config/Currency.qml:84
+msgid "Switch default currency"
+msgstr "Changer la devise par défaut"
+
+#: ../package/contents/ui/config/Currency.qml:107
+msgid ""
+"Default currency does only work when Input->Conversion is set to \"Best\"!"
+msgstr "La devise par défaut ne fonctionne que lorsque Entrée->Conversion est défini sur \"Optimal\"!"
+
+#: ../package/contents/ui/config/General.qml:63
+msgid "Behavior"
+msgstr "Comportement"
+
+#: ../package/contents/ui/config/General.qml:64
+#: ../package/contents/ui/FullRepresentation.qml:74
+msgid "Copy result to clipboard"
+msgstr "Copier le résultat dans le presse-papiers"
+
+#: ../package/contents/ui/config/General.qml:72
+#: ../package/contents/ui/config/General.qml:85
+msgid "Only works when pressing \"Return\""
+msgstr "Fonctionne uniquement lorsque \"Entrée\" est selectionné"
+
+#: ../package/contents/ui/config/General.qml:77
+msgid "Write results in input line edit"
+msgstr "Écrire les résultats dans le champ d'édition de saisie"
+
+#: ../package/contents/ui/config/General.qml:90
+msgid "Live evaluation"
+msgstr "Évaluation en temps réél"
+
+#: ../package/contents/ui/config/General.qml:95
+msgid "Calculation timeout"
+msgstr "Expiration du calcul"
+
+#: ../package/contents/ui/config/General.qml:101
+msgid "Reset to default value"
+msgstr "Réinitialiser à la valeur par défaut"
+
+#: ../package/contents/ui/config/General.qml:114
+msgid "Icon"
+msgstr "Icône"
+
+#: ../package/contents/ui/config/General.qml:188
+msgctxt "Open icon chooser dialog"
+msgid "Choose Icôn"
+msgstr "Choisire une icone"
+
+#: ../package/contents/ui/config/General.qml:193
+msgctxt "Reset icon to default"
+msgid "Clear Icon"
+msgstr "Supprimer l'icône"
+
+#: ../package/contents/ui/config/General.qml:206
+msgid "Launch program when clicking the Q! logo in the Plasmoid"
+msgstr "Lancer l'application en cliquant sur le logo Q! dans le plasmoïde"
+
+#: ../package/contents/ui/config/General.qml:214
+msgid "Executable"
+msgstr "Application"
+
+#: ../package/contents/ui/config/General.qml:220
+msgid "Clear the field"
+msgstr "Effacer le champs"
+
+#: ../package/contents/ui/config/General.qml:237
+msgid "Please select an executable"
+msgstr "Veuillez sélectionner un fichier exécutable"
+
+#: ../package/contents/ui/config/General.qml:251
+msgid "Arguments"
+msgstr "Arguments"
+
+#: ../package/contents/ui/config/General.qml:267
+msgid "${INPUT} will be replaced with the current input string"
+msgstr "${INPUT} sera remplacé par la chaîne d'entrée actuelle"
+
+#: ../package/contents/ui/config/General.qml:276
+msgid "Disable input history"
+msgstr "Désactiver l'historique des saisies"
+
+#: ../package/contents/ui/config/General.qml:277
+msgid "Input history"
+msgstr "Historique des saisies"
+
+#: ../package/contents/ui/config/General.qml:290
+msgid "History entries are stored in this file"
+msgstr "Les entrées de l'historique sont stockées dans ce fichier"
+
+#: ../package/contents/ui/config/General.qml:299
+msgid ""
+"History entries are only created by pressing Enter when \"Live evaluation\" "
+"is enabled!"
+msgstr ""
+"Les entrées de l'historique ne sont créées qu'en appuyant sur Entrée "
+"lorsque l'\"Évaluation en temps réel\" est activée !"
+
+#: ../package/contents/ui/config/Input.qml:44
+msgid "Unit conversion"
+msgstr "Converstion d'unités"
+
+#: ../package/contents/ui/config/Input.qml:45
+msgctxt "Unit conversion"
+msgid "None"
+msgstr "Aucunes"
+
+#: ../package/contents/ui/config/Input.qml:53
+msgctxt "Unit conversion"
+msgid "Do not do any conversion of units in addition to syncing."
+msgstr "Ne pas effectuer de conversion d'unités en plus de la synchronisation"
+
+#: ../package/contents/ui/config/Input.qml:61
+msgctxt "Unit conversion"
+msgid "Best"
+msgstr "Optimal"
+
+#: ../package/contents/ui/config/Input.qml:69
+msgctxt "Unit conversion"
+msgid "Convert to the best suited SI units (the least amount of units)."
+msgstr "Convertir vers les unités SI les mieux adaptées (le moins d'unités possible)."
+
+#: ../package/contents/ui/config/Input.qml:77
+msgctxt "Unit conversion"
+msgid "Base"
+msgstr "Base"
+
+#: ../package/contents/ui/config/Input.qml:85
+msgctxt "Unit conversion"
+msgid "Convert to base units."
+msgstr "Convertir en unités de base."
+
+#: ../package/contents/ui/config/Input.qml:106
+msgid "Structuring mode"
+msgstr "Mode de structuration"
+
+#: ../package/contents/ui/config/Input.qml:107
+msgctxt "Structuring mode"
+msgid "None"
+msgstr "Aucun"
+
+#: ../package/contents/ui/config/Input.qml:115
+msgctxt "Structuring mode"
+msgid "Do not do any factorization or additional simplifications."
+msgstr "Ne pas effectuer de factorisation ni de simplifications supplémentaires."
+
+#: ../package/contents/ui/config/Input.qml:123
+msgctxt "Structuring mode"
+msgid "Simplify"
+msgstr "Simplifier"
+
+#: ../package/contents/ui/config/Input.qml:131
+msgctxt "Structuring mode"
+msgid "Simplify the result as much as possible."
+msgstr "Simplifier le résultat autant que possible"
+
+#: ../package/contents/ui/config/Input.qml:139
+msgctxt "Structuring mode"
+msgid "Factorize"
+msgstr "Factoriser"
+
+#: ../package/contents/ui/config/Input.qml:147
+msgctxt "Structuring mode"
+msgid "Factorize the result."
+msgstr "Factoriser le résultat."
+
+#: ../package/contents/ui/config/Input.qml:168
+msgid "Decimal separator"
+msgstr "Séparateur décimal"
+
+#: ../package/contents/ui/config/Input.qml:169
+msgctxt "Separator"
+msgid "\".\" (dot)"
+msgstr "\".\" (point)"
+
+#: ../package/contents/ui/config/Input.qml:178
+msgctxt "Separator"
+msgid "\",\" (comma)"
+msgstr "\",\" (virgule)"
+
+#: ../package/contents/ui/config/Input.qml:196
+msgid "Use KDE setting"
+msgstr "Utiliser les paramètres KDE"
+
+#: ../package/contents/ui/config/Input.qml:212
+msgid "Angle unit"
+msgstr "Unité d'angle"
+
+#: ../package/contents/ui/config/Input.qml:216
+msgctxt "Angle Unit"
+msgid "None"
+msgstr "Aucune"
+
+#: ../package/contents/ui/config/Input.qml:217
+msgctxt "Angle Unit"
+msgid "Radians"
+msgstr "Radians"
+
+#: ../package/contents/ui/config/Input.qml:218
+msgctxt "Angle Unit"
+msgid "Degrees"
+msgstr "Degrés"
+
+#: ../package/contents/ui/config/Input.qml:219
+msgctxt "Angle Unit"
+msgid "Gradians"
+msgstr "Grades"
+
+#: ../package/contents/ui/config/Input.qml:231
+msgid "Expression base"
+msgstr "Base de l'expression"
+
+#: ../package/contents/ui/config/Input.qml:242
+msgid "Timestamps"
+msgstr "Horodatages"
+
+#: ../package/contents/ui/config/Input.qml:243
+msgid "Interpret 9-12 digit numbers as a timestamp"
+msgstr "Interpréter les nombres de 9 à 12 chiffres comme un horodatage"
+
+#: ../package/contents/ui/config/Output.qml:49
+msgid "Number fraction format"
+msgstr "Format des fractions numériques"
+
+#: ../package/contents/ui/config/Output.qml:50
+msgctxt "FractionFormat"
+msgid "Decimal"
+msgstr "Décimal"
+
+#: ../package/contents/ui/config/Output.qml:58
+msgctxt "FractionFormat"
+msgid "Display numbers in decimal, not fractional, format (ex. 0.333333)."
+msgstr "Afficher les nombres au format décimal, non fractionnel (ex. 0,333333)."
+
+#: ../package/contents/ui/config/Output.qml:66
+msgctxt "FractionFormat"
+msgid "Exact"
+msgstr "Exact"
+
+#: ../package/contents/ui/config/Output.qml:74
+msgctxt "FractionFormat"
+msgid "Display as fraction if necessary to get an exact display of the result (ex. 1/3, but 0.25)."
+msgstr "Afficher sous forme de fraction si nécessaire pour obtenir un affichage exact du résultat (ex. 1/3, mais 0,25)."
+
+#: ../package/contents/ui/config/Output.qml:82
+msgctxt "FractionFormat"
+msgid "Fractional"
+msgstr "Fractionnaire"
+
+#: ../package/contents/ui/config/Output.qml:90
+msgctxt "FractionFormat"
+msgid "Display as fraction (ex. 4/3)."
+msgstr "Afficher sous forme de fraction (ex. 4/3)."
+
+#: ../package/contents/ui/config/Output.qml:98
+msgctxt "FractionFormat"
+msgid "Combined"
+msgstr "Combiné"
+
+#: ../package/contents/ui/config/Output.qml:106
+msgctxt "FractionFormat"
+msgid "Display as an integer and a fraction (ex. 3 + 1/2)."
+msgstr "Afficher sous forme d'entier et de fraction (ex. 3 + 1/2)."
+
+#: ../package/contents/ui/config/Output.qml:127
+msgid "Numerical display"
+msgstr "Affichage numérique"
+
+#: ../package/contents/ui/config/Output.qml:131
+msgctxt "NumericalDisplay"
+msgid "None"
+msgstr "Aucun"
+
+#: ../package/contents/ui/config/Output.qml:132
+msgctxt "NumericalDisplay"
+msgid "Pure"
+msgstr "Pur"
+
+#: ../package/contents/ui/config/Output.qml:133
+msgctxt "NumericalDisplay"
+msgid "Scientific"
+msgstr "Scientifique"
+
+#: ../package/contents/ui/config/Output.qml:134
+msgctxt "NumericalDisplay"
+msgid "Precision"
+msgstr "Précision"
+
+#: ../package/contents/ui/config/Output.qml:135
+msgctxt "NumericalDisplay"
+msgid "Engineering"
+msgstr "Ingénierie"
+
+#: ../package/contents/ui/config/Output.qml:147
+msgid "Enable unicode in output"
+msgstr "Activer l'unicode dans la sortie"
+
+#: ../package/contents/ui/config/Output.qml:152
+msgid "Indicate infinite series"
+msgstr "Indiquer les séries infinies"
+
+#: ../package/contents/ui/config/Output.qml:157
+msgid "Use all prefixes"
+msgstr "Utiliser tous les préfixes"
+
+#: ../package/contents/ui/config/Output.qml:162
+msgid "Use denominator prefix"
+msgstr "Utiliser le préfixe du dénominateur"
+
+#: ../package/contents/ui/config/Output.qml:167
+msgid "Negative exponents"
+msgstr "Exposants négatifs"
+
+#: ../package/contents/ui/config/Output.qml:172
+msgid "Use two's complement representation for negative binary numbers"
+msgstr "Utiliser la représentation en complément à deux pour les nombres binaires négatifs"
+
+#: ../package/contents/ui/config/Output.qml:181
+msgid "Show integers also in base"
+msgstr "Afficher aussi les entiers en base"
+
+#: ../package/contents/ui/config/Output.qml:182
+#: ../package/contents/ui/FullRepresentation.qml:94 ../plugin/conversion.cpp:65
+msgid "Binary"
+msgstr "Binaire"
+
+#: ../package/contents/ui/config/Output.qml:187
+#: ../package/contents/ui/FullRepresentation.qml:103
+msgid "Octal"
+msgstr "Octal"
+
+#: ../package/contents/ui/config/Output.qml:192
+#: ../package/contents/ui/FullRepresentation.qml:112
+msgid "Decimal"
+msgstr "Décimal"
+
+#: ../package/contents/ui/config/Output.qml:197
+#: ../package/contents/ui/FullRepresentation.qml:121
+msgid "Hexadecimal"
+msgstr "Hexadécimal"
+
+#: ../package/contents/ui/config/Output.qml:206
+msgid "Result base"
+msgstr "Base du résultat"
+
+#: ../package/contents/ui/FullRepresentation.qml:83
+msgid "Copy result as"
+msgstr "Copier le résultat en"
+
+#: ../package/contents/ui/FullRepresentation.qml:152
+msgid "Enter an expression"
+msgstr "Entrez une expression"
+
+#: ../package/contents/ui/FullRepresentation.qml:419
+msgid "Result"
+msgstr "Résultat"
+
+#: ../package/contents/ui/FullRepresentation.qml:510
+msgid "Calculation timed out"
+msgstr "Calcul interrompu (délai dépassé)"
+
+#: ../plugin/conversion.cpp:59
+msgid "factors"
+msgstr "facteurs"
+
+#: ../plugin/conversion.cpp:61
+msgid "roman"
+msgstr "romain"
+
+#: ../plugin/conversion.cpp:69
+msgid "octal"
+msgstr "octal"
+
+#: ../plugin/conversion.cpp:73
+msgid "decimal"
+msgstr "décimal"
+
+#: ../plugin/conversion.cpp:77
+msgid "duodecimal"
+msgstr "duodécimal"
+
+#: ../plugin/conversion.cpp:81
+msgid "hexadecimal"
+msgstr "hexadécimal"
+
+#: ../plugin/conversion.cpp:122
+msgid "base"
+msgstr "base"

@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [0.10.1] - 2024-07-24
+### Added
+- Initial basic support for assinging variables with the "a = 1" syntax
+- Added French translation from Cherkah
+
+### Fixed
+- Alignment issue on the configuration window fixed
+- Memory leaks from libqalculate fixed
+
+
 ## [0.10.0] - 2024-04-10
 ### Changed
 - Major rework to support Qt/KDE 6

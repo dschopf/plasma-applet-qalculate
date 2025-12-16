@@ -22,19 +22,19 @@
 
 #include "qwrapper.h"
 
-HistoryListModel::HistoryListModel(QObject* parent)
-    : QAbstractListModel(parent), m_calc(Qalculate::instance())
+HistoryListModel::HistoryListModel(QObject* parent, IHistoryCallbacks* callbacks)
+    : QAbstractListModel(parent), m_callbacks(callbacks)
 {
 }
 
 int HistoryListModel::rowCount(const QModelIndex& parent) const
 {
-  return !parent.isValid() ? m_calc.historyEntries() : 0;
+  return !parent.isValid() ? m_callbacks->historyEntries() : 0;
 }
 
 QVariant HistoryListModel::data(const QModelIndex& index, int /*role*/) const
 {
-  return index.isValid() ? m_calc.getHistoryEntry(index.row()) : QVariant();
+  return index.isValid() ? m_callbacks->getHistoryEntry(index.row()) : QVariant();
 }
 
 QHash<int, QByteArray> HistoryListModel::roleNames() const
@@ -51,12 +51,14 @@ void HistoryListModel::onHistoryModelChanged()
 }
 
 QWrapper::QWrapper(QObject* parent)
-    : QObject(parent), m_qalc(Qalculate::instance()), m_history(parent)
+    : QObject(parent), m_qalc(Qalculate::getInstance()), m_history(this, m_qalc.get())
 {
-  m_qalc.register_callbacks(this);
+  m_qalc->registerCallbacks(this);
 }
 
-QWrapper::~QWrapper() { m_qalc.unregister_callbacks(this); }
+QWrapper::~QWrapper() {
+  m_qalc->unregisterCallbacks(this);
+}
 
 void QWrapper::onHistoryModelChanged() { m_history.onHistoryModelChanged(); }
 
@@ -74,17 +76,9 @@ void QWrapper::onExchangeRatesUpdated(QString date)
   Q_EMIT exchangeRatesUpdated(date);
 }
 
-void QWrapper::onHistoryUpdated()
-{
-  QModelIndex begin;
-  QModelIndex end;
-
-  m_history.dataChanged(begin, end);
-}
-
 void QWrapper::evaluate(QString const& input, bool const enter_pressed)
 {
-  m_qalc.evaluate(input, enter_pressed, this);
+  m_qalc->evaluate(input, enter_pressed, this);
 }
 
 void QWrapper::launch(const QString& executable)
@@ -113,123 +107,123 @@ int QWrapper::getVersion()
   return QALCULATE_MAJOR_VERSION * 100 + QALCULATE_MAJOR_VERSION * 10 + QALCULATE_MICRO_VERSION;
 }
 
-void QWrapper::setTimeout(const int timeout) { m_qalc.setTimeout(timeout); }
+void QWrapper::setTimeout(const int timeout) { m_qalc->setTimeout(timeout); }
 
 void QWrapper::setDisableHistory(const bool disabled)
 {
-  m_qalc.setDisableHistory(disabled);
+  m_qalc->setDisableHistory(disabled);
 }
 
-void QWrapper::setHistorySize(const int size) { m_qalc.setHistorySize(size); }
+void QWrapper::setHistorySize(const int size) { m_qalc->setHistorySize(size); }
 
 void QWrapper::setAutoPostConversion(const int value)
 {
-  m_qalc.setAutoPostConversion(value);
+  m_qalc->setAutoPostConversion(value);
 }
 
-int QWrapper::getAutoPostConversion() { return m_qalc.getAutoPostConversion(); }
+int QWrapper::getAutoPostConversion() { return m_qalc->getAutoPostConversion(); }
 
 void QWrapper::setStructuringMode(const int mode)
 {
-  m_qalc.setStructuringMode(mode);
+  m_qalc->setStructuringMode(mode);
 }
 
 void QWrapper::setDecimalSeparator(const QString& separator)
 {
-  m_qalc.setDecimalSeparator(separator);
+  m_qalc->setDecimalSeparator(separator);
 }
 
-void QWrapper::setAngleUnit(const int unit) { m_qalc.setAngleUnit(unit); }
+void QWrapper::setAngleUnit(const int unit) { m_qalc->setAngleUnit(unit); }
 
 void QWrapper::setExpressionBase(const int base)
 {
-  m_qalc.setExpressionBase(base);
+  m_qalc->setExpressionBase(base);
 }
 
 void QWrapper::setEnableBase2(const bool enable)
 {
-  m_qalc.setEnableBase2(enable);
+  m_qalc->setEnableBase2(enable);
 }
 
 void QWrapper::setEnableBase8(const bool enable)
 {
-  m_qalc.setEnableBase8(enable);
+  m_qalc->setEnableBase8(enable);
 }
 
 void QWrapper::setEnableBase10(const bool enable)
 {
-  m_qalc.setEnableBase10(enable);
+  m_qalc->setEnableBase10(enable);
 }
 
 void QWrapper::setEnableBase16(const bool enable)
 {
-  m_qalc.setEnableBase16(enable);
+  m_qalc->setEnableBase16(enable);
 }
 
-void QWrapper::setResultBase(const int base) { m_qalc.setResultBase(base); }
+void QWrapper::setResultBase(const int base) { m_qalc->setResultBase(base); }
 
 void QWrapper::setDetectTimestamps(const bool enable)
 {
-  m_qalc.setDetectTimestamps(enable);
+  m_qalc->setDetectTimestamps(enable);
 }
 
 void QWrapper::setNumberFractionFormat(const int format)
 {
-  m_qalc.setNumberFractionFormat(format);
+  m_qalc->setNumberFractionFormat(format);
 }
 
 void QWrapper::setNumericalDisplay(const int value)
 {
-  m_qalc.setNumericalDisplay(value);
+  m_qalc->setNumericalDisplay(value);
 }
 
 void QWrapper::setIndicateInfiniteSeries(const bool value)
 {
-  m_qalc.setIndicateInfiniteSeries(value);
+  m_qalc->setIndicateInfiniteSeries(value);
 }
 
 void QWrapper::setUseAllPrefixes(const bool value)
 {
-  m_qalc.setUseAllPrefixes(value);
+  m_qalc->setUseAllPrefixes(value);
 }
 
 void QWrapper::setUseDenominatorPrefix(const bool value)
 {
-  m_qalc.setUseDenominatorPrefix(value);
+  m_qalc->setUseDenominatorPrefix(value);
 }
 
 void QWrapper::setNegativeExponents(const bool value)
 {
-  m_qalc.setNegativeExponents(value);
+  m_qalc->setNegativeExponents(value);
 }
 
 void QWrapper::setNegativeBinaryTwosComplement(const bool value)
 {
-  m_qalc.setNegativeBinaryTwosComplement(value);
+  m_qalc->setNegativeBinaryTwosComplement(value);
 }
 
 void QWrapper::setUnicodeEnabled(const bool value)
 {
-  m_qalc.setUnicodeEnabled(value);
+  m_qalc->setUnicodeEnabled(value);
 }
 
-void QWrapper::updateExchangeRates() { m_qalc.updateExchangeRates(); }
+void QWrapper::updateExchangeRates() { m_qalc->updateExchangeRates(); }
 
 QString QWrapper::getExchangeRatesUpdateTime()
 {
-  return m_qalc.getExchangeRatesUpdateTime();
+  return m_qalc->getExchangeRatesUpdateTime();
 }
 
 QStringList QWrapper::getSupportedCurrencies()
 {
-  return m_qalc.getSupportedCurrencies();
+  return m_qalc->getSupportedCurrencies();
 }
 
 void QWrapper::setDefaultCurrency(const int currency_idx)
 {
-  m_qalc.setDefaultCurrency(currency_idx);
+  m_qalc->setDefaultCurrency(currency_idx);
 }
 
-int QWrapper::historyEntries() { return m_qalc.historyEntries(); }
+int QWrapper::historyEntries() { return m_qalc->historyEntries(); }
 
-QString QWrapper::historyFilename() const { return m_qalc.historyFilename(); }
+QString QWrapper::historyFilename() const { return m_qalc->historyFilename(); }

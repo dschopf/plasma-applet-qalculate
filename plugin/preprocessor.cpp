@@ -22,6 +22,7 @@
 #include <regex>
 #include <string>
 
+#include <libqalculate/Variable.h>
 #include <pwd.h>
 #include <readline/history.h>
 #include <sys/stat.h>
@@ -92,16 +93,13 @@ namespace {
   }
 } // namespace
 
-bool Qalculate::handleConversion(const std::string& expr)
+bool Qalculate::preprocessInput(const std::string& expr)
 {
-  if (std::smatch m; m_config.detectTimestamps &&
-                     std::regex_match(expr, m, std::regex(R"(^\d{9,12}$)"))) {
-    QDateTime t{};
+  if (m_config.detectTimestamps && checkTimestamp(expr)) {
+    return true;
+  }
 
-    t.setSecsSinceEpoch(QString::fromStdString(m[0].str()).toLongLong());
-
-    m_state.active_cb->onResultText(QLocale().toString(t), {}, {}, {}, {});
-
+  if (checkAssignment(expr)) {
     return true;
   }
 
@@ -129,6 +127,34 @@ bool Qalculate::handleConversion(const std::string& expr)
   }
 
   return false;
+}
+
+bool Qalculate::checkTimestamp(const std::string& expr)
+{
+  std::smatch m;
+  if (!std::regex_match(expr, m, std::regex(R"(^\d{9,12}$)"))) {
+    return false;
+  }
+
+  QDateTime t{};
+  t.setSecsSinceEpoch(QString::fromStdString(m[0].str()).toLongLong());
+  m_state.active_cb->onResultText(QLocale().toString(t), {}, {}, {}, {});
+  return true;
+}
+
+bool Qalculate::checkAssignment(const std::string& expr)
+{
+  std::smatch m;
+  if (!std::regex_match(expr, m, std::regex(R"(^([^=]*?)\s*=\s*([^=]*?)$)"))) {
+    return false;
+  }
+
+  m_pcalc->addVariable(new KnownVariable(m_pcalc->temporaryCategory(), m[1].str(), m[2].str()));
+
+  // m_pcalc->deleteName(m[1].str());
+  m_state.active_cb->onResultText(QString::fromStdString(expr), {}, {}, {}, {});
+
+  return true;
 }
 
 bool Qalculate::handleToExpression(const std::string& expr)
