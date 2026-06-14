@@ -21,8 +21,8 @@ pkg_check_modules(QALCULATE REQUIRED libqalculate>=3.3.0)
 pkg_check_modules(MPFR REQUIRED mpfr)
 
 include(CMakePackageConfigHelpers)
-include(ECMQmlModule)
 include(KDEInstallDirs)
+include(ECMQmlModule)
 include(KDECMakeSettings)
 include(KDECompilerSettings NO_POLICY_SCOPE)
 
