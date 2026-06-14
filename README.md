@@ -12,9 +12,13 @@ Qalculate applet for the KDE Plasma 6 desktop, bringing the power of [libqalcula
 Packaged binaries are available Arch Linux. Installation through the default
 Plasma KNewStuff3 system is also available at the [Pling Store](https://store.kde.org/p/1155946).
 
+### Ubuntu
+
+Prebuilt packages are available through this PPA: [Qalculate Plasma Applet](https://launchpad.net/~dschopf/+archive/ubuntu/plasma-applet-qalculate).
+
 ### Arch Linux
 
-Install this AUR package: [plasma5-applets-qalculate](https://aur.archlinux.org/packages/plasma5-applets-qalculate/).
+Install this AUR package: [plasma6-applets-qalculate](https://aur.archlinux.org/packages/plasma6-applets-qalculate/).
 
 ```bash
 yay -Syu plasma6-applets-qalculate
@@ -27,8 +31,7 @@ If there is no package available for your distribution, you can try to compile t
 ```bash
 git clone https://github.com/dschopf/plasma-applet-qalculate.git paqalc && cd paqalc
 mkdir build && cd build
-LIB=lib cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_INSTALL_LIBDIR="$LIB" -DKDE_INSTALL_LIBDIR="$LIB" ..
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release ..
 make -j$(nproc)
 sudo make install
 ```
@@ -53,3 +56,8 @@ and can all be installed with a single command as follows:
 
 `sudo apt install g++ cmake extra-cmake-modules gettext pkg-config qtdeclarative5-dev libkf5plasma-dev libqalculate-dev libreadline-dev`
 
+### Fedora
+
+You can use this command to install all necessary dependencies on a Fedora system:
+
+`sudo dnf install gcc-c++ cmake extra-cmake-modules gettext pkgconf qt6-qtdeclarative-devel libqalculate-devel libreadline-devel kf6-kcoreaddons-devel kf6-plasma-devel`
