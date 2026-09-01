@@ -41,7 +41,7 @@ TEST_F(QalculateTest, BasicAssertions) {
     promise.set_value();
   });
 
-  m_calc->evaluate(assignA, false, &results);
+  m_calc->evaluate(assignA, false, false, &results);
   ASSERT_EQ(future.wait_for(std::chrono::seconds(1)), std::future_status::ready);
 
   // Check if assignment worked
@@ -56,6 +56,6 @@ TEST_F(QalculateTest, BasicAssertions) {
     promise.set_value();
   });
 
-  m_calc->evaluate(add1, false, &results);
+  m_calc->evaluate(add1, false, false, &results);
   ASSERT_EQ(future.wait_for(std::chrono::seconds(1)), std::future_status::ready);
 }

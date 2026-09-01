@@ -25,6 +25,7 @@ import org.kde.kirigami as Kirigami
 import org.kde.ksvg as KSvg
 import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.plasmoid
+import org.kde.plasma.extras as PlasmaExtras
 
 import com.dschopf.plasma.qalculate
 
@@ -136,6 +137,9 @@ PlasmoidItem {
 
     Plasmoid.icon: plasmoid.configuration.qalculateIcon
     toolTipMainText: "Qalculate!"
+
+    Plasmoid.backgroundHints: PlasmaCore.Types.NoBackground
+    // Plasmoid.backgroundHints: PlasmaCore.Types.ShadowBackground | PlasmaCore.Types.ConfigurableBackground
 
     compactRepresentation: compactRepresentation
     fullRepresentation: FullRepresentation {}

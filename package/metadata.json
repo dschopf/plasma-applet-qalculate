@@ -16,7 +16,7 @@
         "Id": "com.dschopf.plasma.qalculate",
         "License": "MIT",
         "Name": "Qalculate!",
-        "Version": "0.10.0",
+        "Version": "0.11.0",
         "Website": "https://store.kde.org/p/1155946"
     },
     "X-Plasma-API-Minimum-Version": "6.0"

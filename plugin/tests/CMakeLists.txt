@@ -3,7 +3,7 @@ find_package(GTest REQUIRED)
 enable_testing()
 
 add_executable(QalculateTests helpers.cpp main.cpp preprocessor_assign.cpp
-                              ../preprocessor.cpp ../qalculate.cpp)
+                              ../Qalculate_PreProcessor.cpp ../Qalculate.cpp ../HistoryManager.cpp)
 
 target_compile_definitions(QalculateTests PRIVATE ENABLE_TESTS)
 
@@ -18,8 +18,7 @@ target_link_libraries(
           KF6::I18n
           Qt6::Network
           ${QALCULATE_LIBRARIES}
-          ${MPFR_LIBRARIES}
-          ${Readline_LIBRARY})
+          ${MPFR_LIBRARIES})
 
 include(GoogleTest)
 gtest_discover_tests(QalculateTests)

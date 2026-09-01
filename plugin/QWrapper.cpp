@@ -20,35 +20,7 @@
 
 #include <QProcess>
 
-#include "qwrapper.h"
-
-HistoryListModel::HistoryListModel(QObject* parent, IHistoryCallbacks* callbacks)
-    : QAbstractListModel(parent), m_callbacks(callbacks)
-{
-}
-
-int HistoryListModel::rowCount(const QModelIndex& parent) const
-{
-  return !parent.isValid() ? m_callbacks->historyEntries() : 0;
-}
-
-QVariant HistoryListModel::data(const QModelIndex& index, int /*role*/) const
-{
-  return index.isValid() ? m_callbacks->getHistoryEntry(index.row()) : QVariant();
-}
-
-QHash<int, QByteArray> HistoryListModel::roleNames() const
-{
-  QHash<int, QByteArray> roles;
-  roles[History] = "history";
-  return roles;
-}
-
-void HistoryListModel::onHistoryModelChanged()
-{
-  beginInsertRows(QModelIndex(), 0, 0);
-  endInsertRows();
-}
+#include "QWrapper.h"
 
 QWrapper::QWrapper(QObject* parent)
     : QObject(parent), m_qalc(Qalculate::getInstance()), m_history(this, m_qalc.get())
@@ -60,7 +32,9 @@ QWrapper::~QWrapper() {
   m_qalc->unregisterCallbacks(this);
 }
 
-void QWrapper::onHistoryModelChanged() { m_history.onHistoryModelChanged(); }
+void QWrapper::onHistoryModelReset() { m_history.onHistoryModelReset(); }
+
+void QWrapper::onHistoryModelChanged(const HistoryAdditionEvent& event) { m_history.onHistoryModelChanged(event); }
 
 void QWrapper::onResultText(QString result, QString resultBase2,
                             QString resultBase8, QString resultBase10,
@@ -76,9 +50,9 @@ void QWrapper::onExchangeRatesUpdated(QString date)
   Q_EMIT exchangeRatesUpdated(date);
 }
 
-void QWrapper::evaluate(QString const& input, bool const enter_pressed)
+void QWrapper::evaluate(const QString& input, const bool enter_pressed, const bool fix_history_position)
 {
-  m_qalc->evaluate(input, enter_pressed, this);
+  m_qalc->evaluate(input, enter_pressed, fix_history_position, this);
 }
 
 void QWrapper::launch(const QString& executable)
@@ -104,7 +78,7 @@ void QWrapper::launch(const QString& executable, const QString& args,
 
 int QWrapper::getVersion()
 {
-  return QALCULATE_MAJOR_VERSION * 100 + QALCULATE_MAJOR_VERSION * 10 + QALCULATE_MICRO_VERSION;
+  return QALCULATE_MAJOR_VERSION * 100 + QALCULATE_MINOR_VERSION * 10 + QALCULATE_MICRO_VERSION;
 }
 
 void QWrapper::setTimeout(const int timeout) { m_qalc->setTimeout(timeout); }

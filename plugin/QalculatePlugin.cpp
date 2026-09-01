@@ -1,4 +1,4 @@
-//  Copyright (c) 2016 - 2024 Daniel Schopf <schopfdan@gmail.com>
+//  Copyright (c) 2016 - 2026 Daniel Schopf <schopfdan@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining
 //  a copy of this software and associated documentation files (the "Software"),
@@ -18,29 +18,17 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 //  IN THE SOFTWARE.
 
-import QtQuick 2.15
+#include "QalculatePlugin.h"
 
-import org.kde.plasma.configuration 2.0
+#include "HistoryFilterModel.h"
+#include "QWrapper.h"
 
-ConfigModel {
-    ConfigCategory {
-         name: i18n('General')
-         icon: Qt.resolvedUrl('../images/Qalculate.svg').toString().replace('file://', '')
-         source: 'config/General.qml'
-    }
-    ConfigCategory {
-         name: i18n('Input')
-         icon: "preferences"
-         source: 'config/Input.qml'
-    }
-    ConfigCategory {
-         name: i18n('Output')
-         icon: "preferences-system-startup"
-         source: 'config/Output.qml'
-    }
-    ConfigCategory {
-         name: i18n('Currency')
-         icon: Qt.resolvedUrl('../images/currency.svg').toString().replace('file://', '')
-         source: 'config/Currency.qml'
-    }
+#include <QDebug>
+#include <QtQml>
+
+void QalculatePlugin::registerTypes(const char* uri)
+{
+  Q_ASSERT(QLatin1String(uri) == QLatin1String("com.dschopf.plasma.qalculate"));
+  qmlRegisterType<QWrapper>(uri, 1, 0, "QWrapper");
+  qmlRegisterType<HistoryFilterModel>(uri, 1, 0, "HistoryFilterModel");
 }

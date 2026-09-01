@@ -22,15 +22,13 @@
 #include <regex>
 
 #include <pwd.h>
-#include <readline/history.h>
 #include <sys/stat.h>
 
 #include <QFile>
 #include <QNetworkReply>
 #include <QNetworkRequest>
-#include <QProcess>
 
-#include "qwrapper.h"
+#include "QWrapper.h"
 
 #define PRINT_RESULT(a, b, c) QString::fromStdString(m_pcalc->print(a, b, c))
 #define TIMEOUT HUGE_TIMEOUT_MS
@@ -46,6 +44,7 @@ namespace {
 Qalculate::Qalculate(QObject* parent)
   : QObject(nullptr)
   , m_netmgr{parent}
+  , m_history_manager{}
 {
   m_pcalc = std::make_unique<Calculator>();
   m_pcalc->loadExchangeRates();
@@ -84,9 +83,6 @@ Qalculate::Qalculate(QObject* parent)
   m_print_limits[8].set(print_limit_base8, popts);
   m_print_limits[16].set(print_limit_base16, popts);
 
-  initHistoryFile();
-  using_history();
-
   connect(&m_netmgr, SIGNAL(finished(QNetworkReply*)),
           SLOT(fileDownloaded(QNetworkReply*)));
 
@@ -106,6 +102,7 @@ Qalculate::~Qalculate()
   if (m_state.thread.joinable()) {
     m_state.thread.join();
   }
+
   m_pcalc->terminateThreads();
 }
 
@@ -143,6 +140,7 @@ void Qalculate::registerCallbacks(IQWrapperCallbacks* p)
                    [p](const IQWrapperCallbacks* q) { return p == q; }) ==
       std::end(m_state.cbs)) {
     m_state.cbs.push_back(p);
+    p->onHistoryModelReset();
   }
 }
 
@@ -157,24 +155,13 @@ void Qalculate::unregisterCallbacks(IQWrapperCallbacks* p)
   }
 }
 
-void Qalculate::evaluate(const QString& input, const bool enter_pressed,
+void Qalculate::evaluate(const QString& input, const bool enter_pressed, const bool fix_history_position,
                          IResultCallbacks* cb)
 {
   std::unique_lock<std::mutex> _(m_state.mutex);
 
   if (m_state.state == State::Stop) {
     return;
-  }
-
-  if (m_history.enabled && enter_pressed && !input.isEmpty() &&
-      (input != m_history.last_entry)) {
-    m_history.last_entry = input;
-    add_history(m_history.last_entry.toStdString().c_str());
-    append_history(1, m_history.filename.c_str());
-
-    for (auto& cb : m_state.cbs) {
-      cb->onHistoryModelChanged();
-    }
   }
 
   // abort active calculation for the same callback instance
@@ -188,14 +175,14 @@ void Qalculate::evaluate(const QString& input, const bool enter_pressed,
 
   // remove pending calculation for the same callback instance
   auto it{std::find_if(std::begin(m_state.queue), std::end(m_state.queue),
-                       [cb](std::pair<IResultCallbacks*, QString>& q) {
+                       [cb](std::tuple<IResultCallbacks*, QString, bool, bool>& q) {
                          return std::get<0>(q) == cb;
                        })};
   if (it != std::end(m_state.queue)) {
     m_state.queue.erase(it);
   }
 
-  m_state.queue.push_back({cb, input});
+  m_state.queue.push_back({cb, input, enter_pressed, fix_history_position});
   m_state.cond.notify_all();
 }
 
@@ -203,29 +190,16 @@ void Qalculate::setTimeout(const int timeout) { m_config.timeout = timeout; }
 
 void Qalculate::setDisableHistory(const bool disabled)
 {
-  m_history.enabled = !disabled;
-
   if (disabled) {
-    return;
-  }
-
-  if (read_history(m_history.filename.c_str()) < 0) {
-    m_history.enabled = false;
+    m_history_manager.disable();
   } else {
-    auto* h{history_get(history_length)};
-    if (h && h->line) {
-      m_history.last_entry = QString::fromLatin1(h->line);
-    } else {
-      m_history.last_entry.clear();
-    }
+    m_history_manager.enable();
   }
 }
 
 void Qalculate::setHistorySize(const int size)
 {
-  if (size > 0 && size < 1e7) {
-    stifle_history(size);
-  }
+  m_history_manager.set_size(size);
 }
 
 void Qalculate::setAutoPostConversion(const int value)
@@ -455,27 +429,17 @@ void Qalculate::setDefaultCurrency(const int currency_idx)
 
 int Qalculate::historyEntries()
 {
-  return m_history.enabled ? history_length : 0;
+  return m_history_manager.entry_count();
 }
 
 QString Qalculate::getHistoryEntry(int index)
 {
-  if (index > history_length || index < 0) {
-    return {};
-  }
-
-  auto* entry{history_get(history_length - index)};
-
-  return entry ? QString::fromStdString(entry->line) : QString();
+  return m_history_manager.get(index);
 }
 
 QString Qalculate::historyFilename() const
 {
-  if (m_history.filename.empty()) {
-    return {};
-  }
-
-  return QString::fromStdString(m_history.filename);
+  return m_history_manager.get_filename();
 }
 
 void Qalculate::worker()
@@ -484,7 +448,7 @@ void Qalculate::worker()
 
   while (m_state.state != State::Stop) {
     if (!m_state.queue.empty()) {
-      std::pair<IResultCallbacks*, QString> input = m_state.queue.front();
+      auto input{m_state.queue.front()};
       m_state.queue.erase(std::begin(m_state.queue));
       m_state.state = State::Calculating;
       m_state.active_cb = std::get<0>(input);
@@ -494,7 +458,15 @@ void Qalculate::worker()
       lock.unlock();
       m_pcalc->startControl(m_config.timeout);
       if (!preprocessInput(expr)) {
-        runCalculation(expr);
+        auto result{runCalculation(expr)};
+        // store in history)
+        if (std::get<2>(input) && !result.isEmpty()) {
+          auto ev{m_history_manager.add(std::get<1>(input), result, std::get<3>(input))};
+
+          for (auto& cb : m_state.cbs) {
+            cb->onHistoryModelChanged(ev);
+          }
+        }
       }
       m_pcalc->stopControl();
       lock.lock();
@@ -515,21 +487,16 @@ void Qalculate::worker()
   mpfr_free_cache2(MPFR_FREE_LOCAL_CACHE);
 }
 
-void Qalculate::runCalculation(const std::string& expr)
+auto Qalculate::runCalculation(const std::string& expr) -> QString
 {
-  MathStructure result;
-
-  // use a huge timeout values here, the wrapping control should handle our real
-  // timeout
-
-  result = m_pcalc->calculate(expr, m_eval_options);
+  auto result{m_pcalc->calculate(expr, m_eval_options)};
   if (checkReturnState()) {
-    return;
+    return {};
   }
 
-  QString result_string(PRINT_RESULT(result, HUGE_TIMEOUT_MS, m_print_options));
+  auto result_string(PRINT_RESULT(result, HUGE_TIMEOUT_MS, m_print_options));
   if (result_string.isEmpty() || checkReturnState()) {
-    return;
+    return {};
   }
 
   // map of base and result string
@@ -537,7 +504,7 @@ void Qalculate::runCalculation(const std::string& expr)
 
   for (auto& i : output) {
     if (printResultInBase(result, i)) {
-      return;
+      return {};
     }
   }
 
@@ -548,6 +515,8 @@ void Qalculate::runCalculation(const std::string& expr)
   m_state.active_cb->onResultText(result_string, output[0].second,
                                   output[1].second, output[2].second,
                                   output[3].second);
+
+  return result_string;
 }
 
 bool Qalculate::checkReturnState()
@@ -609,48 +578,6 @@ bool Qalculate::isBaseEnabled(const uint8_t base, MathStructure& result)
   return false;
 }
 
-void Qalculate::initHistoryFile()
-{
-  std::string file_path;
-
-  if (getenv("XDG_DATA_HOME")) {
-    file_path = std::string(getenv("XDG_DATA_HOME")) + "/qalculate";
-  } else {
-    file_path =
-        std::string(getpwuid(getuid())->pw_dir) + "/.local/share/qalculate";
-  }
-
-  struct stat st;
-
-  auto ret{stat(file_path.c_str(), &st)};
-  if (ret < 0) {
-    if (errno == ENOENT) {
-      ret = mkdir(file_path.c_str(), S_IRWXU);
-    }
-    if (ret < 0) {
-      m_history.enabled = false;
-      return;
-    }
-  } else if (!S_ISDIR(st.st_mode)) {
-    m_history.enabled = false;
-    return;
-  }
-
-  file_path.append("/plasma_applet_history");
-
-  ret = stat(file_path.c_str(), &st);
-  if (ret < 0) {
-    if (errno == ENOENT) {
-      write_history(file_path.c_str());
-    } else {
-      m_history.enabled = false;
-      return;
-    }
-  }
-
-  m_history.filename.swap(file_path);
-}
-
 void Qalculate::initCurrencyList()
 {
   m_currencies.clear();
@@ -694,6 +621,9 @@ void Qalculate::fileDownloaded(QNetworkReply* pReply)
   if (pReply->error() != QNetworkReply::NoError) {
     qDebug() << "[Qalculate!] Error downloading exchange rates ("
              << pReply->error() << "): " << pReply->errorString();
+    std::unique_lock<std::mutex> _(m_state.mutex);
+    m_state.exchange_rate_updating = false;
+    return;
   }
 
   QByteArray data = pReply->readAll();
@@ -704,6 +634,8 @@ void Qalculate::fileDownloaded(QNetworkReply* pReply)
 
   if (!file.open(QIODevice::WriteOnly)) {
     qDebug() << "[Qalculate!] Error opening exchange rates file";
+    std::unique_lock<std::mutex> _(m_state.mutex);
+    m_state.exchange_rate_updating = false;
     return;
   }
 

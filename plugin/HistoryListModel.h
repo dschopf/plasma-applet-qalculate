@@ -1,4 +1,4 @@
-//  Copyright (c) 2016 - 2024 Daniel Schopf <schopfdan@gmail.com>
+//  Copyright (c) 2016 - 2026 Daniel Schopf <schopfdan@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining
 //  a copy of this software and associated documentation files (the "Software"),
@@ -18,29 +18,36 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 //  IN THE SOFTWARE.
 
-import QtQuick 2.15
+#ifndef PLUGIN_HISTORYLISTMODEL_H_INCLUDED
+#define PLUGIN_HISTORYLISTMODEL_H_INCLUDED
 
-import org.kde.plasma.configuration 2.0
+#include "IQalculate.h"
 
-ConfigModel {
-    ConfigCategory {
-         name: i18n('General')
-         icon: Qt.resolvedUrl('../images/Qalculate.svg').toString().replace('file://', '')
-         source: 'config/General.qml'
-    }
-    ConfigCategory {
-         name: i18n('Input')
-         icon: "preferences"
-         source: 'config/Input.qml'
-    }
-    ConfigCategory {
-         name: i18n('Output')
-         icon: "preferences-system-startup"
-         source: 'config/Output.qml'
-    }
-    ConfigCategory {
-         name: i18n('Currency')
-         icon: Qt.resolvedUrl('../images/currency.svg').toString().replace('file://', '')
-         source: 'config/Currency.qml'
-    }
-}
+#include <memory>
+
+#include <QAbstractListModel>
+#include <QVariant>
+
+class HistoryListModel : public QAbstractListModel {
+  Q_OBJECT
+
+public:
+  HistoryListModel(QObject* parent, IHistoryCallbacks* callbacks);
+
+  enum {
+    History = Qt::UserRole + 1
+  };
+
+  int rowCount(const QModelIndex & parent) const override;
+  QVariant data(const QModelIndex & index, int role) const override;
+
+  QHash<int,QByteArray> roleNames() const override;
+
+  void onHistoryModelReset();
+  void onHistoryModelChanged(const HistoryAdditionEvent& event);
+
+private:
+  IHistoryCallbacks* m_callbacks{nullptr};
+};
+
+#endif // PLUGIN_HISTORYLISTMODEL_H_INCLUDED

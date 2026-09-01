@@ -21,7 +21,9 @@
 #ifndef PLUGIN_QALCULATE_H_INCLUDED
 #define PLUGIN_QALCULATE_H_INCLUDED
 
-#include "Iqalculate.h"
+#include "IQalculate.h"
+#include "HistoryManager.h"
+
 #include <condition_variable>
 #include <memory>
 #include <mutex>
@@ -49,11 +51,12 @@ private:
 
 public:
   explicit Qalculate(QObject* parent);
-  Qalculate(Qalculate const&) = delete;
-  Qalculate(Qalculate const&&) = delete;
-  void operator=(Qalculate const&) = delete;
-  void operator=(Qalculate const&&) = delete;
+  Qalculate(const Qalculate&) = delete;
+  Qalculate(const Qalculate&&) = delete;
+  void operator=(const Qalculate&) = delete;
+  void operator=(const Qalculate&&) = delete;
   ~Qalculate();
+
 #if defined(ENABLE_TESTS)
   void shutdown();
 #endif // ENABLE_TESTS
@@ -64,7 +67,7 @@ public:
   void unregisterCallbacks(IQWrapperCallbacks* p);
 
   // main function
-  void evaluate(const QString& input, const bool enter_pressed, IResultCallbacks* cb);
+  void evaluate(const QString& input, const bool enter_pressed, const bool fix_history_position, IResultCallbacks* cb);
 
   // general settings
   void setTimeout(const int timeout);
@@ -108,14 +111,14 @@ public:
 
 private:
   void worker();
-  void runCalculation(const std::string& expr);
+  auto runCalculation(const std::string& expr) -> QString;
   bool checkReturnState();
   bool printResultInBase(MathStructure& result, print_result_t& output);
   bool isBaseEnabled(const uint8_t base, MathStructure& result);
-  void initHistoryFile();
+  // void initHistoryFile();
   void initCurrencyList();
 
-  // conversion handling in conversion.cpp
+  // conversion handling in Qalculate_PreProcessor.cpp
 
   /**
    * Function for handling internal input processing.
@@ -143,6 +146,7 @@ private:
   bool m_is_approximate{false};
   std::map<int, Number> m_print_limits;
   QNetworkAccessManager m_netmgr;
+  HistoryManager m_history_manager;
 
   struct {
     bool enable_base2{false};
@@ -161,15 +165,15 @@ private:
     State state = State::Idle;
     std::vector<IQWrapperCallbacks*> cbs;
     bool exchange_rate_updating{false};
-    std::vector<std::pair<IResultCallbacks*, QString>> queue;
+    std::vector<std::tuple<IResultCallbacks*, QString, bool, bool>> queue;
     IResultCallbacks* active_cb{nullptr};
   } m_state{};
 
-  struct {
-    bool enabled{true};
-    std::string filename;
-    QString last_entry;
-  } m_history{};
+  // // struct {
+  // //   bool enabled{true};
+  // //   std::string filename;
+  // //   QString last_entry;
+  // // } m_history{};
 
   QStringList m_currencies{};
 

@@ -24,7 +24,6 @@
 
 #include <libqalculate/Variable.h>
 #include <pwd.h>
-#include <readline/history.h>
 #include <sys/stat.h>
 
 #include <QFile>
@@ -35,7 +34,7 @@
 #define TRANSLATION_DOMAIN "plasma_applet_com.dschopf.plasma.qalculate"
 #include <klocalizedstring.h>
 
-#include "qwrapper.h"
+#include "QWrapper.h"
 
 namespace {
   constexpr const char* MULTIPLY_SIGN{"\u00d7"};

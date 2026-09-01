@@ -50,14 +50,13 @@ For Debian 9 "Stretch"/Ubuntu 18.04 LTS "Bionic Beaver" and above, these are spe
 * qtdeclarative5-dev
 * libkf5plasma-dev
 * libqalculate-dev
-* libreadline-dev
 
 and can all be installed with a single command as follows:
 
-`sudo apt install g++ cmake extra-cmake-modules gettext pkg-config qtdeclarative5-dev libkf5plasma-dev libqalculate-dev libreadline-dev`
+`sudo apt install g++ cmake extra-cmake-modules gettext pkg-config qtdeclarative5-dev libkf5plasma-dev libqalculate-dev`
 
 ### Fedora
 
 You can use this command to install all necessary dependencies on a Fedora system:
 
-`sudo dnf install gcc-c++ cmake extra-cmake-modules gettext pkgconf qt6-qtdeclarative-devel libqalculate-devel libreadline-devel kf6-kcoreaddons-devel kf6-plasma-devel`
+`sudo dnf install gcc-c++ cmake extra-cmake-modules gettext pkgconf qt6-qtdeclarative-devel libqalculate-devel kf6-kcoreaddons-devel kf6-plasma-devel`

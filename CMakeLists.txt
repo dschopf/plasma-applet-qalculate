@@ -15,7 +15,6 @@ find_package(ECM ${KF6_MIN_VERSION} REQUIRED NO_MODULE)
 
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/.cmake)
 find_package(PkgConfig)
-find_package(Readline)
 
 pkg_check_modules(QALCULATE REQUIRED libqalculate>=3.3.0)
 pkg_check_modules(MPFR REQUIRED mpfr)
@@ -45,14 +44,18 @@ ecm_add_qml_module(qalculateplugin URI ${APPLET_NAME})
 kde_enable_exceptions()
 
 target_sources(
-  qalculateplugin PRIVATE plugin/preprocessor.cpp plugin/qalculate.cpp
-                          plugin/qalculateplugin.cpp plugin/qwrapper.cpp)
-
-target_include_directories(qalculateplugin PRIVATE ${Readline_INCLUDE_DIR})
+  qalculateplugin PRIVATE
+  plugin/HistoryFilterModel.cpp
+  plugin/HistoryListModel.cpp
+  plugin/HistoryManager.cpp
+  plugin/Qalculate_PreProcessor.cpp
+  plugin/Qalculate.cpp
+  plugin/QalculatePlugin.cpp
+  plugin/QWrapper.cpp
+)
 
 target_link_libraries(
-  qalculateplugin PRIVATE KF6::I18n ${QALCULATE_LIBRARIES} Qt::Qml
-                          ${MPFR_LIBRARIES} ${Readline_LIBRARY})
+  qalculateplugin PRIVATE KF6::I18n ${QALCULATE_LIBRARIES} Qt::Qml ${MPFR_LIBRARIES})
 
 if(NOT GETTEXT_FOUND)
   message(WARNING "msgfmt not found. Translations will *not* be installed")
@@ -85,6 +88,9 @@ endif()
 
 add_dependencies(qalculateplugin translations)
 ecm_finalize_qml_module(qalculateplugin)
+
+install(TARGETS qalculateplugin DESTINATION ${KDE_INSTALL_QMLDIR}/com/dschopf/plasma/qalculate)
+install(FILES plugin/qmldir DESTINATION ${KDE_INSTALL_QMLDIR}/com/dschopf/plasma/qalculate)
 
 if(ENABLE_TESTS)
   add_subdirectory(plugin/tests)

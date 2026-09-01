@@ -21,34 +21,12 @@
 #ifndef PLUGIN_QWRAPPER_H_INCLUDED
 #define PLUGIN_QWRAPPER_H_INCLUDED
 
-#include "Iqalculate.h"
-#include "qalculate.h"
+#include "IQalculate.h"
+
+#include "HistoryFilterModel.h"
+#include "Qalculate.h"
 
 #include <memory>
-
-#include <QAbstractListModel>
-#include <QVariant>
-
-class HistoryListModel : public QAbstractListModel {
-  Q_OBJECT
-
-public:
-  HistoryListModel(QObject* parent, IHistoryCallbacks* callbacks);
-
-  enum {
-    History = Qt::UserRole + 1
-  };
-
-  int rowCount(const QModelIndex & parent) const override;
-  QVariant data(const QModelIndex & index, int role) const override;
-
-  QHash<int,QByteArray> roleNames() const override;
-
-  void onHistoryModelChanged();
-
-private:
-  IHistoryCallbacks* m_callbacks{nullptr};
-};
 
 class QWrapper : public QObject, public IQWrapperCallbacks, public IResultCallbacks {
   Q_OBJECT
@@ -62,11 +40,12 @@ public:
   void onCalculationTimeout() override;
 
   // IQWrapperCallbacks
-  void onHistoryModelChanged() override;
+  void onHistoryModelReset() override;
+  void onHistoryModelChanged(const HistoryAdditionEvent& event) override;
   void onExchangeRatesUpdated(QString date) override;
 
 public Q_SLOTS:
-  void evaluate(const QString& input, const bool enter_pressed);
+  void evaluate(const QString& input, const bool enter_pressed, const bool fix_history_position);
   void launch(const QString& executable);
   void launch(const QString& executable, const QString& arguments, const QString& expression);
   int getVersion();
@@ -107,7 +86,7 @@ public Q_SLOTS:
   void setDefaultCurrency(const int currency_idx);
 
   // history management
-  HistoryListModel* getModel() { return &m_history; }
+  HistoryFilterModel* getModel() { return &m_history; }
   int historyEntries();
   QString historyFilename() const;
 
@@ -118,7 +97,7 @@ Q_SIGNALS:
 
 private:
   std::shared_ptr<Qalculate> m_qalc;
-  HistoryListModel m_history;
+  HistoryFilterModel m_history;
 };
 
 #endif // PLUGIN_QWRAPPER_H_INCLUDED
