@@ -1,4 +1,4 @@
-//  Copyright (c) 2016 - 2024 Daniel Schopf <schopfdan@gmail.com>
+//  Copyright (c) 2016 - 2026 Daniel Schopf <schopfdan@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining
 //  a copy of this software and associated documentation files (the "Software"),
@@ -18,33 +18,40 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 //  IN THE SOFTWARE.
 
-#ifndef PLUGIN_IQALCULATE_H_INCLUDED
-#define PLUGIN_IQALCULATE_H_INCLUDED
+#ifndef PLUGIN_HISTORYFILTERMODEL_H_INCLUDED
+#define PLUGIN_HISTORYFILTERMODEL_H_INCLUDED
 
-#include <QString>
+#include "IQalculate.h"
 
-class IHistoryCallbacks {
+#include "HistoryListModel.h"
+
+#include <memory>
+
+#include <QSortFilterProxyModel>
+
+class HistoryFilterModel : public QSortFilterProxyModel {
+  Q_OBJECT
+  Q_PROPERTY(QString filterText READ filterText
+               WRITE setFilterText NOTIFY filterTextChanged)
+
 public:
-  virtual ~IHistoryCallbacks() {}
+    explicit HistoryFilterModel(QObject* parent, IHistoryCallbacks* callbacks);
 
-  virtual int historyEntries() = 0;
-  virtual QString getHistoryEntry(int index) = 0;
+    auto filterText() const -> QString;
+    auto setFilterText(const QString &text) -> void;
+
+    auto onHistoryModelReset() -> void;
+    auto onHistoryModelChanged(const HistoryAdditionEvent& event) -> void;
+
+    Q_INVOKABLE auto findBaseIndex(const int index) -> int;
+    Q_INVOKABLE auto findFilterIndex(const int index) -> int;
+
+Q_SIGNALS:
+    void filterTextChanged();
+
+private:
+    HistoryListModel m_model;
+    QString m_filterText;
 };
 
-class IResultCallbacks {
-public:
-  virtual ~IResultCallbacks() {}
-
-  virtual void onResultText(QString result, QString resultBase2, QString resultBase8, QString resultBase10, QString resultBase16) = 0;
-  virtual void onCalculationTimeout() = 0;
-};
-
-class IQWrapperCallbacks {
-public:
-  virtual ~IQWrapperCallbacks() {}
-
-  virtual void onHistoryModelChanged() = 0;
-  virtual void onExchangeRatesUpdated(QString date) = 0;
-};
-
-#endif // PLUGIN_IQALCULATE_H_INCLUDED
+#endif // PLUGIN_HISTORYFILTERMODEL_H_INCLUDED

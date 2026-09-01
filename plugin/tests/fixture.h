@@ -26,7 +26,7 @@
 #include <QCoreApplication>
 #include <QString>
 
-#include "../qalculate.h"
+#include "../Qalculate.h"
 
 // class Logger {
 //   private:

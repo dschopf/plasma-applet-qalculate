@@ -1,4 +1,4 @@
-//  Copyright (c) 2016 - 2024 Daniel Schopf <schopfdan@gmail.com>
+//  Copyright (c) 2016 - 2026 Daniel Schopf <schopfdan@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining
 //  a copy of this software and associated documentation files (the "Software"),
@@ -18,15 +18,47 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 //  IN THE SOFTWARE.
 
-#include "qalculateplugin.h"
-#include "qwrapper.h"
+#ifndef PLUGIN_IQALCULATE_H_INCLUDED
+#define PLUGIN_IQALCULATE_H_INCLUDED
 
-#include <QDebug>
-#include <QtQml>
+#include <QString>
 
-void QalculatePlugin::registerTypes(const char* uri)
-{
-  Q_ASSERT(QLatin1String(uri) == QLatin1String("com.dschopf.plasma.qalculate"));
-  qmlRegisterType<QWrapper>(uri, 1, 0, "QWrapper");
-  qmlRegisterType<HistoryListModel>(uri, 1, 0, "HistoryListModel");
-}
+struct HistoryAdditionEvent {
+  enum class Event {
+    ROW_ADDED_BEGIN,
+    ROW_ADDED_BEGIN_TRUNCATE,
+    ROW_MOVED,
+    SKIPPED,
+  };
+
+  Event event{Event::ROW_ADDED_BEGIN};
+  int old_pos{};
+  int new_pos{};
+};
+
+class IHistoryCallbacks {
+public:
+  virtual ~IHistoryCallbacks() {}
+
+  virtual int historyEntries() = 0;
+  virtual QString getHistoryEntry(int index) = 0;
+};
+
+class IResultCallbacks {
+public:
+  virtual ~IResultCallbacks() {}
+
+  virtual void onResultText(QString result, QString resultBase2, QString resultBase8, QString resultBase10, QString resultBase16) = 0;
+  virtual void onCalculationTimeout() = 0;
+};
+
+class IQWrapperCallbacks {
+public:
+  virtual ~IQWrapperCallbacks() {}
+
+  virtual void onHistoryModelReset() = 0;
+  virtual void onHistoryModelChanged(const HistoryAdditionEvent& event) = 0;
+  virtual void onExchangeRatesUpdated(QString date) = 0;
+};
+
+#endif // PLUGIN_IQALCULATE_H_INCLUDED
