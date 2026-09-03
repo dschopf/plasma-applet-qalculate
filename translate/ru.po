@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plasma_applet_qalculate\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2025-12-16 22:20+0700\n"
+"POT-Creation-Date: 2026-09-03 15:55+0200\n"
 "PO-Revision-Date: 2025-12-16 22:20+0700\n"
 "Last-Translator: Damir Islamov <damir@secretlaboratory.ru>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -73,7 +73,7 @@ msgid "Behavior"
 msgstr "Поведение"
 
 #: ../package/contents/ui/config/General.qml:64
-#: ../package/contents/ui/FullRepresentation.qml:74
+#: ../package/contents/ui/FullRepresentation.qml:81
 msgid "Copy result to clipboard"
 msgstr "Скопировать результат в буфер обмена"
 
@@ -390,23 +390,23 @@ msgid "Show integers also in base"
 msgstr "Показывать целые числа также в основании"
 
 #: ../package/contents/ui/config/Output.qml:182
-#: ../package/contents/ui/FullRepresentation.qml:94
-#: ../plugin/preprocessor.cpp:66
+#: ../package/contents/ui/FullRepresentation.qml:101
+#: ../plugin/Qalculate_PreProcessor.cpp:68
 msgid "Binary"
 msgstr "Двоичное"
 
 #: ../package/contents/ui/config/Output.qml:187
-#: ../package/contents/ui/FullRepresentation.qml:103
+#: ../package/contents/ui/FullRepresentation.qml:110
 msgid "Octal"
 msgstr "Восьмеричное"
 
 #: ../package/contents/ui/config/Output.qml:192
-#: ../package/contents/ui/FullRepresentation.qml:112
+#: ../package/contents/ui/FullRepresentation.qml:119
 msgid "Decimal"
 msgstr "Десятичное"
 
 #: ../package/contents/ui/config/Output.qml:197
-#: ../package/contents/ui/FullRepresentation.qml:121
+#: ../package/contents/ui/FullRepresentation.qml:128
 msgid "Hexadecimal"
 msgstr "Шестнадцатеричное"
 
@@ -414,46 +414,59 @@ msgstr "Шестнадцатеричное"
 msgid "Result base"
 msgstr "Основание результатов"
 
-#: ../package/contents/ui/FullRepresentation.qml:83
+#: ../package/contents/ui/FullRepresentation.qml:90
 msgid "Copy result as"
 msgstr "Копировать результат как"
 
-#: ../package/contents/ui/FullRepresentation.qml:152
+#: ../package/contents/ui/FullRepresentation.qml:243
+msgid "Qalculate!"
+msgstr ""
+
+#: ../package/contents/ui/FullRepresentation.qml:303
 msgid "Enter an expression"
 msgstr "Введите выражение"
 
-#: ../package/contents/ui/FullRepresentation.qml:419
+#: ../package/contents/ui/FullRepresentation.qml:406
 msgid "Result"
 msgstr "Результат"
 
-#: ../package/contents/ui/FullRepresentation.qml:510
+#: ../package/contents/ui/FullRepresentation.qml:503
 msgid "Calculation timed out"
 msgstr "Время вычисления истекло"
 
-#: ../plugin/preprocessor.cpp:60
+#: ../package/contents/ui/HistoryPanel.qml:74
+#, fuzzy
+msgid "History"
+msgstr "История ввода"
+
+#: ../package/contents/ui/HistoryPanel.qml:99
+msgid "Search an entry"
+msgstr ""
+
+#: ../plugin/Qalculate_PreProcessor.cpp:62
 msgid "factors"
 msgstr "множители"
 
-#: ../plugin/preprocessor.cpp:62
+#: ../plugin/Qalculate_PreProcessor.cpp:64
 msgid "roman"
 msgstr "римские"
 
-#: ../plugin/preprocessor.cpp:70
+#: ../plugin/Qalculate_PreProcessor.cpp:72
 msgid "octal"
 msgstr "восьмеричное"
 
-#: ../plugin/preprocessor.cpp:74
+#: ../plugin/Qalculate_PreProcessor.cpp:76
 msgid "decimal"
 msgstr "десятичное"
 
-#: ../plugin/preprocessor.cpp:78
+#: ../plugin/Qalculate_PreProcessor.cpp:80
 msgid "duodecimal"
 msgstr "двенадцатеричное"
 
-#: ../plugin/preprocessor.cpp:82
+#: ../plugin/Qalculate_PreProcessor.cpp:85
 msgid "hexadecimal"
 msgstr "шестнадцатеричное"
 
-#: ../plugin/preprocessor.cpp:120
+#: ../plugin/Qalculate_PreProcessor.cpp:125
 msgid "base"
 msgstr "основание"
