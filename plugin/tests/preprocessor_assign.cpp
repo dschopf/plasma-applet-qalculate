@@ -27,7 +27,8 @@
 using namespace Qt::Literals::StringLiterals;
 
 // Demonstrate some basic assertions.
-TEST_F(QalculateTest, BasicAssertions) {
+TEST_F(QalculateTest, BasicAssertions)
+{
   MockResults results{};
 
   // Assign a value
@@ -36,13 +37,16 @@ TEST_F(QalculateTest, BasicAssertions) {
 
   const auto assignA{u"A = 1"_s};
 
-  EXPECT_CALL(results, onResultText).WillOnce([&promise, assignA](QString result, QString, QString, QString, QString) {
-    EXPECT_QSTREQ(assignA, result);
-    promise.set_value();
-  });
+  EXPECT_CALL(results, onResultText)
+      .WillOnce([&promise, assignA](QString result, QString, QString, QString,
+                                    QString) {
+        EXPECT_QSTREQ(assignA, result);
+        promise.set_value();
+      });
 
   m_calc->evaluate(assignA, false, false, &results);
-  ASSERT_EQ(future.wait_for(std::chrono::seconds(1)), std::future_status::ready);
+  ASSERT_EQ(future.wait_for(std::chrono::seconds(1)),
+            std::future_status::ready);
 
   // Check if assignment worked
   promise = {};
@@ -51,11 +55,14 @@ TEST_F(QalculateTest, BasicAssertions) {
   const auto add1{u"A + 1"_s};
   const auto expected{u"2"_s};
 
-  EXPECT_CALL(results, onResultText).WillOnce([&promise, expected](QString result, QString, QString, QString, QString) {
-    EXPECT_QSTREQ(expected, result);
-    promise.set_value();
-  });
+  EXPECT_CALL(results, onResultText)
+      .WillOnce([&promise, expected](QString result, QString, QString, QString,
+                                     QString) {
+        EXPECT_QSTREQ(expected, result);
+        promise.set_value();
+      });
 
   m_calc->evaluate(add1, false, false, &results);
-  ASSERT_EQ(future.wait_for(std::chrono::seconds(1)), std::future_status::ready);
+  ASSERT_EQ(future.wait_for(std::chrono::seconds(1)),
+            std::future_status::ready);
 }

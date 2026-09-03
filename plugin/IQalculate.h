@@ -48,7 +48,9 @@ class IResultCallbacks {
 public:
   virtual ~IResultCallbacks() {}
 
-  virtual void onResultText(QString result, QString resultBase2, QString resultBase8, QString resultBase10, QString resultBase16) = 0;
+  virtual void onResultText(QString result, QString resultBase2,
+                            QString resultBase8, QString resultBase10,
+                            QString resultBase16) = 0;
   virtual void onCalculationTimeout() = 0;
 };
 

@@ -47,7 +47,9 @@ namespace {
     for (size_t i{0}; i < values.size(); ++i) {
       res.append(QString::fromStdString(values[i].print()));
       if (i < values.size() - 1) {
-        res.append(QChar::SpecialCharacter::Space).append(QString::fromLatin1(sign)).append(QChar::SpecialCharacter::Space);
+        res.append(QChar::SpecialCharacter::Space)
+            .append(QString::fromLatin1(sign))
+            .append(QChar::SpecialCharacter::Space);
       }
     }
     return res;
@@ -78,7 +80,9 @@ namespace {
          [q](const QString& expr) {
            return q->handleBaseConversion(expr, BASE_DUODECIMAL);
          }},
-        {{QString::fromLatin1("hex"), QString::fromLatin1("hexadecimal"), i18n("hexadecimal")}, [q](const QString& expr) {
+        {{QString::fromLatin1("hex"), QString::fromLatin1("hexadecimal"),
+          i18n("hexadecimal")},
+         [q](const QString& expr) {
            return q->handleBaseConversion(expr, BASE_HEXADECIMAL);
          }}};
 
@@ -109,7 +113,8 @@ bool Qalculate::preprocessInput(const std::string& expr)
 
   // also detect "in" cases, for now only numbers without units
   // separated by space
-  const auto items{QString::fromStdString(expr).split(QChar::SpecialCharacter::Space)};
+  const auto items{
+      QString::fromStdString(expr).split(QChar::SpecialCharacter::Space)};
 
   if (items.size() == 3 && items[1] == QString::fromLatin1("in")) {
     return handleInExpression(items);
@@ -117,12 +122,12 @@ bool Qalculate::preprocessInput(const std::string& expr)
 
   if (items.size() == 4 && items[1] == QString::fromLatin1("in") &&
       (items[2] == QString::fromLatin1("base") || items[2] == i18n("base"))) {
-      try {
-        const auto base{std::stoul(items[3].toStdString())};
-        return handleBaseConversionCustom(items[0], base);
-      } catch (const std::exception&) {
-        return false;
-      }
+    try {
+      const auto base{std::stoul(items[3].toStdString())};
+      return handleBaseConversionCustom(items[0], base);
+    } catch (const std::exception&) {
+      return false;
+    }
   }
 
   return false;
@@ -148,7 +153,8 @@ bool Qalculate::checkAssignment(const std::string& expr)
     return false;
   }
 
-  m_pcalc->addVariable(new KnownVariable(m_pcalc->temporaryCategory(), m[1].str(), m[2].str()));
+  m_pcalc->addVariable(
+      new KnownVariable(m_pcalc->temporaryCategory(), m[1].str(), m[2].str()));
 
   // m_pcalc->deleteName(m[1].str());
   m_state.active_cb->onResultText(QString::fromStdString(expr), {}, {}, {}, {});

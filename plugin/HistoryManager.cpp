@@ -33,8 +33,7 @@
 
 namespace fs = std::filesystem;
 
-namespace
-{
+namespace {
   // history file location
   constexpr auto HISTORY_FILE = "plasma_applet_history.json";
   constexpr auto LOCAL_SHARE = ".local/share";
@@ -47,7 +46,7 @@ namespace
   constexpr auto INPUT_FIELD_ID = "input";
   constexpr auto RESULT_FIELD_ID = "result";
   constexpr auto VERSION_FIELD_ID = "version";
-}
+} // namespace
 
 auto HistoryManager::HistoryEntry::to_json() const -> QJsonObject
 {
@@ -114,10 +113,13 @@ auto HistoryManager::entry_count() -> int
 
 auto HistoryManager::get_filename() const -> QString
 {
-  return m_enabled ? QString::fromStdString(m_history_file.string()) : QString();
+  return m_enabled ? QString::fromStdString(m_history_file.string())
+                   : QString();
 }
 
-auto HistoryManager::add(const QString& raw_input, const QString& result, const bool fix_history_position) -> HistoryAdditionEvent
+auto HistoryManager::add(const QString& raw_input, const QString& result,
+                         const bool fix_history_position)
+    -> HistoryAdditionEvent
 {
   HistoryAdditionEvent res{};
 
@@ -143,7 +145,9 @@ auto HistoryManager::add(const QString& raw_input, const QString& result, const 
 
   std::unique_lock lock{m_mutex};
 
-  auto it = std::find_if(m_entries.begin(), m_entries.end(), [&](const auto &entry) { return entry.input == input; });
+  auto it =
+      std::find_if(m_entries.begin(), m_entries.end(),
+                   [&](const auto& entry) { return entry.input == input; });
 
   if (it == m_entries.begin()) {
     qDebug() << "Skipping identical entry";
@@ -152,7 +156,8 @@ auto HistoryManager::add(const QString& raw_input, const QString& result, const 
   } else if (it != m_entries.end()) {
     qDebug() << "Erasing double entry @" << (it - m_entries.begin());
     res.event = HistoryAdditionEvent::Event::ROW_MOVED;
-    res.old_pos = std::distance(m_entries.begin(), it);;
+    res.old_pos = std::distance(m_entries.begin(), it);
+    ;
     res.new_pos = 0;
     m_entries.erase(it);
   } else if (m_entries.size() == m_size) {
@@ -182,7 +187,8 @@ auto HistoryManager::get(int index) -> QString
   return entry.input;
 }
 
-auto HistoryManager::search(QString query) const -> QQueue<HistoryManager::HistoryEntry>
+auto HistoryManager::search(QString query) const
+    -> QQueue<HistoryManager::HistoryEntry>
 {
   query = query.trimmed();
 
@@ -192,22 +198,19 @@ auto HistoryManager::search(QString query) const -> QQueue<HistoryManager::Histo
 
   QQueue<HistoryEntry> result;
 
-  for (const auto &entry : m_entries)
-  {
-      if (entry.input.contains(query, Qt::CaseInsensitive) ||
-          entry.result.contains(query, Qt::CaseInsensitive))
-      {
-          result.push_back(entry);
-      }
+  for (const auto& entry : m_entries) {
+    if (entry.input.contains(query, Qt::CaseInsensitive) ||
+        entry.result.contains(query, Qt::CaseInsensitive)) {
+      result.push_back(entry);
+    }
   }
 
   return result;
 }
 
-const QQueue<HistoryManager::HistoryEntry> &
-HistoryManager::entries() const
+const QQueue<HistoryManager::HistoryEntry>& HistoryManager::entries() const
 {
-    return m_entries;
+  return m_entries;
 }
 
 auto HistoryManager::load() -> void
@@ -233,12 +236,15 @@ auto HistoryManager::load() -> void
 
   const auto root_object = doc.object();
 
-  if (auto version{root_object.value(QString::fromUtf8(VERSION_FIELD_ID)).toInt(1)}; version != HISTORY_FILE_VERSION) {
+  if (auto version{
+          root_object.value(QString::fromUtf8(VERSION_FIELD_ID)).toInt(1)};
+      version != HISTORY_FILE_VERSION) {
     qDebug() << "Invalid version in JSON History file:" << version;
     return;
   }
 
-  const auto entries = root_object.value(QString::fromUtf8(ENTRIES_FIELD_ID)).toArray();
+  const auto entries =
+      root_object.value(QString::fromUtf8(ENTRIES_FIELD_ID)).toArray();
 
   m_entries.reserve(entries.size());
 
@@ -246,8 +252,10 @@ auto HistoryManager::load() -> void
     const auto obj = entry.toObject();
 
     HistoryEntry history_entry;
-    history_entry.input = obj.value(QString::fromUtf8(INPUT_FIELD_ID)).toString();
-    history_entry.result = obj.value(QString::fromUtf8(RESULT_FIELD_ID)).toString();
+    history_entry.input =
+        obj.value(QString::fromUtf8(INPUT_FIELD_ID)).toString();
+    history_entry.result =
+        obj.value(QString::fromUtf8(RESULT_FIELD_ID)).toString();
 
     // no need to check for duplicate entries here
     // they are already prevented from enterting in the add() function
@@ -312,10 +320,10 @@ auto HistoryManager::initHistoryFile() -> void
     if (!fs::exists(file_path)) {
       fs::create_directory(file_path);
     }
-  } catch (const std::bad_alloc& ex)  {
+  } catch (const std::bad_alloc& ex) {
     qDebug() << "Error allocating resources:" << ex.what();
     return;
-  } catch (const fs::filesystem_error& ex ) {
+  } catch (const fs::filesystem_error& ex) {
     qDebug() << "Error creating history folder:" << ex.what();
     return;
   }
@@ -351,7 +359,8 @@ auto HistoryManager::worker() -> void
   std::unique_lock lock{m_mutex};
 
   while (!m_cancel) {
-    m_cond.wait_for(lock, std::chrono::seconds(30), [&]() { return m_cancel == true; });
+    m_cond.wait_for(lock, std::chrono::seconds(30),
+                    [&]() { return m_cancel == true; });
     if (m_enabled) {
       lock.unlock();
       save();

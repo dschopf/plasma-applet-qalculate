@@ -21,8 +21,8 @@
 #ifndef PLUGIN_QALCULATE_H_INCLUDED
 #define PLUGIN_QALCULATE_H_INCLUDED
 
-#include "IQalculate.h"
 #include "HistoryManager.h"
+#include "IQalculate.h"
 
 #include <condition_variable>
 #include <memory>
@@ -39,15 +39,13 @@
 using print_result_t = std::pair<int, QString>;
 using res_vector_t = std::vector<print_result_t>;
 
-class Qalculate : public QObject, public IHistoryCallbacks {
+class Qalculate
+    : public QObject
+    , public IHistoryCallbacks {
   Q_OBJECT
 
 private:
-  enum class State {
-    Calculating,
-    Idle,
-    Stop
-  };
+  enum class State { Calculating, Idle, Stop };
 
 public:
   explicit Qalculate(QObject* parent);
@@ -67,7 +65,8 @@ public:
   void unregisterCallbacks(IQWrapperCallbacks* p);
 
   // main function
-  void evaluate(const QString& input, const bool enter_pressed, const bool fix_history_position, IResultCallbacks* cb);
+  void evaluate(const QString& input, const bool enter_pressed,
+                const bool fix_history_position, IResultCallbacks* cb);
 
   // general settings
   void setTimeout(const int timeout);

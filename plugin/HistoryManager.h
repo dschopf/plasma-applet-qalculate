@@ -22,15 +22,15 @@
 #define PLUGIN_HISTORYMANAGER_H_INCLUDED
 
 #include <condition_variable>
-#include <mutex>
 #include <filesystem>
+#include <mutex>
 #include <thread>
 
 #include <QFile>
 #include <QJsonObject>
+#include <QQueue>
 #include <QSaveFile>
 #include <QString>
-#include <QQueue>
 
 #include "IQalculate.h"
 
@@ -62,7 +62,8 @@ public:
   auto entry_count() -> int;
   auto get_filename() const -> QString;
 
-  auto add(const QString& raw_input, const QString& result, const bool fix_history_position) -> HistoryAdditionEvent;
+  auto add(const QString& raw_input, const QString& result,
+           const bool fix_history_position) -> HistoryAdditionEvent;
   auto get(int index) -> QString;
   auto search(QString query) const -> QQueue<HistoryEntry>;
 

@@ -31,27 +31,27 @@
 
 class HistoryFilterModel : public QSortFilterProxyModel {
   Q_OBJECT
-  Q_PROPERTY(QString filterText READ filterText
-               WRITE setFilterText NOTIFY filterTextChanged)
+  Q_PROPERTY(QString filterText READ filterText WRITE setFilterText NOTIFY
+                 filterTextChanged)
 
 public:
-    explicit HistoryFilterModel(QObject* parent, IHistoryCallbacks* callbacks);
+  explicit HistoryFilterModel(QObject* parent, IHistoryCallbacks* callbacks);
 
-    auto filterText() const -> QString;
-    auto setFilterText(const QString &text) -> void;
+  auto filterText() const -> QString;
+  auto setFilterText(const QString& text) -> void;
 
-    auto onHistoryModelReset() -> void;
-    auto onHistoryModelChanged(const HistoryAdditionEvent& event) -> void;
+  auto onHistoryModelReset() -> void;
+  auto onHistoryModelChanged(const HistoryAdditionEvent& event) -> void;
 
-    Q_INVOKABLE auto findBaseIndex(const int index) -> int;
-    Q_INVOKABLE auto findFilterIndex(const int index) -> int;
+  Q_INVOKABLE auto findBaseIndex(const int index) -> int;
+  Q_INVOKABLE auto findFilterIndex(const int index) -> int;
 
 Q_SIGNALS:
-    void filterTextChanged();
+  void filterTextChanged();
 
 private:
-    HistoryListModel m_model;
-    QString m_filterText;
+  HistoryListModel m_model;
+  QString m_filterText;
 };
 
 #endif // PLUGIN_HISTORYFILTERMODEL_H_INCLUDED
