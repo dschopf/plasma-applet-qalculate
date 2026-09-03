@@ -42,9 +42,7 @@ namespace {
 } // namespace
 
 Qalculate::Qalculate(QObject* parent)
-  : QObject(nullptr)
-  , m_netmgr{parent}
-  , m_history_manager{}
+    : QObject(nullptr), m_netmgr{parent}, m_history_manager{}
 {
   m_pcalc = std::make_unique<Calculator>();
   m_pcalc->loadExchangeRates();
@@ -155,8 +153,8 @@ void Qalculate::unregisterCallbacks(IQWrapperCallbacks* p)
   }
 }
 
-void Qalculate::evaluate(const QString& input, const bool enter_pressed, const bool fix_history_position,
-                         IResultCallbacks* cb)
+void Qalculate::evaluate(const QString& input, const bool enter_pressed,
+                         const bool fix_history_position, IResultCallbacks* cb)
 {
   std::unique_lock<std::mutex> _(m_state.mutex);
 
@@ -174,10 +172,11 @@ void Qalculate::evaluate(const QString& input, const bool enter_pressed, const b
   }
 
   // remove pending calculation for the same callback instance
-  auto it{std::find_if(std::begin(m_state.queue), std::end(m_state.queue),
-                       [cb](std::tuple<IResultCallbacks*, QString, bool, bool>& q) {
-                         return std::get<0>(q) == cb;
-                       })};
+  auto it{
+      std::find_if(std::begin(m_state.queue), std::end(m_state.queue),
+                   [cb](std::tuple<IResultCallbacks*, QString, bool, bool>& q) {
+                     return std::get<0>(q) == cb;
+                   })};
   if (it != std::end(m_state.queue)) {
     m_state.queue.erase(it);
   }
@@ -382,7 +381,8 @@ void Qalculate::updateExchangeRates()
     return;
   }
 
-  QNetworkRequest req(QUrl(QString::fromStdString(m_pcalc->getExchangeRatesUrl())));
+  QNetworkRequest req(
+      QUrl(QString::fromStdString(m_pcalc->getExchangeRatesUrl())));
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute,
                    QNetworkRequest::NoLessSafeRedirectPolicy);
   m_netmgr.get(req);
@@ -423,14 +423,12 @@ void Qalculate::setDefaultCurrency(const int currency_idx)
     return;
   }
 
-  const QString c = m_currencies[currency_idx].split(QChar::SpecialCharacter::Space)[0];
+  const QString c =
+      m_currencies[currency_idx].split(QChar::SpecialCharacter::Space)[0];
   m_pcalc->setLocalCurrency(m_pcalc->getActiveUnit(c.toUtf8().data()));
 }
 
-int Qalculate::historyEntries()
-{
-  return m_history_manager.entry_count();
-}
+int Qalculate::historyEntries() { return m_history_manager.entry_count(); }
 
 QString Qalculate::getHistoryEntry(int index)
 {
@@ -461,7 +459,8 @@ void Qalculate::worker()
         auto result{runCalculation(expr)};
         // store in history)
         if (std::get<2>(input) && !result.isEmpty()) {
-          auto ev{m_history_manager.add(std::get<1>(input), result, std::get<3>(input))};
+          auto ev{m_history_manager.add(std::get<1>(input), result,
+                                        std::get<3>(input))};
 
           for (auto& cb : m_state.cbs) {
             cb->onHistoryModelChanged(ev);

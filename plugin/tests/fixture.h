@@ -21,10 +21,10 @@
 #ifndef PLUGIN_TESTS_FIXTURE_H_INCLUDED
 #define PLUGIN_TESTS_FIXTURE_H_INCLUDED
 
-#include <gmock/gmock.h>
-#include <gtest/gtest.h>
 #include <QCoreApplication>
 #include <QString>
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 #include "../Qalculate.h"
 
@@ -33,9 +33,10 @@
 //     std::ostream &stream;
 //
 //     void print_time() {
-//         auto ms{duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()) % 1000};
-//         std::time_t t = std::time(nullptr);
-//         stream << "[" << std::put_time(std::localtime(&t), "%F %T") << "." << ms << "] ";
+//         auto
+//         ms{duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
+//         % 1000}; std::time_t t = std::time(nullptr); stream << "[" <<
+//         std::put_time(std::localtime(&t), "%F %T") << "." << ms << "] ";
 //     }
 //   public:
 //     //Maybe also take options for how to log?
@@ -49,14 +50,18 @@
 // };
 
 class MockResults : public IResultCallbacks {
- public:
-  MOCK_METHOD(void, onResultText, (QString result, QString resultBase2, QString resultBase8, QString resultBase10, QString resultBase16), (override));
+public:
+  MOCK_METHOD(void, onResultText,
+              (QString result, QString resultBase2, QString resultBase8,
+               QString resultBase10, QString resultBase16),
+              (override));
   MOCK_METHOD(void, onCalculationTimeout, (), (override));
 };
 
 class QalculateTest : public testing::Test {
- protected:
-  void SetUp() override {
+protected:
+  void SetUp() override
+  {
     m_calc = Qalculate::getInstance(QCoreApplication::instance());
   }
 

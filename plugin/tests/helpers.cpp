@@ -21,11 +21,14 @@
 #include "helpers.h"
 
 testing::AssertionResult helpers::CmpHelperQSTREQ(const char* m_expr,
-                                             const char* n_expr,
-                                             QString m,
-                                             QString n) {
-  if (m == n) return testing::AssertionSuccess();
+                                                  const char* n_expr, QString m,
+                                                  QString n)
+{
+  if (m == n) {
+    return testing::AssertionSuccess();
+  }
 
-  return testing::AssertionFailure() << m_expr << " and " << n_expr
-      << " (\"" << m.toStdString() << "\" and \"" << n.toStdString() << "\") are not equal!";
+  return testing::AssertionFailure()
+         << m_expr << " and " << n_expr << " (\"" << m.toStdString()
+         << "\" and \"" << n.toStdString() << "\") are not equal!";
 }

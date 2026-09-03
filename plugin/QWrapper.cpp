@@ -23,24 +23,27 @@
 #include "QWrapper.h"
 
 QWrapper::QWrapper(QObject* parent)
-    : QObject(parent), m_qalc(Qalculate::getInstance()), m_history(this, m_qalc.get())
+    : QObject(parent), m_qalc(Qalculate::getInstance()),
+      m_history(this, m_qalc.get())
 {
   m_qalc->registerCallbacks(this);
 }
 
-QWrapper::~QWrapper() {
-  m_qalc->unregisterCallbacks(this);
-}
+QWrapper::~QWrapper() { m_qalc->unregisterCallbacks(this); }
 
 void QWrapper::onHistoryModelReset() { m_history.onHistoryModelReset(); }
 
-void QWrapper::onHistoryModelChanged(const HistoryAdditionEvent& event) { m_history.onHistoryModelChanged(event); }
+void QWrapper::onHistoryModelChanged(const HistoryAdditionEvent& event)
+{
+  m_history.onHistoryModelChanged(event);
+}
 
 void QWrapper::onResultText(QString result, QString resultBase2,
                             QString resultBase8, QString resultBase10,
                             QString resultBase16)
 {
-  Q_EMIT resultText(result, resultBase2, resultBase8, resultBase10, resultBase16);
+  Q_EMIT resultText(result, resultBase2, resultBase8, resultBase10,
+                    resultBase16);
 }
 
 void QWrapper::onCalculationTimeout() { Q_EMIT calculationTimeout(); }
@@ -50,7 +53,8 @@ void QWrapper::onExchangeRatesUpdated(QString date)
   Q_EMIT exchangeRatesUpdated(date);
 }
 
-void QWrapper::evaluate(const QString& input, const bool enter_pressed, const bool fix_history_position)
+void QWrapper::evaluate(const QString& input, const bool enter_pressed,
+                        const bool fix_history_position)
 {
   m_qalc->evaluate(input, enter_pressed, fix_history_position, this);
 }
@@ -78,7 +82,8 @@ void QWrapper::launch(const QString& executable, const QString& args,
 
 int QWrapper::getVersion()
 {
-  return QALCULATE_MAJOR_VERSION * 100 + QALCULATE_MINOR_VERSION * 10 + QALCULATE_MICRO_VERSION;
+  return QALCULATE_MAJOR_VERSION * 100 + QALCULATE_MINOR_VERSION * 10 +
+         QALCULATE_MICRO_VERSION;
 }
 
 void QWrapper::setTimeout(const int timeout) { m_qalc->setTimeout(timeout); }
@@ -95,7 +100,10 @@ void QWrapper::setAutoPostConversion(const int value)
   m_qalc->setAutoPostConversion(value);
 }
 
-int QWrapper::getAutoPostConversion() { return m_qalc->getAutoPostConversion(); }
+int QWrapper::getAutoPostConversion()
+{
+  return m_qalc->getAutoPostConversion();
+}
 
 void QWrapper::setStructuringMode(const int mode)
 {

@@ -20,29 +20,27 @@
 
 #include "HistoryFilterModel.h"
 
-HistoryFilterModel::HistoryFilterModel(QObject* parent, IHistoryCallbacks* callbacks)
-  : QSortFilterProxyModel(parent), m_model(this, callbacks)
+HistoryFilterModel::HistoryFilterModel(QObject* parent,
+                                       IHistoryCallbacks* callbacks)
+    : QSortFilterProxyModel(parent), m_model(this, callbacks)
 {
   setSourceModel(&m_model);
   setFilterCaseSensitivity(Qt::CaseInsensitive);
-  //setFilterRole(MyModel::NameRole);
+  // setFilterRole(MyModel::NameRole);
 }
 
-auto HistoryFilterModel::filterText() const -> QString
-{
-  return m_filterText;
-}
+auto HistoryFilterModel::filterText() const -> QString { return m_filterText; }
 
 auto HistoryFilterModel::setFilterText(const QString& text) -> void
 {
-  if (m_filterText == text)
-      return;
+  if (m_filterText == text) {
+    return;
+  }
 
   m_filterText = text;
   setFilterRegularExpression(
-      QRegularExpression(
-          QRegularExpression::escape(text),
-          QRegularExpression::CaseInsensitiveOption));
+      QRegularExpression(QRegularExpression::escape(text),
+                         QRegularExpression::CaseInsensitiveOption));
 
   Q_EMIT filterTextChanged();
 }
@@ -52,7 +50,8 @@ auto HistoryFilterModel::onHistoryModelReset() -> void
   return m_model.onHistoryModelReset();
 }
 
-auto HistoryFilterModel::onHistoryModelChanged(const HistoryAdditionEvent& event) -> void
+auto HistoryFilterModel::onHistoryModelChanged(
+    const HistoryAdditionEvent& event) -> void
 {
   return m_model.onHistoryModelChanged(event);
 }

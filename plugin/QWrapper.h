@@ -28,7 +28,10 @@
 
 #include <memory>
 
-class QWrapper : public QObject, public IQWrapperCallbacks, public IResultCallbacks {
+class QWrapper
+    : public QObject
+    , public IQWrapperCallbacks
+    , public IResultCallbacks {
   Q_OBJECT
 
 public:
@@ -36,7 +39,8 @@ public:
   ~QWrapper();
 
   // IResultCallbacks
-  void onResultText(QString result, QString resultBase2, QString resultBase8, QString resultBase10, QString resultBase16) override;
+  void onResultText(QString result, QString resultBase2, QString resultBase8,
+                    QString resultBase10, QString resultBase16) override;
   void onCalculationTimeout() override;
 
   // IQWrapperCallbacks
@@ -45,9 +49,11 @@ public:
   void onExchangeRatesUpdated(QString date) override;
 
 public Q_SLOTS:
-  void evaluate(const QString& input, const bool enter_pressed, const bool fix_history_position);
+  void evaluate(const QString& input, const bool enter_pressed,
+                const bool fix_history_position);
   void launch(const QString& executable);
-  void launch(const QString& executable, const QString& arguments, const QString& expression);
+  void launch(const QString& executable, const QString& arguments,
+              const QString& expression);
   int getVersion();
 
   // general settings
@@ -91,7 +97,8 @@ public Q_SLOTS:
   QString historyFilename() const;
 
 Q_SIGNALS:
-  void resultText(QString result, QString resultBase2, QString resultBase8, QString resultBase10, QString resultBase16);
+  void resultText(QString result, QString resultBase2, QString resultBase8,
+                  QString resultBase10, QString resultBase16);
   void calculationTimeout();
   void exchangeRatesUpdated(QString date);
 

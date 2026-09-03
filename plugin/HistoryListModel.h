@@ -34,14 +34,12 @@ class HistoryListModel : public QAbstractListModel {
 public:
   HistoryListModel(QObject* parent, IHistoryCallbacks* callbacks);
 
-  enum {
-    History = Qt::UserRole + 1
-  };
+  enum { History = Qt::UserRole + 1 };
 
-  int rowCount(const QModelIndex & parent) const override;
-  QVariant data(const QModelIndex & index, int role) const override;
+  int rowCount(const QModelIndex& parent) const override;
+  QVariant data(const QModelIndex& index, int role) const override;
 
-  QHash<int,QByteArray> roleNames() const override;
+  QHash<int, QByteArray> roleNames() const override;
 
   void onHistoryModelReset();
   void onHistoryModelChanged(const HistoryAdditionEvent& event);

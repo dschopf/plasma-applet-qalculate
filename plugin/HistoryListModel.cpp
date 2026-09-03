@@ -20,7 +20,8 @@
 
 #include "HistoryListModel.h"
 
-HistoryListModel::HistoryListModel(QObject* parent, IHistoryCallbacks* callbacks)
+HistoryListModel::HistoryListModel(QObject* parent,
+                                   IHistoryCallbacks* callbacks)
     : QAbstractListModel(parent), m_callbacks(callbacks)
 {
 }
@@ -32,7 +33,8 @@ int HistoryListModel::rowCount(const QModelIndex& parent) const
 
 QVariant HistoryListModel::data(const QModelIndex& index, int /*role*/) const
 {
-  return index.isValid() ? m_callbacks->getHistoryEntry(index.row()) : QVariant();
+  return index.isValid() ? m_callbacks->getHistoryEntry(index.row())
+                         : QVariant();
 }
 
 QHash<int, QByteArray> HistoryListModel::roleNames() const
@@ -62,7 +64,8 @@ void HistoryListModel::onHistoryModelChanged(const HistoryAdditionEvent& event)
       endInsertRows();
       return;
     case HistoryAdditionEvent::Event::ROW_MOVED:
-      beginMoveRows(QModelIndex(), event.old_pos, event.old_pos, QModelIndex(), 0);
+      beginMoveRows(QModelIndex(), event.old_pos, event.old_pos, QModelIndex(),
+                    0);
       endMoveRows();
       return;
     case HistoryAdditionEvent::Event::SKIPPED:

@@ -21,16 +21,17 @@
 #ifndef PLUGIN_TESTS_HELPERS_H_INCLUDED
 #define PLUGIN_TESTS_HELPERS_H_INCLUDED
 
-#include <gtest/gtest.h>
 #include <QString>
+#include <gtest/gtest.h>
 
-#define EXPECT_QSTREQ(s1, s2) \
+#define EXPECT_QSTREQ(s1, s2)                                                  \
   EXPECT_PRED_FORMAT2(::helpers::CmpHelperQSTREQ, s1, s2)
 
 namespace helpers {
 
-testing::AssertionResult CmpHelperQSTREQ(const char* m_expr, const char* n_expr, QString m, QString n);
+  testing::AssertionResult
+  CmpHelperQSTREQ(const char* m_expr, const char* n_expr, QString m, QString n);
 
-} // helpes namespace
+} // namespace helpers
 
 #endif // PLUGIN_TESTS_HELPERS_H_INCLUDED
