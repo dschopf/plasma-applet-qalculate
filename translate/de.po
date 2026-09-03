@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2025-12-16 22:20+0700\n"
+"POT-Creation-Date: 2026-09-03 15:55+0200\n"
 "PO-Revision-Date: 2020-01-15 19:40+0100\n"
 "Last-Translator: Daniel Schopf <schopf.dan@gmail.org>\n"
 "Language-Team: German <>\n"
@@ -70,7 +70,7 @@ msgid "Behavior"
 msgstr "Verhalten"
 
 #: ../package/contents/ui/config/General.qml:64
-#: ../package/contents/ui/FullRepresentation.qml:74
+#: ../package/contents/ui/FullRepresentation.qml:81
 msgid "Copy result to clipboard"
 msgstr "Ergebnis in die Zwischenablage kopieren"
 
@@ -142,7 +142,6 @@ msgid "Input history"
 msgstr "Letzte Eingaben"
 
 #: ../package/contents/ui/config/General.qml:290
-#, fuzzy
 msgid "History entries are stored in this file"
 msgstr "Letzte Eingaben werden in dieser Datei gespeichert"
 
@@ -381,23 +380,23 @@ msgid "Show integers also in base"
 msgstr "Ganzzahlen auch in diesen Basen anzeigen"
 
 #: ../package/contents/ui/config/Output.qml:182
-#: ../package/contents/ui/FullRepresentation.qml:94
-#: ../plugin/preprocessor.cpp:66
+#: ../package/contents/ui/FullRepresentation.qml:101
+#: ../plugin/Qalculate_PreProcessor.cpp:68
 msgid "Binary"
 msgstr "Binär"
 
 #: ../package/contents/ui/config/Output.qml:187
-#: ../package/contents/ui/FullRepresentation.qml:103
+#: ../package/contents/ui/FullRepresentation.qml:110
 msgid "Octal"
 msgstr "Oktal"
 
 #: ../package/contents/ui/config/Output.qml:192
-#: ../package/contents/ui/FullRepresentation.qml:112
+#: ../package/contents/ui/FullRepresentation.qml:119
 msgid "Decimal"
 msgstr "Dezimal"
 
 #: ../package/contents/ui/config/Output.qml:197
-#: ../package/contents/ui/FullRepresentation.qml:121
+#: ../package/contents/ui/FullRepresentation.qml:128
 msgid "Hexadecimal"
 msgstr "Hexadezimal"
 
@@ -405,46 +404,58 @@ msgstr "Hexadezimal"
 msgid "Result base"
 msgstr "Ergebnisbasis"
 
-#: ../package/contents/ui/FullRepresentation.qml:83
+#: ../package/contents/ui/FullRepresentation.qml:90
 msgid "Copy result as"
 msgstr "Ergebnis kopieren als"
 
-#: ../package/contents/ui/FullRepresentation.qml:152
+#: ../package/contents/ui/FullRepresentation.qml:243
+msgid "Qalculate!"
+msgstr ""
+
+#: ../package/contents/ui/FullRepresentation.qml:303
 msgid "Enter an expression"
 msgstr "Ausdruck eingeben"
 
-#: ../package/contents/ui/FullRepresentation.qml:419
+#: ../package/contents/ui/FullRepresentation.qml:406
 msgid "Result"
 msgstr "Ergebnis"
 
-#: ../package/contents/ui/FullRepresentation.qml:510
+#: ../package/contents/ui/FullRepresentation.qml:503
 msgid "Calculation timed out"
 msgstr "Zeitüberschreitung"
 
-#: ../plugin/preprocessor.cpp:60
+#: ../package/contents/ui/HistoryPanel.qml:74
+msgid "History"
+msgstr "Letzte Eingaben"
+
+#: ../package/contents/ui/HistoryPanel.qml:99
+msgid "Search an entry"
+msgstr "Einen Eintrag suchen"
+
+#: ../plugin/Qalculate_PreProcessor.cpp:62
 msgid "factors"
 msgstr "Faktoren"
 
-#: ../plugin/preprocessor.cpp:62
+#: ../plugin/Qalculate_PreProcessor.cpp:64
 msgid "roman"
 msgstr "römisch"
 
-#: ../plugin/preprocessor.cpp:70
+#: ../plugin/Qalculate_PreProcessor.cpp:72
 msgid "octal"
 msgstr "oktal"
 
-#: ../plugin/preprocessor.cpp:74
+#: ../plugin/Qalculate_PreProcessor.cpp:76
 msgid "decimal"
 msgstr "dezimal"
 
-#: ../plugin/preprocessor.cpp:78
+#: ../plugin/Qalculate_PreProcessor.cpp:80
 msgid "duodecimal"
 msgstr "duodezimal"
 
-#: ../plugin/preprocessor.cpp:82
+#: ../plugin/Qalculate_PreProcessor.cpp:85
 msgid "hexadecimal"
 msgstr "hexdezimal"
 
-#: ../plugin/preprocessor.cpp:120
+#: ../plugin/Qalculate_PreProcessor.cpp:125
 msgid "base"
 msgstr "Basis"
