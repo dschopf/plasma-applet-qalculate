@@ -488,8 +488,9 @@ PlasmaExtras.Representation {
                           clipcopy.copy()
                         }
 
-                        if (plasmoid.configuration.writeResultsInInputLineEdit)
-                          text = lResult.text
+                        if (plasmoid.configuration.writeResultsInInputLineEdit) {
+                          inputQuery.text = result
+                        }
                       }
 
                       if (historyOpen && !historyEntryRestored) {
