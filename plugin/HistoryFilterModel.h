@@ -43,8 +43,8 @@ public:
   auto onHistoryModelReset() -> void;
   auto onHistoryModelChanged(const HistoryAdditionEvent& event) -> void;
 
-  Q_INVOKABLE auto findBaseIndex(const int index) -> int;
-  Q_INVOKABLE auto findFilterIndex(const int index) -> int;
+  Q_INVOKABLE int findBaseIndex(const int index);
+  Q_INVOKABLE int findFilterIndex(const int index);
 
 Q_SIGNALS:
   void filterTextChanged();
