@@ -334,7 +334,8 @@ auto HistoryManager::initHistoryFile() -> void
 
 auto HistoryManager::openHistoryFile() -> std::unique_ptr<QFile>
 {
-  auto file{std::make_unique<QFile>(m_history_file)};
+  auto file{
+      std::make_unique<QFile>(QString::fromUtf8(m_history_file.string()))};
 
   if (file->open(QIODevice::ReadOnly)) {
     return file;
@@ -345,7 +346,8 @@ auto HistoryManager::openHistoryFile() -> std::unique_ptr<QFile>
 
 auto HistoryManager::openHistoryFileForWrite() -> std::unique_ptr<QSaveFile>
 {
-  auto file{std::make_unique<QSaveFile>(m_history_file)};
+  auto file{
+      std::make_unique<QSaveFile>(QString::fromUtf8(m_history_file.string()))};
 
   if (file->open(QIODevice::WriteOnly)) {
     return file;

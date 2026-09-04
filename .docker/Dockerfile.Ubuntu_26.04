@@ -1,0 +1,17 @@
+FROM ubuntu:26.04
+
+RUN apt-get update && \
+    apt-get install -y \
+    	cmake \
+	extra-cmake-modules \
+	g++ \
+	gettext \
+	libkf6i18n-dev \
+	libplasma-dev \
+	libqalculate-dev \
+	pkg-config \
+	qt6-declarative-dev \
+    && \
+    rm -rf /var/lib/apt/lists/*
+
+CMD ["bash"]

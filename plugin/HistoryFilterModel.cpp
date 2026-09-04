@@ -56,7 +56,7 @@ auto HistoryFilterModel::onHistoryModelChanged(
   return m_model.onHistoryModelChanged(event);
 }
 
-auto HistoryFilterModel::findBaseIndex(const int filteredRow) -> int
+int HistoryFilterModel::findBaseIndex(const int filteredRow)
 {
   auto proxyIndex{index(filteredRow, 0)};
   if (!proxyIndex.isValid()) {
@@ -66,7 +66,7 @@ auto HistoryFilterModel::findBaseIndex(const int filteredRow) -> int
   return mapToSource(proxyIndex).row();
 }
 
-auto HistoryFilterModel::findFilterIndex(const int sourceRow) -> int
+int HistoryFilterModel::findFilterIndex(const int sourceRow)
 {
   auto sourceIndex{sourceModel()->index(sourceRow, 0)};
   if (!sourceIndex.isValid()) {
