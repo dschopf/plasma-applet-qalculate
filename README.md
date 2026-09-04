@@ -40,20 +40,20 @@ sudo make install
 
 Please note that this might require additional packages which are not part of these instructions.
 
-For Debian 9 "Stretch"/Ubuntu 18.04 LTS "Bionic Beaver" and above, these are specifically:
-
-* g++
+For Ubuntu 26.04 LTS "Resolute Raccoon" and above, these are specifically:
 * cmake
 * extra-cmake-modules
-* gettext (required for translations)
-* pkg-config
-* qtdeclarative5-dev
-* libkf5plasma-dev
+* g++
+* gettext
+* libkf6i18n-dev
+* libplasma-dev
 * libqalculate-dev
+* pkg-config
+* qt6-declarative-dev
 
 and can all be installed with a single command as follows:
 
-`sudo apt install g++ cmake extra-cmake-modules gettext pkg-config qtdeclarative5-dev libkf5plasma-dev libqalculate-dev`
+`sudo apt install cmake extra-cmake-modules g++ gettext libkf6i18n-dev libplasma-dev libqalculate-dev pkg-config qt6-declarative-dev`
 
 ### Fedora
 
