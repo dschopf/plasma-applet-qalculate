@@ -149,7 +149,7 @@ auto HistoryManager::add(const QString& raw_input, const QString& result,
       std::find_if(m_entries.begin(), m_entries.end(),
                    [&](const auto& entry) { return entry.input == input; });
 
-  if (it == m_entries.begin()) {
+  if (it == m_entries.begin() && !m_entries.empty()) {
     qDebug() << "Skipping identical entry";
     res.event = HistoryAdditionEvent::Event::SKIPPED;
     return res;
@@ -218,6 +218,12 @@ auto HistoryManager::load() -> void
   auto file{openHistoryFile()};
 
   if (!file) {
+    return;
+  }
+
+  auto data{file->readAll()};
+  if (data.isEmpty()) {
+    qDebug() << "Skipping parsing of empty history file";
     return;
   }
 
@@ -336,6 +342,14 @@ auto HistoryManager::openHistoryFile() -> std::unique_ptr<QFile>
 {
   auto file{
       std::make_unique<QFile>(QString::fromUtf8(m_history_file.string()))};
+
+  // create file initially in case it does not exist yet
+  if (!file->exists()) {
+    if (!file->open(QIODevice::WriteOnly)) {
+      return {};
+    }
+    file->close();
+  }
 
   if (file->open(QIODevice::ReadOnly)) {
     return file;
