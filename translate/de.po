@@ -426,7 +426,7 @@ msgstr "Zeitüberschreitung"
 
 #: ../package/contents/ui/HistoryPanel.qml:74
 msgid "History"
-msgstr "Letzte Eingaben"
+msgstr "Verlauf"
 
 #: ../package/contents/ui/HistoryPanel.qml:99
 msgid "Search an entry"
