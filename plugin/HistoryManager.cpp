@@ -228,7 +228,7 @@ auto HistoryManager::load() -> void
   }
 
   QJsonParseError error;
-  const auto doc{QJsonDocument::fromJson(file->readAll(), &error)};
+  const auto doc{QJsonDocument::fromJson(data, &error)};
 
   if (error.error != QJsonParseError::NoError) {
     qDebug() << "Error parsing JSON History file:" << error.errorString();
