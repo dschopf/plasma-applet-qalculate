@@ -25,7 +25,7 @@ import org.kde.plasma.configuration 2.0
 ConfigModel {
     ConfigCategory {
          name: i18n('General')
-         icon: Qt.resolvedUrl('../images/Qalculate.svg').toString().replace('file://', '')
+         icon: Qt.resolvedUrl('../icons/qalculate.svg').toString().replace('file://', '')
          source: 'config/General.qml'
     }
     ConfigCategory {
@@ -40,7 +40,7 @@ ConfigModel {
     }
     ConfigCategory {
          name: i18n('Currency')
-         icon: Qt.resolvedUrl('../images/currency.svg').toString().replace('file://', '')
+         icon: Qt.resolvedUrl('../icons/currency.svg').toString().replace('file://', '')
          source: 'config/Currency.qml'
     }
 }

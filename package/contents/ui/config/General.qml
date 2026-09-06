@@ -192,7 +192,7 @@ KCM.SimpleKCM {
             MenuItem {
                 text: i18nc("Reset icon to default", "Clear Icon")
                 icon.name: "edit-clear"
-                onClicked: cfg_qalculateIcon = Tools.stripProtocol(Qt.resolvedUrl('../../images/Qalculate.svg').toString())
+                onClicked: cfg_qalculateIcon = Tools.stripProtocol(Qt.resolvedUrl('../../icons/qalculate.svg').toString())
             }
         }
     }

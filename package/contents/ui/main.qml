@@ -146,7 +146,7 @@ PlasmoidItem {
 
     Component.onCompleted: {
       if (plasmoid.configuration.qalculateIcon.length == 0) {
-        plasmoid.configuration.qalculateIcon = Tools.stripProtocol(Qt.resolvedUrl('../images/Qalculate.svg').toString())
+        plasmoid.configuration.qalculateIcon = Tools.stripProtocol(Qt.resolvedUrl('../icons/qalculate.svg').toString())
       }
       if (plasmoid.configuration.updateExchangeRatesAtStartup) {
         qwr.updateExchangeRates()

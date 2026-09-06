@@ -12,11 +12,11 @@
         "Description": "Qalculate! applet for Plasma desktop",
         "Description[de]": "Qalculate! Plasma Desktop Applet",
         "Description[hr]": "Qalculate! Programčić za radnu površinu Plasma",
-        "Icon": "/usr/share/plasma/plasmoids/com.dschopf.plasma.qalculate/contents/images/Qalculate.svg",
+        "Icon": "/icons/qalculate.svg",
         "Id": "com.dschopf.plasma.qalculate",
         "License": "MIT",
         "Name": "Qalculate!",
-        "Version": "0.11.0",
+        "Version": "0.11.1",
         "Website": "https://store.kde.org/p/1155946"
     },
     "X-Plasma-API-Minimum-Version": "6.0"
