@@ -80,10 +80,14 @@ void QWrapper::launch(const QString& executable, const QString& args,
   QProcess::startDetached(executable, list);
 }
 
-int QWrapper::getVersion()
+QString QWrapper::getLibraryVersionString()
 {
-  return QALCULATE_MAJOR_VERSION * 100 + QALCULATE_MINOR_VERSION * 10 +
-         QALCULATE_MICRO_VERSION;
+  QString res;
+  QTextStream stream(&res);
+
+  stream << "v" << QALCULATE_MAJOR_VERSION << "." << QALCULATE_MINOR_VERSION << "." << QALCULATE_MICRO_VERSION;
+
+  return res;
 }
 
 void QWrapper::setTimeout(const int timeout) { m_qalc->setTimeout(timeout); }

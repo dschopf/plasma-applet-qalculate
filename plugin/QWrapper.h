@@ -54,7 +54,7 @@ public Q_SLOTS:
   void launch(const QString& executable);
   void launch(const QString& executable, const QString& arguments,
               const QString& expression);
-  int getVersion();
+  QString getLibraryVersionString();
 
   // general settings
   void setTimeout(const int timeout);

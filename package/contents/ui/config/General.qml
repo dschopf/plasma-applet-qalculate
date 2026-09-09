@@ -289,6 +289,11 @@ KCM.SimpleKCM {
       visible: !chbHistoryDisabled.checked && qwr.historyFilename() != ""
       text: i18n("History entries are stored in this file") + ": \n " + qwr.historyFilename()
     }
+
+    Label {
+      text: qwr.getLibraryVersionString()
+      Kirigami.FormData.label: i18n('Qalculate! version') + ':'
+    }
   }
 
   footer: ColumnLayout {

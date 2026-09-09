@@ -139,7 +139,6 @@ PlasmoidItem {
     toolTipMainText: "Qalculate!"
 
     Plasmoid.backgroundHints: PlasmaCore.Types.NoBackground
-    // Plasmoid.backgroundHints: PlasmaCore.Types.ShadowBackground | PlasmaCore.Types.ConfigurableBackground
 
     compactRepresentation: compactRepresentation
     fullRepresentation: FullRepresentation {}
@@ -155,13 +154,13 @@ PlasmoidItem {
       }
       qwr.setDisableHistory(historyDisabled)
 
-      plasmoid.configuration.libVersion = qwr.getVersion()
-
-      if (plasmoid.hasOwnProperty("activationTogglesExpanded"))
+      if (plasmoid.hasOwnProperty("activationTogglesExpanded")) {
         plasmoid.activationTogglesExpanded = true
+      }
 
-      if (plasmoid.configuration.switchDefaultCurrency)
+      if (plasmoid.configuration.switchDefaultCurrency) {
         qwr.setDefaultCurrency(plasmoid.configuration.selectedDefaultCurrency)
+      }
     }
 
     Component.onDestruction: {
