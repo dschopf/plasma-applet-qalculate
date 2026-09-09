@@ -1,22 +1,21 @@
-# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the plasma_applet_com.dschopf.plasma.qalculate package.
-# Cherkah <cherkaba@pm.me>, 2024.
+# SPDX-FileCopyrightText: 2024, 2026 Cherkah <cherkaba@pm.me>
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: plasma_applet_com.dschopf.plasma.qalculate\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
 "POT-Creation-Date: 2026-09-03 15:55+0200\n"
-"PO-Revision-Date: 2024-04-07 19:52+0200\n"
-"Last-Translator: Cherif Kahsum <cherkaba@pm.me>\n"
-"Language-Team: French <>\n"
+"PO-Revision-Date: 2026-09-08 00:24+0200\n"
+"Last-Translator: Cherkab <cherkaba@pm.me>\n"
+"Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 26.08.0\n"
 
 #: ../package/contents/config/config.qml:27
 msgid "General"
@@ -82,11 +81,11 @@ msgstr "Fonctionne uniquement lorsque \"Entrée\" est selectionné"
 
 #: ../package/contents/ui/config/General.qml:77
 msgid "Write results in input line edit"
-msgstr "Écrire les résultats dans le champ d'édition de saisie"
+msgstr "Afficher les résultats dans le champ de saisie"
 
 #: ../package/contents/ui/config/General.qml:90
 msgid "Live evaluation"
-msgstr "Évaluation en temps réél"
+msgstr "Évaluation en temps réel"
 
 #: ../package/contents/ui/config/General.qml:95
 msgid "Calculation timeout"
@@ -103,7 +102,7 @@ msgstr "Icône"
 #: ../package/contents/ui/config/General.qml:188
 msgctxt "Open icon chooser dialog"
 msgid "Choose Icon"
-msgstr "Choisire une icône"
+msgstr "Choisir une icône"
 
 #: ../package/contents/ui/config/General.qml:193
 msgctxt "Reset icon to default"
@@ -120,7 +119,7 @@ msgstr "Application"
 
 #: ../package/contents/ui/config/General.qml:220
 msgid "Clear the field"
-msgstr "Effacer le champs"
+msgstr "Effacer le champ"
 
 #: ../package/contents/ui/config/General.qml:237
 msgid "Please select an executable"
@@ -156,17 +155,17 @@ msgstr ""
 
 #: ../package/contents/ui/config/Input.qml:44
 msgid "Unit conversion"
-msgstr "Converstion d'unités"
+msgstr "Conversion d'unités"
 
 #: ../package/contents/ui/config/Input.qml:45
 msgctxt "Unit conversion"
 msgid "None"
-msgstr "Aucunes"
+msgstr "Aucune"
 
 #: ../package/contents/ui/config/Input.qml:53
 msgctxt "Unit conversion"
 msgid "Do not do any conversion of units in addition to syncing."
-msgstr "Ne pas effectuer de conversion d'unités en plus de la synchronisation"
+msgstr "N'effectuer aucune conversion d'unités en plus de la synchronisation"
 
 #: ../package/contents/ui/config/Input.qml:61
 msgctxt "Unit conversion"
@@ -201,8 +200,7 @@ msgstr "Aucun"
 #: ../package/contents/ui/config/Input.qml:115
 msgctxt "Structuring mode"
 msgid "Do not do any factorization or additional simplifications."
-msgstr ""
-"Ne pas effectuer de factorisation ni de simplifications supplémentaires."
+msgstr "N'effectuer aucune factorisation ni simplification supplémentaire."
 
 #: ../package/contents/ui/config/Input.qml:123
 msgctxt "Structuring mode"
@@ -417,7 +415,7 @@ msgstr "Copier le résultat en"
 
 #: ../package/contents/ui/FullRepresentation.qml:243
 msgid "Qalculate!"
-msgstr ""
+msgstr "Qalculate!"
 
 #: ../package/contents/ui/FullRepresentation.qml:303
 msgid "Enter an expression"
@@ -432,13 +430,12 @@ msgid "Calculation timed out"
 msgstr "Calcul interrompu (délai dépassé)"
 
 #: ../package/contents/ui/HistoryPanel.qml:74
-#, fuzzy
 msgid "History"
-msgstr "Historique des saisies"
+msgstr "Historique"
 
 #: ../package/contents/ui/HistoryPanel.qml:99
 msgid "Search an entry"
-msgstr ""
+msgstr "Rechercher une entrée"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:62
 msgid "factors"
