@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plasma_applet_com.dschopf.plasma.qalculate\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2026-09-03 15:55+0200\n"
+"POT-Creation-Date: 2026-09-09 18:02+0200\n"
 "PO-Revision-Date: 2026-09-08 00:24+0200\n"
 "Last-Translator: Cherkab <cherkaba@pm.me>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -145,7 +145,12 @@ msgstr "Historique des saisies"
 msgid "History entries are stored in this file"
 msgstr "Les entrées de l'historique sont stockées dans ce fichier"
 
-#: ../package/contents/ui/config/General.qml:299
+#: ../package/contents/ui/config/General.qml:295
+#, fuzzy
+msgid "Qalculate! version"
+msgstr "Qalculate!"
+
+#: ../package/contents/ui/config/General.qml:304
 msgid ""
 "History entries are only created by pressing Enter when \"Live evaluation\" "
 "is enabled!"
@@ -386,7 +391,7 @@ msgstr "Afficher aussi les entiers en base"
 
 #: ../package/contents/ui/config/Output.qml:182
 #: ../package/contents/ui/FullRepresentation.qml:101
-#: ../plugin/Qalculate_PreProcessor.cpp:68
+#: ../plugin/Qalculate_PreProcessor.cpp:67
 msgid "Binary"
 msgstr "Binaire"
 
@@ -425,7 +430,7 @@ msgstr "Entrez une expression"
 msgid "Result"
 msgstr "Résultat"
 
-#: ../package/contents/ui/FullRepresentation.qml:503
+#: ../package/contents/ui/FullRepresentation.qml:504
 msgid "Calculation timed out"
 msgstr "Calcul interrompu (délai dépassé)"
 
@@ -437,30 +442,30 @@ msgstr "Historique"
 msgid "Search an entry"
 msgstr "Rechercher une entrée"
 
-#: ../plugin/Qalculate_PreProcessor.cpp:62
+#: ../plugin/Qalculate_PreProcessor.cpp:61
 msgid "factors"
 msgstr "facteurs"
 
-#: ../plugin/Qalculate_PreProcessor.cpp:64
+#: ../plugin/Qalculate_PreProcessor.cpp:63
 msgid "roman"
 msgstr "romain"
 
-#: ../plugin/Qalculate_PreProcessor.cpp:72
+#: ../plugin/Qalculate_PreProcessor.cpp:71
 msgid "octal"
 msgstr "octal"
 
-#: ../plugin/Qalculate_PreProcessor.cpp:76
+#: ../plugin/Qalculate_PreProcessor.cpp:75
 msgid "decimal"
 msgstr "décimal"
 
-#: ../plugin/Qalculate_PreProcessor.cpp:80
+#: ../plugin/Qalculate_PreProcessor.cpp:79
 msgid "duodecimal"
 msgstr "duodécimal"
 
-#: ../plugin/Qalculate_PreProcessor.cpp:85
+#: ../plugin/Qalculate_PreProcessor.cpp:84
 msgid "hexadecimal"
 msgstr "hexadécimal"
 
-#: ../plugin/Qalculate_PreProcessor.cpp:125
+#: ../plugin/Qalculate_PreProcessor.cpp:124
 msgid "base"
 msgstr "base"

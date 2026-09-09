@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2026-09-03 15:55+0200\n"
+"POT-Creation-Date: 2026-09-09 18:02+0200\n"
 "PO-Revision-Date: 2016-09-12 19:18+0200\n"
 "Last-Translator: Obed González <obedlink@gmail.com>\n"
 "Language-Team: Obed González <obedlink@gmail.com>\n"
@@ -146,7 +146,11 @@ msgstr "Historial de entrada"
 msgid "History entries are stored in this file"
 msgstr "Las entradas del historial pueden ser editadas en el siguiente archivo"
 
-#: ../package/contents/ui/config/General.qml:299
+#: ../package/contents/ui/config/General.qml:295
+msgid "Qalculate! version"
+msgstr ""
+
+#: ../package/contents/ui/config/General.qml:304
 msgid ""
 "History entries are only created by pressing Enter when \"Live evaluation\" "
 "is enabled!"
@@ -387,7 +391,7 @@ msgstr "Mostrar enteros también en la base"
 
 #: ../package/contents/ui/config/Output.qml:182
 #: ../package/contents/ui/FullRepresentation.qml:101
-#: ../plugin/Qalculate_PreProcessor.cpp:68
+#: ../plugin/Qalculate_PreProcessor.cpp:67
 msgid "Binary"
 msgstr "Binario"
 
@@ -427,7 +431,7 @@ msgstr "Ingrese una expresión"
 msgid "Result"
 msgstr "Resultado"
 
-#: ../package/contents/ui/FullRepresentation.qml:503
+#: ../package/contents/ui/FullRepresentation.qml:504
 #, fuzzy
 msgid "Calculation timed out"
 msgstr "Timepo de espera para el cálculo"
@@ -441,32 +445,32 @@ msgstr "Tamaño del historial"
 msgid "Search an entry"
 msgstr ""
 
-#: ../plugin/Qalculate_PreProcessor.cpp:62
+#: ../plugin/Qalculate_PreProcessor.cpp:61
 #, fuzzy
 msgid "factors"
 msgstr "Factorizar"
 
-#: ../plugin/Qalculate_PreProcessor.cpp:64
+#: ../plugin/Qalculate_PreProcessor.cpp:63
 msgid "roman"
 msgstr ""
 
-#: ../plugin/Qalculate_PreProcessor.cpp:72
+#: ../plugin/Qalculate_PreProcessor.cpp:71
 msgid "octal"
 msgstr ""
 
-#: ../plugin/Qalculate_PreProcessor.cpp:76
+#: ../plugin/Qalculate_PreProcessor.cpp:75
 msgid "decimal"
 msgstr ""
 
-#: ../plugin/Qalculate_PreProcessor.cpp:80
+#: ../plugin/Qalculate_PreProcessor.cpp:79
 msgid "duodecimal"
 msgstr ""
 
-#: ../plugin/Qalculate_PreProcessor.cpp:85
+#: ../plugin/Qalculate_PreProcessor.cpp:84
 msgid "hexadecimal"
 msgstr ""
 
-#: ../plugin/Qalculate_PreProcessor.cpp:125
+#: ../plugin/Qalculate_PreProcessor.cpp:124
 msgid "base"
 msgstr ""
 

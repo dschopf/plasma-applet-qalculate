@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plasma_applet_com.dschopf.plasma.qalculate\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2026-09-03 15:55+0200\n"
+"POT-Creation-Date: 2026-09-09 18:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -144,7 +144,11 @@ msgstr ""
 msgid "History entries are stored in this file"
 msgstr ""
 
-#: ../package/contents/ui/config/General.qml:299
+#: ../package/contents/ui/config/General.qml:295
+msgid "Qalculate! version"
+msgstr ""
+
+#: ../package/contents/ui/config/General.qml:304
 msgid ""
 "History entries are only created by pressing Enter when \"Live evaluation\" "
 "is enabled!"
@@ -377,7 +381,7 @@ msgstr ""
 
 #: ../package/contents/ui/config/Output.qml:182
 #: ../package/contents/ui/FullRepresentation.qml:101
-#: ../plugin/Qalculate_PreProcessor.cpp:68
+#: ../plugin/Qalculate_PreProcessor.cpp:67
 msgid "Binary"
 msgstr ""
 
@@ -416,7 +420,7 @@ msgstr ""
 msgid "Result"
 msgstr ""
 
-#: ../package/contents/ui/FullRepresentation.qml:503
+#: ../package/contents/ui/FullRepresentation.qml:504
 msgid "Calculation timed out"
 msgstr ""
 
@@ -428,30 +432,30 @@ msgstr ""
 msgid "Search an entry"
 msgstr ""
 
-#: ../plugin/Qalculate_PreProcessor.cpp:62
+#: ../plugin/Qalculate_PreProcessor.cpp:61
 msgid "factors"
 msgstr ""
 
-#: ../plugin/Qalculate_PreProcessor.cpp:64
+#: ../plugin/Qalculate_PreProcessor.cpp:63
 msgid "roman"
 msgstr ""
 
-#: ../plugin/Qalculate_PreProcessor.cpp:72
+#: ../plugin/Qalculate_PreProcessor.cpp:71
 msgid "octal"
 msgstr ""
 
-#: ../plugin/Qalculate_PreProcessor.cpp:76
+#: ../plugin/Qalculate_PreProcessor.cpp:75
 msgid "decimal"
 msgstr ""
 
-#: ../plugin/Qalculate_PreProcessor.cpp:80
+#: ../plugin/Qalculate_PreProcessor.cpp:79
 msgid "duodecimal"
 msgstr ""
 
-#: ../plugin/Qalculate_PreProcessor.cpp:85
+#: ../plugin/Qalculate_PreProcessor.cpp:84
 msgid "hexadecimal"
 msgstr ""
 
-#: ../plugin/Qalculate_PreProcessor.cpp:125
+#: ../plugin/Qalculate_PreProcessor.cpp:124
 msgid "base"
 msgstr ""
