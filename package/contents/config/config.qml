@@ -25,7 +25,7 @@ import org.kde.plasma.configuration 2.0
 ConfigModel {
     ConfigCategory {
          name: i18n('General')
-         icon: Qt.resolvedUrl('../icons/qalculate.svg').toString().replace('file://', '')
+         icon: Qt.resolvedUrl('../icons/qalculate-plasma-applet.svg').toString().replace('file://', '')
          source: 'config/General.qml'
     }
     ConfigCategory {

@@ -12,7 +12,7 @@
         "Description": "Qalculate! applet for Plasma desktop",
         "Description[de]": "Qalculate! Plasma Desktop Applet",
         "Description[hr]": "Qalculate! Programčić za radnu površinu Plasma",
-        "Icon": "/icons/qalculate.svg",
+        "Icon": "/icons/qalculate-plasma-applet.svg",
         "Id": "com.dschopf.plasma.qalculate",
         "License": "MIT",
         "Name": "Qalculate!",

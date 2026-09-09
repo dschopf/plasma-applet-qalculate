@@ -580,9 +580,7 @@ PlasmaExtras.Representation {
                   width: Math.min(parent.width, parent.height)
                   height: width
 
-                  imagePath: Tools.stripProtocol(
-                      Qt.resolvedUrl("../icons/qalculate.svg").toString()
-                  )
+                  imagePath: defaultIconPath
               }
 
               MouseArea {
@@ -620,7 +618,7 @@ PlasmaExtras.Representation {
               height: width
 
               svg: KSvg.Svg {
-                imagePath: Tools.stripProtocol(Qt.resolvedUrl('../icons/qalculate.svg').toString())
+                imagePath: defaultIconPath
               }
 
               MouseArea {

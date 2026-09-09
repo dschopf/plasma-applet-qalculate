@@ -42,13 +42,14 @@ PlasmoidItem {
     }
 
     property bool fromCompact: false
-    property bool debugLogging: true
+    property bool debugLogging: false
 
     readonly property bool inPanel: (plasmoid.location === PlasmaCore.Types.TopEdge
         || plasmoid.location === PlasmaCore.Types.RightEdge
         || plasmoid.location === PlasmaCore.Types.BottomEdge
         || plasmoid.location === PlasmaCore.Types.LeftEdge)
     readonly property bool vertical: (plasmoid.formFactor === PlasmaCore.Types.Vertical)
+    readonly property string defaultIconPath: Tools.stripProtocol(Qt.resolvedUrl('../icons/qalculate-plasma-applet.svg').toString())
 
     // general
     property string qalculateIcon: plasmoid.configuration.qalculateIcon
@@ -145,7 +146,7 @@ PlasmoidItem {
 
     Component.onCompleted: {
       if (plasmoid.configuration.qalculateIcon.length == 0) {
-        plasmoid.configuration.qalculateIcon = Tools.stripProtocol(Qt.resolvedUrl('../icons/qalculate.svg').toString())
+        plasmoid.configuration.qalculateIcon = defaultIconPath
       }
       if (plasmoid.configuration.updateExchangeRatesAtStartup) {
         qwr.updateExchangeRates()
