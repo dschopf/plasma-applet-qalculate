@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plasma_applet_qalculate\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2026-09-09 18:02+0200\n"
-"PO-Revision-Date: 2022-04-07 15:36+0200\n"
+"POT-Creation-Date: 2026-09-09 18:25+0200\n"
+"PO-Revision-Date: 2026-09-09 18:30+0200\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: \n"
 "Language: hr\n"
@@ -50,14 +50,14 @@ msgstr "Zadnje ažuriranje"
 
 #: ../package/contents/ui/config/Currency.qml:64
 msgid "Update exchange rates regularly"
-msgstr ""
+msgstr "Redovito ažuriraj tečajeve"
 
 #: ../package/contents/ui/config/Currency.qml:74
 msgid "hour"
 msgid_plural "hours"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "sat"
+msgstr[1] "sata"
+msgstr[2] "sati"
 
 #: ../package/contents/ui/config/Currency.qml:84
 msgid "Switch default currency"
@@ -71,7 +71,7 @@ msgstr ""
 
 #: ../package/contents/ui/config/General.qml:63
 msgid "Behavior"
-msgstr ""
+msgstr "Ponašanje"
 
 #: ../package/contents/ui/config/General.qml:64
 #: ../package/contents/ui/FullRepresentation.qml:81
@@ -81,7 +81,7 @@ msgstr "Kopiraj rezultate u spremnik"
 #: ../package/contents/ui/config/General.qml:72
 #: ../package/contents/ui/config/General.qml:85
 msgid "Only works when pressing \"Return\""
-msgstr ""
+msgstr "Radi samo kad se pritisne „Return”"
 
 #: ../package/contents/ui/config/General.qml:77
 msgid "Write results in input line edit"
@@ -97,7 +97,7 @@ msgstr "Vremensko ograničenje računanja"
 
 #: ../package/contents/ui/config/General.qml:101
 msgid "Reset to default value"
-msgstr ""
+msgstr "Vrati na zadanu vrijednost"
 
 #: ../package/contents/ui/config/General.qml:114
 msgid "Icon"
@@ -123,7 +123,7 @@ msgstr "Izvršna datoteka"
 
 #: ../package/contents/ui/config/General.qml:220
 msgid "Clear the field"
-msgstr ""
+msgstr "Očisti polje"
 
 #: ../package/contents/ui/config/General.qml:237
 msgid "Please select an executable"
@@ -135,7 +135,7 @@ msgstr "Argumenti"
 
 #: ../package/contents/ui/config/General.qml:267
 msgid "${INPUT} will be replaced with the current input string"
-msgstr ""
+msgstr "${INPUT} bit će zamijenjen s trenutnim nizom unosa"
 
 #: ../package/contents/ui/config/General.qml:276
 msgid "Disable input history"
@@ -146,13 +146,12 @@ msgid "Input history"
 msgstr "Povijest unosa"
 
 #: ../package/contents/ui/config/General.qml:290
-#, fuzzy
 msgid "History entries are stored in this file"
-msgstr "Unosi povijesti mogu se promijeniti u ovoj datoteci: "
+msgstr "Unosi povijesti pohranjeni su u ovoj datoteci"
 
 #: ../package/contents/ui/config/General.qml:295
 msgid "Qalculate! version"
-msgstr ""
+msgstr "Inačica Qalculate!"
 
 #: ../package/contents/ui/config/General.qml:304
 msgid ""
@@ -238,12 +237,12 @@ msgstr "Decimalna oznaka"
 #: ../package/contents/ui/config/Input.qml:169
 msgctxt "Separator"
 msgid "\".\" (dot)"
-msgstr ""
+msgstr "\".\" (točka)"
 
 #: ../package/contents/ui/config/Input.qml:178
 msgctxt "Separator"
 msgid "\",\" (comma)"
-msgstr ""
+msgstr "\",\" (zarez)"
 
 #: ../package/contents/ui/config/Input.qml:196
 msgid "Use KDE setting"
@@ -279,7 +278,7 @@ msgstr "Baza izraza"
 
 #: ../package/contents/ui/config/Input.qml:242
 msgid "Timestamps"
-msgstr ""
+msgstr "Vremenske oznake"
 
 #: ../package/contents/ui/config/Input.qml:243
 msgid "Interpret 9-12 digit numbers as a timestamp"
@@ -421,7 +420,7 @@ msgstr "Kopiraj rezultat kao"
 
 #: ../package/contents/ui/FullRepresentation.qml:243
 msgid "Qalculate!"
-msgstr ""
+msgstr "Qalculate!"
 
 #: ../package/contents/ui/FullRepresentation.qml:303
 msgid "Enter an expression"
@@ -436,42 +435,40 @@ msgid "Calculation timed out"
 msgstr "Vrijeme računanja je isteklo"
 
 #: ../package/contents/ui/HistoryPanel.qml:74
-#, fuzzy
 msgid "History"
-msgstr "Veličina povijesti"
+msgstr "Povijest"
 
 #: ../package/contents/ui/HistoryPanel.qml:99
 msgid "Search an entry"
-msgstr ""
+msgstr "Pretraži unos"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:61
-#, fuzzy
 msgid "factors"
-msgstr "Rastavi na faktore"
+msgstr "faktori"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:63
 msgid "roman"
-msgstr ""
+msgstr "rimski"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:71
 msgid "octal"
-msgstr ""
+msgstr "oktalni"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:75
 msgid "decimal"
-msgstr ""
+msgstr "decimalni"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:79
 msgid "duodecimal"
-msgstr ""
+msgstr "duodecimalni"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:84
 msgid "hexadecimal"
-msgstr ""
+msgstr "heksadecimalni"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:124
 msgid "base"
-msgstr ""
+msgstr "osnovica"
 
 #~ msgid "Only works when pressing Return"
 #~ msgstr "Radi samo kad se pritisne Enter"

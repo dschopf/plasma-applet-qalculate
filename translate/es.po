@@ -7,14 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2026-09-09 18:02+0200\n"
-"PO-Revision-Date: 2016-09-12 19:18+0200\n"
+"POT-Creation-Date: 2026-09-09 18:25+0200\n"
+"PO-Revision-Date: 2026-09-09 18:30+0200\n"
 "Last-Translator: Obed González <obedlink@gmail.com>\n"
 "Language-Team: Obed González <obedlink@gmail.com>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../package/contents/config/config.qml:27
 msgid "General"
@@ -45,13 +46,12 @@ msgstr "Ultima actualización"
 
 #: ../package/contents/ui/config/Currency.qml:64
 msgid "Update exchange rates regularly"
-msgstr ""
+msgstr "Actualizar las tasas de cambio periódicamente"
 
 #: ../package/contents/ui/config/Currency.qml:74
-#, fuzzy
 msgid "hour"
 msgid_plural "hours"
-msgstr[0] "horas"
+msgstr[0] "hora"
 msgstr[1] "horas"
 
 #: ../package/contents/ui/config/Currency.qml:84
@@ -67,7 +67,7 @@ msgstr ""
 
 #: ../package/contents/ui/config/General.qml:63
 msgid "Behavior"
-msgstr ""
+msgstr "Comportamiento"
 
 #: ../package/contents/ui/config/General.qml:64
 #: ../package/contents/ui/FullRepresentation.qml:81
@@ -77,7 +77,7 @@ msgstr "Copiar el resultado al portapapeles"
 #: ../package/contents/ui/config/General.qml:72
 #: ../package/contents/ui/config/General.qml:85
 msgid "Only works when pressing \"Return\""
-msgstr ""
+msgstr "Solo funciona cuando se pulsa \"Intro\""
 
 #: ../package/contents/ui/config/General.qml:77
 msgid "Write results in input line edit"
@@ -89,11 +89,11 @@ msgstr "Cálculo en tiempo real"
 
 #: ../package/contents/ui/config/General.qml:95
 msgid "Calculation timeout"
-msgstr "Timepo de espera para el cálculo"
+msgstr "Tiempo de espera para el cálculo"
 
 #: ../package/contents/ui/config/General.qml:101
 msgid "Reset to default value"
-msgstr ""
+msgstr "Restablecer al valor predeterminado"
 
 #: ../package/contents/ui/config/General.qml:114
 msgid "Icon"
@@ -119,7 +119,7 @@ msgstr "Ejecutable"
 
 #: ../package/contents/ui/config/General.qml:220
 msgid "Clear the field"
-msgstr ""
+msgstr "Borrar el campo"
 
 #: ../package/contents/ui/config/General.qml:237
 msgid "Please select an executable"
@@ -131,7 +131,7 @@ msgstr "Argumentos"
 
 #: ../package/contents/ui/config/General.qml:267
 msgid "${INPUT} will be replaced with the current input string"
-msgstr ""
+msgstr "${INPUT} será reemplazado con la cadena de entrada actual"
 
 #: ../package/contents/ui/config/General.qml:276
 msgid "Disable input history"
@@ -142,13 +142,12 @@ msgid "Input history"
 msgstr "Historial de entrada"
 
 #: ../package/contents/ui/config/General.qml:290
-#, fuzzy
 msgid "History entries are stored in this file"
-msgstr "Las entradas del historial pueden ser editadas en el siguiente archivo"
+msgstr "Las entradas del historial se almacenan en este archivo"
 
 #: ../package/contents/ui/config/General.qml:295
 msgid "Qalculate! version"
-msgstr ""
+msgstr "Versión de Qalculate!"
 
 #: ../package/contents/ui/config/General.qml:304
 msgid ""
@@ -236,12 +235,12 @@ msgstr "Separador decimal"
 #: ../package/contents/ui/config/Input.qml:169
 msgctxt "Separator"
 msgid "\".\" (dot)"
-msgstr ""
+msgstr "\".\" (punto)"
 
 #: ../package/contents/ui/config/Input.qml:178
 msgctxt "Separator"
 msgid "\",\" (comma)"
-msgstr ""
+msgstr "\",\" (coma)"
 
 #: ../package/contents/ui/config/Input.qml:196
 msgid "Use KDE setting"
@@ -277,12 +276,11 @@ msgstr "Expresión base"
 
 #: ../package/contents/ui/config/Input.qml:242
 msgid "Timestamps"
-msgstr ""
+msgstr "Marcas de tiempo"
 
 #: ../package/contents/ui/config/Input.qml:243
-#, fuzzy
 msgid "Interpret 9-12 digit numbers as a timestamp"
-msgstr "Interprete números de 9 a 12 dígitos como una marca de tiempo"
+msgstr "Interpretar los números de 9 a 12 dígitos como una marca de tiempo"
 
 #: ../package/contents/ui/config/Output.qml:49
 msgid "Number fraction format"
@@ -363,7 +361,7 @@ msgstr "Ingeniería"
 
 #: ../package/contents/ui/config/Output.qml:147
 msgid "Enable unicode in output"
-msgstr ""
+msgstr "Habilitar unicode en la salida"
 
 #: ../package/contents/ui/config/Output.qml:152
 msgid "Indicate infinite series"
@@ -383,7 +381,7 @@ msgstr "Exponentes negativos"
 
 #: ../package/contents/ui/config/Output.qml:172
 msgid "Use two's complement representation for negative binary numbers"
-msgstr ""
+msgstr "Usar la representación en complemento a dos para números binarios negativos"
 
 #: ../package/contents/ui/config/Output.qml:181
 msgid "Show integers also in base"
@@ -415,13 +413,12 @@ msgid "Result base"
 msgstr "Resultado base"
 
 #: ../package/contents/ui/FullRepresentation.qml:90
-#, fuzzy
 msgid "Copy result as"
-msgstr "Copiar el resultado al portapapeles"
+msgstr "Copiar el resultado como"
 
 #: ../package/contents/ui/FullRepresentation.qml:243
 msgid "Qalculate!"
-msgstr ""
+msgstr "Qalculate!"
 
 #: ../package/contents/ui/FullRepresentation.qml:303
 msgid "Enter an expression"
@@ -432,47 +429,44 @@ msgid "Result"
 msgstr "Resultado"
 
 #: ../package/contents/ui/FullRepresentation.qml:504
-#, fuzzy
 msgid "Calculation timed out"
-msgstr "Timepo de espera para el cálculo"
+msgstr "El cálculo agotó el tiempo de espera"
 
 #: ../package/contents/ui/HistoryPanel.qml:74
-#, fuzzy
 msgid "History"
-msgstr "Tamaño del historial"
+msgstr "Historial"
 
 #: ../package/contents/ui/HistoryPanel.qml:99
 msgid "Search an entry"
-msgstr ""
+msgstr "Buscar una entrada"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:61
-#, fuzzy
 msgid "factors"
-msgstr "Factorizar"
+msgstr "factores"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:63
 msgid "roman"
-msgstr ""
+msgstr "romano"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:71
 msgid "octal"
-msgstr ""
+msgstr "octal"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:75
 msgid "decimal"
-msgstr ""
+msgstr "decimal"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:79
 msgid "duodecimal"
-msgstr ""
+msgstr "duodecimal"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:84
 msgid "hexadecimal"
-msgstr ""
+msgstr "hexadecimal"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:124
 msgid "base"
-msgstr ""
+msgstr "base"
 
 #~ msgid "Update exchange rates every"
 #~ msgstr "Actualizar tasas de cambio cada"

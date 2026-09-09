@@ -7,18 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2026-09-09 18:02+0200\n"
-"PO-Revision-Date: 2020-01-09 13:08-0800\n"
+"POT-Creation-Date: 2026-09-09 18:25+0200\n"
+"PO-Revision-Date: 2026-09-09 18:30+0200\n"
 "Last-Translator: Peter J. Mello <admin@petermello.net>\n"
 "Language-Team: Peter J. Mello <admin@petermello.net>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../package/contents/config/config.qml:27
 msgid "General"
-msgstr "Geral"
+msgstr "General"
 
 #: ../package/contents/config/config.qml:32
 msgid "Input"
@@ -45,13 +46,13 @@ msgstr "Ultima atualização"
 
 #: ../package/contents/ui/config/Currency.qml:64
 msgid "Update exchange rates regularly"
-msgstr ""
+msgstr "Atualizar taxas de câmbio regularmente"
 
 #: ../package/contents/ui/config/Currency.qml:74
 msgid "hour"
 msgid_plural "hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "hora"
+msgstr[1] "horas"
 
 #: ../package/contents/ui/config/Currency.qml:84
 msgid "Switch default currency"
@@ -66,7 +67,7 @@ msgstr ""
 
 #: ../package/contents/ui/config/General.qml:63
 msgid "Behavior"
-msgstr ""
+msgstr "Comportamento"
 
 #: ../package/contents/ui/config/General.qml:64
 #: ../package/contents/ui/FullRepresentation.qml:81
@@ -76,7 +77,7 @@ msgstr "Copiar resultado para a área de transferência"
 #: ../package/contents/ui/config/General.qml:72
 #: ../package/contents/ui/config/General.qml:85
 msgid "Only works when pressing \"Return\""
-msgstr ""
+msgstr "Funciona apenas ao pressionar \"Enter\""
 
 #: ../package/contents/ui/config/General.qml:77
 msgid "Write results in input line edit"
@@ -92,7 +93,7 @@ msgstr "Tempo limite do cálculo"
 
 #: ../package/contents/ui/config/General.qml:101
 msgid "Reset to default value"
-msgstr ""
+msgstr "Restaurar ao valor padrão"
 
 #: ../package/contents/ui/config/General.qml:114
 msgid "Icon"
@@ -118,7 +119,7 @@ msgstr "Caminho para o executável"
 
 #: ../package/contents/ui/config/General.qml:220
 msgid "Clear the field"
-msgstr ""
+msgstr "Limpar o campo"
 
 #: ../package/contents/ui/config/General.qml:237
 msgid "Please select an executable"
@@ -130,7 +131,7 @@ msgstr "Parâmetros"
 
 #: ../package/contents/ui/config/General.qml:267
 msgid "${INPUT} will be replaced with the current input string"
-msgstr ""
+msgstr "${INPUT} será substituido pela string de entrada atual"
 
 #: ../package/contents/ui/config/General.qml:276
 msgid "Disable input history"
@@ -142,11 +143,11 @@ msgstr "Histórico de entrada"
 
 #: ../package/contents/ui/config/General.qml:290
 msgid "History entries are stored in this file"
-msgstr ""
+msgstr "As entradas do histórico são guardadas neste arquivo"
 
 #: ../package/contents/ui/config/General.qml:295
 msgid "Qalculate! version"
-msgstr ""
+msgstr "Versão do Qalculate!"
 
 #: ../package/contents/ui/config/General.qml:304
 msgid ""
@@ -154,7 +155,7 @@ msgid ""
 "is enabled!"
 msgstr ""
 "As entradas do histórico são criadas apenas pressionando Enter quando "
-"o\"Cálculo instantâneo\" está ativado!"
+"o \"Cálculo instantâneo\" está ativado!"
 
 #: ../package/contents/ui/config/Input.qml:44
 msgid "Unit conversion"
@@ -231,12 +232,12 @@ msgstr "Separador decimal"
 #: ../package/contents/ui/config/Input.qml:169
 msgctxt "Separator"
 msgid "\".\" (dot)"
-msgstr ""
+msgstr "\".\" (ponto)"
 
 #: ../package/contents/ui/config/Input.qml:178
 msgctxt "Separator"
 msgid "\",\" (comma)"
-msgstr ""
+msgstr "\",\" (vírgula)"
 
 #: ../package/contents/ui/config/Input.qml:196
 msgid "Use KDE setting"
@@ -272,7 +273,7 @@ msgstr "Base de expressão"
 
 #: ../package/contents/ui/config/Input.qml:242
 msgid "Timestamps"
-msgstr ""
+msgstr "Marcas de tempo"
 
 #: ../package/contents/ui/config/Input.qml:243
 msgid "Interpret 9-12 digit numbers as a timestamp"
@@ -357,7 +358,7 @@ msgstr "Engenharia"
 
 #: ../package/contents/ui/config/Output.qml:147
 msgid "Enable unicode in output"
-msgstr ""
+msgstr "Ativar unicode na saída"
 
 #: ../package/contents/ui/config/Output.qml:152
 msgid "Indicate infinite series"
@@ -415,7 +416,7 @@ msgstr "Copiar resultado como"
 
 #: ../package/contents/ui/FullRepresentation.qml:243
 msgid "Qalculate!"
-msgstr ""
+msgstr "Qalculate!"
 
 #: ../package/contents/ui/FullRepresentation.qml:303
 msgid "Enter an expression"
@@ -430,42 +431,40 @@ msgid "Calculation timed out"
 msgstr "Cálculo excedido"
 
 #: ../package/contents/ui/HistoryPanel.qml:74
-#, fuzzy
 msgid "History"
-msgstr "Tamanho do histórico"
+msgstr "Histórico"
 
 #: ../package/contents/ui/HistoryPanel.qml:99
 msgid "Search an entry"
-msgstr ""
+msgstr "Buscar uma entrada"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:61
-#, fuzzy
 msgid "factors"
-msgstr "Fatorar"
+msgstr "fatores"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:63
 msgid "roman"
-msgstr ""
+msgstr "romano"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:71
 msgid "octal"
-msgstr ""
+msgstr "octal"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:75
 msgid "decimal"
-msgstr ""
+msgstr "decimal"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:79
 msgid "duodecimal"
-msgstr ""
+msgstr "duodecimal"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:84
 msgid "hexadecimal"
-msgstr ""
+msgstr "hexadecimal"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:124
 msgid "base"
-msgstr ""
+msgstr "base"
 
 #~ msgid "Only works when pressing Return"
 #~ msgstr "Só funciona quando pressionando Return"

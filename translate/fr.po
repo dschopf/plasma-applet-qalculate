@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plasma_applet_com.dschopf.plasma.qalculate\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2026-09-09 18:02+0200\n"
-"PO-Revision-Date: 2026-09-08 00:24+0200\n"
+"POT-Creation-Date: 2026-09-09 18:25+0200\n"
+"PO-Revision-Date: 2026-09-09 18:30+0200\n"
 "Last-Translator: Cherkab <cherkaba@pm.me>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
@@ -146,9 +146,8 @@ msgid "History entries are stored in this file"
 msgstr "Les entrées de l'historique sont stockées dans ce fichier"
 
 #: ../package/contents/ui/config/General.qml:295
-#, fuzzy
 msgid "Qalculate! version"
-msgstr "Qalculate!"
+msgstr "Version de Qalculate!"
 
 #: ../package/contents/ui/config/General.qml:304
 msgid ""

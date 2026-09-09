@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2026-09-09 18:02+0200\n"
-"PO-Revision-Date: 2020-01-15 19:40+0100\n"
+"POT-Creation-Date: 2026-09-09 18:25+0200\n"
+"PO-Revision-Date: 2026-09-09 18:30+0200\n"
 "Last-Translator: Daniel Schopf <schopf.dan@gmail.org>\n"
 "Language-Team: German <>\n"
 "Language: de\n"
@@ -77,7 +77,7 @@ msgstr "Ergebnis in die Zwischenablage kopieren"
 #: ../package/contents/ui/config/General.qml:72
 #: ../package/contents/ui/config/General.qml:85
 msgid "Only works when pressing \"Return\""
-msgstr "Funtioniert nur beim Drücken von \"Eingabe\""
+msgstr "Funktioniert nur beim Drücken von \"Eingabe\""
 
 #: ../package/contents/ui/config/General.qml:77
 msgid "Write results in input line edit"
@@ -291,7 +291,7 @@ msgstr "Dezimal"
 #: ../package/contents/ui/config/Output.qml:58
 msgctxt "FractionFormat"
 msgid "Display numbers in decimal, not fractional, format (ex. 0.333333)."
-msgstr "Zahlen inm Dezimalformat darstellen (z.B. 0,333333)."
+msgstr "Zahlen im Dezimalformat darstellen (z.B. 0,333333)."
 
 #: ../package/contents/ui/config/Output.qml:66
 msgctxt "FractionFormat"
@@ -414,7 +414,7 @@ msgstr "Ergebnis kopieren als"
 
 #: ../package/contents/ui/FullRepresentation.qml:243
 msgid "Qalculate!"
-msgstr ""
+msgstr "Qalculate!"
 
 #: ../package/contents/ui/FullRepresentation.qml:303
 msgid "Enter an expression"
@@ -458,7 +458,7 @@ msgstr "duodezimal"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:84
 msgid "hexadecimal"
-msgstr "hexdezimal"
+msgstr "hexadezimal"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:124
 msgid "base"

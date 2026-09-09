@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plasma_applet_qalculate\n"
 "Report-Msgid-Bugs-To: https://github.com/dschopf/qalculate/issues\n"
-"POT-Creation-Date: 2026-09-09 18:02+0200\n"
-"PO-Revision-Date: 2025-12-16 22:20+0700\n"
+"POT-Creation-Date: 2026-09-09 18:25+0200\n"
+"PO-Revision-Date: 2026-09-09 18:30+0200\n"
 "Last-Translator: Damir Islamov <damir@secretlaboratory.ru>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -146,11 +146,11 @@ msgstr "История ввода"
 
 #: ../package/contents/ui/config/General.qml:290
 msgid "History entries are stored in this file"
-msgstr "История хранятся в этом файле"
+msgstr "Записи истории хранятся в этом файле"
 
 #: ../package/contents/ui/config/General.qml:295
 msgid "Qalculate! version"
-msgstr ""
+msgstr "Версия Qalculate!"
 
 #: ../package/contents/ui/config/General.qml:304
 msgid ""
@@ -424,7 +424,7 @@ msgstr "Копировать результат как"
 
 #: ../package/contents/ui/FullRepresentation.qml:243
 msgid "Qalculate!"
-msgstr ""
+msgstr "Qalculate!"
 
 #: ../package/contents/ui/FullRepresentation.qml:303
 msgid "Enter an expression"
@@ -439,13 +439,12 @@ msgid "Calculation timed out"
 msgstr "Время вычисления истекло"
 
 #: ../package/contents/ui/HistoryPanel.qml:74
-#, fuzzy
 msgid "History"
-msgstr "История ввода"
+msgstr "История"
 
 #: ../package/contents/ui/HistoryPanel.qml:99
 msgid "Search an entry"
-msgstr ""
+msgstr "Поиск записи"
 
 #: ../plugin/Qalculate_PreProcessor.cpp:61
 msgid "factors"
