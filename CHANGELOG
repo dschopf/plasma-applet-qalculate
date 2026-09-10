@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.3] - 2026-09-10
+### Added
+- Show Qalculate! version in settings
+
+### Updated
+- Updated French translation by Cherkah
+- Completed incomplete translations using AI
+
+### Fixed
+- Icon loading is "Add Widget" screen
+
+
 ## [0.11.2] - 2026-09-06
 ### Fixed
 - History not working for subsequent startups
